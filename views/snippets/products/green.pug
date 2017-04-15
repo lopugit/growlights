@@ -1,0 +1,504 @@
+html
+  body
+    // Page Content
+    .container#productPage
+      .row
+        .col-md-6
+          // <p class="product-title">Our Lights</p>
+          .list-group
+            a.list-group-item.active-item(href='/products/green.php') Green
+            |                     
+            a.list-group-item(href='/products/black.php') Black
+            |                     
+            a.list-group-item(href='/products/pro.php') Pro
+            // <a href="/tents.html" class="list-group-item">Tents</a>
+        |             
+        .col-md-18
+          .row.carousel-holder
+            .col-md-24
+              #carousel-example-generic.carousel.slide(data-ride='carousel')
+                ol.carousel-indicators
+                  li.active(data-target='#carousel-example-generic', data-slide-to='0')
+                  |                                 
+                  li(data-target='#carousel-example-generic', data-slide-to='1')
+                  |                                 
+                  li(data-target='#carousel-example-generic', data-slide-to='2')
+                  |                                 
+                  li(data-target='#carousel-example-generic', data-slide-to='3')
+                |                             
+                .carousel-inner
+                  .item.active
+                    a(href='/products/green.php')
+                      img.slide-image(src='/img/products/products/slide/slide_0010_green-192-1.jpg', alt='')
+                  |                                 
+                  .item
+                    a(href='/products/green.php')
+                      img.slide-image(src='/img/products/products/slide/slide_0011_green-144-7.jpg', alt='')
+                  |                                 
+                  .item
+                    a(href='/products/green.php')
+                      img.slide-image(src='/img/products/products/slide/slide_0012_green-96-5.jpg', alt='')
+                  |                                 
+                  .item
+                    a(href='/products/green.php')
+                      img.slide-image(src='/img/products/products/slide/slide_0013_green-48-1.jpg', alt='')
+                |                             
+                a.left.carousel-control(href='#carousel-example-generic', data-slide='prev')
+                  span.glyphicon.glyphicon-chevron-left
+                |                             
+                a.right.carousel-control(href='#carousel-example-generic', data-slide='next')
+                  span.glyphicon.glyphicon-chevron-right
+          |                 
+          #product-list.row
+            .col-sm-8.col-lg-8.col-md-8.product-square
+              .thumbnail
+                a.portfolio-link(href='#green-960', data-toggle='modal')
+                  i.fa.fa-expand(aria-hidden='true')
+                  |                                 
+                  img(src='/img/products/products/green-192-9.jpg', alt='')
+                |                             
+                .caption
+                  h4#product-price.pull-right $680
+                  |                                 
+                  a.portfolio-link(href='#green-960', data-toggle='modal')
+                    h3#product-title 960W MARS GREEN LED GROW LIGHT
+                |                                 
+                .combo-button.clearfix(id='6945306177 21908547713')
+                  a#order-mg-960.order-button
+                    | add to cart
+                  |                                     
+                  a.shop-cart-button
+                    i.fa.fa-shopping-cart(aria-hidden='true')
+            |                     
+            .col-sm-8.col-lg-8.col-md-8.product-square
+              .thumbnail
+                a.portfolio-link(href='#green-720', data-toggle='modal')
+                  i.fa.fa-expand(aria-hidden='true')
+                  |                                 
+                  img(src='/img/products/products/green-144-2.jpg', alt='')
+                |                             
+                .caption
+                  h4#product-price.pull-right $550
+                  |                                 
+                  a.portfolio-link(href='#green-720', data-toggle='modal')
+                    h3#product-title 720W MARS GREEN LED GROW LIGHT
+                |                                 
+                .combo-button.clearfix(id='6945306177 21908547649')
+                  a#order-mg-720.order-button
+                    | add to cart
+                  |                                     
+                  a.shop-cart-button
+                    i.fa.fa-shopping-cart(aria-hidden='true')
+            |                     
+            .col-sm-8.col-lg-8.col-md-8.product-square
+              .thumbnail
+                a.portfolio-link(href='#green-480', data-toggle='modal')
+                  i.fa.fa-expand(aria-hidden='true')
+                  |                                 
+                  img(src='/img/products/products/green-96-7.jpg', alt='')
+                |                             
+                .caption
+                  h4#product-price.pull-right $380
+                  |                                 
+                  a.portfolio-link(href='#green-480', data-toggle='modal')
+                    h3#product-title 480W MARS GREEN LED GROW LIGHT
+                |                                 
+                .combo-button.clearfix(id='6945306177 21908547585')
+                  a#order-mg-480.order-button
+                    | add to cart
+                  |                                     
+                  a.shop-cart-button
+                    i.fa.fa-shopping-cart(aria-hidden='true')
+            |                     
+            .col-sm-8.col-lg-8.col-md-8.product-square
+              .thumbnail
+                a.portfolio-link(href='#green-240', data-toggle='modal')
+                  i.fa.fa-expand(aria-hidden='true')
+                  |                                 
+                  img(src='/img/products/products/green-48-6.jpg', alt='')
+                |                             
+                .caption
+                  h4#product-price.pull-right $230
+                  |                                 
+                  a.portfolio-link(href='#green-240', data-toggle='modal')
+                    h3#product-title 240W MARS GREEN LED GROW LIGHT
+                |                                 
+                .combo-button.clearfix(id='6945306177 21908547521')
+                  a#order-mg-240.order-button
+                    | add to cart
+                  |                                     
+                  a.shop-cart-button
+                    i.fa.fa-shopping-cart(aria-hidden='true')
+    // /.container
+    .container
+      hr
+      // Footer
+      footer
+        .row
+          .col-lg-82
+            p www.ozledgrowlights.com.au
+    // -------------------------------------------------------- Product Modals --------------------------------------------------------
+    // --------------------------------------------------------------------------------------------------------------
+    #green-960.text-styling-products.portfolio-modal.modal.fade(tabindex='-1', role='dialog', aria-hidden='true')
+      .modal-content
+        .close-modal(data-dismiss='modal')
+          .lr
+            .rl
+        |                                 
+        .container
+          .row
+            .col-lg-16.col-lg-offset-4
+              .modal-body
+                h2(style='color: #80bc18') 960W MARS GREEN
+                |                                                 
+                ul.list-inline.item-details-product
+                  li
+                    | Wattage:
+                    strong
+                      a(href='#') 960W
+                  |                                                     
+                  li
+                    | Diode Wattage:
+                    strong
+                      a(href='#') 5W (192)
+                  |                                                     
+                  li
+                    | Lumens:
+                    strong
+                      a(href='#') 10,600
+                  |                                                      
+                  li
+                    | Lense Angle:
+                    strong
+                      a(href='#') 120
+                  |                                                     
+                  li
+                    | Dimensions:
+                    strong
+                      a(href='http://ozledgrowlights.com.au/how-to-calculate-coverage.html') 83cm X 26cm X 6cm
+                  |                                                     
+                  li
+                    | Coverage at 100cm Height:
+                    strong
+                      a(href='http://ozledgrowlights.com.au/how-to-calculate-coverage.html') 4.3m X 3.7m
+                |                                                
+                div
+                  .preview-product-gallery(align='center')
+                    img(name='preview3', src='/img/products/products/green-192.png', alt='')
+                  |                                                     
+                  .product-gallery-thumbnails
+                    img(onmouseover='preview3.src=img22.src', name='img22', src='/img/products/products/green-192.png', alt='')
+                    |                                                         
+                    img(onmouseover='preview3.src=img23.src', name='img23', src='/img/products/products/green-192-7.png', alt='')
+                    |                                                         
+                    img(onmouseover='preview3.src=img24.src', name='img24', src='/img/products/products/green-192-4.png', alt='')
+                    |                                                         
+                    img(onmouseover='preview3.src=img25.src', name='img25', src='/img/products/products/green-192-5.png', alt='')
+                    |                                                         
+                    img(onmouseover='preview3.src=img26.src', name='img26', src='/img/products/products/green-192-8.png', alt='')
+                    |                                                         
+                    img(onmouseover='preview3.src=img21.src', name='img21', src='/img/products/products/green-192-1.png', alt='')
+                |                                                 
+                p(style='font-size: 15px;')
+                  | The new Green Series LED Grow Lights have been upgraded from 3W diodes to 5W diodes, just like the Black Series. This means that you&apos;ll get deeper penetration and ensure equal energy dispersion for your lower leaves. The Green Series is also built with a specially molded reflective mylar plate which reflects a targeted source of light onto whatever is below it, there isn&apos;t really too much benefit to this because of the 120 degree lenses but they were originally built like this to accomodate for the lower wattage 3W diodes compared to the Black Series&apos; 5W diodes, but they&apos;re 5W now so..
+                  br
+                  br
+                  |                                                 The Body/Housing of the light has ventilation slits on all sides and top to allow the inbuilt fans to extract any hot air created by the LED&apos;s (there is about 5 to 15 degrees of heat generated by these lights). The Housing also has 2 buttons/switches which diodes are powered and which spectrum range is being outputted (my advice, and what most people do, is to grow with both on for the whole duration of your grow), one switch is labeled Bloom and the other Veg. The idea is that you grow with just the Veg switch on, ie. 75% of the diodes on and a larger percentage of blue light spectrum to replicated the end of winter and then change your cycle from ie. 18/6 to 22/2 PLUS you turn the Bloom switch on which turns all the rest of the diodes on, which are red spectrum oriented. Simulating the coming late night of summer. As I said you can just grow with them both on for the full grow though.
+                  |                                                 
+                  br
+                  br
+                  |                                                 I have listed the Coverage area for a few different hang heights, this coverage area should be measured by your hang height from your canopy and not the ground, because the plane of coverage will be your canopy and not the ground when you calculate, using the 120 degree angle of the lense, length and width coverage of your light, PLUS the lights width or length because you don&apos;t just measure the coverage spread for 1 diode so you need to extend the distance by however wide your row of leds go and however long they go on the panel.
+                |                                                 
+                ul.list-inline.item-details-product
+                  li
+                    | Spectrum and Ratios:
+                    strong
+                      a(href='http://ozledgrowlights.com.au/how-to-calculate-coverage.html')
+                        | 25% Blue (430~440nm, 450~475nm), 65% Red (620~630nm, 610nm, 650~670nm), 1% Infra Red (720~730nm), and 9% White (5500K)
+                  |                                                     
+                  li
+                    | Coverage area at hang height 20cm, 40cm, 100cm:
+                    strong
+                      a(href='http://ozledgrowlights.com.au/how-to-calculate-coverage.html') 1.5 X 1m (1.5m ^2), 2.2m X 1.7m (3.7m ^2), 4.3m X 3.7m (15.9M ^2)
+                  |                                                     
+                  li
+                    | Lumens per Square Metre at Hang Height 20cm, 40cm, 100cm:
+                    strong
+                      a(href='http://ozledgrowlights.com.au/how-to-calculate-coverage.html') 10,600 Lumens, 3000 Lumens, 800 Lumens per Metre/squared
+                |                                                 
+                button.btn.btn-default(type='button', data-dismiss='modal')
+                  i.fa.fa-times
+                  |  Close
+    // --------------------------------------------------------------------------------------------------------------
+    #green-720.text-styling-products.portfolio-modal.modal.fade(tabindex='-1', role='dialog', aria-hidden='true')
+      .modal-content
+        .close-modal(data-dismiss='modal')
+          .lr
+            .rl
+        |                                 
+        .container
+          .row
+            .col-lg-16.col-lg-offset-4
+              .modal-body
+                h2(style='color: #80bc18') 720W MARS GREEN
+                |                                                 
+                ul.list-inline.item-details-product
+                  li
+                    | Wattage:
+                    strong
+                      a(href='#') 720W
+                  |                                                     
+                  li
+                    | Diode Wattage:
+                    strong
+                      a(href='#') 5W (48)
+                  |                                                     
+                  li
+                    | Lumens:
+                    strong
+                      a(href='#') 8000
+                  |                                                      
+                  li
+                    | Lense Angle:
+                    strong
+                      a(href='#') 120
+                  |                                                     
+                  li
+                    | Dimensions:
+                    strong
+                      a(href='http://ozledgrowlights.com.au/how-to-calculate-coverage.html') 83cm X 26cm X 6cm
+                  |                                                     
+                  li
+                    | Coverage at 100cm Height:
+                    strong
+                      a(href='http://ozledgrowlights.com.au/how-to-calculate-coverage.html') 4.3m X 3.7m
+                |                                                     
+                .preview-product-gallery(align='center')
+                  img(name='preview2', src='/img/products/products/green-144-2.png', alt='')
+                |                                                     
+                .product-gallery-thumbnails
+                  img(onmouseover='preview2.src=img12.src', name='img12', src='/img/products/products/green-144-7.png', alt='')
+                  |                                                         
+                  img(onmouseover='preview2.src=img13.src', name='img13', src='/img/products/products/green-144-2.png', alt='')
+                  |                                                         
+                  img(onmouseover='preview2.src=img14.src', name='img14', src='/img/products/products/green-144-1.png', alt='')
+                  |                                                         
+                  img(onmouseover='preview2.src=img15.src', name='img15', src='/img/products/products/green-144-8.png', alt='')
+                  |                                                         
+                  img(onmouseover='preview2.src=img16.src', name='img16', src='/img/products/products/green-144-9.png', alt='')
+                  |                                                         
+                  img(onmouseover='preview2.src=img17.src', name='img17', src='/img/products/products/green-144-3.png', alt='')
+                  |                                                         
+                  img(onmouseover='preview2.src=img18.src', name='img18', src='/img/products/products/green-144-4.png', alt='')
+                  |                                                         
+                  img(onmouseover='preview2.src=img19.src', name='img19', src='/img/products/products/green-144-5.png', alt='')
+                |                                                 
+                p(style='font-size: 15px;')
+                  | The new Green Series LED Grow Lights have been upgraded from 3W diodes to 5W diodes, just like the Black Series. This means that you&apos;ll get deeper penetration and ensure equal energy dispersion for your lower leaves. The Green Series is also built with a specially molded reflective mylar plate which reflects a targeted source of light onto whatever is below it, there isn&apos;t really too much benefit to this because of the 120 degree lenses but they were originally built like this to accomodate for the lower wattage 3W diodes compared to the Black Series&apos; 5W diodes, but they&apos;re 5W now so..
+                  br
+                  br
+                  |                                                 The Body/Housing of the light has ventilation slits on all sides and top to allow the inbuilt fans to extract any hot air created by the LED&apos;s (there is about 5 to 15 degrees of heat generated by these lights). The Housing also has 2 buttons/switches which diodes are powered and which spectrum range is being outputted (my advice, and what most people do, is to grow with both on for the whole duration of your grow), one switch is labeled Bloom and the other Veg. The idea is that you grow with just the Veg switch on, ie. 75% of the diodes on and a larger percentage of blue light spectrum to replicated the end of winter and then change your cycle from ie. 18/6 to 22/2 PLUS you turn the Bloom switch on which turns all the rest of the diodes on, which are red spectrum oriented. Simulating the coming late night of summer. As I said you can just grow with them both on for the full grow though.
+                  |                                                 
+                  br
+                  br
+                  |                                                 I have listed the Coverage area for a few different hang heights, this coverage area should be measured by your hang height from your canopy and not the ground, because the plane of coverage will be your canopy and not the ground when you calculate, using the 120 degree angle of the lense, length and width coverage of your light, PLUS the lights width or length because you don&apos;t just measure the coverage spread for 1 diode so you need to extend the distance by however wide your row of leds go and however long they go on the panel.
+                |                                                 
+                ul.list-inline.item-details-product
+                  li
+                    | Spectrum and Ratios:
+                    strong
+                      a(href='http://ozledgrowlights.com.au/how-to-calculate-coverage.html')
+                        | 25% Blue (430~440nm, 450~475nm), 65% Red (620~630nm, 610nm, 650~670nm), 1% Infra Red (720~730nm), and 9% White (5500K)
+                  |                                                     
+                  li
+                    | Coverage area at hang height 20cm, 40cm, 100cm:
+                    strong
+                      a(href='http://ozledgrowlights.com.au/how-to-calculate-coverage.html') 1.2m X 1m (1.2m ^2), 1.93m X 1.7m (3.2m ^2), 4.3m X 3.8m (16.3M ^2)
+                  |                                                     
+                  li
+                    | Lumens per Square Metre at Hang Height 20cm, 40cm, 100cm:
+                    strong
+                      a(href='http://ozledgrowlights.com.au/how-to-calculate-coverage.html') 8000 Lumens, 2141 Lumens, 500 Lumens per Metre/squared
+                |                                                 
+                button.btn.btn-default(type='button', data-dismiss='modal')
+                  i.fa.fa-times
+                  |  Close
+    // --------------------------------------------------------------------------------------------------------------
+    #green-480.text-styling-products.portfolio-modal.modal.fade(tabindex='-1', role='dialog', aria-hidden='true')
+      .modal-content
+        .close-modal(data-dismiss='modal')
+          .lr
+            .rl
+        |                                 
+        .container
+          .row
+            .col-lg-16.col-lg-offset-4
+              .modal-body
+                h2(style='color: #80bc18') 480W MARS GREEN
+                |                                                 
+                ul.list-inline.item-details-product
+                  li
+                    | Wattage:
+                    strong
+                      a(href='#') 480W
+                  |                                                     
+                  li
+                    | Diode Wattage:
+                    strong
+                      a(href='#') 5W (96)
+                  |                                                     
+                  li
+                    | Lumens:
+                    strong
+                      a(href='#') 5000
+                  |                                                      
+                  li
+                    | Lense Angle:
+                    strong
+                      a(href='#') 120
+                  |                                                     
+                  li
+                    | Dimensions:
+                    strong
+                      a(href='http://ozledgrowlights.com.au/how-to-calculate-coverage.html') 56cm X 26cm X 5cm
+                  |                                                     
+                  li
+                    | Coverage at 100cm Height:
+                    strong
+                      a(href='http://ozledgrowlights.com.au/how-to-calculate-coverage.html') 4m X 3.7m
+                |                                                     
+                .preview-product-gallery(align='center')
+                  img(name='preview1', src='/img/products/products/green-96-7.png', alt='')
+                |                                                     
+                .product-gallery-thumbnails
+                  img(onmouseover='preview1.src=img6.src', name='img6', src='/img/products/products/green-96-4.png', alt='')
+                  |                                                         
+                  img(onmouseover='preview1.src=img7.src', name='img7', src='/img/products/products/green-96-5.png', alt='')
+                  |                                                         
+                  img(onmouseover='preview1.src=img8.src', name='img8', src='/img/products/products/green-96-7.png', alt='')
+                  |                                                         
+                  img(onmouseover='preview1.src=img9.src', name='img9', src='/img/products/products/green-96-3.png', alt='')
+                  |                                                         
+                  img(onmouseover='preview1.src=img10.src', name='img10', src='/img/products/products/green-96-2.png', alt='')
+                  |                                                         
+                  img(onmouseover='preview1.src=img11.src', name='img11', src='/img/products/products/green-96-1.png', alt='')
+                |                                                 
+                p(style='font-size: 15px;')
+                  | The new Green Series LED Grow Lights have been upgraded from 3W diodes to 5W diodes, just like the Black Series. This means that you&apos;ll get deeper penetration and ensure equal energy dispersion for your lower leaves. The Green Series is also built with a specially molded reflective mylar plate which reflects a targeted source of light onto whatever is below it, there isn&apos;t really too much benefit to this because of the 120 degree lenses but they were originally built like this to accomodate for the lower wattage 3W diodes compared to the Black Series&apos; 5W diodes, but they&apos;re 5W now so..
+                  br
+                  br
+                  |                                                 The Body/Housing of the light has ventilation slits on all sides and top to allow the inbuilt fans to extract any hot air created by the LED&apos;s (there is about 5 to 15 degrees of heat generated by these lights). The Housing also has 2 buttons/switches which diodes are powered and which spectrum range is being outputted (my advice, and what most people do, is to grow with both on for the whole duration of your grow), one switch is labeled Bloom and the other Veg. The idea is that you grow with just the Veg switch on, ie. 75% of the diodes on and a larger percentage of blue light spectrum to replicated the end of winter and then change your cycle from ie. 18/6 to 22/2 PLUS you turn the Bloom switch on which turns all the rest of the diodes on, which are red spectrum oriented. Simulating the coming late night of summer. As I said you can just grow with them both on for the full grow though.
+                  |                                                 
+                  br
+                  br
+                  |                                                 I have listed the Coverage area for a few different hang heights, this coverage area should be measured by your hang height from your canopy and not the ground, because the plane of coverage will be your canopy and not the ground when you calculate, using the 120 degree angle of the lense, length and width coverage of your light, PLUS the lights width or length because you don&apos;t just measure the coverage spread for 1 diode so you need to extend the distance by however wide your row of leds go and however long they go on the panel.
+                |                                                 
+                ul.list-inline.item-details-product
+                  li
+                    | Spectrum and Ratios:
+                    strong
+                      a(href='http://ozledgrowlights.com.au/how-to-calculate-coverage.html')
+                        | 25% Blue (430~440nm, 450~475nm), 65% Red (620~630nm, 610nm, 650~670nm), 1% Infra Red (720~730nm), and 9% White (5500K)
+                  |                                                     
+                  li
+                    | Coverage area at hang height 20cm, 40cm, 100cm:
+                    strong
+                      a(href='http://ozledgrowlights.com.au/how-to-calculate-coverage.html') 1.3m X 1m (1.3M ^2), 2m X 1.7m (3.4M ^2), 4m X 3.7m (14.8M ^2)
+                  |                                                     
+                  li
+                    | Lumens per Square Metre at Hang Height 20cm, 40cm, 100cm:
+                    strong
+                      a(href='http://ozledgrowlights.com.au/how-to-calculate-coverage.html') 5000 Lumens, 1660 Lumens, 365 Lumens per Metre/squared
+                |                                                 
+                button.btn.btn-default(type='button', data-dismiss='modal')
+                  i.fa.fa-times
+                  |  Close
+    // --------------------------------------------------------------------------------------------------------------
+    #green-240.text-styling-products.portfolio-modal.modal.fade(tabindex='-1', role='dialog', aria-hidden='true')
+      .modal-content
+        .close-modal(data-dismiss='modal')
+          .lr
+            .rl
+        |                                 
+        .container
+          .row
+            .col-lg-16.col-lg-offset-4
+              .modal-body
+                h2(style='color: #80bc18') 240W MARS GREEN
+                |                                                 
+                ul.list-inline.item-details-product
+                  li
+                    | Wattage:
+                    strong
+                      a(href='#') 240W
+                  |                                                     
+                  li
+                    | Diode Wattage:
+                    strong
+                      a(href='#') 5W (48)
+                  |                                                     
+                  li
+                    | Lumens:
+                    strong
+                      a(href='#') 2500
+                  |                                                      
+                  li
+                    | Lense Angle:
+                    strong
+                      a(href='#') 120
+                  |                                                     
+                  li
+                    | Dimensions:
+                    strong
+                      a(href='http://ozledgrowlights.com.au/how-to-calculate-coverage.html') 29cm X 26cm X 5cm
+                  |                                                     
+                  li
+                    | Coverage at 100cm Height:
+                    strong
+                      a(href='http://ozledgrowlights.com.au/how-to-calculate-coverage.html') 3.7m X 3.7m
+                |                                                     
+                .preview-product-gallery(align='center')
+                  img(name='preview', src='/img/products/products/green-48-6.png', alt='')
+                |                                                     
+                .product-gallery-thumbnails
+                  img(onmouseover='preview.src=img1.src', name='img1', src='/img/products/products/green-48-1.png', alt='')
+                  |                                                         
+                  img(onmouseover='preview.src=img2.src', name='img2', src='/img/products/products/green-48-6.png', alt='')
+                  |                                                         
+                  img(onmouseover='preview.src=img3.src', name='img3', src='/img/products/products/green-48-5.png', alt='')
+                  |                                                         
+                  img(onmouseover='preview.src=img4.src', name='img4', src='/img/products/products/green-48-4.png', alt='')
+                  |                                                         
+                  img(onmouseover='preview.src=img5.src', name='img5', src='/img/products/products/green-48-3.png', alt='')
+                |                                                 
+                p(style='font-size: 15px;')
+                  | The new Green Series LED Grow Lights have been upgraded from 3W diodes to 5W diodes, just like the Black Series. This means that you&apos;ll get deeper penetration and ensure equal energy dispersion for your lower leaves. The Green Series is also built with a specially molded reflective mylar plate which reflects a targeted source of light onto whatever is below it, there isn&apos;t really too much benefit to this because of the 120 degree lenses but they were originally built like this to accomodate for the lower wattage 3W diodes compared to the Black Series&apos; 5W diodes, but they&apos;re 5W now so..
+                  br
+                  br
+                  |                                                 The Body/Housing of the light has ventilation slits on all sides and top to allow the inbuilt fans to extract any hot air created by the LED&apos;s (there is about 5 to 15 degrees of heat generated by these lights). The Housing also has 2 buttons/switches which diodes are powered and which spectrum range is being outputted (my advice, and what most people do, is to grow with both on for the whole duration of your grow), one switch is labeled Bloom and the other Veg. The idea is that you grow with just the Veg switch on, ie. 75% of the diodes on and a larger percentage of blue light spectrum to replicated the end of winter and then change your cycle from ie. 18/6 to 22/2 PLUS you turn the Bloom switch on which turns all the rest of the diodes on, which are red spectrum oriented. Simulating the coming late night of summer. As I said you can just grow with them both on for the full grow though.
+                  |                                                 
+                  br
+                  br
+                  |                                                 I have listed the Coverage area for a few different hang heights, this coverage area should be measured by your hang height from your canopy and not the ground, because the plane of coverage will be your canopy and not the ground when you calculate, using the 120 degree angle of the lense, length and width coverage of your light, PLUS the lights width or length because you don&apos;t just measure the coverage spread for 1 diode so you need to extend the distance by however wide your row of leds go and however long they go on the panel.
+                |                                                 
+                ul.list-inline.item-details-product
+                  li
+                    | Spectrum and Ratios:
+                    strong
+                      a(href='http://ozledgrowlights.com.au/how-to-calculate-coverage.html')
+                        | 25% Blue (430~440nm, 450~475nm), 65% Red (620~630nm, 610nm, 650~670nm), 1% Infra Red (720~730nm), and 9% White (5500K)
+                  |                                                     
+                  li
+                    | Coverage area at hang height 20cm, 40cm, 100cm:
+                    strong
+                      a(href='http://ozledgrowlights.com.au/how-to-calculate-coverage.html') 1m X 1m (1M ^2), 1.7m X 1.7m (2.9M ^2), 3.7m X 3.7m (13.4M ^2)
+                  |                                                     
+                  li
+                    | Lumens per Square Metre at Hang Height 20cm, 40cm, 100cm:
+                    strong
+                      a(href='http://ozledgrowlights.com.au/how-to-calculate-coverage.html') 2500 Lumens, 880 Lumens, 182 Lumens per Metre/squared
+                |                                                 
+                button.btn.btn-default(type='button', data-dismiss='modal')
+                  i.fa.fa-times
+                  |  Close
+    // --------------------------------------------------------------------------------------------------------------

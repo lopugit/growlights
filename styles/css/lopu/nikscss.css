@@ -1,0 +1,288 @@
+.pheight{
+	background-color: #f58794;
+}
+
+.pheight2{
+	background-color: #f58794;
+}
+
+.pheight3{
+	background-color: #f58794;
+}
+
+.product-1 {
+	position: relative;
+	z-index: 50;
+	font-size: 2.3em;
+	color: #f7f7f7;
+	padding-left: 20px;
+	padding-top: 5px;
+	font-weight: 800;
+	/* border-bottom: 2px solid white; */
+}
+
+.product-2 {
+	position: absolute;
+	z-index: 50;
+	font-size: 2em;
+	color: #80bc18;
+/* 	text-shadow: 2px 2px 0px rgba(61,61,61,0.95); */
+	padding-left: 10px;
+	padding-top: 5px;
+	font-weight: 800;
+	font-family: 'Raleyway', sans-serif;
+}
+
+.watt {
+	font-size: .8em;
+}
+
+#productsyeah .col-md-4{
+	height: 0;
+	padding-bottom: 20.000000000006000000000024%;
+}
+
+.product1{
+	background-image: url('../img/highresthumb1.jpg');
+	background-position: center center;
+	background-size: contain;
+	background-repeat: no-repeat;
+
+}
+
+.product2{
+	background-image: url('../img/highresthumb2.jpg');
+	background-position: center center;
+	background-size: contain;
+	background-repeat: no-repeat;
+
+}
+
+.product3{
+	background-image: url('../img/highresthumb3.jpg');
+	background-position: center center;
+	background-size: contain;
+	background-repeat: no-repeat;
+}
+
+.nopadding {
+	padding: 0 !important;
+	margin: 0 !important;
+}
+
+.image {
+	position: relative;
+	overflow: hidden;
+	font-family: 'Raleway', Verdana, sans-serif;
+}
+
+#img {
+	display: block;
+	width: 100%;
+	height: auto;
+	transition: all .45s ease;
+	-webkit-transition: all 0.45s ease;
+	vertical-align: middle;
+	box-sizing: border-box;
+	border: 0;
+	animation-fill-mode: both;
+}
+
+
+#img:hover {
+	transform: scale(1.15);
+}
+
+.image:hover > img {
+	transform: scale(1.15);
+}
+
+.image a {
+	color: #fff;
+}
+.wattagesbtn {
+	color: #fff;
+	padding: 8px 28px;
+	-webkit-font-smoothing: antialiased;
+	border: 2px solid;
+	border-color: rgba(255, 255, 255, 0.2);
+	font-size: 12px;
+    font-weight: 700;
+	text-transform: uppercase;
+	border-radius: 0;
+	letter-spacing: .5px;
+	transition: color 0.2s ease, background 0.45s ease, border .4s ease-in-out;
+	-webkit-transition: color 0.2s ease, background 0.45s ease, border .4s ease-in-out;
+
+}
+
+
+.wattagesbtn:hover,
+.wattagesbtn:focus,
+.wattagesbtn:active {
+	border-color: #80bc18;
+	background-color: #80bc18;
+}
+
+::selection {
+	background: #80bc18;
+}
+
+#portfolio {
+	margin: 0;
+	padding: 0;
+}
+
+
+
+.padtopcon {
+	padding-top 50px;
+	margin-top: 100px;
+}
+
+.text-styling-products {
+	color: #1b1b1b;
+}
+
+.product-gallery-thumbnails img {
+	height: 100px;
+	width: auto;
+/* 	border: 4px solid #333; */
+/* 	padding: 1px; */
+	margin: 0 10px 10px 0;
+
+}
+
+.product-gallery-thumbnails img:hover {
+/* 	border: 4px solid #888; */
+	cursor: pointer;
+
+}
+
+.preview-product-gallery img {
+/* 	border: 5px solid #444; */
+/* 	padding: 1px; */
+	width: 550px;
+	height: auto;
+	margin-bottom: 5px;
+}
+
+#addstyle input {
+	color: #222;
+}
+
+
+
+
+
+.absolute {
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	width: 100%;
+	height: 30%;
+	box-sizing: border-box;
+	padding: 5px 5px;
+}
+
+
+
+#growhelp {
+	background-image: url('/img/assets/arrow.png');
+	background-position-x: 57%;
+	background-position-y: 95%;
+	background-size: 200px;
+	background-repeat: no-repeat;
+}
+
+#comingsoongreen h2 {
+	height: 30px;
+	background: #6ea115;
+	text-align: center;
+}
+
+.lolcenter {
+	text-align: center;
+}
+
+.paddingtopcontact {
+	margin-top: 50px;
+}
+
+.product-title {
+	font-weight: 600;
+	text-transform: uppercase;
+}
+
+#products-list a:hover {
+	color: rgba(25, 25, 25, 1);
+}
+
+.carousel-inner img {
+	width: inherit;
+
+}
+
+.carousel-inner {
+	position: relative;
+	overflow: hidden;
+}
+
+
+.carousel-inner #white-bg-for-a {
+	border-bottom: 100px solid white;
+}
+
+/*
+.carousel-inner {
+  position: relative;
+overflow: hidden;
+  width: 100%;
+  height: 350px;
+}
+*/
+
+.carousel-inner > .item {
+  display: none;
+  position: relative;
+  -webkit-transition: 0.6s ease-in-out left;
+  transition: 0.6s ease-in-out left;
+  background-color: #fff;
+}
+.carousel-inner > .item > img,
+.carousel-inner > .item > a > img {
+  line-height: 1;
+}
+.carousel-inner > .active,
+.carousel-inner > .next,
+.carousel-inner > .prev {
+  display: block;
+}
+.carousel-inner > .active {
+  left: 0;
+}
+.carousel-inner > .next,
+.carousel-inner > .prev {
+  position: absolute;
+  top: 0;
+  width: 100%;
+}
+.carousel-inner > .next {
+  left: 100%;
+}
+.carousel-inner > .prev {
+  left: -100%;
+}
+.carousel-inner > .next.left,
+.carousel-inner > .prev.right {
+  left: 0;
+}
+.carousel-inner > .active.left {
+  left: -100%;
+}
+.carousel-inner > .active.right {
+  left: 100%;
+
+h7 {
+	text-transform: uppercase;
+}

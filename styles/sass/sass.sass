@@ -1,0 +1,300 @@
+@import mixins/var
+@import mixins/mixins
+@import mixins/fontface
+@import mixins/fonts
+@import mixins/global
+@import lopu/lopu
+@import mixins/wattageWarning
+@import mixins/shopify-cart/styles
+@import mixins/nav
+@import mixins/about
+@import mixins/typed
+@import mixins/productPage
+@import mixins/productsTri
+
+nav
+	+animate(all, 150ms, ease-in-out)
+	*
+		+animate(all, 150ms, ease-in-out)
+
+	a
+		&:hover
+			color: rgba(255,255,255,.6) !important
+.navbar
+	margin-bottom: 0px !important
+@media (min-width: 1200px)
+	.navbar-nav.navbar-right:last-child
+		// margin-right: 15px !important
+
+
+@import mixins/banner.sass
+
+header
+	.container-fluid
+		padding-top: 50px
+		padding-bottom: 0px
+	.pay-with-logos
+		padding-top: 20px
+		line-height: 70px
+		text-transform: uppercase
+		font-weight: 900
+		-webkit-font-smoothing: antialiased
+		i
+			font-size: 40px
+			padding: 0px 40px
+			text-shadow: 2px 2px 1px rgba($gc,.8)
+			+animate(all, 150ms, ease-out)
+			&:hover, :focus, :visited
+				text-shadow: 4px 4px 1px rgba($gc, .8)
+				transform: translate(-1px, -1px)
+			// letter-spacing: 50px
+		@media (max-width: $mobile)
+			.bitcoin-hidden
+				display: none
+		.fa-cc-visa
+			// color: yellow
+		.fa-cc-mastercard
+			// color: blue
+		.fa-btc
+			// margin-right: -48px
+@media(max-width: 768px)
+	header
+		.container-fluid
+			padding-top: 20px
+			padding-bottom: 20px
+
+body
+	background-color: #151515
+	i
+		-webkit-backface-visibility: hidden
+	width: 100%
+
+.thumbnail
+	>a
+		-webkit-backface-visibility: hidden
+		i
+			position: absolute
+			top: 25%
+			left: 43%
+			z-index: 4
+			font-size: 40px
+			text-transform: uppercase
+			font-weight: 900
+			color: lighten($gc, 60)
+			opacity: 0
+			+animate(all, 200ms, ease-out)
+			-webkit-backface-visibility: hidden
+		&:hover
+			i
+				transform: scale(3.5)
+				color: lighten($gc, 100)
+				opacity: .6
+
+	.caption *
+		white-space: normal !important
+		margin-top: 4px !important
+	.caption
+		height: auto
+	#product-price
+		margin-top: 7px !important
+	#product-title
+		font-size: 18px
+		a
+			+animate(all, 100ms, ease-in-out)
+			&:hover
+				color: darken($gc, 3) !important
+
+	$bgc: #121F2A
+	.combo-button
+		$button-ratio: 70%
+		width: $combo-button-width
+		margin-left: $combo-button-side-margins
+		margin-right: 5%
+		margin-bottom: 15px
+		position: relative
+		line-height: $combo-button-height
+		border: solid 0px $gc
+		background: $gc
+		border-radius: 12px
+		height: $combo-button-height
+
+		&:hover, &:focus, &:visited, &:active,
+			.shop-cart-button
+				background: darken($bgc, 1.5)
+				color: white
+				.fa
+					text-shadow: -1px 0px #80bc18, -2px 0px #80bc18, -3px 0px #80bc18, -4px 0px darken(#80bc18,5), -5px 0px darken(#80bc18,10), -6px 0px darken(#80bc18,20), -7px 0px darken(#80bc18, 30)
+					transform: translate(4px)
+		.order-button
+			// content: 'add to cart'
+			width: ($button-ratio - 0)
+			height: 100%
+			text-transform: uppercase
+			font-size: 12px
+			line-height: inherit
+			letter-spacing: 1px
+			word-spacing: 0
+			text-align: center
+			color: $sac
+			background-color: $gc
+			font-weight: 900
+			+animate(all, 100ms, ease-in)
+			display: block
+			-webkit-font-smoothing: antialiased
+			vertical-align: middle
+			cursor: pointer
+			border-radius: 4px
+			float: left
+
+			&:hover
+				background-color: darken($gc, 5)
+				// border: solid $border-size $gc
+				color: darken($sac, 1.5)
+				cursor: pointer
+
+
+		.shop-cart-button
+			width: (100 - $button-ratio)
+			height: 100%
+			line-height: inherit
+			display: block
+			float: right
+			// top: 0
+			// right: 0
+			background: $bgc
+			font-weight: normal
+			text-align: center
+			cursor: pointer
+			white-space: nowrap
+			border-radius: 0px 7px 7px 0px
+			-webkit-user-select: none
+			+animate(all, 100ms, ease-in-out)
+
+
+
+			.fa
+				+animate(all, 200ms, ease-in-out)
+
+			&:hover
+				background: darken($bgc, 1.5)
+				color: white
+
+
+				.fa
+					text-shadow: -1px 0px #80bc18, -2px 0px #80bc18, -3px 0px #80bc18, -4px 0px darken(#80bc18,5), -5px 0px darken(#80bc18,10), -6px 0px darken(#80bc18,20), -7px 0px darken(#80bc18, 30)
+					transform: translate(4px)
+
+.no-focus-outline
+	&:focus
+
+
+.list-group
+	.list-group-item
+		&:hover,:focus
+			color: white
+			background-color: $gc
+			border: 1px solid $gc
+	.active-item
+		color: white
+		background-color: $gc
+		border: 1px solid darken($gc,10)
+footer
+	margin-bottom: 0px !important
+
+div.footer-above
+	padding-top: 20px
+	.footer-col
+		margin-bottom: 30px
+section
+	width: 100%
+
+#img
+	-webkit-backface-visibility: hidden
+
+
+.navbar-default .navbar-toggle
+	background-color: darken($gc, 0)
+	border: 0px solid rgba(darken($gc,2),0)
+	padding: 0px
+	&:hover
+		// background-color: #1a242f
+		// border: 2px solid darken($gc, 6)
+	.menu
+		position: absolute
+		display: block
+		top: -12%
+		text-transform: uppercase
+		// left: -140%
+		// @media(max-width: 400px)
+		left: 18%
+		font-size: 8px
+
+	.icon-bar
+		width: 20px
+		background-color: lighten($gc, 8)
+		width: 40px
+		border-radius: 1px
+		height: 4px
+		animation: lightflicker 1400ms forwards infinite linear
+		animation-delay: 200ms
+		&:hover
+			box-shadow: 0px 4px 8px 3px darken(rgb(242, 55, 195), 0)
+			// box-shadow: 3px 4px 00 darken($gc, 20)
+	.icon-bar + .icon-bar
+		margin: 8px 0px
+		animation: lightflicker 1600ms forwards infinite linear
+	.icon-bar:last-child
+		animation: lightflicker 1100ms forwards infinite linear
+		animation-delay: 100ms
+		margin: 0 !important
+@keyframes lightflicker
+	0%
+		box-shadow: 0px 4px 4px 1px darken(rgba(242, 55, 195,0), 0)
+	20%
+		box-shadow: 0px 4px 4px 1px darken(rgba(242, 55, 195,1), 0)
+	22%
+		box-shadow: 0px 4px 4px 1px darken(rgba(242, 55, 195,0), 0)
+	24%
+		box-shadow: 0px 4px 4px 1px darken(rgba(242, 116, 55, 1), 0)
+	45%
+		box-shadow: 0px 4px 4px 1px darken(rgba(242, 55, 195,0), 0)
+	46%
+		box-shadow: 0px 4px 4px 1px darken(rgba(242, 94, 55, 1), 0)
+	48%
+		box-shadow: 0px 4px 4px 1px darken(rgba(242, 55, 195,0), 0)
+	50%
+		box-shadow: 0px 4px 4px 1px darken(rgba(242, 55, 195,1), 0)
+	58%
+		box-shadow: 0px 4px 4px 1px darken(rgba(193, 55, 242, 1), 0)
+	65%
+		box-shadow: 0px 4px 4px 1px darken(rgba(242, 55, 195,0), 0)
+	68%
+		box-shadow: 0px 4px 4px 1px darken(rgba(242, 145, 55, 1), 0)
+	75%
+		box-shadow: 0px 4px 4px 1px darken(rgba(242, 100, 55, 1), 0)
+	77%
+		box-shadow: 0px 4px 4px 1px darken(rgba(242, 55, 195,1), 0)
+	78%
+		box-shadow: 0px 4px 4px 1px darken(rgba(242, 55, 195,0), 0)
+	85%
+		box-shadow: 0px 4px 4px 1px darken(rgba(242, 55, 195,1), 0)
+	100%
+		box-shadow: 0px 4px 4px 1px darken(rgba(242, 55, 195,0), 0)
+.navbar-collapse
+	border-top: 0px
+	box-shadow: 0 0 0 $gc
+
+.preview-product-gallery
+	@media(max-width: 768px)
+		img
+			width: 100% !important
+			height: auto !important
+
+.close-modal
+	z-index: 9999
+
+
+// input:-webkit-autofill, textarea:-webkit-autofill, select:-webkit-autofill
+//     background-color: rgba(250, 255, 189,0) !important
+//     background-image: none !important
+//     color: rgb(255,255,255) !important

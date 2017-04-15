@@ -1,0 +1,89 @@
+.l
+  .l-form
+    overflow: hidden
+    max-width: 100%
+    margin: 0
+    position: relative
+    .l-form-group
+      position: relative
+    .l-form-group-multi
+      border-bottom: 1px solid rgba(black, .4)
+      position: relative
+    .l-multi-adder-template
+      width: auto
+      position: relative
+    .l-inputs-row
+      display: flex
+      justify-content: center
+      align-items: center
+      flex-direction: row
+      flex-wrap: nowrap
+      width: 100%
+      overflow: hidden
+      .l-input
+        margin: 4px
+        &:first-child
+          margin-left: 0px
+        &:last-child
+          margin-right: 0px
+
+    .l-input
+      max-width: 100%
+      overflow: hidden
+      position: relative
+      border: none
+      border-bottom: 1px solid rgba(grey, 1)
+      box-sizing: border-box
+      width: auto
+      &:focus,
+      &:hover,
+      &:active,
+      &:visited
+        outline-color: rgba(white, 0)
+
+      //// INPUTS
+      &.l-number,
+      .l-number
+        font-size: 3rem
+        width: auto
+        padding-left: 15px
+        padding-right: 15px
+
+
+    .l-slide-input
+      border: none
+    select,
+    .l-select
+      @extend .l-input
+      border: none
+      width: auto
+      text-transform: uppercase
+      // outline-color: rgba(white, 0)
+    .l-select-placeholder
+      text-transform: capitalize
+
+    option,
+    .l-option
+      font-size: 2rem
+
+    label,
+    .label
+      font-size: 1.5rem
+      font-weight: bold
+      text-transform: uppercase
+      margin-bottom: -3px
+
+    //// DEFAULTS
+
+    .l-placeholder-large
+      &::-webkit-input-placeholder
+        font-size: $large
+    .l-placeholder-medium
+      &::-webkit-input-placeholder
+        font-size: $medium
+    .l-placeholder-small
+      &::-webkit-input-placeholder
+        font-size: $small
+    .l-placeholder-tiny
+      &::-webkit-input-placeholder
+        font-size: $tiny

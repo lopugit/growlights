@@ -1,0 +1,113 @@
+.l
+  .l-btns-row,
+  .l-buttons-row
+    display: flex
+    align-items: center
+    justify-content: center
+    flex-direction: row
+    flex-wrap: wrap
+  .l-btn
+    position: relative
+    display: inline-block
+    background: rgba(white, 1)
+    border: 2px solid rgba(white, 1)
+    color: black
+    border-radius: 0px
+    margin: 5px
+    padding: 4px 16px
+    text-align: center
+    width: auto
+    box-sizing: border-box
+    font-size: inherit
+    font-weight: bold
+    text-transform: uppercase
+
+    +animate(all, 200ms, ease-out)
+    &:focus,
+    &:hover,
+    &:active,
+    &:visited
+      cursor: pointer
+      color: white
+      background: rgba(white, 0)
+      border: 2px solid rgba(white, 1)
+  .l-btn-white
+    @extend .l-btn
+    background: rgba(white, 1)
+    border: 2px solid rgba(white, 1)
+    color: black
+    &:focus,
+    &:hover,
+    &:active,
+    &:visited
+      cursor: pointer
+      color: white
+      background: rgba(white, 0)
+      border: 2px solid rgba(white, 1)
+  .l-btn-border-white
+    border: 1px white
+  .l-btn-round
+    border-radius: 4px
+
+  .l-dropdown-btn,
+  .l-btn-dropdown
+    position: relative
+    display: block
+    padding-left: 0px !important
+    &:focus,
+    &:hover,
+    &:active,
+    &:visited
+      cursor: pointer
+      color: black
+      background: rgba(white, 0)
+      border: 0px solid rgba(white, 0)
+
+  .l-dropdown-icon
+    font-size: 1.5rem
+    position: absolute
+    top: 0
+  .l-btn-submit,
+  .l-submit,
+  .l-submit-btn
+    padding: 3px 10px
+    background: white
+    border: 2px solid $gc
+    border-radius: 2px
+    color: $gc
+    font-size: 2rem
+    width: auto
+    margin-top: 5px
+    text-transform: uppercase
+    font-weight: 400
+    +animate(all, 200ms, ease-out)
+    &:focus,
+    &:hover,
+    &:active,
+    &:visited
+      background: $gc
+      color: white
+      cursor: pointer
+      outline-color: rgba(white, 0)
+  .l-add-btn,
+  .l-btn-add
+    @extend .l-submit
+    background: white
+    border: 2px solid $db
+    border-radius: 2px
+    color: $db
+    // background: $db
+    +animate(all, 250ms, ease-out)
+    &:focus,
+    &:hover,
+    &:active,
+    &:visited
+      background: $db
+      border: 2px solid $db
+      border-radius: 2px
+      color: white
+  .l-icon
+    &:hover
+      cursor: pointer
+  .l-icon-white
+    color: white

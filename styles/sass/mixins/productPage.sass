@@ -1,0 +1,36 @@
+#productPage
+  // width: 100%
+  max-width: 100%
+  height: auto
+  overflow: hidden
+  position: relative
+  display: block
+  padding-top: 20px
+  .list-group
+    .list-group-item
+      border-radius: 0px !important
+      color: $gb
+      font-weight: 800
+      transition: border .1s ease-in-out, background .65s ease, color .25s ease
+      padding: 10px 15px
+      margin-bottom: 10px
+      border: 1px solid $gw
+      &.active-item,
+      &:hover
+        color: white
+        border: 1px solid darken($gc, 8)
+  #product-list
+    text-align: left
+    float: left
+    display: flex
+    justify-content: flex-start
+    align-items: flex-start
+    flex-direction: row
+    flex-wrap: wrap
+    .product-square
+      // min-width: 30%
+      .shop-cart-button
+        display: flex
+        justify-content: center
+        align-items: center
+        position: relative

@@ -1,0 +1,59 @@
+html
+  body
+    section#productsTri
+      .container-fluid.nopadding
+        .row.nopadding
+          .col-lg-8.nopadding.image(onclick="location.href='products/green';")
+            // <div class="justhere">
+            img#img(src='/img/products/green-show.jpg', alt='')
+            | &#x9;&#x9;        
+            
+              
+            #text.productAd.text-center
+              h3
+                | suitable for most cases 
+                span Green
+              // <p><span>Starting at 240 watts and going up to 960 watts, this light is ideal for spreading lumens over multiple plants in the cheapest way possible</span></p>
+              //- a.wattagesbtn.uppercase(href='/products/green') Wattages
+              .wattages
+                each wattage in [240, 480, 720, 960]
+                  a.wattagesbtn.uppercase(href='/products/green', style="margin: 2px")= (wattage/2) +'w'
+
+          
+          
+          
+          | &#x9;        
+          .col-lg-8.productTri-container(onclick="location.href='products/black';")
+            // <div class="justhere">
+            img#img(src='/img/products/black-show.jpg', alt='')
+            | &#x9;&#x9;        
+            
+              
+            #text.productAd.text-center
+              h3
+                | POWERRRR 
+                span Black
+              // <p><span>This light will work for any grow, from 400watts up to 1600 watts, this is a serious light for any use case and huge yields</span></p>
+              .wattages
+                each wattage in [400, 700, 900, 1200, 1600]
+                  a.wattagesbtn.uppercase(href='/products/green', style="margin: 2px")= (wattage/2) +'w'
+                  
+                  
+                    
+                      
+                      
+          | &#x9;        
+          .col-lg-8.nopadding.image(onclick="location.href='products/pro';")
+            // <div class="justhere">
+            img#img(src='/img/products/pro-show.jpg', alt='')
+            | &#x9;&#x9;        
+          
+            
+            #text.productAd.text-center
+              h3
+                | GOT money? get this 
+                span Pro
+              // <p><span>An all in one solution for those who want to grow without ever entering the area, ranging from 600watts to 1600watts</span></p>
+              .wattages
+                each wattage in [640, 800, 1280, 1600]
+                  a.wattagesbtn.uppercase(href='/products/green', style="margin: 2px")= (wattage/2) +'w'
