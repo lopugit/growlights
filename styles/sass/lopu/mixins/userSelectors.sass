@@ -31,6 +31,26 @@
       color: white
       background: rgba(white, 0)
       border: 2px solid rgba(white, 1)
+  .l-btn-raised
+    +makeBoxShadowsSolid(4, darken(rgba(white, 1), 25))
+    // +makeBoxShadowsMaterial(4, 4, -2, rgba(white, .17))
+  .l-btn-box
+    $depth: 15
+    +makeLEDBox(10, 3, darken(rgba(white, 1),20))
+    margin-right: #{$depth}
+    margin-left: #{$depth - $depth}
+    &:focus,
+    &:hover,
+    &:active,
+    &:visited
+      background: white !important
+      color: black !important
+      &::after
+        display: block
+        position: relative
+        width: 200px
+        height: 25px
+        background: blue
   .l-btn-white
     @extend .l-btn
     background: rgba(white, 1)
@@ -47,8 +67,9 @@
   .l-btn-border-white
     border: 1px white
   .l-btn-round
-    border-radius: 4px
-
+    border-radius: 3px
+  .l-btn-lots-of-text
+    padding: 8px 25px
   .l-dropdown-btn,
   .l-btn-dropdown
     position: relative
@@ -62,7 +83,13 @@
       color: black
       background: rgba(white, 0)
       border: 0px solid rgba(white, 0)
-
+  .l-dropdown-underlined
+    border-bottom: 1px solid rgba(white,.4)
+    &:focus,
+    &:hover,
+    &:active,
+    &:visited
+      border-bottom: 1px solid rgba(white, .4)
   .l-dropdown-icon
     font-size: 1.5rem
     position: absolute
@@ -89,6 +116,20 @@
       color: white
       cursor: pointer
       outline-color: rgba(white, 0)
+    &.l-filled
+      background: $gc
+      color: white
+      border: 1px solid white
+      +animate(all, 200ms, ease-out)
+      &:focus,
+      &:hover,
+      &:active,
+      &:visited
+        background: white
+        color: $gc
+        border: 1px solid $gc
+        cursor: pointer
+        outline-color: rgba(white, 0)
   .l-add-btn,
   .l-btn-add
     @extend .l-submit

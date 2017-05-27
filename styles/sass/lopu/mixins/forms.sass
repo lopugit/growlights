@@ -1,89 +1,133 @@
 .l
-  .l-form
-    overflow: hidden
-    max-width: 100%
-    margin: 0
-    position: relative
-    .l-form-group
-      position: relative
-    .l-form-group-multi
-      border-bottom: 1px solid rgba(black, .4)
-      position: relative
-    .l-multi-adder-template
-      width: auto
-      position: relative
-    .l-inputs-row
-      display: flex
-      justify-content: center
-      align-items: center
-      flex-direction: row
-      flex-wrap: nowrap
-      width: 100%
-      overflow: hidden
-      .l-input
-        margin: 4px
-        &:first-child
-          margin-left: 0px
-        &:last-child
-          margin-right: 0px
+	.l-form
+		overflow: hidden
+		max-width: 100%
+		margin: 0
+		position: relative
+		.l-form-group
+			position: relative
+		.l-form-group-multi
+			border-bottom: 1px solid rgba(black, .4)
+			position: relative
+		.l-multi-adder-template
+			width: auto
+			position: relative
+		.l-inputs-row
+			display: flex
+			justify-content: center
+			align-items: center
+			flex-direction: row
+			flex-wrap: nowrap
+			width: 100%
+			overflow: hidden
+			.l-input
+				margin: 4px
+				&:first-child
+					margin-left: 0px
+				&:last-child
+					margin-right: 0px
 
-    .l-input
-      max-width: 100%
-      overflow: hidden
-      position: relative
-      border: none
-      border-bottom: 1px solid rgba(grey, 1)
-      box-sizing: border-box
-      width: auto
-      &:focus,
-      &:hover,
-      &:active,
-      &:visited
-        outline-color: rgba(white, 0)
+		.l-input
+			max-width: 100%
+			overflow: hidden
+			position: relative
+			border: none
+			border-bottom: 1px solid rgba(grey, 1)
+			box-sizing: border-box
+			width: auto
+			&:focus,
+			&:hover,
+			&:active,
+			&:visited
+				outline-color: rgba(white, 0)
 
-      //// INPUTS
-      &.l-number,
-      .l-number
-        font-size: 3rem
-        width: auto
-        padding-left: 15px
-        padding-right: 15px
+			//// INPUTS
+			&.l-number,
+			.l-number
+				font-size: 3rem
+				width: auto
+				padding-left: 15px
+				padding-right: 15px
 
 
-    .l-slide-input
-      border: none
-    select,
-    .l-select
-      @extend .l-input
-      border: none
-      width: auto
-      text-transform: uppercase
-      // outline-color: rgba(white, 0)
-    .l-select-placeholder
-      text-transform: capitalize
+		.l-slide-input
+			border: none
+		select,
+		.l-select
+			@extend .l-input
+			border: none
+			width: auto
+			text-transform: uppercase
+			// outline-color: rgba(white, 0)
+		.l-select-placeholder
+			text-transform: capitalize
 
-    option,
-    .l-option
-      font-size: 2rem
+		option,
+		.l-option
+			font-size: 2rem
 
-    label,
-    .label
-      font-size: 1.5rem
-      font-weight: bold
-      text-transform: uppercase
-      margin-bottom: -3px
+		label,
+		.label
+			font-size: 1.5rem
+			font-weight: bold
+			text-transform: uppercase
+			margin-bottom: -3px
 
-    //// DEFAULTS
+		//// DEFAULTS
 
-    .l-placeholder-large
-      &::-webkit-input-placeholder
-        font-size: $large
-    .l-placeholder-medium
-      &::-webkit-input-placeholder
-        font-size: $medium
-    .l-placeholder-small
-      &::-webkit-input-placeholder
-        font-size: $small
-    .l-placeholder-tiny
-      &::-webkit-input-placeholder
-        font-size: $tiny
+		.l-placeholder-large
+			&::-webkit-input-placeholder
+				font-size: $large
+		.l-placeholder-medium
+			&::-webkit-input-placeholder
+				font-size: $medium
+		.l-placeholder-small
+			&::-webkit-input-placeholder
+				font-size: $small
+		.l-placeholder-tiny
+			&::-webkit-input-placeholder
+				font-size: $tiny
+
+
+	.material-toggle input[type="checkbox"]
+		display: none
+	.material-toggle label
+		cursor: pointer
+		height: 0px
+		position: relative
+		width: 36px
+
+	.material-toggle > label::before
+		background: rgb(0, 0, 0)
+		// box-shadow: inset 0px 0px 10px rgba(0, 0, 0, 0.5)
+		border-radius: 8px
+		content: ''
+		height: 14px
+		margin-top: -8px
+		position: absolute
+		opacity: 0.3
+		transition: all 0.4s ease-in-out
+		width: 40px
+
+	.material-toggle > label::after
+		background: rgb(255, 255, 255)
+		border-radius: 50%
+		box-shadow: 0px 2px 5px 0px rgba(0, 0, 0, 0.3)
+		content: ''
+		height: 20px
+		width: 20px
+		left: -4px
+		margin-top: -7px
+		position: absolute
+		top: -4px
+		transition: all 0.3s ease-in-out
+
+	.material-toggle > input[type="checkbox"]:checked + label::before
+		background: inherit
+		opacity: 0.8
+
+	.material-toggle > input[type="checkbox"]:checked + label::after
+		background: inherit
+		left: 20px
+	.label
+		background-color: lighten(blue, 15)

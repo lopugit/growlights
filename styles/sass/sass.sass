@@ -11,23 +11,8 @@
 @import mixins/typed
 @import mixins/productPage
 @import mixins/productsTri
-
-nav
-	+animate(all, 150ms, ease-in-out)
-	*
-		+animate(all, 150ms, ease-in-out)
-
-	a
-		&:hover
-			color: rgba(255,255,255,.6) !important
-.navbar
-	margin-bottom: 0px !important
-@media (min-width: 1200px)
-	.navbar-nav.navbar-right:last-child
-		// margin-right: 15px !important
-
-
-@import mixins/banner.sass
+@import mixins/banner
+@import mixins/spectrums
 
 header
 	.container-fluid

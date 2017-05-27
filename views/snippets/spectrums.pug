@@ -1,0 +1,21 @@
+#spectrums.l
+	.container-fluid.specrum-container
+		.row    
+			.col-xs-24.title-col
+				h1 wavelengths and spectrums
+			.col-xs-24.light-col
+				.light-container
+					.light(style="width: 300px; height: 50px; background-color: white")
+						div(class="material-toggle veg-toggle-container")
+							input(type="checkbox", id="veg-toggle", name="veg-toggle", checked=true)
+							label(for="veg-toggle", class="veg-label")
+						div(class="material-toggle flower-toggle-container")
+							input(type="checkbox", id="flower-toggle", name="flower-toggle", checked=true)
+							label(for="flower-toggle", class="flower-label")
+					.spectrums-container
+						svg(id="nm420")
+							polygon(points="10%,0 50%,0 40%,200 -60%,200")
+					//- .light-switch
+					//- .light-switch
+				//- svg(id="svgLight")
+				//- 	path(d="M0,0 h200 a5,5 0 0 1 5,5 v50 a5,5 0 0 1 -5,5 h-200 a5,5 0 0 1 -5,5 v-50 a5,5 0 0 1 -5,5", fill="white")

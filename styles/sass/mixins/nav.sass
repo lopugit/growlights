@@ -1,16 +1,37 @@
 #nav
-  background-color: $gw
-  color: $gc
+	background-color: $gw
+	color: $gc
+	$repeat: 10
+	+animate(all, 150ms, ease-in-out)
+	*
+		+animate(all, 150ms, ease-in-out)
+	.navbar
+		margin-bottom: 0px !important
 
-  .menu
-    color: rgba($gg, 0)
-    font-size: 1rem
-    top: 0%
-    left: 5
-  .navbar-brand
-    color: $gg
-  .navbar-toggle
-    margin-right: 8px
-    background-color: rgba(white, 0)
-  a
-    color: $gg
+	.menu
+		color: rgba($gg, 0)
+		font-size: 1rem
+		top: 0%
+		left: 5
+	.navbar-brand
+		color: $gg
+		+animate(all, 250ms, ease)
+		&:hover,
+		&:active,
+		&:focus
+			color: nth($colours, random(length($colours)))
+	.navbar-toggle
+		margin-right: 8px
+		background-color: rgba(white, 0)
+	a
+		color: $gg
+		+animate(all, 300ms, ease)
+
+	@for $i from 0 through 10
+		li
+			&:nth-child(#{$i})
+				&:hover,
+				&:active,
+				&:focus
+					a
+						color: nth($colours, random(length($colours)))

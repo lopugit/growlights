@@ -22,7 +22,13 @@
 	span
 		display: inline-block
 		font-size: 3.7rem
-
+	.front-page-likes
+		+animate(all, 250ms, ease)
+		&:hover,
+		&:visited,
+		&:focus,
+		&:active
+			color: nth($colours, random(length($colours)))
 	.questions
 		padding-top: 90px
 		.l-material-card
@@ -32,3 +38,18 @@
 			margin: -5px
 			text-align: left
 			color: $gb
+
+
+	.tent-customization
+		margin-top: 80px
+		padding-bottom: 400px
+		overflow-y: visible
+		.tent-customization-title
+			margin-bottom: 50px
+		.tent
+			background: rgba(white, 1)
+			border-radius: 10px 10px 0px 0px
+			width: 100%
+			height: 60vh
+			box-shadow: 120px 120px 0px 0px rgba(white, .1)
+			+makeBoxShadowsSolid(1000, rgba(lighten(black, 7.5), 1))

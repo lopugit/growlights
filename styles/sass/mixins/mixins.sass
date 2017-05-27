@@ -1,5 +1,59 @@
 =animate($who, $time, $ease-type)
-  -webkit-transition: $who $time $ease-type
-  -moz-transition: $who $time $ease-type
-  -ms-transition: $who $time $ease-type
-  transition: $who $time $ease-type
+	-webkit-transition: $who $time $ease-type
+	-moz-transition: $who $time $ease-type
+	-ms-transition: $who $time $ease-type
+	transition: $who $time $ease-type
+
+=makeBoxShadows($length, $blur, $colour)
+	$string: null
+	$comma: ','
+	@for $i from 1 through $length
+		@if $i == $length
+			$string: $string #{$i}px #{$i}px #{$blur}px 0px $colour
+		@else
+			$string: $string #{$i}px #{$i}px #{$blur}px 0px $colour #{$comma}
+
+	box-shadow: $string
+=makeLEDBox($depth, $skew, $colour)
+	$string: null
+	$comma: ','
+	@for $i from 1 through $depth
+		@if $i == $depth
+			$string: $string #{$i}px #{$i/$skew}px 0px 0px $colour
+		@else
+			$string: $string #{$i}px #{$i/$skew}px 0px 0px $colour #{$comma}
+
+	box-shadow: $string
+
+=makeBoxShadowsSolid($length, $colour)
+	$string: null
+	$comma: ','
+	@for $i from 1 through $length
+		@if $i == $length
+			$string: $string #{$i}px #{$i}px 0px 0px $colour
+		@else
+			$string: $string #{$i}px #{$i}px 0px 0px $colour #{$comma}
+
+	box-shadow: $string
+
+=makeBoxShadowsVertical($length, $blur, $colour)
+	$string: null
+	$comma: ','
+	@for $i from 1 through $length
+		@if $i == $length
+			$string: $string 0px #{$i}px #{$blur}px 0px $colour
+		@else
+			$string: $string 0px #{$i}px #{$blur}px 0px $colour #{$comma}
+
+	box-shadow: $string
+
+=makeBoxShadowsMaterial($length, $blur, $shrink, $colour)
+	$string: null
+	$comma: ','
+	@for $i from 1 through $length
+		@if $i == $length
+			$string: $string 0px #{$i}px #{$blur}px #{$shrink}px $colour
+		@else
+			$string: $string 0px #{$i}px #{$blur}px #{$shrink}px $colour #{$comma}
+
+	box-shadow: $string
