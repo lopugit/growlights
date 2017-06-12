@@ -1,8 +1,7 @@
 $(document).ready(function(){
-	console.log(navHeight);
 	var navHeight = $('nav').css('height');
 	$('body').css({paddingTop: navHeight, paddingBottom: 0});
-	console.log(navHeight);
+	// console.log(navHeight);
 	// window.onscroll(function(){
 	// 	if (navHeight !== $('nav').css('height')) {
 	// 		$('body').css({paddingTop: navHeight, paddingBottom: 0});
