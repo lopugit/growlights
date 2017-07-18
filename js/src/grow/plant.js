@@ -18,12 +18,17 @@ function plant(props){
 	}
 
 	this.structure = [
-		new Path({
-			start: new Node({
-				type: "root",
-
-			})
+		new Node({
+			type: "root",
+		}),
+		new Node({
+			type: "hub",
+			children: [
+				new Node({
+					type: "leaf"	
+			]
 		})
+	
 	]
 
 	this.history = []
