@@ -1,0 +1,101 @@
+html
+	body
+		.container-fluid.l.questions
+			.row
+				.col-md-8.col-sm-6.col-sm-offset-3.col-xs-24.col-lg-6.col-lg-offset-3
+					.l-material-card
+						form#allLights.l-form(method="post", name="allLights").l-align-left
+							.l-title.l-large.l-center.l-nudge-below.l-nudge-more replace your old
+								select.l-btn.l-dropdown-btn.l-normal.l-inline.l-input.l-dropdown-underlined
+									each light in ["HPS", "MH", "CFL" ]
+										option(id='lightType',value= light) #{light}
+								|  lights
+							.l-form-group.l-nudge-down
+								label.l-label.l-input-unit.l-tiny Watts
+								input(type="number", id='totalWatts', placeholder="What is your total wattage?").l-input.l-large.l-placeholder-medium.l-block.l-wide
+							input.l-submit.l-filled.l-small.l-block(type="submit", value="go").l-wide
+						.l-title.l-medium.l-nudge-down.l-nudge-more or
+						form#individualLights.l-form(method="post", name="individualLights")
+							#multiAdder.l-nudge-down.l-form-group
+								.l-multi-adder-group
+									.l-multi-adder-template(style="display: none")
+										.l-form-group.l-form-group-multi.l-nudge-below.l-nudge-more
+											select.l-btn.l-btn-dropdown.l-normal.l-inline-block.l-medium.l-align-left
+												each light in ["HPS", "MH", "CFL" ]
+													option(id='lightType',value= light) #{light}
+											i(style="color: red", onclick=('removeMultiAdderOption(this)')).fa.fa-close-mdi.l-inline-block.l-btn.l-normal.l-medium
+											input(type="number", id='lightWattage' placeholder="Wattage").l-input.l-large.l-placeholder-medium.l-inline-block.l-slide-input
+								.l-btn.l-small.l-btn-add.l-inline-block.l-bold.l-float-left(onclick="addMultiAdderOption(this)") add light +
+								.l-btn.l-btn-submit.l-small.l-inline-block.l-float-left.l-nudge-right go
+
+				.col-md-8.col-sm-6.col-xs-24.col-lg-6
+					.l-material-card
+						form#allPlants.l-form(method="post", name="plants").l-center
+							.l-title.l-large.l-inline.l-nudge-below.l-center How many plants are you growing?
+							//- .l-title.l-medium.l-inline No.l- of
+								select.l-btn.l-dropdown-btn.l-normal.l-inline.l-large
+									each plant in ["tomato", "hemp", "squash" ]
+										option(value= plant) #{plant}
+								.l-inline.l-medium plants
+							input.l-input.l-number.l-center(type="text", id='numberOfPlants', placeholder="eg. 9").l-nudge-below
+							input.l-submit.l-filled.l-small.l-block(type="submit", value="go").l-wide
+						//- .l-btn-toolbar
+							-for (var i = 1; i < 8; i++)
+							.l-btn.l-btn-small #{i}
+						.l-title.l-medium.l-nudge-down.l-nudge-more or
+						form#individualPlants.l-form(method="post", name="oldLightsFormIndividual")
+							#multiAdder.l-nudge-down.l-form-group
+								.l-multi-adder-group
+									.l-multi-adder-template(style="display: none")
+										.l-form-group.l-form-group-multi.l-nudge-below.l-nudge-more
+											select.l-btn.l-btn-dropdown.l-normal.l-inline-block.l-medium.l-align-left
+												each plant in [ "tomato", "broccoli", "hemp", "zuchini", "lettuce", "spinach", "cabbage", "celery", "kale" ]
+													option(id='plantType',value= plant) #{plant}
+											i(style="color: red", onclick=('removeMultiAdderOption(this)')).fa.fa-close-mdi.l-inline-block.l-btn.l-normal.l-medium
+											input(type="number", id='numberOfPlant' placeholder="No. of plants").l-input.l-large.l-placeholder-medium.l-inline-block.l-slide-input
+								.l-btn.l-small.l-btn-add.l-inline-block.l-bold.l-float-left(onclick="addMultiAdderOption(this)") add plant +
+								.l-btn.l-btn-submit.l-small.l-inline-block.l-float-left.l-nudge-right go
+
+				.col-md-8.col-sm-6.col-xs-24.col-lg-6
+					.l-material-card
+						form#singleTent.l-form(method="post", name="singleTent").l-center
+							.l-title.l-large.l-inline.l-nudge-below.l-center What size tent / area have you got?
+							//- .l-title.l-medium.l-inline No.l- of
+								select.l-btn.l-dropdown-btn.l-normal.l-inline.l-large
+									each plant in ["tomato", "hemp", "squash" ]
+										option(value= plant) #{plant}
+								.l-inline.l-medium plants
+							//- .tent
+							.l-inputs-row
+								input.l-input.l-number.l-center.l-inline-block.l-medium(type="text", id='width', placeholder="width").l-nudge-below
+								input.l-input.l-number.l-center.l-inline-block.l-medium(type="text", id='depth', placeholder="depth").l-nudge-below
+								input.l-input.l-number.l-center.l-inline-block.l-medium(type="text", id='height', placeholder="height").l-nudge-below
+
+							input.l-submit.l-filled.l-small.l-block(type="submit", value="go").l-wide
+						//- .l-btn-toolbar
+							-for (var i = 1; i < 8; i++)
+							.l-btn.l-btn-small #{i}
+						.l-title.l-medium.l-nudge-down.l-nudge-more or
+						form#multipleTents.l-form(method="post", name="multipleTents")
+							#multiAdder.l-nudge-down.l-form-group
+								.l-multi-adder-group
+									.l-multi-adder-template(style="display: none")
+										.l-form-group.l-form-group-multi.l-nudge-below.l-nudge-more
+											select.l-btn.l-btn-dropdown.l-normal.l-inline-block.l-medium.l-align-left
+												each tent in [ ".5m*.5m*1.5m", ".5m*1m*1.5m", ".6m*1m*.8m", ".6m*1.5m*.8m", "1.5m*1.5m*1.8m", "1.5m*1.5m*2m","2m*2m*1.8m","2m*2m*2m","2m*2.5m*1.8m","2m*2.5m*2m","2m*3m*1.8m","2m*3m*2m","3m*3m*1.8m","3m*3m*2m","3m*3.5m*2m" ]
+													option(id='tentSize',value= tent) #{tent}
+											i(style="color: red", onclick=('removeMultiAdderOption(this)')).fa.fa-close-mdi.l-inline-block.l-btn.l-normal.l-medium
+											input(type="number", id='singularArea', value="1" placeholder="New area").l-input.l-large.l-placeholder-medium.l-inline-block.l-slide-input
+								.l-btn.l-small.l-btn-add.l-inline-block.l-bold.l-float-left(onclick="addMultiAdderOption(this)") add area +
+								.l-btn.l-btn-submit.l-small.l-inline-block.l-float-left.l-nudge-right go
+
+			.row
+				.col-lg-2.col-lg-offset-3.l-nudge-down.l-nudge-more
+					.l-form.l-align-left
+						.l-title.l-small.l-nudge-below was this easy?
+						i.fa.fa-thumbs-up.l-icon.l-icon-white.l-medium.l-inline-block.front-page-likes
+						.l-stat.l-stat-round.l-stat-white.l-nudge-right.l-inline-block.l-bold.front-page-likes-count= likes
+
+						//- i.fa.fa-thumb-down.btn.btn-white.btn-round.inline-block
+					//- form(method="post", value="plants")
+					//-   input(type="number", placeholder="How many plants would you like to grow?").qanda

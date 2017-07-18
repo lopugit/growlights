@@ -1,23 +1,30 @@
 html
-  body
-    #tent-customization
-      .container-fluid
-        .row.tent-customization
-          .col-lg-24
-            h2.tent-customization-title Or customize your tent
-          .col-lg-24.tent-container
-            .tent(id="default")
-              .wall(id="front")
-              .wall(id="back")
-              .wall(id="left")
-              .wall(id="right")
-              //- .wall(id="top")
-              .wall(id="bottom")
-              .lights(id="lights")
-                .light(id="Green720W")
-                  .wall(id="front")
-                  .wall(id="back")
-                  .wall(id="left")
-                  .wall(id="right")
-                  .wall(id="top")
-                  .wall(id="bottom")
+	body
+		#tent-customization
+			.container-fluid
+				.row.tent-customization
+					.col-lg-24
+						h2.tent-customization-title Or customize your tent
+					.col-lg-24(id="sceneContainer")
+						.scene(id="scene")
+							//- .tent(id="growRoom")
+							//- 	.wall(id="front")
+							//- 	.wall(id="back")
+							//- 	.wall(id="left")
+							//- 	.wall(id="right")
+							//- 	.wall(id="top")
+							//- 	.wall(id="bottom")
+								.lights(id="lights")
+									.light(id="green360W")
+										.wall(id="front")
+										.wall(id="back")
+										.wall(id="left")
+										.wall(id="right")
+										.wall(id="top")
+										.wall(id="bottom")
+					.col-lg-24(id="actions").l
+						.l-btn.l-small.l-nudge-left.l-filled.l-round Add Plants
+						.l-btn.l-small.l-nudge-left.l-nudge-more.l-filled.l-round Add Lights
+						.l-btn.l-small.l-nudge-left.l-nudge-more.l-filled.l-round Edit Tent
+						.l-btn.l-small.l-nudge-left.l-nudge-more.l-filled.l-round Configure Growroom
+						.l-btn.l-small.l-nudge-left.l-filled.l-round Optimize Growroom
