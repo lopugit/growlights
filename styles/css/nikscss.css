@@ -193,6 +193,7 @@
 	background-position-y: 95%;
 	background-size: 200px;
 	background-repeat: no-repeat;
+	overflow: hidden;
 }
 
 #comingsoongreen h2 {

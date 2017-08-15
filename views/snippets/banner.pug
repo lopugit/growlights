@@ -1,17 +1,56 @@
 html
-  body
-    header#banner
-      .container-fluid.l
-        .row.l-nudge-below-quite-alot
-          .col-lg-24.banner-text(style="height: 150px")
-            // <img class="img-responsive" src="/img/thing.png" alt="" />
-            .intro-text.intro-text-title
-            //- .intro-text.intro-text-subtitle
-        //- .row.l-nudge-below-quite-alot
-        //-   .col-lg-16.col-lg-offset-4
-        //-     .l-title.l-medium.l-nudge-below.l-nudge-more there are 3 ways to choose the best LED for you
-        //-     .l-buttons
-        //-       .l-btn.l-btn-white.l-medium.l-btn-lots-of-text.l-btn-box.l-btn-round replace your old lights
-        //-       .l-btn.l-btn-white.l-medium.l-btn-lots-of-text.l-btn-box.l-btn-round your no. of plants
-        //-       .l-btn.l-btn-white.l-medium.l-btn-lots-of-text.l-btn-box.l-btn-round your grow area
-      include /snippets/allConfigurationOptions
+	body
+		header#banner
+			.container-fluid.l
+				.row.l-nudge-below-quite-alot
+					.col-lg-24.banner-text
+						.intro-text.intro-text-title
+					script.
+						$(document).ready(function() {
+							var navHeight = $('nav').css('height');
+							$('body').css({ paddingTop: navHeight, paddingBottom: 0 });
+							$(".intro-text").typed({
+								strings: ["Welcome to the revolution,^700 \n we'll help work out what LEDs you need."],
+								typeSpeed: 5
+							});
+
+							// $('.front-page-likes').on('click')
+						});
+				.row
+					-var classes = 'bannerLight'
+					-
+						var light = {
+							width: 300,
+							height: 40,
+							switchable: true,
+							wavelengths: [
+								{nm:"rainbowRed",ratio:'auto'},
+								{nm:"rainbowOrange",ratio:'auto'},
+								{nm:"rainbowYellow",ratio:'auto'},
+								{nm:"rainbowGreen",ratio:'auto'},
+								{nm:"rainbowCyan",ratio:'auto'},
+								{nm:"rainbowBlue",ratio:'auto'},
+								{nm:"rainbowPurple",ratio:'auto'}
+							],
+							model: 'pro',
+							emissionInset: 12,
+							wattage: 800,
+							wattageFormatted: function(){return this.wattage+"W"},
+							type: "led",
+							price: 1200,
+							priceFormatted: function(){return "$"+this.price+".00"},
+							spectrumSpread: 'both',
+							customLightSpread: 333,
+							customLightHeight: 555,
+							showLables: false,
+							switchable: false,
+							centerOut: true,
+							lightOpacity: .25,
+							backBoost: true,
+							showInfoButton: false
+						}
+					.col-xs-24
+						include /snippets/light
+						-var classes = ''
+						.find-your-light
+							.light-button find your light

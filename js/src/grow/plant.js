@@ -16,22 +16,38 @@ function plant(props){
 			z		: props.positionAbs.z || props.position.z
 		}
 	}
+	this.age = props.age || {
+		days: 10
+	}
+	this.grow = function(growroom){
 
-	this.structure = [
-		new Node({
-			type: "root",
-		}),
-		new Node({
-			type: "hub",
-			children: [
-				new Node({
-					type: "leaf"	
-			]
+
+
+	}
+
+	if(this.structure == undefined){
+		this.structure.seed = new Node({
+			type: "seed",
+			position: {
+				x:0,
+				y:0,
+				z:0
+			},
+			age: {
+				days: 10,
+				spawnTime: {
+					seconds: 0
+				}
+			}
 		})
-	
-	]
-
+	}
 	this.history = []
 
 
 }
+
+var firstPlant = new Plant({
+	age: {
+		days: 10
+	}
+})

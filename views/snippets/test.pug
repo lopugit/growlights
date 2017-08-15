@@ -1,0 +1,14 @@
+block content
+    -var Lights = [models[2][0],models[2][0],models[2][0],models[2][0]]
+    .slick-slider-custom(class="wtfff")
+        each product, key2 in Lights
+            -
+                var light = {
+                    customLightHeight: (200*(key2+1))
+                }
+            .slick-slide
+                include /snippets/light
+    script(type='text/javascript').
+        $('.wtfff').slick({
+            arrows: true
+        })

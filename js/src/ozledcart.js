@@ -1,8 +1,8 @@
-$(function() {	
-	
+$(function() {
+
 	var client = ShopifyBuy.buildClient({
-    apiKey: '30197388c16741334138de5dd1de3f1a',
-    domain: 'my-leisure.myshopify.com',
+    apiKey: '2316d72d137b62d7f172bd87762b9fe3',
+    domain: 'ozledgrowlights.myshopify.com',
     appId: '6'
   });
 	/* variablessssss
@@ -125,7 +125,7 @@ $(function() {
 	      }
 	    });
 	    /* custom key handler */
-	    // var D_keycode = 68; 
+	    // var D_keycode = 68;
 	    // $(document).on('keydown', function (evt) {
 	    // 	if (evt.which === D_keycode) {
 	    // 		if ($('.cart').hasClass('js-active')) {
@@ -146,7 +146,7 @@ $(function() {
       			renderCartItems();
       			renderCartButton();
 	    	});
-	    	
+
 	    });
 
 	    /* escape key handler */
@@ -159,7 +159,7 @@ $(function() {
 	        };
 	        closeCart();
 	      };
-	      
+
 	    });
 
 	    /* checkout button click listener */
@@ -375,7 +375,7 @@ $(function() {
 	  /* Add 'quantity' amount of product 'variant' to cart
 	  ============================================================ */
 	  function addVariantToCart(variant, quantity) {
-	    openCart(); 
+	    openCart();
 	    cart.addVariants({ variant: variant, quantity: quantity }).then(function() {
 	      var cartItem = cart.lineItems.filter(function (item) {
 	        return (item.variant_id === variant.id);
@@ -401,7 +401,7 @@ $(function() {
 	  function renderCartItem(lineItem) {
 	    var lineItemEmptyTemplate = $('#CartItemTemplate').html();
 	    var $lineItemTemplate = $(lineItemEmptyTemplate);
-	    var itemImage = lineItem.image.src; 
+	    var itemImage = lineItem.image.src;
 	    // console.log(lineItem.product_id);
 	    // console.log(lineItem);
 	    // client.fetchProduct(lineItem.product_id).then(product => {

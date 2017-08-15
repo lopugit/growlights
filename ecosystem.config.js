@@ -9,7 +9,7 @@ module.exports = {
     {
       name      : 'ozlednode',
       script    : 'app.js',
-      watch	: ['app.js', 'models', 'routes'],
+      watch	: ['app.js', 'models', 'routes', 'scripts'],
       env: {
         COMMON_VARIABLE: 'true'
       },

@@ -1,47 +1,13 @@
 #spectrums
 	background: $gb
 	padding-top: 100px
-	padding-bottom: 100px
+	overflow: hidden
+	// padding-bottom: 100px
 	.title-col
 		text-align: center
 	.light-col
 		display: flex
 		justify-content: center
-		align-items: center
+		align-items: flex-end
 		margin-top: 25px
-
-
-.light-container
-	display: flex
-	justify-content: flex-start
-	align-items: center
-	flex-direction: column
-	width: 100%
-	.light
-		border-radius: 4px
-		display: flex
-		align-items: center
-		justify-content: flex-end
-
-
-		.material-toggle
-			margin: 5px
-			&:last-child
-				margin-right: 15px
-			&.veg-toggle-container
-				margin-right: 15px
-				.veg-label
-					background-color: rgb(172, 78, 246)
-			&.flower-toggle-container
-				margin-right: 20px
-				.flower-label
-					background-color: rgb(250, 61, 49)
-	.spectrums-container
-		display: flex
-		align-items: flex-start
-		justify-content: center
-		svg
-			overflow: visible
-			&#nm420
-				polygon
-					fill: rgb(56, 160, 255)
+		flex-wrap: wrap

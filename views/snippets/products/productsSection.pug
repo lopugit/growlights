@@ -1,0 +1,42 @@
+extends /snippets/head
+block content
+	#productsSection.l
+		.container-fluid
+			.row
+				.col-xs-24.title-col
+					h3.lights-section-title Let there be 
+						h1.lights-section-title Light
+			.row
+				each model, key1 in models
+					.col-xs-24.model-col
+						h1.model-title= model[0].model
+						.col-xs-24.product-col
+							-currentModel = model[0].model
+							//
+								CHECK IF POSSIBLE PUG GITHUB
+								.#{currentModel+"Slider"}
+							//- each product, key2 in model
+							//- 	-if(key2 == 0)
+							//- 		include /snippets/light
+							//- 	-else if(product.model == currentModel)
+							//- 		include /snippets/light
+							//- 	-else
+							//- 		-currentModel = product.model
+							//- 		include /snippets/light
+
+							.slick-slider-custom(class=currentModel+"Slider")
+								each product, key2 in model
+									.slick-slide
+										-if(key2 == 0)
+											include /snippets/light
+										-else if(product.model == currentModel)
+											include /snippets/light
+										-else
+											-currentModel = product.model
+											include /snippets/light
+							block scripts
+							script(type='text/javascript').
+								$('.#{currentModel}Slider').slick({
+									arrows: true,
+									centerMode: false
+								})

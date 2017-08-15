@@ -3,8 +3,8 @@ html
 		#tent-customization
 			.container-fluid
 				.row.tent-customization
-					.col-lg-24
-						h2.tent-customization-title Or customize your tent
+					.col-sm-24
+						h2.tent-customization-title Create your Grow
 					.col-lg-24(id="sceneContainer")
 						.scene(id="scene")
 							//- .tent(id="growRoom")
@@ -28,3 +28,153 @@ html
 						.l-btn.l-small.l-nudge-left.l-nudge-more.l-filled.l-round Edit Tent
 						.l-btn.l-small.l-nudge-left.l-nudge-more.l-filled.l-round Configure Growroom
 						.l-btn.l-small.l-nudge-left.l-filled.l-round Optimize Growroom
+			script.
+				$(document).on('ready', function() {
+
+					var mainScene = new Scene({
+						render: true,
+						heightRatio: 70,
+						perspective: 1200,
+						id: "scene",
+						type: "object"
+					})
+					var growRoom = new Growroom({
+						height: 2,
+						width: 4,
+						depth: 2,
+						ratio: 100,
+						render: true,
+						id: "growRoom",
+						class: 'tent',
+						scene: mainScene,
+						position: {
+							x: 0,
+							y: 0,
+							z: 0,
+							rx: 0
+						}
+					})
+					var green360Wtemplate = {
+							width: 1.2,
+							height: .02,
+							depth: .05,
+							id: "green360W1",
+							name: "Mars Green 360W",
+							class: 'growlight',
+							group: 'lights',
+							scene: growRoom.scene,
+							sizeSelf: true,
+							// position	: {
+							// 	x				: growRoom.width/2,
+							// 	y				: growRoom.height-(growRoom.height/3),
+							// 	z				: growRoom.depth/2
+							// },
+							position: {
+								x: growRoom.width / 2,
+								y: 2,
+								z: growRoom.depth / 2,
+								rx: 90,
+								ry: 90,
+								type: "center"
+							},
+
+							parent: growRoom.object,
+							leds: {
+								ammount: 48,
+								types: [{
+										nm: 440,
+										angle: 140,
+										ratio: 12.5,
+										colour: "blue",
+										lux: "X"
+									},
+									{
+										nm: 460,
+										angle: 140,
+										ratio: 12.5,
+										colour: "blue",
+										lux: "X"
+									},
+									{
+										nm: 630,
+										angle: 120,
+										ratio: 32.5,
+										colour: "red",
+										lux: "X"
+									},
+									{
+										nm: 660,
+										angle: 120,
+										ratio: 32.5,
+										colour: "blue",
+										lux: "X"
+									},
+									{
+										nm: 730,
+										angle: 120,
+										ratio: 1,
+										colour: "infra-red",
+										lux: "X"
+									},
+									{
+										temperature: 5500,
+										angle: 120,
+										ratio: 9,
+										colour: "white",
+										lux: "X"
+									}
+								],
+								layout: {
+									// zPadding			: 0.035,
+									// xPadding			: .015,
+									// The constructor auto calculates x/zNum from ammount/x/zNum
+									zNum: 1,
+									xNum: 24,
+									width: 0.01,
+									depth: 0.01,
+								},
+								makeDiodes: true
+							}
+						}
+						// growRoom.lights.push(
+						// 	new GrowLight(green360Wtemplate)
+						// )
+
+					green360Wtemplate.position.y = 1
+					green360Wtemplate.position.ry = 0
+					green360Wtemplate.position.rx = 0
+
+					// green360Wtemplate.position.x = (growRoom.width/4)*3
+					green360Wtemplate.id = "green360W2"
+					growRoom.lights.push(
+							new GrowLight(green360Wtemplate)
+						)
+						// growRoom.renderCoverage({
+						// 	resolution: 0.2,
+						// 	includeY	: false,
+						// 	squareSize: .01,
+						// 	yPlane		: 0.35,
+						// 	sides			: ["front"],
+						// 	calcLumens: false,
+						// 	position	: {
+						// 		type	: 'center'
+						// 	}
+						// })
+					growRoom.renderCoverage({
+						resolution: 0.2,
+						squareSize: 0.2,
+						includeY: false,
+						type: '3d',
+						// sides			: ["bottom", "front"],
+						class: "floorGrid",
+						yPlane: 0.1,
+						position: {
+							type: 'center'
+						}
+					})
+
+					// //console.log("scene pxr = "+mainScene.pxr)
+					// var light = new Photon.Light();
+
+
+				})
