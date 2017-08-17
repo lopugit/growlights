@@ -1,19 +1,19 @@
-#ozledgrowlights
+## ozledgrowlights
 
-# Things to do:
-# Tick off when complete
-# [] incomplete
-# [x]
+## Things to do:
+## Tick off when complete
+## [] incomplete
+## [x]
 
-### BACK END STUFF ####
+## BACK END STUFF ####
 #### [x] Configure SSL certificate and HTTPS always on redirect
 #### [x] Submit website to google.com/webmasters, including http and https urls for indexing,
 #### [x] Submit sitemap.xml to google.com/webmasters
 
-### DESIGN WISE ####
+## DESIGN WISE ####
 #### [x] Append the about us section to the front page so the whole website is 1 page. By append I mean below the content that's already there but in tune with the website design
 
-### little things ####
+## little things ####
 #### eg.
 #### [x] remove space in front of email
 #### [(didn't do this just left it as a mobile but formatted 04XX XXX XXX)] put brackets around 02 1234 5678 -> (02) 1234 5678
