@@ -5,8 +5,8 @@ html
 				.row.tent-customization
 					.col-sm-24
 						h2.tent-customization-title Create your Grow
-					.col-lg-24(id="sceneContainer")
-						.scene(id="scene")
+					.sceneContainer.col-lg-24(id="sceneContainer")
+						.scene(id="scene"+Math.random())
 							//- .tent(id="growRoom")
 							//- 	.wall(id="front")
 							//- 	.wall(id="back")
@@ -42,7 +42,7 @@ html
 						height: 2,
 						width: 4,
 						depth: 2,
-						ratio: 100,
+						ratio: 70,
 						render: true,
 						id: "growRoom",
 						class: 'tent',
@@ -146,9 +146,9 @@ html
 
 					// green360Wtemplate.position.x = (growRoom.width/4)*3
 					green360Wtemplate.id = "green360W2"
-					growRoom.lights.push(
-							new GrowLight(green360Wtemplate)
-						)
+					//- growRoom.lights.push(
+					//- 		new GrowLight(green360Wtemplate)
+					//- 	)
 						// growRoom.renderCoverage({
 						// 	resolution: 0.2,
 						// 	includeY	: false,
@@ -160,18 +160,18 @@ html
 						// 		type	: 'center'
 						// 	}
 						// })
-					growRoom.renderCoverage({
-						resolution: 0.2,
-						squareSize: 0.2,
-						includeY: false,
-						type: '3d',
-						// sides			: ["bottom", "front"],
-						class: "floorGrid",
-						yPlane: 0.1,
-						position: {
-							type: 'center'
-						}
-					})
+					//- growRoom.renderCoverage({
+					//- 	resolution: 0.2,
+					//- 	squareSize: 0.2,
+					//- 	includeY: false,
+					//- 	type: '3d',
+					//- 	// sides			: ["bottom", "front"],
+					//- 	class: "floorGrid",
+					//- 	yPlane: 0.1,
+					//- 	position: {
+					//- 		type: 'center'
+					//- 	}
+					//- })
 
 					// //console.log("scene pxr = "+mainScene.pxr)
 					// var light = new Photon.Light();

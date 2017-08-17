@@ -20,7 +20,7 @@ function Scene(props) {
     this.pxr = props.pxr
     this.objects = props.objects || {}
     this.render = function() {
-        $("#" + this.id).css(this.css)
+        $("." + this.id).css(this.css)
     }
     this.addRootObject = function(object) {
         if (object.id) {
@@ -254,18 +254,18 @@ function Cube(props) {
             // If the cube is part of a group, we check if the group exists, if not, we make the group div and append our new object
             // In the group, if it exists we just append the new object
             if (this.group !== undefined) {
-                if ($("#" + this.scene.id + parentId + " > #" + this.group).length < 1) {
+                if ($("." + this.scene.id + parentId + " > #" + this.group).length < 1) {
                     //console.log("The group "+this.group+" doesn't exist yet, let's manifest it")
                     var $groupElement = $('<div>', {
                         id: this.group,
                         class: 'group'
                     })
-                    $("#" + this.scene.id + parentId).append($groupElement)
+                    $("." + this.scene.id + parentId).append($groupElement)
                     var $element = $('<div>', {
                         id: this.id,
                         class: this.class
                     })
-                    $("#" + this.scene.id + parentId + " #" + this.group).append($element)
+                    $("." + this.scene.id + parentId + " #" + this.group).append($element)
                 } else {
                     //console.log("the group already exists and we just append object")
                     //console.log(this)
@@ -274,23 +274,23 @@ function Cube(props) {
                             class: this.class
                         })
                         //console.log(parentId)
-                    $("#" + this.scene.id + parentId + " #" + this.group).append($element)
+                    $("." + this.scene.id + parentId + " #" + this.group).append($element)
                 }
             } else {
                 var $element = $('<div>', {
                     id: this.id,
                     class: this.class
                 })
-                $("#" + this.scene.id + parentId).append($element)
+                $("." + this.scene.id + parentId).append($element)
             }
             if (this.type == '2d') {
                 var $face = $('<div>', {
                     id: 'front',
                     class: 'face'
                 })
-                $("#" + this.scene.id + " #" + this.id).append($face)
+                $("." + this.scene.id + " #" + this.id).append($face)
                     //console.log("SO THIS SHOULD NOT EVEN RUN")
-                $("#" + this.scene.id + parentId + " #" + this.id + " > #" + this.sides[0]).css(this.faces['front'].css)
+                $("." + this.scene.id + parentId + " #" + this.id + " > #" + this.sides[0]).css(this.faces['front'].css)
 
             } else if (this.type == '3d') {
                 for (var l = 0; l < this.sides.length; l++) {
@@ -305,8 +305,8 @@ function Cube(props) {
                         id: this.sides[l],
                         class: 'face'
                     })
-                    $("#" + this.scene.id + parentId + " #" + this.id).append($face)
-                    $("#" + this.scene.id + parentId + " #" + this.id + " > #" + this.sides[l]).css(this.faces[this.sides[l]].css)
+                    $("." + this.scene.id + parentId + " #" + this.id).append($face)
+                    $("." + this.scene.id + parentId + " #" + this.id + " > #" + this.sides[l]).css(this.faces[this.sides[l]].css)
                 }
             }
             //console.log("this is this")
@@ -315,7 +315,7 @@ function Cube(props) {
             if (this.sizeSelf == true) {
                 //console.log("SHOULD ONLY SIZE SELF TWICE")
                 //console.log("sizing self "+this.widthPx)
-                $("#" + this.scene.id + parentId + " #" + this.id).css({
+                $("." + this.scene.id + parentId + " #" + this.id).css({
                     width: this.widthPx,
                     height: this.heightPx
                 })
@@ -338,7 +338,7 @@ function Cube(props) {
 
                     if (this.position.z < 0) {
                         // //console.log()
-                        $("#" + this.scene.id + " #" + this.id).css({
+                        $("." + this.scene.id + " #" + this.id).css({
                                 transform: "translate3d(" + Math.round(((this.position.x * this.scene.pxr)) - adjustX) + "px," + Math.round((this.position.y * this.scene.pxr) + adjustY) * -1 + "px," + Math.round(((this.position.z * this.scene.pxr) - adjustZ) * -1) + "px) rotateX(" + this.position.rx + "deg) rotateY(" + this.position.ry + "deg) rotateZ(" + this.position.rz + "deg)"
                             })
                             // console.log("translate3d("+Math.round(((this.position.x*this.scene.pxr))-adjustX)+"px,"+Math.round((this.position.y*this.scene.pxr)+adjustY)*-1+"px,"+Math.round(((this.position.z*this.scene.pxr)-adjustZ)*-1)+"px) rotateX("+this.position.rx+"deg) rotateY("+this.position.ry+"deg) rotateZ("+this.position.rz+"deg)")
@@ -355,7 +355,7 @@ function Cube(props) {
                             var parentId = ''
                         }
                         //console.log("#"+this.scene.id+parentId+" #"+this.id);
-                        $("#" + this.scene.id + parentId + " #" + this.id).css({
+                        $("." + this.scene.id + parentId + " #" + this.id).css({
                                 transform: "translate3d(" + Math.round(((this.position.x * this.scene.pxr)) - adjustX) + "px," + Math.round((this.position.y * this.scene.pxr) + adjustY) * -1 + "px," + Math.round(((this.position.z * this.scene.pxr) - adjustZ) * -1) + "px) rotateX(" + this.position.rx + "deg) rotateY(" + this.position.ry + "deg) rotateZ(" + this.position.rz + "deg)"
                             })
                             //console.log("does this work?");
@@ -365,7 +365,7 @@ function Cube(props) {
                     }
                 } else {
                     // //console.log("we are running this")
-                    $("#" + this.scene.id + " #" + this.id).css({
+                    $("." + this.scene.id + " #" + this.id).css({
                         transform: "translate3d(" + Math.round(((this.position.x * this.scene.pxr))) + "px," + Math.round(this.position.y * this.scene.pxr) + "px," + Math.round(((this.position.z * this.scene.pxr))) + "px) rotateX(" + this.position.rx + "deg) rotateY(" + this.position.ry + "deg) rotateZ(" + this.position.rz + "deg)",
                     })
                     console.log("translate3d(" + Math.round(((this.position.x * this.scene.pxr))) + "px," + Math.round(this.position.y * this.scene.pxr) + "px," + Math.round(((this.position.z * this.scene.pxr))) + "px) rotateX(" + this.position.rx + "deg) rotateY(" + this.position.ry + "deg) rotateZ(" + this.position.rz + "deg)")
@@ -396,11 +396,11 @@ function Cube(props) {
         // console.log("and "+this.width+" should be less than 1 for diodes");
         if (this.width >= 1) {
             if (this.scene.pxr == undefined) {
-                this.scene.pxr = ($("#" + this.scene.id)[0].offsetWidth * (this.ratio / 100)) / this.width
+                this.scene.pxr = ($("." + this.scene.id)[0].offsetWidth * (this.ratio / 100)) / this.width
             }
         } else if (this.width < 1) {
             if (this.scene.pxr == undefined) {
-                this.scene.pxr = ($("#" + this.scene.id)[0].offsetWidth * (this.ratio / 100)) * this.width
+                this.scene.pxr = ($("." + this.scene.id)[0].offsetWidth * (this.ratio / 100)) * this.width
             }
         }
         this.widthPx = this.scene.pxr * this.width

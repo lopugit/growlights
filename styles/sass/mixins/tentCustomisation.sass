@@ -8,7 +8,7 @@ $pink: rgba(rgb(255, 43, 151), 1)
 		margin-bottom: 50px
 		text-align: center
 		color: $gb
-	#sceneContainer
+	.sceneContainer
 		width: 100%
 		height: auto
 		display: flex
@@ -22,7 +22,7 @@ $pink: rgba(rgb(255, 43, 151), 1)
 		transform-style: preserve-3d
 		pointer-events: none
 		background: $gw
-	#scene
+	.scene
 		text-align: center
 		display: flex
 		align-items: flex-end
@@ -92,7 +92,8 @@ $pink: rgba(rgb(255, 43, 151), 1)
 				display: block
 				background: rgba(rgb(0,0,0), 0)
 				// border: 2px solid rgb(244, 164, 26)
-				border: 1px solid rgb(147, 147, 147)
+				$tentBorderColour: rgba(147,147,147, 1)
+				border: 1px solid $tentBorderColour
 				z-index: 105
 				pointer-events: none
 				// &#leftWall,
@@ -102,8 +103,8 @@ $pink: rgba(rgb(255, 43, 151), 1)
 					background: rgba(white, 1)
 					opacity: 0
 				&#front
-					border-top: 0px
-					display: none
+					border: 0px solid $tentBorderColour
+					border-bottom: 1px solid $tentBorderColour				
 				&#top
 					opacity: 0
 				// border-radius: 6px
@@ -188,7 +189,7 @@ $pink: rgba(rgb(255, 43, 151), 1)
 		// LEAVE COMMENTED FOR CHROME TO WORK
 		// left: 0
 		// top: 0
-#scene
+.scene
 	.face
 		position: absolute
 		display: block

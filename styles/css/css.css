@@ -834,7 +834,7 @@ input[type=number]::-webkit-outer-spin-button {
     -ms-transition: all 250ms ease;
     transition: all 250ms ease; }
     #nav .navbar-brand:hover, #nav .navbar-brand:active, #nav .navbar-brand:focus {
-      color: #ff7118; }
+      color: #8145ff; }
   #nav .navbar-toggle {
     margin-right: 8px;
     background-color: rgba(255, 255, 255, 0); }
@@ -845,19 +845,19 @@ input[type=number]::-webkit-outer-spin-button {
     -ms-transition: all 300ms ease;
     transition: all 300ms ease; }
   #nav li:nth-child(0):hover a, #nav li:nth-child(0):active a, #nav li:nth-child(0):focus a {
-    color: #ff7118; }
+    color: #21ff9b; }
   #nav li:nth-child(1):hover a, #nav li:nth-child(1):active a, #nav li:nth-child(1):focus a {
-    color: #ff7118; }
+    color: #ffe81c; }
   #nav li:nth-child(2):hover a, #nav li:nth-child(2):active a, #nav li:nth-child(2):focus a {
-    color: #2be2ff; }
+    color: #ffe81c; }
   #nav li:nth-child(3):hover a, #nav li:nth-child(3):active a, #nav li:nth-child(3):focus a {
-    color: #b1ff18; }
+    color: #ff7118; }
   #nav li:nth-child(4):hover a, #nav li:nth-child(4):active a, #nav li:nth-child(4):focus a {
-    color: #8145ff; }
+    color: #f9383e; }
   #nav li:nth-child(5):hover a, #nav li:nth-child(5):active a, #nav li:nth-child(5):focus a {
-    color: #8145ff; }
+    color: #ffe81c; }
   #nav li:nth-child(6):hover a, #nav li:nth-child(6):active a, #nav li:nth-child(6):focus a {
-    color: #8145ff; }
+    color: #21ff9b; }
   #nav li:nth-child(7):hover a, #nav li:nth-child(7):active a, #nav li:nth-child(7):focus a {
     color: #ffe81c; }
   #nav .icon-bar {
@@ -946,24 +946,79 @@ input[type=number]::-webkit-outer-spin-button {
       align-items: center;
       position: relative; }
 
-#productsSection {
+#growlightsSection {
   background: #f8f8f8;
   color: #151515;
   min-height: 1000px;
   overflow: hidden;
   max-width: 100%; }
-  #productsSection .title-col {
+  #growlightsSection .title-col {
     text-align: center;
     padding: 30px 0; }
-    #productsSection .title-col .lights-section-title {
+    #growlightsSection .title-col .lights-section-title {
       color: #151515;
       margin: 5 0;
       padding: 0; }
-  #productsSection .model-col {
+  #growlightsSection .model-col {
     text-align: center;
     padding: 80px 0px 80px 0px;
     font-size: 3.5rem; }
-  #productsSection .product-col {
+  #growlightsSection .product-col {
+    text-align: center;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    flex-wrap: wrap;
+    padding: 30px 0px; }
+
+.slick-slider-custom {
+  width: 700px;
+  max-width: 100%;
+  height: auto;
+  overflow: visible; }
+  .slick-slider-custom .slick-list {
+    overflow: visible; }
+    .slick-slider-custom .slick-list .slick-track {
+      display: flex;
+      align-items: flex-end;
+      overflow: visible; }
+      .slick-slider-custom .slick-list .slick-track .slick-slide {
+        overflow: visible;
+        height: auto; }
+        .slick-slider-custom .slick-list .slick-track .slick-slide:active, .slick-slider-custom .slick-list .slick-track .slick-slide:focus, .slick-slider-custom .slick-list .slick-track .slick-slide:hover, .slick-slider-custom .slick-list .slick-track .slick-slide:visited {
+          outline-color: transparent;
+          outline-width: 0px; }
+  .slick-slider-custom .slick-arrow {
+    color: #80bc18;
+    z-index: 450;
+    width: auto;
+    height: auto; }
+    .slick-slider-custom .slick-arrow::before {
+      font-size: 10rem;
+      color: #80bc18; }
+    .slick-slider-custom .slick-arrow.slick-prev {
+      left: 5%; }
+    .slick-slider-custom .slick-arrow.slick-next {
+      right: 5%; }
+
+#growtentsSection {
+  background: #f8f8f8;
+  color: #151515;
+  min-height: 1000px;
+  overflow: hidden;
+  max-width: 100%; }
+  #growtentsSection .title-col {
+    text-align: center;
+    padding: 30px 0; }
+    #growtentsSection .title-col .lights-section-title {
+      color: #151515;
+      margin: 5 0;
+      padding: 0; }
+  #growtentsSection .model-col {
+    text-align: center;
+    padding: 80px 0px 80px 0px;
+    font-size: 3.5rem; }
+  #growtentsSection .product-col {
     text-align: center;
     display: flex;
     align-items: flex-end;
@@ -1121,7 +1176,7 @@ input[type=number]::-webkit-outer-spin-button {
     -ms-transition: all 250ms ease;
     transition: all 250ms ease; }
     #banner .front-page-likes:hover, #banner .front-page-likes:visited, #banner .front-page-likes:focus, #banner .front-page-likes:active {
-      color: #ff7118; }
+      color: #21ff9b; }
   #banner .find-your-light {
     position: relative;
     z-index: 400;
@@ -1175,7 +1230,7 @@ input[type=number]::-webkit-outer-spin-button {
   margin: 3%;
   max-width: 100%;
   padding-top: 30px;
-  padding-bottom: 30px; }
+  padding-bottom: 0px; }
   .light-container .light {
     border-radius: 4px;
     display: flex;
@@ -1284,7 +1339,6 @@ input[type=number]::-webkit-outer-spin-button {
   .light-container .light-labels-container {
     display: flex;
     position: absolute;
-    left: 50%;
     bottom: 125%;
     align-items: flex-end;
     justify-content: center;
@@ -1462,7 +1516,7 @@ input[type=number]::-webkit-outer-spin-button {
     margin-bottom: 50px;
     text-align: center;
     color: #151515; }
-  .tent-customization #sceneContainer {
+  .tent-customization .sceneContainer {
     width: 100%;
     height: auto;
     display: flex;
@@ -1475,7 +1529,7 @@ input[type=number]::-webkit-outer-spin-button {
     transform-style: preserve-3d;
     pointer-events: none;
     background: #f8f8f8; }
-  .tent-customization #scene {
+  .tent-customization .scene {
     text-align: center;
     display: flex;
     align-items: flex-end;
@@ -1493,7 +1547,7 @@ input[type=number]::-webkit-outer-spin-button {
     transform: rotateX(0deg); }
   100% {
     transform: rotateX(-360deg); } }
-    .tent-customization #scene .dObject {
+    .tent-customization .scene .dObject {
       position: absolute;
       bottom: 0;
       left: 0;
@@ -1505,7 +1559,7 @@ input[type=number]::-webkit-outer-spin-button {
       transform-style: preserve-3d;
       z-index: 105;
       pointer-events: all; }
-    .tent-customization #scene .group {
+    .tent-customization .scene .group {
       width: 100%;
       height: 100%;
       display: flex;
@@ -1517,11 +1571,11 @@ input[type=number]::-webkit-outer-spin-button {
       transform-style: preserve-3d;
       z-index: 105;
       pointer-events: none; }
-    .tent-customization #scene .face {
+    .tent-customization .scene .face {
       transform-style: preserve-3d;
       z-index: 120;
       pointer-events: all; }
-    .tent-customization #scene .tent {
+    .tent-customization .scene .tent {
       background: rgba(255, 255, 255, 0);
       width: auto;
       transform-style: preserve-3d;
@@ -1531,46 +1585,46 @@ input[type=number]::-webkit-outer-spin-button {
       align-items: center;
       justify-content: center;
       pointer-events: none; }
-      .tent-customization #scene .tent > .face {
+      .tent-customization .scene .tent > .face {
         position: absolute;
         display: block;
         background: transparent;
         border: 1px solid #939393;
         z-index: 105;
         pointer-events: none; }
-        .tent-customization #scene .tent > .face#bottom {
+        .tent-customization .scene .tent > .face#bottom {
           background: white;
           opacity: 0; }
-        .tent-customization #scene .tent > .face#front {
-          border-top: 0px;
-          display: none; }
-        .tent-customization #scene .tent > .face#top {
+        .tent-customization .scene .tent > .face#front {
+          border: 0px solid #939393;
+          border-bottom: 1px solid #939393; }
+        .tent-customization .scene .tent > .face#top {
           opacity: 0; }
-      .tent-customization #scene .tent .floorCoverage, .tent-customization #scene .tent .floorGrid {
+      .tent-customization .scene .tent .floorCoverage, .tent-customization .scene .tent .floorGrid {
         z-index: 120; }
-        .tent-customization #scene .tent .floorCoverage .face, .tent-customization #scene .tent .floorGrid .face {
+        .tent-customization .scene .tent .floorCoverage .face, .tent-customization .scene .tent .floorGrid .face {
           z-index: 120; }
-          .tent-customization #scene .tent .floorCoverage .face:hover, .tent-customization #scene .tent .floorGrid .face:hover {
+          .tent-customization .scene .tent .floorCoverage .face:hover, .tent-customization .scene .tent .floorGrid .face:hover {
             background: #28f578; }
-        .tent-customization #scene .tent .floorCoverage:hover .face, .tent-customization #scene .tent .floorGrid:hover .face {
+        .tent-customization .scene .tent .floorCoverage:hover .face, .tent-customization .scene .tent .floorGrid:hover .face {
           background: #28f578; }
-      .tent-customization #scene .tent .floorGrid {
+      .tent-customization .scene .tent .floorGrid {
         pointer-events: none; }
-        .tent-customization #scene .tent .floorGrid #bottom {
+        .tent-customization .scene .tent .floorGrid #bottom {
           background: #ff2b97;
           z-index: 121; }
-          .tent-customization #scene .tent .floorGrid #bottom:hover {
+          .tent-customization .scene .tent .floorGrid #bottom:hover {
             background: #28f578;
             opacity: 1 !important; }
-            .tent-customization #scene .tent .floorGrid #bottom:hover .floorGridData {
+            .tent-customization .scene .tent .floorGrid #bottom:hover .floorGridData {
               opacity: 1;
               display: block; }
-      .tent-customization #scene .tent .floorGridData {
+      .tent-customization .scene .tent .floorGridData {
         display: none;
         z-index: 121;
         opacity: 1;
         transform-style: preserve-3d; }
-        .tent-customization #scene .tent .floorGridData .data {
+        .tent-customization .scene .tent .floorGridData .data {
           padding: 20px 120px;
           display: flex;
           align-items: center;
@@ -1600,7 +1654,7 @@ input[type=number]::-webkit-outer-spin-button {
     z-index: 102;
     border-radius: 50%; }
 
-#scene .face {
+.scene .face {
   position: absolute;
   display: block;
   z-index: 101; }

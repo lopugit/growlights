@@ -59,51 +59,100 @@ var mainModels = require('./models')
 var adminModels = require('./models/admin')
 var likes = mainModels.likes
 var user = adminModels.user
-var product = require('./models/CMS/shopifyDupe.js')
-var models = new Promise((resolve, reject) => {
-    product.then(model => {
-            console.log('here2');
-            // console.log(res.locals)
-            model.find({
-                    type: 'Grow Light'
-                }).exec()
-                .then((products, err) => {
-                    if (!err) {
-                        var modelsList = []
-                            // var key = 0
-                        for (product in products) {
-                            if (modelsList.indexOf(products[product].model) < 0) {
-                                modelsList.push(products[product].model)
-                                    // modelsList.push([products[product].model, key])
-                                    // key += 1
-                            }
+var growLightsModel = require('./models/CMS/growLights.js')
+require('./scripts/importGrowLightsFromShopify.js')({ model: growLightsModel, type: 'Grow Light' })
 
-                        }
-                        var models = []
-                        for (model in modelsList) {
-                            models[model] = []
+function growLightModels() {
+    return new Promise((resolve, reject) => {
+        growLightsModel.then(model => {
+                // console.log("getting all the grow lights via the model")
+                model.find({
+                        product_type: 'Grow Light'
+                    }).exec()
+                    .then((products, err) => {
+                        if (!err) {
+                            console.log("these are the found products")
+                            console.log(products)
+                            var modelsList = []
+                                // var key = 0
                             for (product in products) {
-                                if (products[product].model == modelsList[model]) {
-                                    models[model].push(products[product])
+                                if (modelsList.indexOf(products[product].model) < 0) {
+                                    modelsList.push(products[product].model)
+                                        // modelsList.push([products[product].model, key])
+                                        // key += 1
+                                }
+
+                            }
+                            var models = []
+                            for (model in modelsList) {
+                                models[model] = []
+                                for (product in products) {
+                                    if (products[product].model == modelsList[model]) {
+                                        models[model].push(products[product])
+                                    }
                                 }
                             }
+                            resolve(models)
+                        } else {
+                            console.error(err)
+                            resolve([])
                         }
-                        resolve(models)
-                    } else {
-                        console.error(err)
-                        resolve([])
-                    }
+                    })
+            })
+            .catch(() => {
+                console.error("there was an error .thening the growLights model")
+                resolve([])
+            })
+    })
+}
+var growTentsModel = require('./models/CMS/growTents.js')
+require('./scripts/importGrowTentsFromShopify.js')({ model: growTentsModel, type: 'Grow Tent' })
+
+function growTentVendors() {
+    return new Promise((resolve, reject) => {
+            growTentsModel.then(model => {
+                    console.log('getting all the grow tents via the model');
+                    // console.log(res.locals)
+                    model.find({
+                            product_type: 'Grow Tent'
+                        }).exec()
+                        .then((products, err) => {
+                            if (!err) {
+                                var vendorsList = []
+                                    // var key = 0
+                                for (product in products) {
+                                    if (vendorsList.indexOf(products[product].vendor) < 0) {
+                                        vendorsList.push(products[product].vendor)
+                                            // vendorsList.push([products[product].vendor, key])
+                                            // key += 1
+                                    }
+
+                                }
+                                var vendors = []
+                                for (vendor in vendorsList) {
+                                    vendors[vendor] = []
+                                    for (product in products) {
+                                        if (products[product].vendor == vendorsList[vendor]) {
+                                            vendors[vendor].push(products[product])
+                                        }
+                                    }
+                                }
+                                resolve(vendors)
+                            } else {
+                                console.error(err)
+                                resolve([])
+                            }
+                        })
+                })
+                .catch(() => {
+                    resolve([])
                 })
         })
-        .catch(() => {
-            resolve([])
-        })
-})
+        // var accessoriesModel = require('./models/CMS/accessories.js')
+        // require('./scripts/importAccessoriesFromShopify.js')({ model: accessoriesModel, type: 'Accessory' })
 
-
-var importShopifyProducts = require('./scripts/importShopifyProducts')(product)
-    // }
-    ////// FUNCTIONS AND GLOBAL VARIABLES
+}
+////// FUNCTIONS AND GLOBAL VARIABLES
 function search(prop, value, array) {
     for (var i = 0; i < array.length; i++) {
         if (array[i][prop] === value) {
@@ -152,107 +201,38 @@ app.get('/(|home|index)', function(req, res) {
         .then((mainPageLikes, err) => {
             if (!mainPageLikes) {
                 res.locals.likes = 12
-                console.log('here1');
                 return
             } else {
-                console.log('here1');
                 res.locals.likes = mainPageLikes[0].likes
                 return
             }
         })
         .then(function() {
-            console.log("doing this")
-            console.log(models)
-            return models.then(Models => {
-                    console.log("these are the Models")
-                    console.log(Models)
-                    res.locals.models = Models
-                    return
-                }).catch(function() {
-                    res.locals.models = []
-                    return
-                })
-                // return product.then(model => {
-                //     console.log('here2');
-                //     // console.log(res.locals)
-                //     return model.find({
-                //             type: 'Grow Light'
-                //         }).exec()
-                //         .then((products, err) => {
-                //             if (!err) {
-                //                 var modelsList = []
-                //                 for (product in products) {
-                //                     if (modelsList.indexOf(products[product].model) < 0) {
-                //                         modelsList.push(products[product].model)
-                //                     }
-                //                 }
-                //                 var models = []
-                //                 for (model in modelsList) {
-                //                     models[model] = []
-                //                     for (product in products) {
-                //                         if (products[product].model == modelsList[model]) {
-                //                             models[model].push(products[product])
-                //                         }
-                //                     }
-                //                 }
-                //                 res.locals.models = models
-                //                 console.log("this is models")
-                //                 console.log(models)
-                //                 console.log("this is modelsList")
-                //                 console.log(modelsList)
-                //                 return
-                //             }
-                //             /*
-                //             SHOW TOMMY THE REFACTORING
-                //             */
-                //             // if (!err) {
-                //             //     var models = []
-                //             //     var key = 0
-                //             //     var subCount = 0
-                //             //     for (var i = 0; i < products.length; i++) {
-
-            //             //         var currentModel = products[i].model
-            //             //         if (i == 0) {
-            //             //             models[key] = []
-            //             //             models[key].push(products[i])
-            //             //         } else if (models[key][subCount].model == currentModel) {
-            //             //             models[key].push(products[i])
-            //             //         } else {
-            //             //             for (j in models) {
-            //             //                 if (models[j][0] == products[i].model) {
-            //             //                     key = j
-            //             //                     models[key].push(products[i])
-            //             //                     currentModel = products[i].model
-            //             //                     return
-            //             //                 } else {
-            //             //                     key += 1
-            //             //                     models[key] = []
-            //             //                     models[key].push(products[i])
-            //             //                     currentModel = products[i].model
-            //             //                 }
-            //             //             }
-            //             //         }
-            //             //         if (i == (products.length - 1)) {
-            //             //             res.locals.models = models
-            //             //             return
-            //             //         }
-            //             //     }
-            //             //     // console.log(models);
-            //             //     // res.render('pages/home')
-            //             // } 
-            //             else {
-            //                 console.error(err)
-            //                 return
-            //             }
-            //         })
-            // })
+            return growLightModels().then(models => {
+                console.log("these are the grow light models")
+                console.log(models)
+                res.locals.growLightModels = models
+                return
+            }).catch(function() {
+                res.locals.growLightModels = []
+                return
+            })
 
         })
         .then(function() {
-            var customLocals = res.locals
-            customLocals.basedir = path.join(__dirname, 'views')
-                // console.log(pug.renderFile('views/pages/home.pug', customLocals))
-
+            return growTentVendors().then(vendors => {
+                console.log("these are the grow tent vendors")
+                res.locals.growTentVendors = vendors
+                return
+            }).catch(err => {
+                console.error("there was an error getting the grow tent vendors")
+                console.error(err)
+                return
+            })
+        })
+        .then(function() {
+            console.log("this is res.locals")
+            console.log(res.locals)
             res.render('pages/home')
         })
 
@@ -373,7 +353,7 @@ app.get('/dashboard', reqLog, function(req, res) {
         res.locals.blogs = blogs
         return true
     }).exec().then(function() {
-        product.then(function(productModel) {
+        products.then(function(productModel) {
             productModel.find({}, function(err, products) {
                 res.locals.products = products
                 res.locals.productCount = products.length

@@ -22,7 +22,7 @@
 		emissionInset: 14,
 		wattage: 800,
 		wattageFormatted: function(){return this.wattage+"W"},
-		type: "led",
+		lightType: "led",
 		price: 600,
 		priceFormatted: function(){return "$"+this.price},
 		spectrumSpread: 'both',
@@ -54,6 +54,7 @@
 		centerColour: 'auto'
 	}
 -if(light)
+	//- .debug whaaaaat
 	each val, property in templateLight
 		//- span= val
 		//- span= property
@@ -65,16 +66,19 @@
 -else
 	-var light = templateLight
 //- span= light
--if(product)
-	-light.width = product.width*6
-	-light.height = product.height*6
-	-light.depth = product.depth*6
-	-light.price = product.price
-	-light.wattage = product.option_values[0].value.replace('W','')
-	-light.model = product.model
+-if(growlight)
+	-light.width = growlight.width*6
+	-light.height = growlight.height*6
+	-light.depth = growlight.depth*6
+	-light.price = growlight.price
+	-light.wattage = growlight.wattage
+	-light.model = growlight.model
 	-light.backBoost = false
 	-light.lightOpacity = .75
 	-light.centerOut = false
+	-light.ledBrand = growlight.ledBrand
+	-light.lightType = growlight.lightType
+	-light.vendor = growlight.vendor
 
 .light-container(class=classes)
 	.light(class=light.model, style="width: "+light.width+"px; height: "+light.height+"px")
@@ -85,17 +89,17 @@
 				.light-label.price
 					span= light.priceFormatted()
 				.light-label.type
-					-if(product)
-						-if(product.model == 'Pro')
-							span= product.option_values[1].value
+					-if(light.ledBrand)
+						-if(light.model == 'Pro')
+							span= light.ledBrand
 						-else
-							span= product.option_values[1].value
+							span= light.ledBrand
 							//- span= light.type
 					-else
-						span= light.type
-				-if(product)
+						span= light.lightType
+				-if(light.vendor)
 					.light-label.vendor
-						span= product.vendor
+						span= light.vendor
 
 		-if(light.showInfoButton)
 			.light-info-container
