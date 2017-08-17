@@ -6,9 +6,18 @@
 ## [x]
 
 ## BACK END STUFF ####
-#### [x] Configure SSL certificate and HTTPS always on redirect
-#### [x] Submit website to google.com/webmasters, including http and https urls for indexing,
-#### [x] Submit sitemap.xml to google.com/webmasters
+
+#### Create routes for forum
+
+1. Routes
+⋅⋅1. /forum
+⋅⋅2. /forum/realm (realm can be anything to do with plants and growing)
+⋅⋅⋅⋅1. Realms
+⋅⋅⋅⋅⋅⋅1. General
+⋅⋅⋅⋅⋅⋅2. Lighting
+⋅⋅⋅⋅⋅⋅3. Tents
+⋅⋅⋅⋅⋅⋅4. Water
+⋅⋅⋅⋅⋅⋅5. Nutrients
 
 ## DESIGN WISE ####
 #### [x] Append the about us section to the front page so the whole website is 1 page. By append I mean below the content that's already there but in tune with the website design
@@ -17,6 +26,7 @@
 #### eg.
 #### [x] remove space in front of email
 #### [(didn't do this just left it as a mobile but formatted 04XX XXX XXX)] put brackets around 02 1234 5678 -> (02) 1234 5678
+
 #### [x] capitalize email just like Phone on front page below menu
 #### [x] add mailto: on email href links
 ######## add anything else you come up with here with a checkbox #########
