@@ -34,12 +34,12 @@
 			'password': undefined
 		},
 		'analytics': {
-			'username': seo@lopdesigns.com,
-			'password': lopudesignscommon
+			'username': undefined,
+			'password': undefined
 		},
 		'adwords': {
 			'username': undefined,
-			'password': lopudesignscommon
+			'password': undefined
 		}
 	},
 	'estateLiquidators': {
