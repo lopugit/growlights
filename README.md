@@ -16,11 +16,7 @@
 ### little things ####
 #### eg.
 #### [x] remove space in front of email
-<<<<<<< HEAD
 #### [(didn't do this just left it as a mobile but formatted 04XX XXX XXX)] put brackets around 02 1234 5678 -> (02) 1234 5678
-=======
-#### [] put brackets around 02 1234 5678 -> (02) 1234 5678
->>>>>>> 8bd1dcc322300e353fd332ddd339177a047bdc7d
 #### [x] capitalize email just like Phone on front page below menu
 #### [x] add mailto: on email href links
 ######## add anything else you come up with here with a checkbox #########
