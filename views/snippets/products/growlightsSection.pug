@@ -12,7 +12,7 @@ block content
 
 						h1.model-title= growLightModel[0].model
 						.col-xs-24.product-col
-							-currentModel = growLightModel[0].model
+							-currentModel = growLightModel[0].model.replace(' ','-')
 							//
 								CHECK IF POSSIBLE PUG GITHUB
 								.#{currentModel+"Slider"}

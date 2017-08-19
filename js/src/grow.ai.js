@@ -1,24 +1,340 @@
-var GrowLightSchema = new Schema({
-    height: {
-        type: Number,
-        default: 0.06
-    },
-    width: {
-        type: Number,
-        default: 0.83
-    },
-    depth: {
-        type: Number,
-        default: 0.26
-    },
-    function() {
-        console.log("ran")
+function Growroom(props) {
+    this.height = props.height
+    this.width = props.width
+    this.depth = props.depth
+    this.ratio = props.ratio || 100
+    this.id = props.id || "defaultRoom"
+    this.class = props.class || 'tent'
+    this.scene = props.scene
+    this.render = props.render || true
+    this.lights = props.lights || []
+    this.position = props.position || {
+        x: 0,
+        y: 0,
+        z: 0
     }
-})
+    this.object = new Cube({
+        height: this.height,
+        width: this.width,
+        depth: this.depth,
+        ratio: this.ratio,
+        scene: this.scene,
+        id: this.id,
+        class: this.class,
+        sizeSelf: props.sizeSelf || true,
+        position: this.position || {
+            x: 0,
+            y: 0,
+            z: 0
+        }
+    })
+    this.coverage = []
+    this.addLight = function(props) {
+            //something
+            this.lights.push(props.light)
+        }
+        // Returns height, width, depth in an object
+    this.dimensions = function() {
+        return {
+            height: this.height,
+            width: this.width,
+            depth: this.depth
+        }
+    }
+    this.addChildObject = function(props) {
 
-storage.createCollection('growlights', GrowLightSchema)
+    }
+    this.renderCoverage = function(props) {
+        /* include @param-object faces to be calculated
+         * include @param-interger resolution which is the size of the squares that will be evaluated
+         * include @param-array[string] lights which is an array of light id's you want to calculate the coverage for
+         */
+        props.class = props.class || 'floorCoverage'
+        this.coverage[props.class] = []
+        if (!props.yPlane) {
+            props.yPlane = 0
+        }
+        for (var x = 0; x < Math.floor(this.width / props.resolution); x++) {
+            for (var z = 0; z < Math.floor(this.depth / props.resolution); z++) {
+                if (props.includeY) {
+                    for (var yHere = 0; yHere < Math.floor(this.height / props.resolution); yHere++) {
+                        var y = yHere
+                        var position = {}
+                        position.type = props.position.type || 'normal'
+                        if (props.position) {
+                            if (props.position.type == 'center') {
+                                position.x = ((x * props.resolution) + props.resolution / 2) + ((this.width) - (Math.floor(this.width / props.resolution) * props.resolution)) / 2
+                                if (!props.includeY) {
+                                    position.y = props.yPlane + (props.resolution / 2)
+                                }
+                                position.z = ((z * props.resolution) + (props.resolution / 2)) + ((this.depth) - (Math.floor(this.depth / props.resolution) * props.resolution)) / 2
+                            } else {
+                                position.x = (x * props.resolution)
+                                position.z = (z * props.resolution)
+                                position.y = props.yPlane
+                            }
+                        }
 
-var growlighttt = storage.growlights.add()
+                        if (position.type == 'center') {
+                            position.y = ((y * props.resolution) + (props.resolution) / 2)
+                        } else {
+                            position.y = (y * props.resolution) + props.yPlane
+                        }
+                        // var objectPosition = (function() { return position })
+                        var coverageSquare = new Cube({
+                            width: props.squareSize || 0.05,
+                            height: props.squareSize || 0.05,
+                            depth: props.squareSize || 0.05,
+                            sides: props.sides || ["bottom", "front", "top", "left", "right", "back"],
+                            group: 'coverage',
+                            class: props.class || 'floorCoverage',
+                            id: (props.class + Math.round(Math.random() * 1000) + "R" || 'floorCoverage') + 'X' + x + "Y" + y + "Z" + z + Math.round(Math.random() * 1000) + "R",
+                            parent: this.object,
+                            position: position,
+                            // position: objectPosition(),
+                            type: props.type || '3d'
+
+                        })
+                        coverageSquare.lightSources = []
+                        this.coverage[props.class].push(coverageSquare)
+                    }
+                } else {
+                    var position = {}
+                    position.type = props.position.type || 'normal'
+                    if (props.position) {
+                        if (props.position.type == 'center') {
+                            position.x = ((x * props.resolution) + props.resolution / 2) + ((this.width) - (Math.floor(this.width / props.resolution) * props.resolution)) / 2
+                            if (!props.includeY) {
+                                position.y = props.yPlane + (props.resolution / 2)
+                            }
+                            position.z = ((z * props.resolution) + (props.resolution / 2)) + ((this.depth) - (Math.floor(this.depth / props.resolution) * props.resolution)) / 2
+                        } else {
+                            position.x = (x * props.resolution)
+                            position.z = (z * props.resolution)
+                            position.y = props.yPlane
+                        }
+                    }
+                    // var objectPosition = (function() { return position })
+                    var coverageSquare = new Cube({
+                        width: props.squareSize || props.resolution || 0.05,
+                        height: props.squareSize || props.resolution || 0.05,
+                        depth: props.squareSize || props.resolution || 0.05,
+                        sides: props.sides || ["bottom", "front", "top", "left", "right", "back"],
+                        group: 'coverage',
+                        class: props.class || 'floorCoverage',
+                        id: (props.class + Math.round(Math.random() * 1000) + "R" || 'floorCoverage') + 'X' + x + "Y" + Math.round(position.y) + "Z" + z + Math.round(Math.random() * 100),
+                        parent: this.object,
+                        position: position,
+                        // position: objectPosition(),
+                        type: props.type || '3d'
+                    })
+                    coverageSquare.lightSources = []
+                    this.coverage[props.class].push(coverageSquare)
+
+                }
+            }
+        }
+        if (props.calcLumens !== false) {
+            for (var point = 0; point < this.coverage[props.class].length; point++) {
+                this.coverage[props.class][point].lumensPsqm = 0
+                for (var light = 0; light < this.lights.length; light++) {
+                    // console.log("this is the current light.id")
+                    // console.log(this.lights[light].id)
+                    // console.log("these are the led diodes of the current light")
+                    // console.log(this.lights[light].leds.diodes[0].parent.id)
+                    // console.log(this.lights[light].leds.diodes)
+
+                    this.lights[light].leds.diodes.forEach((index, diode) => {
+                            // console.log("light number")
+                            // console.log(light);
+                            // console.log("actual diode")
+                            // console.log(index.parent.id)
+                            // console.log("this is the current light.id")
+                            // console.log(this.lights[light].id)
+                            // console.log("diode number");
+                            // console.log(diode);
+                            // if(this.lights[light].position.type ){
+                            //
+                            // }
+                            // console.log({
+                            //     diode: tempDiode,
+                            //     x: this.coverage[props.class][point].position.x,
+                            //     y: this.coverage[props.class][point].position.y,
+                            //     z: this.coverage[props.class][point].position.z,
+
+                            // })
+                            var thisDiode = diode
+                            if (this.coverage[props.class][point].position.type == 'center') {
+                                if (this.coverage[props.class][point].id.indexOf('X1Y1Z0') >= 0) {
+                                    var tempDiode = this.lights[light].leds.diodes[thisDiode]
+                                        // console.log("this is the y position we use to calculate the coverage")
+                                        // console.log(this.coverage[props.class][point]);
+                                    var position = this.coverage[props.class][point].position
+                                        // console.log("why the y in the position always the same")
+                                        // console.log(position);
+                                    var result = CoverageAt({
+                                        diode: tempDiode,
+                                        x: position.x,
+                                        y: position.y,
+                                        z: position.z,
+
+                                    })
+
+
+                                    // console.log("we are on light # " + light)
+                                    // console.log("the diode we're calculating the light strength from is")
+                                    // console.log(tempDiode.parent.id);
+                                    // console.log("the old lumensPsqm at the point is: ")
+                                    // console.log(this.coverage[props.class][point].position);
+                                    // console.log(this.coverage[props.class][point].lumensPsqm);
+                                    this.coverage[props.class][point].lightSources.push(tempDiode)
+                                    this.coverage[props.class][point].lumensPsqm += result
+                                        // console.log("the result was: " + result);
+                                        // console.log("so the new lumensPsqm is");
+                                        // console.log(this.coverage[props.class][point].lumensPsqm);
+                                } else {
+                                    var tempDiode = this.lights[light].leds.diodes[thisDiode]
+                                        // console.log("this is the y position we use to calculate the coverage")
+                                        // console.log(this.coverage[props.class][point]);
+                                    var position = this.coverage[props.class][point].position
+                                        // console.log("why the y in the position always the same")
+                                        // console.log(position);
+                                    var result = CoverageAt({
+                                        diode: tempDiode,
+                                        x: position.x,
+                                        y: position.y,
+                                        z: position.z,
+
+                                    })
+
+                                    this.coverage[props.class][point].lightSources.push(tempDiode)
+                                    this.coverage[props.class][point].lumensPsqm += result
+                                }
+                                // console.log("what are these results")
+                                // console.log(result)
+
+                            } else {
+
+                                var tempDiode = this.lights[light].leds.diodes[thisDiode]
+                                    // console.log("this is the y position we use to calculate the coverage")
+                                    // console.log(this.coverage[props.class][point]);
+                                var position = this.coverage[props.class][point].position
+                                    // console.log("why the y in the position always the same")
+                                    // console.log(position);
+                                var result = CoverageAt({
+                                    diode: tempDiode,
+                                    x: position.x,
+                                    y: position.y,
+                                    z: position.z,
+
+                                })
+
+                                var results = []
+                                for (var num = 0; num < 4; num++) {
+                                    if (num == 0) {
+                                        var xAdjustment = (this.coverage[props.class][point].width / 2)
+                                        var zAdjustment = (this.coverage[props.class][point].depth / 2)
+                                    } else if (num == 1) {
+                                        var xAdjustment = (this.coverage[props.class][point].width / 2) * -1
+                                        var zAdjustment = (this.coverage[props.class][point].depth / 2)
+                                    } else if (num == 2) {
+                                        var xAdjustment = (this.coverage[props.class][point].width / 2)
+                                        var zAdjustment = (this.coverage[props.class][point].depth / 2) * -1
+                                    } else if (num == 3) {
+                                        var xAdjustment = (this.coverage[props.class][point].width / 2) * -1
+                                        var zAdjustment = (this.coverage[props.class][point].depth / 2) * -1
+                                    }
+                                    results.push(CoverageAt({
+                                        diode: tempDiode,
+                                        x: this.coverage[props.class][point].position.x + xAdjustment,
+                                        y: this.coverage[props.class][point].position.y,
+                                        z: this.coverage[props.class][point].position.z + zAdjustment,
+                                    }))
+                                }
+                                var averageOf = (results.reduce((a, b) => a + b, 0)) / results.length
+                                this.coverage[props.class][point].lightSources.push(tempDiode)
+
+                                this.coverage[props.class][point].lumensPsqm += averageOf
+                            }
+                        })
+                        // for (var diode = 0; diode < this.lights[light].leds.diodes.length; diode++) {}
+                    this.coverage[props.class][point].lumens = this.coverage[props.class][point].lumensPsqm * ((this.coverage[props.class][point].width * this.coverage[props.class][point].depth))
+                }
+                var str = '<div class="floorGridData" id="' + this.coverage[props.class][point].id + 'data"><div class="data">Lux: ' + Math.round(this.coverage[props.class][point].lumensPsqm) + '</div><div class="data">Lumens: ' + Math.round(this.coverage[props.class][point].lumens) + '</div></div>'
+                    // var html = $.parseHtml(str)
+
+                // var $dataElement = $('<div>', {id:this.coverage[props.class][point].id+"data", class:'floorGridData'})
+                $("#" + this.coverage[props.class][point].id).append(str)
+                    // this.coverage[props.class][point]
+            }
+            var highestNum = 0
+            for (var point = 0; point < this.coverage[props.class].length; point++) {
+                if (this.coverage[props.class][point].lumensPsqm > highestNum) {
+                    highestNum = this.coverage[props.class][point].lumensPsqm
+                }
+            }
+            for (var point = 0; point < this.coverage[props.class].length; point++) {
+                if (highestNum > 0) {
+                    // console.log(this.coverage[props.class][point].id)
+                    if (this.coverage[props.class][point].id.indexOf('X1Y1Z0') >= 0) {
+                        // console.log("we are on light # " + light)
+                        // console.log("this is where we set the opacity")
+                        // console.log(this.coverage[props.class][point].position);
+                        // console.log(this.coverage[props.class][point].lumensPsqm);
+                    }
+
+                    $('#' + this.coverage[props.class][point].scene.id + ' #' + this.coverage[props.class][point].id + ' .face').css({
+                        // background	: '#ffffff',
+                        opacity: this.coverage[props.class][point].lumensPsqm / (highestNum * 2)
+                    })
+                } else {
+                    $('#' + this.coverage[props.class][point].scene.id + ' #' + this.coverage[props.class][point].id + ' .face').css({
+                        // background	: '#ffffff',
+                        opacity: 1
+                    })
+
+                }
+            }
+        }
+
+
+
+    }
+    if (props.defaultLight !== true) {
+        this.lights = props.lights || []
+    } else if (props.defaultLight == true) {
+        this.lights = props.lights || [
+            green360W = new GrowLight({
+                width: .83,
+                height: .06,
+                depth: .26,
+                id: "green360W",
+                name: "Mars Green 360W",
+                scene: this.scene,
+                render: props.renderLights || true,
+                sizeSelf: true,
+                position: {
+                    x: this.width / 2,
+                    y: this.height - (this.height / 3),
+                    z: this.depth / 2
+                },
+                parent: this.object,
+                leds: {
+                    types: [{
+                        nm: 440,
+                        angle: 140,
+
+                    }]
+                }
+            })
+        ]
+    }
+    if (props.lights !== undefined) {
+        for (i = 0; i < props.lights.length; i++) {
+            this.lights[props.lights[i].id] = props.lights[i]
+        }
+    }
+}
 
 function GrowLight(props) {
     // Object.assign(this, new GrowLightSchema({
@@ -66,12 +382,9 @@ function GrowLight(props) {
                     this.leds.layout.xOffset = (this.width - this.leds.width) / 2
                     this.leds.depth = this.leds.layout.zPadding * (this.leds.layout.zNum - 1)
                     this.leds.layout.zOffset = (this.depth - this.leds.depth) / 2
-                        // console.log("here's the goodies")
-                        // console.log(this.leds)
                 }
             }
         }
-        //console.log(this.leds)
     }
 
     this.switches = props.switches
@@ -114,37 +427,23 @@ function GrowLight(props) {
         var numOfTypes = this.leds.ammount
         currentType = 0
         quotaFilled = 0
-        random = []
+        randomLedPositions = []
         number = 0
-        while (random.length < numOfTypes) {
-            // console.log(random.length+" random.length and "+numOfTypes+" this.leds.ammount");
-            if (random.indexOf(number) < 0) {
-                random.push(number)
+        while (randomLedPositions.length < numOfTypes) {
+            if (randomLedPositions.indexOf(number) < 0) {
+                randomLedPositions.push(number)
+                this.leds.diodes.push(undefined)
             }
             number = Math.ceil(Math.random() * numOfTypes - 1)
         }
+        console.log(randomLedPositions)
         for (var i = 0; i < this.leds.ammount; i++) {
             // if(i == 0){
-            // 	console.log("random list of diodes is");
-            // 	console.log(random);
             // }
-            //console.log("do we for some reason use the same i here: "+i)
-            // console.log("i equals: ");
-            // console.log(i);
-            // console.log("and the ammount of diodes of the current Type we need is: ");
-            // console.log(Math.round((this.leds.types[currentType].ratio / 100)*numOfTypes)+quotaFilled)
             if (i == Math.round((this.leds.types[currentType].ratio / 100) * numOfTypes) + quotaFilled) {
-                // console.log("quotaFilled: ");
-                // console.log(quotaFilled);
-                // console.log("if i and that number equal, we go to the next type");
                 quotaFilled += Math.round((this.leds.types[currentType].ratio / 100) * numOfTypes)
                 currentType++
-                // console.log("quotaFilled: ");
-                // console.log(quotaFilled);
 
-                // //console.log(quotaFilled)
-                // //console.log("incremented")
-                // //console.log(quotaFilled)
 
             }
             var position = {
@@ -152,56 +451,53 @@ function GrowLight(props) {
                     y: 0,
                     z: 0
                 }
-                // console.log("this is the layout: ")
-                // console.log(this.leds.layout)
+                // Loops through all possible z axis positions of a diode and places
+                // the diode at an x position inside a z position group of options which matches the randomLedPosition[i] spot
             for (z = 0; z < this.leds.layout.zNum; z++) {
-                // console.log(random[i]+" random[i]")
-                if ((random[i] < (this.leds.layout.xNum * z) + this.leds.layout.xNum)) {
+                if ((randomLedPositions[i] < (this.leds.layout.xNum * z) + this.leds.layout.xNum)) {
                     position = {
-                        x: ((((this.leds.layout.xNum * (z + 1)) - (random[i]) - 1) * this.leds.layout.xPadding) + this.leds.layout.xOffset),
+                        x: ((((this.leds.layout.xNum * (z + 1)) - (randomLedPositions[i]) - 1) * this.leds.layout.xPadding) + this.leds.layout.xOffset),
                         z: (z * this.leds.layout.zPadding) + this.leds.layout.zOffset,
-                        y: 0,
-                        num: random[i]
+                        y: 0
                     }
                     position.ox = this.position.lx + position.x
                     position.oy = this.position.ly + position.y
                     position.oz = this.position.lz + position.z
-                        // if(position.x < .2){
-                        // 	console.log("a small position: ");
-                        // }
-                        // console.log("set position to: ")
-                        // console.log(position)
+                    var led = new Diode({
+                            wavelength: this.leds.types[currentType].nm || this.leds.types[currentType].nm,
+                            nm: this.leds.types[currentType].nm || this.leds.types[currentType].wavelength,
+                            temperature: this.leds.types[currentType].temperature,
+                            colour: this.leds.types[currentType].colour,
+                            angle: this.leds.types[currentType].angle,
+                            ratio: this.leds.types[currentType].ratio,
+                            par: this.leds.types[currentType].par,
+                            id: "diodeC" + i + "d" + randomLedPositions[i] + "x" + Math.round(position.x / this.leds.layout.xPadding) + "z" + Math.round(position.z / this.leds.layout.zPadding),
+                            ammount: Math.round((this.leds.types[currentType].ratio / 100) * numOfTypes),
+                            position: position,
+                            parent: this.object,
+                            type: '3d',
+                            // sides				: ['front', 'bottom'],
+                            sizeSelf: false,
+                            width: this.leds.layout.width,
+                            depth: this.leds.layout.depth,
+                            height: this.leds.layout.height || this.leds.layout.width,
+                            number: randomLedPositions[i]
+                        })
+                        // console.log("this is the diode that's about to be pushed")
+                        // console.log(led);
+                    this.leds.diodes[randomLedPositions[i]] = led
+                        // console.log("this is the diode in the diode array after it's been pushed")
+                        //     // console.log(this.leds.diodes[randomLedPositions[i]]);
+                        // console.log(this.leds.diodes[randomLedPositions[i]].parent.id);
+
                     break
                 }
             }
-            // console.log("We get stuck on diode/i #: ")
-            // console.log(i);
-            // console.log("do we get stuck making Diodes() in Growlight()?")
-            // console.log("diode"+i+"X"+Math.round(position.x/this.leds.layout.xPadding)+"Z"+Math.round(position.z/this.leds.layout.zPadding))
-            var led = new Diode({
-                wavelength: this.leds.types[currentType].nm || this.leds.types[currentType].nm,
-                nm: this.leds.types[currentType].nm || this.leds.types[currentType].wavelength,
-                temperature: this.leds.types[currentType].temperature,
-                colour: this.leds.types[currentType].colour,
-                angle: this.leds.types[currentType].angle,
-                ratio: this.leds.types[currentType].ratio,
-                par: this.leds.types[currentType].par,
-                id: "diodeC" + i + "d" + random[i] + "x" + Math.round(position.x / this.leds.layout.xPadding) + "z" + Math.round(position.z / this.leds.layout.zPadding),
-                ammount: Math.round((this.leds.types[currentType].ratio / 100) * numOfTypes),
-                position: position,
-                parent: this.object,
-                type: '3d',
-                // sides				: ['front', 'bottom'],
-                sizeSelf: false,
-                width: this.leds.layout.width,
-                depth: this.leds.layout.depth,
-                height: this.leds.layout.height || this.leds.layout.width,
-            })
-            this.leds.diodes[random[i]] = led
-                // var diode = null
-                // //console.log(this.leds.diodes[i])
+            // var diode = null
         }
-        //console.log(this.leds.diodes)
+        console.log("this is the diode array");
+        console.log(this.leds.diodes);
+
     }
     this.getPosition = function(i) {
         if ((this.leds.x * 100 / this.leds.padding.x) * (this.leds.z * 100 / this.leds.padding.z)) {
@@ -214,7 +510,6 @@ function GrowLight(props) {
         }
     }
     if (props.makeDiodes || props.leds.makeDiodes == true) {
-        //console.log("making diodes")
         this.makeDiodes()
     }
 }
@@ -232,12 +527,7 @@ function Diode(props) {
     this.position = props.position
     this.parent = props.parent
     this.id = props.id
-        //console.log(props.sizeSelf+" is sizeSelf before making diode cubes");
-        //console.log(props.sizeSelf | true)
-        // console.log("do we get stuck making Cubes() in Diodes()? no")
-        // console.log("do we include the right scene and pxr?")
-        // console.log(props.parent.scene);
-        // console.log(props.parent.scene.pxr);
+    this.number = props.number
     this.object = props.object || new Cube({
         width: props.width || .002,
         height: props.height || .002,
@@ -277,64 +567,23 @@ function CoverageAt(props) {
     Output:
     Then produces a grid of data filled with all the radiation levels at those points
     */
-    // console.log('hoo')
-    // console.log(props);
-
-    var lightHeight = props.diode.position.oy - props.y
-    if (lightHeight < 0) {
-        // lightHeight = lightHeight*-1
-        return 0
-    }
-    // console.log("height to use" );
-    // console.log(lightHeight)
-    // console.log(getTanDeg(props.diode.angle/2))
-    // var lightHorizontal = getTanDeg(props.diode.angle/2)*lightHeight
-    var lightCrowZ = Math.sqrt(Math.pow(props.diode.position.oz - props.z, 2))
-    var lightCrowX = Math.sqrt(Math.pow(props.diode.position.ox - props.x, 2))
-    var lightCrow = Math.sqrt(Math.pow(lightCrowZ, 2) * Math.pow(lightCrowX, 2))
-        // console.log("light crow:");
-        // console.log(lightCrow)
-    var angleFromLed = Math.atan(lightCrow / lightHeight)
-        // console.log("light height")
-        // console.log(lightHeight);
-        // console.log(angleFromLed);
-        // console.log((angleFromLed*180)/Math.PI)
-
-    // var constantOfProportionality = 0.14729
-    var constantOfProportionality = 2.56
-    this.energyAtPoint = function(h, x, y) {
-
-        var lmpsqm = constantOfProportionality * ((Math.pow(h, 1 + 3.8317)) / Math.pow(Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2) + Math.pow(h, 2)), 3 + 3.8317))
-            // console.log("lumens per square metre at");
-            // console.log(lmpsqm)
+    this.energyAtPoint = function(x, y, z) {
+        var lmpsqm = constantOfProportionality * ((Math.pow(y, 1 + 3.8317)) / Math.pow(Math.sqrt(Math.pow(x, 2) + Math.pow(z, 2) + Math.pow(y, 2)), 3 + 3.8317))
         return lmpsqm
     }
-    return this.energyAtPoint(lightHeight, lightCrow, 0)
-        // this.resolution = props.resolution || 10
-        // this.lightSources = props.lightSources
-        // // Loops over all light sources
-        // for(l=0;l<this.lightSources.length;l++){
-        // 	if(this.lightSources[l].type == "led"){
-        // 		// Loops over every square in the grid by looping over every horizontal oblong, and every vertical square in that oblong. Allows us to keep track of which square we're at
-        // 		for(x=0;x<Math.round(this.width/this.resolution);x++){
-        // 			for(y=0;y<Math.round(this.height/this.resolution);y++){
-        // 				for(z=0;Math.round(this.depth/this.resolution);z++){
-        // 					// Loops over every diode in the given LED
-        // 					for(i=0;i<this.lightSources[l].leds.diodes.length;i++){
-        // 						var diodePosition = this.lightSources[l].getPosition(i)
-        // 						if(this.lightSources[l].leds.diodes[i].hitsSpot({
-        // 							x1		: x*this.resolution,
-        // 							y1		: y*this.resolution,
-        // 							z1		: z*this.resolution
-        // 						})){
-        //
-        // 						}
-        // 					}
-        // 				}
-        // 			}
-        // 		}
-        // 	}
-        // }
+    var lightHeight = props.diode.position.oy - props.y
+    if (lightHeight < 0) {
+        return 0
+    } else {
+        var lightCrowZ = props.diode.position.oz - props.z
+        var lightCrowX = props.diode.position.ox - props.x
+            // var lightCrow = Math.sqrt(Math.pow(lightCrowZ, 2) * Math.pow(lightCrowX, 2))
+            // var angleFromLed = Math.atan(lightCrow / lightHeight)
+            // var constantOfProportionality = 2.56
+        var constantOfProportionality = 10
+
+        return this.energyAtPoint(lightCrowX, lightHeight, lightCrowZ)
+    }
 
 
 }
@@ -487,7 +736,6 @@ function Plant(props) {
                     if (flower.step() > 0) {
                         return acc.concat([flower]);
                     } else {
-                        console.log("deleting flower", flower.idx);
                         flower.delete();
                         delete branchesInUse[flower.idx];
                         return acc;
@@ -605,3 +853,23 @@ function Plant(props) {
         init();
     })();
 }
+
+var GrowLightSchema = new Schema({
+    height: {
+        type: Number,
+        default: 0.06
+    },
+    width: {
+        type: Number,
+        default: 0.83
+    },
+    depth: {
+        type: Number,
+        default: 0.26
+    },
+    function() {}
+})
+
+storage.createCollection('growlights', GrowLightSchema)
+
+var growlighttt = storage.growlights.add()

@@ -20,7 +20,7 @@ function Scene(props) {
     this.pxr = props.pxr
     this.objects = props.objects || {}
     this.render = function() {
-        $("." + this.id).css(this.css)
+        $("#" + this.id).css(this.css)
     }
     this.addRootObject = function(object) {
         if (object.id) {
@@ -254,18 +254,18 @@ function Cube(props) {
             // If the cube is part of a group, we check if the group exists, if not, we make the group div and append our new object
             // In the group, if it exists we just append the new object
             if (this.group !== undefined) {
-                if ($("." + this.scene.id + parentId + " > #" + this.group).length < 1) {
+                if ($("#" + this.scene.id + parentId + " > #" + this.group).length < 1) {
                     //console.log("The group "+this.group+" doesn't exist yet, let's manifest it")
                     var $groupElement = $('<div>', {
                         id: this.group,
                         class: 'group'
                     })
-                    $("." + this.scene.id + parentId).append($groupElement)
+                    $("#" + this.scene.id + parentId).append($groupElement)
                     var $element = $('<div>', {
                         id: this.id,
                         class: this.class
                     })
-                    $("." + this.scene.id + parentId + " #" + this.group).append($element)
+                    $("#" + this.scene.id + parentId + " #" + this.group).append($element)
                 } else {
                     //console.log("the group already exists and we just append object")
                     //console.log(this)
@@ -274,23 +274,23 @@ function Cube(props) {
                             class: this.class
                         })
                         //console.log(parentId)
-                    $("." + this.scene.id + parentId + " #" + this.group).append($element)
+                    $("#" + this.scene.id + parentId + " #" + this.group).append($element)
                 }
             } else {
                 var $element = $('<div>', {
                     id: this.id,
                     class: this.class
                 })
-                $("." + this.scene.id + parentId).append($element)
+                $("#" + this.scene.id + parentId).append($element)
             }
             if (this.type == '2d') {
                 var $face = $('<div>', {
                     id: 'front',
                     class: 'face'
                 })
-                $("." + this.scene.id + " #" + this.id).append($face)
+                $("#" + this.scene.id + " #" + this.id).append($face)
                     //console.log("SO THIS SHOULD NOT EVEN RUN")
-                $("." + this.scene.id + parentId + " #" + this.id + " > #" + this.sides[0]).css(this.faces['front'].css)
+                $("#" + this.scene.id + parentId + " #" + this.id + " > #" + this.sides[0]).css(this.faces['front'].css)
 
             } else if (this.type == '3d') {
                 for (var l = 0; l < this.sides.length; l++) {
@@ -305,8 +305,8 @@ function Cube(props) {
                         id: this.sides[l],
                         class: 'face'
                     })
-                    $("." + this.scene.id + parentId + " #" + this.id).append($face)
-                    $("." + this.scene.id + parentId + " #" + this.id + " > #" + this.sides[l]).css(this.faces[this.sides[l]].css)
+                    $("#" + this.scene.id + parentId + " #" + this.id).append($face)
+                    $("#" + this.scene.id + parentId + " #" + this.id + " > #" + this.sides[l]).css(this.faces[this.sides[l]].css)
                 }
             }
             //console.log("this is this")
@@ -315,7 +315,7 @@ function Cube(props) {
             if (this.sizeSelf == true) {
                 //console.log("SHOULD ONLY SIZE SELF TWICE")
                 //console.log("sizing self "+this.widthPx)
-                $("." + this.scene.id + parentId + " #" + this.id).css({
+                $("#" + this.scene.id + parentId + " #" + this.id).css({
                     width: this.widthPx,
                     height: this.heightPx
                 })
@@ -338,7 +338,7 @@ function Cube(props) {
 
                     if (this.position.z < 0) {
                         // //console.log()
-                        $("." + this.scene.id + " #" + this.id).css({
+                        $("#" + this.scene.id + " #" + this.id).css({
                                 transform: "translate3d(" + Math.round(((this.position.x * this.scene.pxr)) - adjustX) + "px," + Math.round((this.position.y * this.scene.pxr) + adjustY) * -1 + "px," + Math.round(((this.position.z * this.scene.pxr) - adjustZ) * -1) + "px) rotateX(" + this.position.rx + "deg) rotateY(" + this.position.ry + "deg) rotateZ(" + this.position.rz + "deg)"
                             })
                             // console.log("translate3d("+Math.round(((this.position.x*this.scene.pxr))-adjustX)+"px,"+Math.round((this.position.y*this.scene.pxr)+adjustY)*-1+"px,"+Math.round(((this.position.z*this.scene.pxr)-adjustZ)*-1)+"px) rotateX("+this.position.rx+"deg) rotateY("+this.position.ry+"deg) rotateZ("+this.position.rz+"deg)")
@@ -355,7 +355,7 @@ function Cube(props) {
                             var parentId = ''
                         }
                         //console.log("#"+this.scene.id+parentId+" #"+this.id);
-                        $("." + this.scene.id + parentId + " #" + this.id).css({
+                        $("#" + this.scene.id + parentId + " #" + this.id).css({
                                 transform: "translate3d(" + Math.round(((this.position.x * this.scene.pxr)) - adjustX) + "px," + Math.round((this.position.y * this.scene.pxr) + adjustY) * -1 + "px," + Math.round(((this.position.z * this.scene.pxr) - adjustZ) * -1) + "px) rotateX(" + this.position.rx + "deg) rotateY(" + this.position.ry + "deg) rotateZ(" + this.position.rz + "deg)"
                             })
                             //console.log("does this work?");
@@ -365,7 +365,7 @@ function Cube(props) {
                     }
                 } else {
                     // //console.log("we are running this")
-                    $("." + this.scene.id + " #" + this.id).css({
+                    $("#" + this.scene.id + " #" + this.id).css({
                         transform: "translate3d(" + Math.round(((this.position.x * this.scene.pxr))) + "px," + Math.round(this.position.y * this.scene.pxr) + "px," + Math.round(((this.position.z * this.scene.pxr))) + "px) rotateX(" + this.position.rx + "deg) rotateY(" + this.position.ry + "deg) rotateZ(" + this.position.rz + "deg)",
                     })
                     console.log("translate3d(" + Math.round(((this.position.x * this.scene.pxr))) + "px," + Math.round(this.position.y * this.scene.pxr) + "px," + Math.round(((this.position.z * this.scene.pxr))) + "px) rotateX(" + this.position.rx + "deg) rotateY(" + this.position.ry + "deg) rotateZ(" + this.position.rz + "deg)")
@@ -396,11 +396,11 @@ function Cube(props) {
         // console.log("and "+this.width+" should be less than 1 for diodes");
         if (this.width >= 1) {
             if (this.scene.pxr == undefined) {
-                this.scene.pxr = ($("." + this.scene.id)[0].offsetWidth * (this.ratio / 100)) / this.width
+                this.scene.pxr = ($("#" + this.scene.id)[0].offsetWidth * (this.ratio / 100)) / this.width
             }
         } else if (this.width < 1) {
             if (this.scene.pxr == undefined) {
-                this.scene.pxr = ($("." + this.scene.id)[0].offsetWidth * (this.ratio / 100)) * this.width
+                this.scene.pxr = ($("#" + this.scene.id)[0].offsetWidth * (this.ratio / 100)) * this.width
             }
         }
         this.widthPx = this.scene.pxr * this.width
@@ -414,266 +414,4 @@ function Cube(props) {
     }
 
 
-}
-
-function Growroom(props) {
-    this.height = props.height
-    this.width = props.width
-    this.depth = props.depth
-    this.ratio = props.ratio || 100
-    this.id = props.id || "defaultRoom"
-    this.class = props.class || 'tent'
-    this.scene = props.scene
-    this.render = props.render || true
-    this.lights = props.lights || []
-    this.position = props.position || {
-        x: 0,
-        y: 0,
-        z: 0
-    }
-    this.object = new Cube({
-        height: this.height,
-        width: this.width,
-        depth: this.depth,
-        ratio: this.ratio,
-        scene: this.scene,
-        id: this.id,
-        class: this.class,
-        sizeSelf: props.sizeSelf || true,
-        position: this.position || {
-            x: 0,
-            y: 0,
-            z: 0
-        }
-    })
-    this.coverage = []
-    this.addLight = function(props) {
-            //something
-        }
-        // Returns height, width, depth in an object
-    this.dimensions = function() {
-        return {
-            height: this.height,
-            width: this.width,
-            depth: this.depth
-        }
-    }
-    this.addChildObject = function(props) {
-
-    }
-    this.renderCoverage = function(props) {
-        /* include @param-object faces to be calculated
-         * include @param-interger resolution which is the size of the squares that will be evaluated
-         * include @param-array[string] lights which is an array of light id's you want to calculate the coverage for
-         */
-        props.class = props.class || 'floorCoverage'
-        this.coverage[props.class] = []
-        if (props.yPlane == undefined) {
-            props.yPlane = 0.02
-        }
-        props.includeY == props.includeY || false
-        for (var x = 0; x < Math.floor(this.width / props.resolution); x++) {
-            for (var z = 0; z < Math.floor(this.depth / props.resolution); z++) {
-                var position = {}
-                position.type = props.position.type || 'normal'
-                if (props.position !== undefined) {
-                    if (props.position.type == 'center') {
-                        position.x = ((x * props.resolution) + props.resolution / 2) + ((this.width) - (Math.floor(this.width / props.resolution) * props.resolution)) / 2
-                        if (props.includeY == false) {
-                            position.y = props.yPlane || 0.02
-                        }
-                        position.z = ((z * props.resolution) + (props.resolution / 2)) + ((this.depth) - (Math.floor(this.depth / props.resolution) * props.resolution)) / 2
-                    } else {
-                        // props.position.xOffset = ((this.width)-(Math.floor(this.width/props.resolution)*props.resolution))/2
-                        position.x = (x * props.resolution)
-                        position.z = (z * props.resolution)
-                        position.y = props.yPlane
-                    }
-                }
-                if (props.includeY == true) {
-                    for (var y = 0; y < Math.floor(this.height / props.resolution); y++) {
-                        if (position.type == 'center') {
-                            position.y = ((y * props.resolution) + (props.resolution * .12) / 2)
-                        } else {
-                            position.y = (y * props.resolution) + props.yPlane
-                        }
-                        var coverageSquare = new Cube({
-                            width: props.squareSize || 0.05,
-                            height: props.squareSize || 0.05,
-                            depth: props.squareSize || 0.05,
-                            sides: props.sides,
-                            group: 'coverage',
-                            class: props.class || 'floorCoverage',
-                            id: (props.class + Math.round(Math.random() * 1000) + "R" || 'floorCoverage') + 'X' + x + "Y" + y + "Z" + z + Math.round(Math.random() * 1000) + "R",
-                            parent: this.object,
-                            position: position
-
-                        })
-                        coverageSquare.lightSources = []
-                        this.coverage[props.class].push(coverageSquare)
-                    }
-                } else {
-                    var coverageSquare = new Cube({
-                        width: props.squareSize || props.resolution || 0.05,
-                        height: props.squareSize || props.resolution || 0.05,
-                        depth: props.squareSize || props.resolution || 0.05,
-                        sides: props.sides || ["bottom", "front", "top", "left", "right", "back"],
-                        group: 'coverage',
-                        class: props.class || 'floorCoverage',
-                        id: (props.class + Math.round(Math.random() * 1000) + "R" || 'floorCoverage') + 'X' + x + "Y" + Math.round(position.y) + "Z" + z + Math.round(Math.random() * 100),
-                        parent: this.object,
-                        position: position
-                    })
-                    coverageSquare.lightSources = []
-                    this.coverage[props.class].push(coverageSquare)
-
-                }
-            }
-        }
-        if (props.calcLumens !== false) {
-
-            for (var point = 0; point < this.coverage[props.class].length; point++) {
-                this.coverage[props.class][point].lumensPsqm = 0
-                    // console.log(this.coverage.length);
-                for (var light = 0; light < this.lights.length; light++) {
-                    // console.log(this.lights);
-                    // console.log(light)
-                    // console.log("this is the ammount of lights we do")
-                    for (var diode = 0; diode < this.lights[light].leds.diodes.length; diode++) {
-                        // if(this.lights[light].position.type ){
-                        //
-                        // }
-                        // console.log(this.lights.length);
-                        var tempDiode = this.lights[light].leds.diodes[diode]
-                            // console.log(this.coverage[props.class][point])
-                        if (this.coverage[props.class][point].position.type == 'center') {
-                            // console.log("it was center");
-                            var result = CoverageAt({
-                                diode: tempDiode,
-                                x: this.coverage[props.class][point].position.x,
-                                y: this.coverage[props.class][point].position.y,
-                                z: this.coverage[props.class][point].position.z,
-
-                            })
-                            this.coverage[props.class][point].lightSources.push(tempDiode)
-                                // console.log(this.coverage[props.class][point].lumens);
-                                // console.log(result);
-                                // console.log(result)
-                            this.coverage[props.class][point].lumensPsqm += result
-                                // console.log(this.coverage[props.class][point].lumens);
-                                // console.log(this.coverage[props.class][point].lightSources)
-                        } else {
-                            // console.log("It wasn't!");
-                            var results = []
-                            for (var num = 0; num < 4; num++) {
-                                if (num == 0) {
-                                    var xAdjustment = (this.coverage[props.class][point].width / 2)
-                                    var zAdjustment = (this.coverage[props.class][point].depth / 2)
-                                } else if (num == 1) {
-                                    var xAdjustment = (this.coverage[props.class][point].width / 2) * -1
-                                    var zAdjustment = (this.coverage[props.class][point].depth / 2)
-                                } else if (num == 2) {
-                                    var xAdjustment = (this.coverage[props.class][point].width / 2)
-                                    var zAdjustment = (this.coverage[props.class][point].depth / 2) * -1
-                                } else if (num == 3) {
-                                    var xAdjustment = (this.coverage[props.class][point].width / 2) * -1
-                                    var zAdjustment = (this.coverage[props.class][point].depth / 2) * -1
-                                }
-                                results.push(CoverageAt({
-                                    diode: tempDiode,
-                                    x: this.coverage[props.class][point].position.x + xAdjustment,
-                                    y: this.coverage[props.class][point].position.y,
-                                    z: this.coverage[props.class][point].position.z + zAdjustment,
-                                }))
-                            }
-                            // console.log(results);
-                            var averageOf = (results.reduce((a, b) => a + b, 0)) / results.length
-                                // console.log(averageOf)
-                                // console.log(this.coverage[props.class][point]);
-                            this.coverage[props.class][point].lightSources.push(tempDiode)
-                            this.coverage[props.class][point].lumensPsqm += averageOf
-                            if (this.coverage[props.class][point].id == 'floorGridX5Y0Z3') {
-                                console.log(this.coverage[props.class][point].lumensPsqm);
-                                // console.log(this.coverage[props.class][point]);
-                                // console.log(this.coverage[props.class[point]])
-                            }
-                        }
-                    }
-                    this.coverage[props.class][point].lumens = this.coverage[props.class][point].lumensPsqm * ((this.coverage[props.class][point].width * this.coverage[props.class][point].depth))
-                        // console.log(this.coverage[props.class][point]);
-                }
-                // console.log("the point we want")
-                // console.log(this.coverage[props.class][point])
-                var str = '<div class="floorGridData" id="' + this.coverage[props.class][point].id + 'data" style="transform: rotateX(90deg) translate3d(0px, -' + 40 * 2 + 'px, -16px)"><div class="data">Lux: ' + Math.round(this.coverage[props.class][point].lumensPsqm) + '</div><div class="data">Lumens: ' + Math.round(this.coverage[props.class][point].lumens) + '</div></div>'
-                    // var html = $.parseHtml(str)
-
-                // var $dataElement = $('<div>', {id:this.coverage[props.class][point].id+"data", class:'floorGridData'})
-                $("#" + this.coverage[props.class][point].id + ' #' + this.coverage[props.class][point].sides[0]).append(str)
-                    // this.coverage[props.class][point]
-            }
-            var highestNum = 0
-            for (var point = 0; point < this.coverage[props.class].length; point++) {
-                // console.log(this.coverage)
-                if (this.coverage[props.class][point].lumensPsqm > highestNum) {
-                    // console.log(this.coverage[props.class][point]);
-                    highestNum = this.coverage[props.class][point].lumensPsqm
-                }
-                // console.log("highest number");
-                // console.log(highestNum)
-            }
-            for (var point = 0; point < this.coverage[props.class].length; point++) {
-                if (this.coverage[props.class][point].id == 'floorGridX5Y0Z3') {
-                    console.log("the second round");
-                    console.log(this.coverage[props.class][point].lumensPsqm);
-                    console.log(this.coverage[props.class][point].lumensPsqm / (highestNum * 2));
-                    // console.log(this.coverage[props.class][point]);
-                    // console.log(this.coverage[props.class[point]])
-                }
-
-                $('#' + this.coverage[props.class][point].scene.id + ' #' + this.coverage[props.class][point].id + ' .face').css({
-                        // background	: '#ffffff',
-                        opacity: this.coverage[props.class][point].lumensPsqm / (highestNum * 2)
-                    })
-                    // console.log("highest number");
-                    // console.log(highestNum)
-            }
-        }
-
-
-
-    }
-    if (props.defaultLight !== true) {
-        this.lights = props.lights || []
-    } else if (props.defaultLight == true) {
-        this.lights = props.lights || [
-            green360W = new GrowLight({
-                width: .83,
-                height: .06,
-                depth: .26,
-                id: "green360W",
-                name: "Mars Green 360W",
-                scene: this.scene,
-                render: props.renderLights || true,
-                sizeSelf: true,
-                position: {
-                    x: this.width / 2,
-                    y: this.height - (this.height / 3),
-                    z: this.depth / 2
-                },
-                parent: this.object,
-                leds: {
-                    types: [{
-                        nm: 440,
-                        angle: 140,
-
-                    }]
-                }
-            })
-        ]
-    }
-    if (props.lights !== undefined) {
-        for (i = 0; i < props.lights.length; i++) {
-            this.lights[props.lights[i].id] = props.lights[i]
-        }
-    }
 }

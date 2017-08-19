@@ -10,10 +10,10 @@
 	padding-top: 30px
 	padding-bottom: 0px
 	.light
-		border-radius: 4px
+		border-radius: 3px
 		display: flex
 		align-items: center
-		justify-content: center
+		justify-content: flex-start
 		position: relative
 		z-index: 55
 		max-width: 99%
@@ -40,7 +40,12 @@
 			width: auto
 			position: absolute
 			right: 0
+			top: 0
 			height: 100%
+			.light-switches-positioner
+				display: flex
+				align-content: center
+				justify-content: center
 			.light-btn-label
 				margin-top: -7px
 				padding-bottom: 0px
@@ -105,6 +110,7 @@
 		.light-info-container
 			position: absolute
 			left: 0
+			top: 0
 			height: 100%
 			width: auto
 			display: flex
@@ -113,8 +119,7 @@
 			flex-direction: column
 			// margin-bottom: -30px
 			margin-left: -15px
-			>*
-				// text-shadow: 2px 2px 0px rgba($gb,.25)
+			.light-info-positioner
 			.more-info
 				color: $gc
 				font-weight: 700
@@ -131,15 +136,21 @@
 				.more-info,
 				i
 					color: $gc
-	.light-labels-container
+	.light-labels-positioner
 		display: flex
 		position: absolute
 		// left: 50% 
 		// top: 0
+		width: 100%
 		bottom: 125%
 		align-items: flex-end
 		justify-content: center
 		color: $gw
+		.light-labels-container
+			display: flex
+			align-items: center
+			justify-content: center
+			// margin-left: -50%
 		.light-label
 			position: relative
 			// bottom: 60%

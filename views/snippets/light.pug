@@ -83,40 +83,43 @@
 .light-container(class=classes)
 	.light(class=light.model, style="width: "+light.width+"px; height: "+light.height+"px")
 		-if(light.showLables)
-			.light-labels-container
-				.light-label.wattage
-					span= light.wattageFormatted()
-				.light-label.price
-					span= light.priceFormatted()
-				.light-label.type
-					-if(light.ledBrand)
-						-if(light.model == 'Pro')
-							span= light.ledBrand
+			.light-labels-positioner
+				.light-labels-container
+					.light-label.wattage
+						span= light.wattageFormatted()
+					.light-label.price
+						span= light.priceFormatted()
+					.light-label.type
+						-if(light.ledBrand)
+							-if(light.model == 'Pro')
+								span= light.ledBrand
+							-else
+								span= light.ledBrand
+								//- span= light.type
 						-else
-							span= light.ledBrand
-							//- span= light.type
-					-else
-						span= light.lightType
-				-if(light.vendor)
-					.light-label.vendor
-						span= light.vendor
+							span= light.lightType
+					-if(light.vendor)
+						.light-label.vendor
+							span= light.vendor
 
 		-if(light.showInfoButton)
 			.light-info-container
-				i.fa.fa-clipboard-text
-				.more-info
-					| All Specs
+				.light-info-positioner
+					i.fa.fa-clipboard-text
+					.more-info
+						| All Specs
 		-if(light.switchable)
 			.light-switches-container
-				-if(light.spectrumType !== 'rainbow')
-					div(class="material-toggle veg-toggle-container")
-						.light-btn-label.veg-spectrum Veg
-						input(type="checkbox", id="veg-toggle"+id, name="veg-toggle"+id, checked=true)
-						label(for="veg-toggle"+id, class="veg-label")
-					div(class="material-toggle flower-toggle-container")
-						.light-btn-label.flower-spectrum Flower
-						input(type="checkbox", id="flower-toggle"+id, name="flower-toggle"+id, checked=true)
-						label(for="flower-toggle"+id, class="flower-label")
+				.light-switches-positioner
+					-if(light.spectrumType !== 'rainbow')
+						div(class="material-toggle veg-toggle-container")
+							.light-btn-label.veg-spectrum Veg
+							input(type="checkbox", id="veg-toggle"+id, name="veg-toggle"+id, checked=true)
+							label(for="veg-toggle"+id, class="veg-label")
+						div(class="material-toggle flower-toggle-container")
+							.light-btn-label.flower-spectrum Flower
+							input(type="checkbox", id="flower-toggle"+id, name="flower-toggle"+id, checked=true)
+							label(for="flower-toggle"+id, class="flower-label")
 	//-  
 		Renders Light Output (Spectrum)
 	-var height = light.lightHeight()

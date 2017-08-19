@@ -303,7 +303,7 @@ app.get('/login*', function(req, res) {
                 req.session.destroy()
                 res.render('snippets/admin/login')
             } else {
-                console.log("app(.)get /login req.session.user")
+                console.log("app.get /login req.session.user")
                 console.log(req.session.user)
                 res.locals.user = req.session.user
                 res.redirect('/home')

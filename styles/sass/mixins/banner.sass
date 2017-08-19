@@ -40,17 +40,28 @@
 		&:focus,
 		&:active
 			color: nth($colours, random(length($colours)))
-	.find-your-light
+	.banner-light-container
+		display: flex
+		justify-content: center
+		align-content: flex-start
+		flex-direction: column
+	.light-button-positioner
 		position: relative
 		z-index: 400
-		text-align: center
+		// text-align: center
 		display: flex
-		align-items: center
-		justify-content: center
+		align-items: flex-start
+		justify-content: flex-start
+		width: 100%
+		.light-button-container
+			display: flex
+			align-items: center
+			justify-content: center
+			position: absolute
+			top: -300px
+			width: 100%
 		.light-button
 			font-size: 2.45rem
-			position: absolute
-			top: -488px
 			color: rgba($gw, .8)
 			// margin-top: -450px
 			z-index: 400

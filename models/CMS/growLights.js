@@ -95,6 +95,14 @@ module.exports = new Promise((resolve, reject) => {
                 customLightCoverage: {
                     type: Number,
                     default: undefined
+                },
+                ledWattage: {
+                    type: Number,
+                    default: 5
+                },
+                ledEfficiency: {
+                    type: Number,
+                    default: 0.5
                 }
             })
             var methods = {
@@ -127,6 +135,9 @@ module.exports = new Promise((resolve, reject) => {
                 },
                 r2d2: function(d) {
                     return d * (180 / Math.PI)
+                },
+                ledCount: function() {
+                    return (this.wattage * (1 / this.ledEfficiency)) / this.ledWattage
                 }
 
             }
