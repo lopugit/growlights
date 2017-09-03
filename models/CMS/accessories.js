@@ -13,26 +13,22 @@ var client = shopify.buildClient({
     appId: '6'
 })
 
-module.exports = function(vars) {
+module.exports = new Promise((resolve, reject) => {
 
-    return client.fetchProduct('9931098321')
+    client.fetchProduct('9931098321')
         .then(function(product, err) {
             var objects = {};
             // console.log(product)
+            delete product.attrs.variants[0].title
+            jsonConcat(product.attrs, product.attrs.variants[0])
+            delete product.attrs.variants
+            delete product.attrs.options
+            delete product.attrs.option_values
             var schema = generateSchema.mongoose(product.attrs);
             var productSchema = new Schema(schema);
             productSchema.add({
                 model: {
                     type: String
-                },
-                width: {
-                    type: Number
-                },
-                height: {
-                    type: Number
-                },
-                depth: {
-                    type: Number
                 },
                 type: {
                     type: String
@@ -40,35 +36,53 @@ module.exports = function(vars) {
                 vendor: {
                     type: String
                 },
-                spectrum: {
-                    type: [Object]
-                },
-                lumens: {
+                shopifyProductId: {
                     type: Number
                 },
-                par: {
+                shopifyVariantId: {
                     type: Number
                 }
+
             })
             objects.productSchema = productSchema
             return objects;
         })
         .then(function(objects) {
-            var productModel = db.model("growTent", objects.productSchema, "products");
+            var productModel = db.model("accessory", objects.productSchema, "products");
             objects.product = productModel;
-            return objects.product;
+            resolve(objects.product);
         })
         .catch(function() {
             // console.log(objects.product);
             console.error("the connection did not work, most likely due to no internet connection");
-            return Db.then((DB, err) => {
-                return DB.collection('products').findOne({}).then(function(product, err) {
-                        var schema = generateSchema.mongoose(product)
-                        var model = db.model("products", schema)
-                        return model
-                    })
+            return Db
+                .then((DB, err) => {
+                    return DB.collection('products').findOne({
+                            product_type: 'Accessory'
+                        }).then(function(product, err) {
+                            var schema = generateSchema.mongoose(product)
+                            var model = db.model("products", schema)
+                            resolve(model)
+                        })
+                        .catch(err => {
+                            console.error("findOne'ing any accessories")
+                            console.error(err)
+                            reject(err)
+                        })
+
                     // objects.productSchema = generateSchema.mongoose(allProducts[0])
                     // objects.productSchema = allProducts[0]
-            })
+                })
+                .catch(err => {
+                    console.error("there was an error connecting to the Db via mongoDB npm")
+                    console.error(err)
+                    reject(err)
+                })
         });
+})
+
+function jsonConcat(o1, o2) {
+    for (var key in o2) {
+        o1[key] = o2[key];
+    }
 }

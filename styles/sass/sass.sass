@@ -4,21 +4,28 @@
 @import mixins/fonts
 @import mixins/global
 @import lopu/lopu
+@import mixins/lopu3d
 @import mixins/animations
 @import mixins/wattageWarning
 @import mixins/shopify-cart/styles
 @import mixins/nav
 @import mixins/about
+@import mixins/contactForm
 @import mixins/typed
 @import mixins/productPage
-@import mixins/growlightsSection
-@import mixins/growtentsSection
+@import mixins/growLightsSection
+@import mixins/coverageMap
+@import mixins/coverageCalculator
+@import mixins/growTentsSection
 @import mixins/productsTri
 @import mixins/banner
 @import mixins/spectrums
-@import mixins/light
-@import mixins/tent
+@import mixins/growLight
+@import mixins/growTent
 @import mixins/allConfigurationOptions
+@import mixins/productModal
+@import mixins/footer
+@import mixins/grow.ai/growLightCoverage
 
 header
 	.container-fluid
@@ -95,85 +102,85 @@ body
 			&:hover
 				color: darken($gc, 3) !important
 
-	$bgc: #121F2A
-	.combo-button
-		$button-ratio: 70%
-		width: $combo-button-width
-		margin-left: $combo-button-side-margins
-		margin-right: 5%
-		margin-bottom: 15px
-		position: relative
-		line-height: $combo-button-height
-		border: solid 0px $gc
-		background: $gc
-		border-radius: 12px
-		height: $combo-button-height
+$bgc: #121F2A
+.combo-button
+	$button-ratio: 70%
+	width: $combo-button-width
+	margin-left: $combo-button-side-margins
+	margin-right: 5%
+	margin-bottom: 15px
+	position: relative
+	line-height: $combo-button-height
+	border: solid 0px $gc
+	background: $gc
+	border-radius: 12px
+	height: $combo-button-height
 
-		&:hover, &:focus, &:visited, &:active,
-			.shop-cart-button
-				background: darken($bgc, 1.5)
-				color: white
-				.fa
-					text-shadow: -1px 0px #80bc18, -2px 0px #80bc18, -3px 0px #80bc18, -4px 0px darken(#80bc18,5), -5px 0px darken(#80bc18,10), -6px 0px darken(#80bc18,20), -7px 0px darken(#80bc18, 30)
-					transform: translate(4px)
-		.order-button
-			// content: 'add to cart'
-			width: ($button-ratio - 0)
-			height: 100%
-			text-transform: uppercase
-			font-size: 12px
-			line-height: inherit
-			letter-spacing: 1px
-			word-spacing: 0
-			text-align: center
-			color: $sac
-			background-color: $gc
-			font-weight: 900
-			+animate(all, 100ms, ease-in)
-			display: block
-			-webkit-font-smoothing: antialiased
-			vertical-align: middle
-			cursor: pointer
-			border-radius: 4px
-			float: left
-
-			&:hover
-				background-color: darken($gc, 5)
-				// border: solid $border-size $gc
-				color: darken($sac, 1.5)
-				cursor: pointer
-
-
+	&:hover, &:focus, &:visited, &:active,
 		.shop-cart-button
-			width: (100 - $button-ratio)
-			height: 100%
-			line-height: inherit
-			display: block
-			float: right
-			// top: 0
-			// right: 0
-			background: $bgc
-			font-weight: normal
-			text-align: center
-			cursor: pointer
-			white-space: nowrap
-			border-radius: 0px 7px 7px 0px
-			-webkit-user-select: none
-			+animate(all, 100ms, ease-in-out)
+			background: darken($bgc, 1.5)
+			color: white
+			.fa
+				text-shadow: -1px 0px #80bc18, -2px 0px #80bc18, -3px 0px #80bc18, -4px 0px darken(#80bc18,5), -5px 0px darken(#80bc18,10), -6px 0px darken(#80bc18,20), -7px 0px darken(#80bc18, 30)
+				transform: translate(4px)
+	.order-button
+		// content: 'add to cart'
+		width: ($button-ratio - 0)
+		height: 100%
+		text-transform: uppercase
+		font-size: 12px
+		line-height: inherit
+		letter-spacing: 1px
+		word-spacing: 0
+		text-align: center
+		color: $sac
+		background-color: $gc
+		font-weight: 900
+		+animate(all, 100ms, ease-in)
+		display: block
+		-webkit-font-smoothing: antialiased
+		vertical-align: middle
+		cursor: pointer
+		border-radius: 4px
+		float: left
 
+		&:hover
+			background-color: darken($gc, 5)
+			// border: solid $border-size $gc
+			color: darken($sac, 1.5)
+			cursor: pointer
+
+
+	.shop-cart-button
+		width: (100 - $button-ratio)
+		height: 100%
+		line-height: inherit
+		display: block
+		float: right
+		// top: 0
+		// right: 0
+		background: $bgc
+		font-weight: normal
+		text-align: center
+		cursor: pointer
+		white-space: nowrap
+		border-radius: 0px 7px 7px 0px
+		-webkit-user-select: none
+		+animate(all, 100ms, ease-in-out)
+
+
+
+		.fa
+			+animate(all, 200ms, ease-in-out)
+
+		&:hover
+			background: darken($bgc, 1.5)
+			color: white
 
 
 			.fa
-				+animate(all, 200ms, ease-in-out)
-
-			&:hover
-				background: darken($bgc, 1.5)
-				color: white
-
-
-				.fa
-					text-shadow: -1px 0px #80bc18, -2px 0px #80bc18, -3px 0px #80bc18, -4px 0px darken(#80bc18,5), -5px 0px darken(#80bc18,10), -6px 0px darken(#80bc18,20), -7px 0px darken(#80bc18, 30)
-					transform: translate(4px)
+				text-shadow: -1px 0px #80bc18, -2px 0px #80bc18, -3px 0px #80bc18, -4px 0px darken(#80bc18,5), -5px 0px darken(#80bc18,10), -6px 0px darken(#80bc18,20), -7px 0px darken(#80bc18, 30)
+				transform: translate(4px)
 
 .no-focus-outline
 	&:focus

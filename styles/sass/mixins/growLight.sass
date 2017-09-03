@@ -1,0 +1,564 @@
+.light-container,
+.growLight-container
+	display: flex
+	position: relative
+	justify-content: center
+	align-items: center !important
+	flex-direction: column
+	width: auto
+	// margin: 3%
+	max-width: 100%
+	overflow: visible
+	padding-top: 0px
+	padding-bottom: 0px 
+	position: relative !important
+	&.bannerLight 
+		padding-top: 40px
+		// padding-bottom: 25px
+
+.growLightSceneContainer
+	display: flex
+	align-items: flex-end
+	justify-content: center
+	overflow: visible !important
+	padding-top: 50px !important
+	.scene
+		display: flex
+		align-items: flex-end
+		justify-content: center
+		width: 1400px
+		max-width: 100%
+		height: auto
+		overflow: visible
+		padding-bottom: 0px
+		
+
+.growLight
+	border-radius: 3px
+	display: flex
+	align-items: center
+	justify-content: flex-start
+	// position: relative !important
+	z-index: 55 !important
+	max-width: 99%
+	position: relative !important
+	// width: 350px
+	// height: 60px
+	background: rgba(247,247,247,1)
+	.face
+		border-radius: 3px
+	&.Pro
+		background: rgba(213, 213, 213,1)
+		.front
+			background: rgba(0,0,0,0)
+		.face
+			background: rgba(213, 213, 213,1)
+
+	&.Rainbow
+		background: rgba(213, 213, 213,1)
+		.front
+			background: rgba(0,0,0,0)
+		.face
+			background: rgba(213, 213, 213,1)
+			// animation: backgroundRainbow 5000ms forwards infinite linear
+
+		// animation: backgroundRainbow 5000ms forwards infinite linear
+
+	&.Black
+		background: rgba(55, 55, 55, 1)
+		.front
+			background: rgba(0,0,0,0)
+		.face
+			background: rgba(55, 55, 55, 1)
+
+	&.Green
+		background: rgba($gc,1)
+		.front
+			background: rgba(0,0,0,0)
+		.face
+			background: rgba($gc,1)
+
+		.light-info-container
+			.more-info
+				color: darken($gw, 10) !important
+				text-shadow: 0px 0px 3px rgba($gb, .6)
+
+			i
+				color: darken($gw, 10) !important
+				text-shadow: 1px 1px 6px rgba($gb, .25)
+
+	&.flourescent
+		background: rgba(247, 247, 247, 1)
+		border-radius: 25px
+	&.hid
+		background: rgba(247,247,247,1)
+		border-radius: 50% 30% 30% 50%
+	.light-switches-container,
+	.mode-switches-group-positioner
+		display: flex
+		align-items: center
+		justify-content: center
+		// flex-direction: column
+		position: absolute
+		right: 2%
+		top: 0
+		// height: 100%
+		width: auto
+
+		.light-switches-positioner,
+		.mode-switches-group-positioner
+		.mode-switches-group
+			// z-index: 110
+		.mode-switches
+			display: flex
+			align-content: center
+			justify-content: flex-end
+			flex-direction: row
+			height: 100%
+			position: relative !important
+			.mode-switch
+				position: relative !important
+				display: flex
+				justify-content: center
+				align-items: center
+				width: auto !important
+				&:first-child
+					// margin-right: 8px
+		.light-btn-label
+			margin-top: -7px
+			padding-bottom: 0px
+			font-size: 1rem
+			color: $gb
+			font-weight: 800
+			text-transform: uppercase
+			&.veg-spectrum
+				color: rgb(78, 120, 246)
+			&.bloom-spectrum
+				color: rgb(250, 49, 115)
+		.material-toggle
+			margin: 3px
+			margin-right: 5px
+			margin-top: 0px
+			margin-bottom: 0px
+			display: flex
+			align-items: center
+			justify-content: center
+			flex-direction: column
+			&:last-child
+				margin-right: 9px
+			&.veg-toggle-container
+				.veg-label
+					&:before
+						background-color: rgb(78, 120, 246)
+						right: 0px
+					&:after
+						background-color: rgb(78, 120, 246)
+
+			&.bloom-toggle-container
+				// margin-right: 20px
+				.bloom-label
+					&:before
+						background-color: rgb(250, 49, 115)
+						right: 0px
+					&:after
+						background-color: rgb(250, 49, 115)
+
+
+			label
+				// height: 50%
+				// display: flex
+				// justify-content: flex-end
+				// align-items: center
+				$width: 40px
+				width: $width
+				&:before
+					height: 10px
+					margin-top: 0px
+					width: $width
+					content: ""
+				&:after
+					margin-top: 0px
+					top: 0px
+					height: 10px
+					width: 10px
+					content: ""
+
+					// left: 30px
+				// &:checked
+				// 	&:after
+			&>input[type="checkbox"]:checked + label::after
+				left: 30px
+	.light-info-container
+		position: absolute
+		left: 0
+		top: 0
+		height: 100%
+		width: auto
+		display: flex
+		align-items: flex-end
+		justify-content: flex-start
+		flex-direction: column
+		margin-top: 3px
+		// margin-left: 2px
+		margin-left: -15px
+		.light-info-positioner
+		.more-info
+			color: $gc
+			font-weight: 700
+			+animate(all, 300ms, ease)
+			text-transform: uppercase
+			font-size: .8rem
+			// font-family: 'Montserrat'
+		i
+			font-size: 4.2rem
+			color: $gc
+			+animate(all, 300ms, ease)
+		&:hover
+			cursor: pointer
+			.more-info,
+			i
+				color: $gc
+	.light-labels-positioner,
+	.dataLabels-group-positioner
+		display: flex
+		position: absolute
+		// left: 50% 
+		// top: 0
+		width: 100%
+		top: -10px
+		height: 0px
+		align-items: flex-end
+		justify-content: center
+		color: $gw
+		.light-labels-container,
+		.dataLabels
+			display: flex
+			align-items: flex-end
+			justify-content: center
+			// margin-left: -50%
+		.light-label
+			position: relative
+			// bottom: 60%
+			// left: -8px
+			color: lighten($gc,0)
+			// background: $gc
+			margin-right: 5px
+			font-size: 2rem
+			// letter-spacing: 1px
+			font-weight: 700
+			text-transform: uppercase
+			+animate(all, 400ms, ease)
+			width: auto !important
+			height: auto !important
+			// >div
+			border: 2px solid $gc
+			padding: 4px 22px
+			background: rgba($glw, 0)
+			border-radius: 4px
+			+animate(all, 400ms, ease)
+			.labelValue
+				padding-left: 2px
+				padding-right: 2px
+				// +animate(all, 400ms, ease)
+			&:hover
+				// >div
+				cursor: pointer
+				bottom: calc(60%+15px)
+				background: $gc
+				color: white
+				
+			&.wattageFormatted
+				// >div
+				background: rgba($gc, .9)
+				color: white
+				&:hover
+					background: $gc
+					// color: $gc
+				.draw-info
+					border-radius: 4px
+					$drawColour: lighten(red, 3)
+					background: rgba($drawColour, .85)
+					// width: 30px
+					// height: 1px
+					padding: 2px 6px
+					display: flex
+					align-items: center
+					justify-content: center
+					position: absolute
+					top: -9px
+					left: -11px
+					border: 1px solid $drawColour
+					font-size: .8rem
+					font-family: 'Montserrat'
+					font-weight: 700
+					text-shadow: 1px 1px 0px rgba(0,0,0,.1)
+			&.type
+				// >div
+				padding: 3px 13px
+				font-size: 1.4rem
+				// font-weight: 400
+			&.formatted_price
+				@extend .wattageFormatted
+				// >div
+				padding: 4px 18px
+				font-size: 1.7rem
+			&.vendor
+				// >div
+				font-size: .8rem
+				font-weight: 700
+				overflow-wrap: none
+				padding: 4px 8px
+				line-height: .75rem
+				display: flex
+				align-items: center
+				justify-content: center
+				flex-direction: column
+				max-width: 50px
+				// background: $gc
+				// color: $gw
+			&.more-info
+				@extend .vendor
+				// >div
+				max-width: 100%
+				background: $gc
+				color: white
+				&:hover
+					background: rgba($gc, 0)
+					color: $gc
+			&.see-the-light
+				@extend .vendor
+				&.active
+					@extend .light-label:hover
+	.diode
+		.diodeLabel
+			display: none
+		&:hover
+			.diodeLabel
+				display: block
+.light
+	display: flex
+	align-items: flex-start
+	justify-content: center
+	clear: both
+	z-index: 50 !important
+	max-width: 95%
+	overflow: visible
+	position: relative !important
+	pointer-events: none !important
+	// height: auto !important
+	// width: auto !important
+	.wavelengthObject
+		top: 0
+		overflow: visible
+		width: auto
+		justify-content: flex-start
+		&.backBoosted
+			opacity: .4
+			+animate(all, 400ms, ease)
+		&.backBoost
+			opacity: .9
+			+animate(all, 400ms, ease)
+		.wavelengthLabelObj
+			height: auto !important
+			width: auto !important
+			pointer-events: none
+			display: flex
+			align-items: center
+			justify-content: center
+			flex-direction: column
+			// margin-left: -35px
+			// padding-top: 20px
+		&:nth-child(odd)
+			// display: none
+			.wavelengthLabelObj
+			.wavelengthLabel
+				&:last-child
+					// margin-bottom: -30px
+		.wavelengthLabel
+			opacity: 0
+			// display: none
+			font-size: 1.2rem
+			font-family: 'Montserrat'
+			font-weight: 700
+			text-transform: uppercase
+			padding: 4px 10px
+			background: $gc
+			color: white
+			+animate(all, 1150ms, ease)
+			margin-top: 5px
+			.valueLabel
+				font-size: .8rem
+			&.on
+				display: block
+			&.off
+				display: none
+			&:first-child
+				// margin-top: 20px
+		&:hover
+			.wavelengthLabel
+				+animate(all, 10ms, ease)
+				opacity: 1
+				// display: block
+			&.backBoosted
+				opacity: .8
+				
+	svg
+		// flex: 1
+		clear: both
+		width: auto
+		height: auto
+		position: absolute
+		top: 0
+		left: 0
+		overflow: visible
+		width: 100%
+		max-width: 100%
+		z-index: 20
+		display: block
+		pointer-events: none
+		// display: flex
+		// align-items: flex-start
+		// justify-content: center
+		polygon
+			+animate(all, 888ms, ease)
+			position: relative
+			display: block
+			z-index: 20
+			pointer-events: all
+			&.k3000k
+				$colour:rgb(255, 191, 116)
+				fill: $colour
+				stroke: $colour
+				stroke-width: .5
+			&.nm430
+				$colour: rgb(56, 160, 255)
+				fill: $colour
+				stroke: $colour
+				stroke-width: .5
+			&.nm440
+				$colour: rgb(56, 150, 255)
+				fill: $colour
+				stroke: $colour
+				stroke-width: .5
+			&.nm460
+				$colour: rgb(56, 130, 255)
+				fill: $colour
+				stroke: $colour
+				stroke-width: .5
+			&.nm480
+				$colour: rgb(56, 110, 255)
+				fill: $colour
+				stroke: $colour
+				stroke-width: .5
+			&.nm620
+				$colour: rgb(255, 60, 165)
+				fill: $colour
+				stroke: $colour
+				stroke-width: .5
+			&.nm630
+				$colour: rgb(255, 50, 155)
+				fill: $colour
+				stroke: $colour
+				stroke-width: .5
+			&.nm640
+				$colour: rgb(255, 40, 125)
+				fill: $colour
+				stroke: $colour
+				stroke-width: .5
+			&.nm650
+				$colour: rgb(255, 30, 95)
+				fill: $colour
+				stroke: $colour
+				stroke-width: .5
+			&.nm660
+				$colour: rgb(255, 20, 65)
+				fill: $colour
+				stroke: $colour
+				stroke-width: .5
+			&.nm670
+				$colour: rgb(255, 10, 35)
+				fill: $colour
+				stroke: $colour
+				stroke-width: .5
+			&.nm680
+				$colour: rgb(255, 0, 5)
+				fill: $colour
+				stroke: $colour
+				stroke-width: .5
+			&.nm730
+				$colour: rgb(222, 0, 4)
+				fill: $colour
+				stroke: $colour
+				stroke-width: .5
+				opacity: .3
+			&.Red
+				$colour: nth($rainbow, 1)
+				fill: $colour
+				stroke: $colour
+				stroke-width: 1
+			&.Orange
+				$colour: nth($rainbow, 2)
+				fill: $colour
+				stroke: $colour
+				stroke-width: 1
+			&.Yellow
+				$colour: nth($rainbow, 3)
+				fill: $colour
+				stroke: $colour
+				stroke-width: 1
+			&.Green
+				$colour: nth($rainbow, 4)
+				fill: $colour
+				stroke: $colour
+				stroke-width: 1
+			&.Cyan
+				$colour: nth($rainbow, 5)
+				fill: $colour
+				stroke: $colour
+				stroke-width: 1
+			&.Blue
+				$colour: nth($rainbow, 6)
+				fill: $colour
+				stroke: $colour
+				stroke-width: 1
+			&.Purple
+				$colour: nth($rainbow, 7)
+				fill: $colour
+				stroke: $colour
+				stroke-width: 1
+
+			// &::after
+			// 	display: block
+			// 	width: 45px
+			// 	height: 20px
+			// 	content: "Spectrum"
+			&:hover
+				opacity: .95 !important
+				z-index: 40
+				cursor: pointer
+				// &::after
+				// 	display: block
+				// 	content: "Spectrum"
+	&.rainbow
+		svg
+			polygon
+				// opacity: 1
+				position: relative
+// .modal-container
+.spectrums-container
+	@extend .light
+	position: relative !important
+	margin-top: 0px
+
+
+.slick-track
+	pointer-events: none
+			
+// 	position: absolute
+// 	top: 0
+// 	// width: 100vw
+// 	display: flex
+// 	align-items: flex-start
+// 	justify-content: center
+// 	z-index: 1050
+

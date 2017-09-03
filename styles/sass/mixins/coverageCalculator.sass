@@ -1,0 +1,43 @@
+.coverageCalculator
+	@extend .growLightsSection
+	.coverage-calc-col
+		display: flex
+		justify-content: center
+		align-items: center
+		padding: 5px 0px
+	.rainbow
+		animation: colourFlickerRainbow 7777ms ease infinite forwards
+		margin-left: -3px
+	.slick-slider-custom
+		width: 900px
+		max-width: 100%
+		height: auto
+		overflow: visible
+		pointer-events: none
+		.slick-arrow
+			height: auto
+			// top: auto
+			@media(max-width: 600px)
+				top: auto
+				bottom: 20px
+		.custom-light-slide
+			display: flex
+			justify-content: flex-end
+			align-items: center
+			flex-direction: column
+			pointer-events: all !important
+	
+	.growLight-container
+		position: relative !important
+		overflow: visible
+		height: auto
+		.light,
+		.spectrumsContainer
+			position: relative !important
+			margin-top: 0px
+			.wavelengthPolygon
+				opacity: .5
+				&.backBoost
+					opacity: 1
+		.growLight
+			position: relative !important

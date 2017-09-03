@@ -1,15 +1,18 @@
-include /snippets/head
-include /snippets/banner
-include /snippets/products/growlightsSection
-//- include /snippets/products/growtentsSection
-include /snippets/tentCustomization
-include /snippets/allConfigurationOptions
-//- include /snippets/test
-//- include /snippets/productsTri
-//- include /snippets/wattageWarning
-include /snippets/spectrums
-include /snippets/about
-include /snippets/growHelp
-include /snippets/contactForm
-include /snippets/paywith
-include /snippets/footer
+extends /snippets/layout
+append content
+    include /snippets/products/includeAllGrowTents
+    include /snippets/products/includeAllGrowLights
+    include /snippets/banner
+    include /snippets/products/growLightsSection
+    include /snippets/grow.ai/coverageCalculator
+    include /snippets/products/growTentsSection
+    //- include /snippets/allConfigurationOptions
+    include /snippets/growTentCustomization
+    //- include /snippets/test
+    //- include /snippets/productsTri
+    include /snippets/wattageWarning
+    include /snippets/spectrums
+    include /snippets/about
+    //- include /snippets/growHelp
+    include /snippets/contactForm
+    include /snippets/paywith

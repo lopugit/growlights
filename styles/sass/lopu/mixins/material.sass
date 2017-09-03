@@ -1,11 +1,22 @@
 .l
 	.l-material-card
-		background: white
+		background: rgba(white, 0)
 		padding: 10px
 		height: auto
-		margin: -5px
+		// margin: -5px
 		margin-top: 15px
 		margin-bottom: 15px
 		text-align: left
 		color: $gb
 		+animate(all, 300ms, ease)
+		&.stump-top
+			margin-top: 0px
+		
+		&.stump-top-bottom
+			margin-top: 0px
+			margin-bottom: 0px
+		&.stump-bottom
+			margin-bottom: 0px			
+		&.stump-bottom-top
+			margin-bottom: 0px			
+			margin-top: 0px			

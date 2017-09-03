@@ -1,0 +1,102 @@
+.growLightsSection
+	padding-top: 50px
+	// padding-bottom: 20px
+	background: $gw
+	color: $gb
+	min-height: 1000px
+	overflow: hidden
+	max-width: 100%
+	.sceneContainer
+		background: rgba(255,255,255,0)
+		.scene
+			.growLight-container
+				position: relative !important
+				overflow: visible
+				height: auto
+				.light,
+				.spectrumsContainer
+					position: relative !important
+					margin-top: 0px
+
+				.coverageMap
+					position: relative !important
+
+			// height: auto
+			
+	.title-col
+		text-align: center
+		padding: 30px 0
+		.lights-section-title
+			color: $gb
+			margin: 5 0
+			padding: 0
+	.model-col
+		text-align: center
+		// margin-top: 400px
+		// margin-top: 10px
+		padding: 50px 0px 15px 0px
+		&:first-child
+			// margin-top: 20px
+		.model-title
+			padding-bottom: 50px
+		font-size: 3.5rem
+					
+	.product-col
+		text-align: center
+		display: flex
+		align-items: flex-end
+		justify-content: center
+		flex-wrap: wrap
+		padding: 30px 0px
+
+	.slick-slider-custom
+		width: 900px
+		max-width: 100%
+		height: auto
+		overflow: visible
+		pointer-events: none
+		.slick-list
+			overflow: visible
+			pointer-events: none
+			.slick-track
+				display: flex
+				align-items: flex-end
+				overflow: visible
+				pointer-events: none
+
+				.slick-slide
+					overflow: visible
+					height: auto
+					pointer-events: none
+					&:active,
+					&:focus,
+					&:hover,
+					&:visited
+						outline-color: rgba(0,0,0,0)
+						outline-width: 0px
+		.slick-arrow
+			$colour: $gc
+			color: $colour
+			z-index: 450
+			width: auto
+			height: auto
+			// top: 70%
+			pointer-events: all
+			&::before
+				font-size: 10rem
+				color: $colour
+			&.slick-arrow
+				top: auto
+				bottom: 18%
+				@media(max-width: 600px)
+					bottom: -15px
+					top: auto
+			&.slick-prev
+				left: 5%
+			&.slick-next
+				right: 5%
+	.growLight
+		position: relative !important
+	.light
+		.wavelengthPolygon
+			opacity: .6

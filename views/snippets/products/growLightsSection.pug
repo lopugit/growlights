@@ -1,0 +1,66 @@
+//- growLightsSection.pug
+append content
+	#growlights.growLightsSection.l
+		.container-fluid
+			.row
+				.col-xs-24.title-col
+					h3.lights-section-title Let there be 
+						h1.lights-section-title Light
+			.row
+				each growLightModel, key1 in growLightModels.commerce
+					.col-xs-24.model-col
+						h1.model-title= growLightModel[0].model
+						.col-xs-24.product-col
+							-var currentModel = growLightModel[0].model.replace(' ','-')
+							-var sliderUuid = uuidv4()
+							.slick-slider-custom(class=currentModel+"Slider", id=sliderUuid)
+								each growLight, key2 in growLightModel
+									-growLight.object.type = '2d'
+									.slick-slide(style="z-index: "+(150-key2)+";")
+										-if(growLight.model == currentModel)
+											include /snippets/growLight
+							script(type='text/javascript').
+								$(document).ready(()=>{
+									$('.#{currentModel}Slider').slick({
+										arrows: true,
+										centerMode: false
+										//- lazyLoad: 'progressive'
+									})
+								})
+								//- $('document').ready(function(){
+								//- 		var uuid = uuidv4()
+								//- 		$('##{sliderUuid} .slick-cloned:nth-of-type(1) .sceneContainer').attr('id', 'sceneContainer'+uuid)
+								//- 		$('##{sliderUuid} .slick-cloned:nth-of-type(1) .scene').attr('id', 'scene'+uuid)
+								//- 		var scene = new Scene({
+								//- 			render: true,
+								//- 			id: "scene"+uuid,
+								//- 			containerId: "sceneContainer"+uuid,
+								//- 			sizeType: "object",
+								//- 			pxr: globalGrowLightPxr,
+								//- 			type: '2d'
+								//- 		})
+								//- 		if(globalGrowLightPxr){} else {
+								//- 			globalGrowLightPxr = scene.pxr
+								//- 		}
+								//- 			var growLightTemplate = !{ts(growLightModel[growLightModel.length-1])}
+								//- 		growLightTemplate.scene = scene
+								//- 		var growLight = new GrowLight(growLightTemplate)										
+								//- 		var uuid1 = uuidv4()
+
+								//- 		$('##{sliderUuid} .slick-cloned:nth-of-type(#{growLightModel.length+2}) .sceneContainer').attr('id', 'sceneContainer'+uuid1)
+								//- 		$('##{sliderUuid} .slick-cloned:nth-of-type(#{growLightModel.length+2}) .scene').attr('id', 'scene'+uuid1)
+								//- 		var scene1 = new Scene({
+								//- 			render: true,
+								//- 			id: "scene"+uuid1,
+								//- 			containerId: "sceneContainer"+uuid1,
+								//- 			sizeType: "object",
+								//- 			pxr: globalGrowLightPxr,
+								//- 			type: '2d'
+								//- 		})
+								//- 		if(globalGrowLightPxr){} else {
+								//- 			globalGrowLightPxr = scene1.pxr
+								//- 		}
+								//- 		var growLightTemplate1 = !{ts(growLightModel[0])}											
+								//- 		growLightTemplate1.scene = scene1
+								//- 		var growLight1 = new GrowLight(growLightTemplate1)									
+								//- })

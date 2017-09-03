@@ -1,0 +1,80 @@
+.scene
+	text-align: center
+	display: flex
+	align-items: center
+	justify-content: center
+	overflow-x: auto
+	overflow-y: auto
+	padding: 0px
+	padding-top: 0px
+	padding-bottom: 0px
+	// width: 100%
+	width: 100%
+	height: auto
+	transform-style: preserve-3d
+	pointer-events: none
+	position: relative
+	
+	@keyframes spinX
+		0%
+			transform: rotateX(0deg)
+		100%
+			transform: rotateX(-360deg)
+	.dObject
+		position: absolute
+		bottom: 0
+		left: 0
+		width: auto
+		height: auto
+		display: flex
+		align-items: flex-start
+		justify-content: flex-start
+		transform-style: preserve-3d
+		z-index: 108
+		pointer-events: all
+	.faceParent
+		position: absolute
+		display: flex
+		align-items: flex-start
+		justify-content: center
+		width: 100%
+		top: 0
+		left: 0
+		z-index: 107
+		transform-style: preserve-3d
+		pointer-events: none
+	.face
+		position: relative
+		display: block
+		z-index: 107
+		transform-style: preserve-3d
+		pointer-events: all
+	.group-positioner
+		width: auto
+		height: auto
+		z-index: 109
+		pointer-events: none
+
+	.group
+		width: 100%
+		height: 100%
+		display: flex
+		align-items: flex-end
+		justify-content: flex-start
+		position: absolute
+		bottom: 0
+		left: 0
+		transform-style: preserve-3d
+		z-index: 110
+		pointer-events: none
+	.squared
+		font-size: 1rem
+		top: 0
+	.relative
+		position: relative
+		top: auto
+		left: auto
+		right: auto
+		bottom: auto
+		height: auto
+		width: auto

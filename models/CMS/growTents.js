@@ -17,7 +17,7 @@ module.exports = new Promise((resolve, reject) => {
 
     client
         .fetchProduct('9931093777')
-        .then(function(product, err) {
+        .then((product, err) => {
             var objects = {};
             delete product.attrs.variants[0].title
             jsonConcat(product.attrs, product.attrs.variants[0])
@@ -41,19 +41,40 @@ module.exports = new Promise((resolve, reject) => {
                 // console.log(json)
             json = JSON.parse(json)
             jsonConcat(product.attrs, json)
+            delete product.attrs.id
+            delete product.attrs.product_id
             var schema = generateSchema.mongoose(product.attrs);
             var productSchema = new Schema(schema);
             productSchema.add({
-                    model: String
+                    model: String,
+                    unit: {
+                        type: String,
+                        default: "cm"
+                    },
+                    shopifyProductId: {
+                        type: Number
+                    },
+                    shopifyVariantId: {
+                        type: Number
+                    },
+                    minPxWidth: {
+                        type: Number,
+                        default: 300
+                    }
                 })
                 // console.log("this is productSchema")
                 // console.log(productSchema)
-            var methods = {}
+            var methods = {
+                priceFormatted: function() { return "$" + this.price },
+                materialOutFormatted: function() {
+                    return this.materialOut.replace(/-/g, ' ')
+                }
+            }
             jsonConcat(productSchema.methods, methods)
             var productModel = db.model("Grow Tent", productSchema, "products");
             resolve(productModel)
         })
-        .catch(function(err) {
+        .catch(err => {
             // console.log(objects.product);
             console.error("the connection did not work, most likely due to no internet connection");
             console.error(err)
@@ -63,7 +84,7 @@ module.exports = new Promise((resolve, reject) => {
                     .findOne({
                         product_type: 'Grow Tent'
                     })
-                    .then(function(product, err) {
+                    .then((product, err) => {
                         var schema = generateSchema.mongoose(product)
                         var model = db.model("products", schema)
                         resolve(model)

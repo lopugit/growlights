@@ -1,0 +1,81 @@
+append content
+	-var allGrowLights = []
+	-if(growLightVendors)
+		each growLightVendor in growLightVendors
+			each growLightModels in growLightVendors
+				each growLightModel in growLightModels.commerce
+					each growLight in growLightModel
+						-if(growLight.vendor !== 'ozled')
+							-allGrowLights.push(growLight)
+	-else if (growLightModels.commerce)
+		each growLightModel in growLightModels.commerce
+			each growLight in growLightModel
+				-if(growLight.vendor !== 'ozled')
+					-allGrowLights.push(growLight)
+	-
+		var rainbowGrowLight = {
+			spectrum: [
+				{wavelength:"Purple",percent:.1428,lumens: 2.58, lensAngle: 30, par: 1.6, wattage: 5, efficiency: .5},
+				{wavelength:"Blue",percent:.1428,lumens: 2.58, lensAngle: 30, par: 1.6, wattage: 5, efficiency: .5},
+				{wavelength:"Cyan",percent:.1428,lumens: 2.58, lensAngle: 30, par: 1.6, wattage: 5, efficiency: .5},
+				{wavelength:"Green",percent:.1428,lumens: 2.58, lensAngle: 30, par: 1.6, wattage: 5, efficiency: .5},
+				{wavelength:"Yellow",percent:.1428,lumens: 2.58, lensAngle: 30, par: 1.6, wattage: 5, efficiency: .5},
+				{wavelength:"Orange",percent:.1428,lumens: 2.58, lensAngle: 30, par: 1.6, wattage: 5, efficiency: .5},
+				{wavelength:"Red",percent:.1428,lumens: 2.58, lensAngle: 30, par: 1.6, wattage: 5, efficiency: .5}
+			],
+			wattage: 500,
+			model: 'Pro',
+			width: 50,
+			height: 7,
+			depth: 10,
+			unit: "cm",
+			vendor: 'ozled-customs',
+			model: 'Rainbow',
+			price: 999,
+			hangHeight: 60,
+			lensAngle: 30,
+			minPxWidth: 280,
+			backBoost: true,
+			centerOutWavelengths: true,
+			position: {
+				type: 'center'
+			},
+			modes: []
+		}
+		var nusqeMars = {
+			wattage: 95,
+			width: 120,
+			depth: 5,
+			height: 7,
+			lensAngle: 120,
+			vendor: 'mars',
+			price: 999,
+			hangHeight: 45
+		}
+		var nusqeSeegree = {
+			wattage: 80,
+			width: 120,
+			depth: 5,
+			height: 7,
+			lensAngle: 120,
+			vendor: 'see gree',
+			price: 999,
+			hangHeight: 40
+		}
+		//- rainbowGrowLight = returnJsonConcat(allGrowLights[0], rainbowGrowLight)
+		//- nusqeMars = returnJsonConcat(rainbowGrowLight, nusqeMars)
+		//- nusqeSeegree = returnJsonConcat(rainbowGrowLight, nusqeSeegree)
+	//- span= JSON.parse(ts(allGrowLights[0]))
+	//- span= nusqeSeegree
+	//- -allGrowLights.push(rainbowGrowLight)
+	//- -allGrowLights.push(nusqeMars)
+	//- -allGrowLights.push(nusqeSeegree)
+	each product in allGrowLights
+		include /snippets/productModal
+	script.
+		var allGrowLights = !{mats(allGrowLights)}
+		var allGrowLightsTitleIndexed = []
+		for(gl in allGrowLights){
+			allGrowLightsTitleIndexed[allGrowLights[gl].title] = allGrowLights[gl]
+		}
+		//- console.log(allGrowLights[0])

@@ -1,0 +1,36 @@
+append content
+	-var covCalcId = uuidv4()
+	.coverageCalculator(id=covCalcId)
+		.container-fluid
+			.row
+				.col-xs-24.coverage-calc-col
+					.title
+						h2 grow.
+							span.rainbow 
+								|ai                
+				.col-xs-24.coverage-calc-col
+					-if(allGrowLights)
+						.slick-slider-custom.coverageCalculatorSlider.parent(id=covCalcId+'-parent')
+							each growLight, key1 in allGrowLights
+								-growLight.object.type = '2d'
+								.slick-slide(style="z-index:"+(150-key1)+";")
+									include /snippets/growLight
+							//- .slick-slide.custom-light-slide(style="z-index:"+(150-key1-1)+";")
+							//- 	-var customGrowLight = true
+							//- 	-var growLight = growLightModels.custom.Rainbow
+							//- 	include /snippets/growLight
+							//- 	-var customGrowLight = false
+
+						script(type='text/javascript').
+							$(document).ready(()=>{
+								$('##{covCalcId}-parent').slick({
+									arrows: true,
+									centerMode: false
+									//- lazyLoad: 'progressive'
+								})
+							})
+				-var growLight = allGrowLights[0]
+				.col-lg-12.col-lg-offset-6.col-xs-24.col-sm-24.coverage-calc-col(style="flex-direction: column")
+						include /snippets/grow.ai/growLightCoverage
+				//- .col-xs-24.coverage-calc-col
+	-covCalcId = undefined

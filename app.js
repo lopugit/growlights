@@ -62,97 +62,102 @@ var user = adminModels.user
 var growLightsModel = require('./models/CMS/growLights.js')
 require('./scripts/importGrowLightsFromShopify.js')({ model: growLightsModel, type: 'Grow Light' })
 
-function growLightModels() {
-    return new Promise((resolve, reject) => {
-        growLightsModel.then(model => {
-                // console.log("getting all the grow lights via the model")
-                model.find({
-                        product_type: 'Grow Light'
-                    }).exec()
-                    .then((products, err) => {
-                        if (!err) {
-                            console.log("these are the found products")
-                            console.log(products)
-                            var modelsList = []
-                                // var key = 0
-                            for (product in products) {
-                                if (modelsList.indexOf(products[product].model) < 0) {
-                                    modelsList.push(products[product].model)
-                                        // modelsList.push([products[product].model, key])
-                                        // key += 1
+var growLightModels = new Promise((resolve, reject) => {
+    growLightsModel.then(model => {
+            // console.log("getting all the grow lights via the model")
+            model.find({
+                    product_type: 'Grow Light'
+                }).sort({ 'wattage': 1 }).exec()
+                .then((products, err) => {
+                    if (!err) {
+                        var modelsList = {
+                                commerce: [],
+                                custom: {}
+                            }
+                            // var key = 0
+                        var models = {
+                            commerce: [],
+                            custom: {}
+                        }
+                        for (product in products) {
+                            if (modelsList.commerce.indexOf(products[product].model) < 0) {
+                                if (products[product].vendor !== 'ozled') {
+                                    modelsList.commerce.push(products[product].model)
+                                } else if (products[product].vendor == 'ozled') {
+                                    models.custom[products[product].model] = products[product]
                                 }
 
+                                // modelsList.push([products[product].model, key])
+                                // key += 1
                             }
-                            var models = []
-                            for (model in modelsList) {
-                                models[model] = []
-                                for (product in products) {
-                                    if (products[product].model == modelsList[model]) {
-                                        models[model].push(products[product])
-                                    }
+
+                        }
+                        for (model in modelsList.commerce) {
+                            models.commerce[model] = []
+                            for (product in products) {
+                                if (products[product].model == modelsList.commerce[model]) {
+                                    models.commerce[model].push(products[product])
                                 }
                             }
-                            resolve(models)
-                        } else {
-                            console.error(err)
-                            resolve([])
                         }
-                    })
-            })
-            .catch(() => {
-                console.error("there was an error .thening the growLights model")
-                resolve([])
-            })
-    })
-}
+                        resolve(models)
+                    } else {
+                        console.error(err)
+                        resolve([])
+                    }
+                })
+        })
+        .catch(() => {
+            console.error("there was an error .thening the growLights model")
+            resolve([])
+        })
+})
+
 var growTentsModel = require('./models/CMS/growTents.js')
 require('./scripts/importGrowTentsFromShopify.js')({ model: growTentsModel, type: 'Grow Tent' })
 
-function growTentVendors() {
-    return new Promise((resolve, reject) => {
-            growTentsModel.then(model => {
-                    console.log('getting all the grow tents via the model');
-                    // console.log(res.locals)
-                    model.find({
-                            product_type: 'Grow Tent'
-                        }).exec()
-                        .then((products, err) => {
-                            if (!err) {
-                                var vendorsList = []
-                                    // var key = 0
-                                for (product in products) {
-                                    if (vendorsList.indexOf(products[product].vendor) < 0) {
-                                        vendorsList.push(products[product].vendor)
-                                            // vendorsList.push([products[product].vendor, key])
-                                            // key += 1
-                                    }
-
-                                }
-                                var vendors = []
-                                for (vendor in vendorsList) {
-                                    vendors[vendor] = []
-                                    for (product in products) {
-                                        if (products[product].vendor == vendorsList[vendor]) {
-                                            vendors[vendor].push(products[product])
-                                        }
-                                    }
-                                }
-                                resolve(vendors)
-                            } else {
-                                console.error(err)
-                                resolve([])
+var growTentVendors = new Promise((resolve, reject) => {
+    growTentsModel.then(model => {
+            model.find({
+                    product_type: 'Grow Tent'
+                }).sort({ 'width': 1 }).exec()
+                .then((products, err) => {
+                    if (!err) {
+                        var vendorsList = []
+                            // var key = 0
+                        for (product in products) {
+                            if (vendorsList.indexOf(products[product].vendor) < 0) {
+                                vendorsList.push(products[product].vendor)
+                                    // vendorsList.push([products[product].vendor, key])
+                                    // key += 1
                             }
-                        })
-                })
-                .catch(() => {
-                    resolve([])
+
+                        }
+                        var vendors = []
+                        for (vendor in vendorsList) {
+                            vendors[vendor] = []
+                            for (product in products) {
+                                if (products[product].vendor == vendorsList[vendor]) {
+                                    vendors[vendor].push(products[product])
+                                }
+                            }
+                        }
+                        resolve(vendors)
+                    } else {
+                        console.error(err)
+                        resolve([])
+                    }
                 })
         })
-        // var accessoriesModel = require('./models/CMS/accessories.js')
-        // require('./scripts/importAccessoriesFromShopify.js')({ model: accessoriesModel, type: 'Accessory' })
+        .catch(() => {
+            resolve([])
+        })
+})
 
-}
-////// FUNCTIONS AND GLOBAL VARIABLES
+
+var accessoriesModel = require('./models/CMS/accessories.js')
+require('./scripts/importAccessoriesFromShopify.js')({ model: accessoriesModel, type: 'Accessory' })
+    ////// FUNCTIONS AND GLOBAL VARIABLES
 function search(prop, value, array) {
     for (var i = 0; i < array.length; i++) {
         if (array[i][prop] === value) {
@@ -177,6 +182,11 @@ app.use(function(req, res, next) {
     } else {
         next()
     }
+})
+
+app.use((req, res, next) => {
+    res.locals.uuidv4 = require('uuid/v4')
+    next()
 })
 
 function reqLog(req, res, next) {
@@ -208,9 +218,7 @@ app.get('/(|home|index)', function(req, res) {
             }
         })
         .then(function() {
-            return growLightModels().then(models => {
-                console.log("these are the grow light models")
-                console.log(models)
+            return growLightModels.then(models => {
                 res.locals.growLightModels = models
                 return
             }).catch(function() {
@@ -220,8 +228,7 @@ app.get('/(|home|index)', function(req, res) {
 
         })
         .then(function() {
-            return growTentVendors().then(vendors => {
-                console.log("these are the grow tent vendors")
+            return growTentVendors.then(vendors => {
                 res.locals.growTentVendors = vendors
                 return
             }).catch(err => {
@@ -231,8 +238,6 @@ app.get('/(|home|index)', function(req, res) {
             })
         })
         .then(function() {
-            console.log("this is res.locals")
-            console.log(res.locals)
             res.render('pages/home')
         })
 
@@ -279,7 +284,6 @@ app.post('/contact*', function(req, res) {
         text: "Name: " + req.body.name + "\n Phone: " + req.body.phone + "\n Email: " + req.body.email + "\n" + req.body.message
     }
 
-    console.log(req.body.name)
 
     smtpTrans.sendMail(mailOpts, function(error, response) {
 

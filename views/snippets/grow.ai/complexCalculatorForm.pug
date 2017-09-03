@@ -1,0 +1,297 @@
+-var formId = uuidv4()
+-var objectModel = "coverageMap"
+form.l-form(id=formId, method="post", name="singleTent", data-_id=growLight._id).l-center
+    -var sceneContId = uuidv4()
+    -var sceneId = uuidv4()
+    .scene-container.coverage-calc-scene-container(id=sceneContId)
+        .scene.coverage-calc-scene(id=sceneId)
+    -var secId = uuidv4()
+    .l-form-group(data-objectModel=objectModel, id=uuidv4())
+        .l-title.l-nudge-down-more Measurements, in 
+            select(data-property="unit").l-btn.l-btn-dropdown.l-normal.l-inline-block.l-medium.l-align-left
+                each unit in [ "cm", "m" , "ft", "inches" ]
+                    option(data-property="unit", id='unit'+secId, name='unit'+secId,value= unit, data-parsley-required="true") #{unit}
+
+            |: 
+        .l-title.l-nudge-down-more Coverage Dimensions
+        .l-inputs-row
+            .l-input-wrapper.l-inline-block
+                input.l-input.l-number.l-center.l-inline-block.l-medium(type="Number", value=null, data-property="width", id='width'+secId, name='width'+secId, placeholder="width", style="min-width: 33px", data-parsley-required="true", data-parsley-gte="#xResolution"+secId).l-nudge-below
+            .l-input-wrapper.l-inline-block
+                input.l-input.l-number.l-center.l-inline-block.l-medium(type="Number", value=null, data-property="depth", id='depth'+secId, name='depth'+secId, placeholder="depth", style="min-width: 33px", data-parsley-required="true", data-parsley-gte="#zResolution"+secId).l-nudge-below
+        .l-title.l-nudge-down-more Coverage Resolution
+        .l-inputs-row
+            .l-input-wrapper.l-inline-block
+                input.l-input.l-number.l-center.l-inline-block.l-medium(type="Number", value=null, data-property="xResolution", id='xResolution'+secId, name='xResolution'+secId, placeholder="width", style="min-width: 33px", data-parsley-required="true", data-parsley-lte="#width"+secId).l-nudge-below
+            .l-input-wrapper.l-inline-block
+                input.l-input.l-number.l-center.l-inline-block.l-medium(type="Number", value=null, data-property="zResolution", id='zResolution'+secId, name='zResolution'+secId, placeholder="depth", style="min-width: 33px", data-parsley-required="true", data-parsley-lte="#depth"+secId).l-nudge-below
+        .l-title.l-nudge-down-more Coverage position
+        .l-inputs-row.l-nudge-below-more
+            .l-input-wrapper.l-inline-block
+                input.l-input.l-number.l-center.l-inline-block.l-medium(type="Number", value=0, data-property="coverageMapX", id='coverageMapX{id}', placeholder="x", style="min-width: 33px", data-parsley-required="true", data-parsley-excluded="true")
+            .l-input-wrapper.l-inline-block
+                input.l-input.l-number.l-center.l-inline-block.l-medium(type="Number", value=0, data-property="coverageMapY", id='coverageMapY{id}', placeholder="y", style="min-width: 33px", data-parsley-required="true", data-parsley-excluded="true")
+            .l-input-wrapper.l-inline-block
+                input.l-input.l-number.l-center.l-inline-block.l-medium(type="Number", value=0, data-property="coverageMapZ", id='coverageMapZ{id}', placeholder="z", style="min-width: 33px", data-parsley-required="true", data-parsley-excluded="true")
+
+        .l-title.l-large.l-nudge-down-more Lights
+        .l-form-group(data-objectModel="growLight", id=uuidv4())
+            .l-title.l-nudge-down-more Grow Light 
+                select(data-property="unit").l-btn.l-btn-dropdown.l-normal.l-inline-block.l-medium.l-align-left
+                    each gl in allGrowLights
+                        option(data-property="growLight._id", id='growLightChoice'+gl._id+secId, name='growLightChoice'+secId,value= gl._id, data-parsley-required="true") #{gl.title}
+
+                |: 
+            .l-title.l-nudge-down-more Light position
+            .l-inputs-row
+                .l-input-wrapper.l-inline-block
+                    input.l-input.l-number.l-center.l-inline-block.l-medium(type="Number", value=0, data-property="position.x", id='position.x'+secId, name='position.x'+secId, placeholder="x", style="min-width: 33px", data-parsley-required="false").l-nudge-below
+                .l-input-wrapper.l-inline-block
+                    input.l-input.l-number.l-center.l-inline-block.l-medium(type="Number", value=0, data-property="position.z", id='position.z'+secId, name='position.z'+secId, placeholder="z", style="min-width: 33px", data-parsley-required="false").l-nudge-below
+                .l-input-wrapper.l-inline-block
+                    input.l-input.l-number.l-center.l-inline-block.l-medium(type="Number", value=growLight.hangHeight, data-property="hangHeight", id='hangHeight'+secId, name='hangHeight'+secId, placeholder="hang height", style="min-width: 33px", data-parsley-required="false").l-nudge-below
+
+
+        .l-form-group
+            .l-multi-adder-group
+                .l-multi-adder-template(style="display: none")
+                    .l-form-group.l-form-group-multi.l-nudge-below.l-nudge-down(id="{{id}}", data-objectModel="growLight{ignore}")
+
+                        .l-title.l-nudge-down-more.l-inline-block Grow Light 
+                            select(data-property="unit").l-btn.l-btn-dropdown.l-normal.l-inline-block.l-medium.l-align-left
+                                each gl in allGrowLights
+                                    option(data-property="growLight._id", id='growLightChoice'+gl._id+secId, name='growLightChoice'+secId,value= gl._id, data-parsley-required="true") #{gl.title}
+                
+                            |: 
+                        i(style="color: red", onclick=('removeMultiAdderOption(this)')).fa.fa-close-mdi.l-inline-block.l-btn.l-normal.l-medium
+                        .l-title.l-nudge-down-more Light position
+                        .l-inputs-row
+                            .l-input-wrapper.l-inline-block
+                                input.l-input.l-number.l-center.l-inline-block.l-medium(type="Number", value=0, data-property="position.x", id='position.x'+secId, name='position.x'+secId, placeholder="x", style="min-width: 33px", data-parsley-required="false").l-nudge-below
+                            .l-input-wrapper.l-inline-block
+                                input.l-input.l-number.l-center.l-inline-block.l-medium(type="Number", value=0, data-property="position.z", id='position.z'+secId, name='position.z'+secId, placeholder="z", style="min-width: 33px", data-parsley-required="false").l-nudge-below
+                            .l-input-wrapper.l-inline-block
+                                input.l-input.l-number.l-center.l-inline-block.l-medium(type="Number", value=allGrowLights[0].hangHeight, data-property="hangHeight", id='hangHeight'+secId, name='hangHeight'+secId, placeholder="hang height", style="min-width: 33px", data-parsley-required="false").l-nudge-below
+
+                            
+            input.l-btn.l-small.l-wide.l-btn-add.l-block.l-bold.l-float-left(type="button",onclick="addMultiAdderOption(this, '{{id}}')", value="add light +")
+
+
+
+        input.l-submit.l-nudge-below-more.l-filled.l-small.l-block(type="submit", data-formId=formId, value="shine", style="font-weight: 700").l-wide
+    br
+    .l-title.l-large.l-nudge-down-more Layers
+    .l-form-group
+        .l-multi-adder-group
+            .l-multi-adder-template(style="display: none")
+                .l-form-group.l-form-group-multi.l-nudge-below.l-nudge-down(data-objectId=null, id="{id}", data-objectModel=objectModel+"{ignore}")
+                    .l-title.l-nudge-down-more.l-inline-block Measurements, in 
+                        select(data-parsley-required="true", data-parsley-excluded="true").l-btn.l-btn-dropdown.l-normal.l-inline-block.l-medium.l-align-left
+                            each unit in [ "cm", "m" , "ft", "inches" ]
+                                option(id='unit{id}',value= unit) #{unit}
+            
+                        |:
+                    i(style="color: red", onclick=('removeMultiAdderOption(this)')).fa.fa-close-mdi.l-inline-block.l-btn.l-normal.l-medium
+
+                    .l-title.l-nudge-down-more Coverage Dimensions
+                    .l-inputs-row
+                        .l-input-wrapper.l-inline-block
+                            input.l-input.l-number.l-center.l-inline-block.l-medium(type="Number", value=null, data-property="coverageWidth", id='coverageWidth{id}', placeholder="width", style="min-width: 33px", data-parsley-required="true", data-parsley-gte="#coverageResWidth{id}", data-parsley-excluded="true").l-nudge-below
+                        .l-input-wrapper.l-inline-block
+                            input.l-input.l-number.l-center.l-inline-block.l-medium(type="Number", value=null, data-property="coverageDepth", id='coverageDepth{id}', placeholder="depth", style="min-width: 33px", data-parsley-required="true", data-parsley-gte="#coverageResDepth{id}", data-parsley-excluded="true").l-nudge-below
+                    .l-title.l-nudge-down-more Coverage Resolution
+                    .l-inputs-row
+                        .l-input-wrapper.l-inline-block
+                            input.l-input.l-number.l-center.l-inline-block.l-medium(type="Number", value=null, data-property="coverageResWidth", id='coverageResWidth{id}', placeholder="width", style="min-width: 33px", data-parsley-required="true", data-parsley-lte="#coverageWidth{id}", data-parsley-excluded="true").l-nudge-below
+                        .l-input-wrapper.l-inline-block
+                            input.l-input.l-number.l-center.l-inline-block.l-medium(type="Number", value=null, data-property="coverageResDepth", id='coverageResDepth{id}', placeholder="depth", style="min-width: 33px", data-parsley-required="true", data-parsley-lte="#coverageDepth{id}", data-parsley-excluded="true").l-nudge-below
+                    .l-title.l-nudge-down-more Position
+                    .l-inputs-row.l-nudge-below-more
+                        .l-input-wrapper.l-inline-block
+                            input.l-input.l-number.l-center.l-inline-block.l-medium(type="Number", value=0, data-property="coverageMapX", id='coverageMapX{id}', placeholder="x", style="min-width: 33px", data-parsley-required="true", data-parsley-excluded="true")
+                        .l-input-wrapper.l-inline-block
+                            input.l-input.l-number.l-center.l-inline-block.l-medium(type="Number", value=0, data-property="coverageMapY", id='coverageMapY{id}', placeholder="y", style="min-width: 33px", data-parsley-required="true", data-parsley-excluded="true")
+                        .l-input-wrapper.l-inline-block
+                            input.l-input.l-number.l-center.l-inline-block.l-medium(type="Number", value=0, data-property="coverageMapZ", id='coverageMapZ{id}', placeholder="z", style="min-width: 33px", data-parsley-required="true", data-parsley-excluded="true")
+                    .l-title.l-large.l-nudge-down-more-more Lights
+                    .l-form-group(data-objectModel="growLight", id="{id}")
+                        .l-title.l-nudge-down-more Grow Light 
+                            select(data-property="unit").l-btn.l-btn-dropdown.l-normal.l-inline-block.l-medium.l-align-left
+                                each gl in allGrowLights
+                                    option(data-property="growLight._id", id='growLightChoice'+gl._id+secId, name='growLightChoice'+secId,value= gl._id, data-parsley-required="true") #{gl.title}
+                
+                            |: 
+                        .l-title.l-nudge-down-more Light position
+                        .l-inputs-row
+                            .l-input-wrapper.l-inline-block
+                                input.l-input.l-number.l-center.l-inline-block.l-medium(type="Number", value=0, data-property="position.x", id='position.x'+secId, name='position.x'+secId, placeholder="x", style="min-width: 33px", data-parsley-required="false").l-nudge-below
+                            .l-input-wrapper.l-inline-block
+                                input.l-input.l-number.l-center.l-inline-block.l-medium(type="Number", value=0, data-property="position.z", id='position.z'+secId, name='position.z'+secId, placeholder="z", style="min-width: 33px", data-parsley-required="false").l-nudge-below
+                            .l-input-wrapper.l-inline-block
+                                input.l-input.l-number.l-center.l-inline-block.l-medium(type="Number", value=growLight.hangHeight, data-property="hangHeight", id='hangHeight'+secId, name='hangHeight'+secId, placeholder="hang height", style="min-width: 33px", data-parsley-required="false").l-nudge-below
+                    .l-form-group
+                        .l-multi-adder-group
+                            .l-multi-adder-template(style="display: none")
+                                .l-form-group.l-form-group-multi.l-nudge-below.l-nudge-down(id="{{id}}", data-objectModel="growLight{ignore}")
+
+                                    .l-title.l-nudge-down-more.l-inline-block Grow Light 
+                                        select(data-property="unit").l-btn.l-btn-dropdown.l-normal.l-inline-block.l-medium.l-align-left
+                                            each gl in allGrowLights
+                                                option(data-property="growLight._id", id='growLightChoice'+gl._id+secId, name='growLightChoice'+secId,value= gl._id, data-parsley-required="true") #{gl.title}
+                            
+                                        |: 
+                                    i(style="color: red", onclick=('removeMultiAdderOption(this)')).fa.fa-close-mdi.l-inline-block.l-btn.l-normal.l-medium
+                                    .l-title.l-nudge-down-more Light position
+                                    .l-inputs-row
+                                        .l-input-wrapper.l-inline-block
+                                            input.l-input.l-number.l-center.l-inline-block.l-medium(type="Number", value=0, data-property="position.x", id='position.x'+secId, name='position.x'+secId, placeholder="x", style="min-width: 33px", data-parsley-required="false").l-nudge-below
+                                        .l-input-wrapper.l-inline-block
+                                            input.l-input.l-number.l-center.l-inline-block.l-medium(type="Number", value=0, data-property="position.z", id='position.z'+secId, name='position.z'+secId, placeholder="z", style="min-width: 33px", data-parsley-required="false").l-nudge-below
+                                        .l-input-wrapper.l-inline-block
+                                            input.l-input.l-number.l-center.l-inline-block.l-medium(type="Number", value=allGrowLights[0].hangHeight, data-property="hangHeight", id='hangHeight'+secId, name='hangHeight'+secId, placeholder="hang height", style="min-width: 33px", data-parsley-required="false").l-nudge-below
+
+                                        
+                        input.l-btn.l-small.l-wide.l-btn-add.l-block.l-bold.l-float-left(type="button",onclick="addMultiAdderOption(this, '{{id}}')", value="add light +")
+
+        input.l-btn.l-small.l-wide.l-btn-add.l-block.l-bold.l-float-left(type="button",onclick="addMultiAdderOption(this, '{id}')", value="add layer +")
+        //- .l-btn.l-btn-submit.l-small.l-inline-block.l-float-left.l-nudge-right go
+
+        input.l-submit.l-filled.l-small.l-block(type="submit", data-formId=formId, value="shine", style="font-weight: 700").l-wide
+    .success.l-small.l-block.l-btn
+    script.
+        $('document').ready(()=>{
+            var form = $('##{formId}').parsley()
+            var object = {}
+            var scene = new lopu3d.scene({
+                id: "#{sceneId}",
+                containerId: "#{sceneContId}",
+                sizeType: "object",
+                type: '3d',
+                theme: 'relative',
+                ratio: 80
+            })
+            console.log("this is the filter function and return")
+            //- for(i in allGrowLights){
+            //-     console.log(allGrowLights[i])
+            //- }
+            allGrowLights.filter(
+                function(gl){
+                    console.log(gl);
+                    //- return gl._id == "#{growLight._id}"
+                }
+            )
+            var currentLight = new GrowLight(allGrowLights.find(gl => gl._id == "#{growLight._id}"), {makeDiodes: true})
+            opts = {
+                scene: scene,
+                lights: [currentLight],
+                render: true,
+                frontOn: true
+            }
+            newOpts = returnJsonConcat(opts, {
+                coverageMaps: [
+                    {
+                        width: currentLight.coverageAt({dimension: "x"}),
+                        depth: currentLight.coverageAt({dimension: "z"}),
+                        //- width: 100,
+                        //- depth: 100,
+                        unit: "cm",
+                        resolution: 15,
+                        lightPosition: {
+                            x: 0,
+                            y: 0
+                        }
+                    }
+                ]
+            })
+            if("#{covCalcId}".length > 0){
+                $("#!{covCalcId}"+ " .slick-arrow").bind('click', {allGrowLights: allGrowLights, sliderId: "#{covCalcId}-parent", aiOpts: newOpts}, (e)=>{
+                        var _id = $("#"+e.data.sliderId).find('.slick-current .growLight').attr('data-_id')
+                        $("##{formId}").attr('data-_id', _id)
+                        var growLight = new GrowLight(allGrowLights.find(gl => gl._id == _id), {makeDiodes: true})
+                        //- console.log(growLight)
+                        //- console.log(_id)
+                        //- console.log($("#"+e.data.sliderId).find('.slick-current .growLight'))
+                        e.data.aiOpts.lights = [growLight]
+                        e.data.aiOpts.coverageMaps[0] = {
+                            width: growLight.coverageAt({dimension: "x"}),
+                            depth: growLight.coverageAt({dimension: "z"}),
+                            //- width: 100,
+                            //- depth: 100,
+                            unit: "cm",
+                            resolution: 15,
+                            lightPosition: {
+                                x: 0,
+                                y: 0
+                            }
+                        }
+                        //- console.log(scene)
+                        e.data.aiOpts.scene.clear()
+                        console.log(e.data.aiOpts)
+                        grow.ai.calculateCoverage(e.data.aiOpts)
+                })
+            }
+            grow.ai.calculateCoverage(newOpts)
+            $("##{formId}").submit(e=>{
+                e.preventDefault()
+                if(form.isValid()){
+                    var opts = {
+                        scene: scene,
+                        lights: [],
+                        render: true,
+                        frontOn: true,
+                        coverageMaps: []
+                    }
+                    var _id = $("##{formId}").attr('data-_id')
+                    opts.lights.push(new GrowLight(allGrowLights.find(gl=>gl._id == _id), {makeDiodes: true}))
+                    $(e.target).find('[data-objectModel="#{objectModel}"]').each((v, data)=>{
+                        var coverageMap = {}
+                        $(data).find('input').each((vv, input)=>{
+                            if(form.fieldsMappedById["Field-"+$(input).data('parsley-id')]){
+                                if($(input).attr('type') == "Number"){
+                                    coverageMap[$(input).data('property')] = parseInt(form.fieldsMappedById["Field-"+$(input).data('parsley-id')].value)
+
+                                } else {
+                                    coverageMap[$(input).data('property')] = form.fieldsMappedById["Field-"+$(input).data('parsley-id')].value
+                                }
+                            }
+                        })
+                        $(data).find('select').each((vv, input)=>{
+                            if(form.fieldsMappedById["Field-"+$(input).data('parsley-id')]){
+                                coverageMap[$(input).data('property')] = form.fieldsMappedById["Field-"+$(input).data('parsley-id')].value
+                            }
+                        })
+                        coverageMap.position = {
+                            rx: 90
+                        }
+                        coverageMap.lightPosition = {
+                            x: 0,
+                            y: 0
+                        }
+                        $(e.target).find('[data-objectModel="#{objectModel}"]').each((v, data)=>{
+
+                        })
+                        
+                        for(light in opts.lights){
+                            opts.lights[light].hangHeight = coverageMap.hangHeight
+                        }
+                        opts.coverageMaps.push(coverageMap)
+                    })
+                    for(map in opts.coverageMaps){
+                        var curMap = opts.coverageMaps[map]
+                        if((curMap.depth / curMap.zResolution)*(curMap.width/curMap.xResolution) > 500){
+                            sendError("You want to render a map that will crash your browser, try a lower resolution")
+                            return
+                        }
+                    }
+                    scene.clear()
+                    grow.ai.calculateCoverage(opts)
+                    $('##{formId} .success').html('Submitted Succesfully')                                            
+                } else {
+                    sendError("Please correct the form, something went wrong")
+                }
+            })
+        })
+        function sendError(msg){
+            $('##{formId} .success').html(msg)       
+        }
+    

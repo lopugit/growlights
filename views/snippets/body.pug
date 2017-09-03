@@ -1,0 +1,8 @@
+body#page-top.index
+    block content
+        -if(deploy == "live")
+            include /snippets/tracking/ganalytics
+        include /snippets/nav
+        include /snippets/js/globalFunctions
+        include /snippets/globalObjects
+        include /snippets/cart

@@ -1,0 +1,56 @@
+.coverageMap
+	>.bottom
+		// background: rgb(200, 20, 50)
+		// opacity: .7
+		pointer-events: none
+		border-top: 1px solid rgba(0,0,0,.6)
+		border-left: 1px solid rgba(0,0,0,.6)
+	.coverageMapSquare
+		z-index: 400
+		// pointer-events: none
+		>.bottomParent
+			// background: rgb(200, 20, 50)
+			background: $pink
+			// opacity: .7
+			// pointer-events: none
+		
+		.coverageSquareData
+			display: none
+			font-size: 1.4rem
+			color: white
+			width: auto !important
+			height: auto !important
+			>div
+				border-radius: 2px
+				background: $gc
+				margin-top: 2px
+				margin-bottom: 2px
+				padding: 3px 8px
+				width: auto
+				height: auto
+				font-family: 'Montserrat'
+				font-weight: 700
+			// pointer-events: none
+		&:hover
+			>.bottomParent
+				opacity: .8
+			.coverageSquareData
+				display: block
+	.coverageMapFullLabel
+		z-index: 120
+		pointer-events: none
+		.data
+			padding: 3px 18px
+			background: $gc
+			border-radius: 2px
+			color: $gw
+			font-family: 'Montserrat'
+			font-weight: 700
+			font-size: 1.5rem
+			-webkit-font-smoothing: anti-aliased
+		// &.depth
+		// 	border-right: 1px solid rgba(0,0,0,.7)
+		// 	transform: translateX(-100%)
+		// &.width
+		// 	border-bottom: 1px solid rgba(0,0,0,.7)
+		// 	transform: translateY(-100%)

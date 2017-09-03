@@ -1,0 +1,41 @@
+.productModal
+    .product-title
+        padding-bottom: 20px
+        color: $gc
+    .item-details-product
+        padding-bottom: 15px
+    .product-description
+        p
+            font-size: 1.7rem
+            font-family: "Montserrat"  
+    .item-details-product
+    .price
+        padding-top: 15px
+        font-size: 2.4rem
+    .combo-button-container
+        width: 100%
+        display: flex
+        justify-content: center
+        align-items: center
+        padding-top: 30px
+        .combo-button
+            margin-left: 5% !important
+            margin-right: 5% !important
+            width: 90% !important
+            max-width: 300px
+            // display: flex
+            // align-items: center
+            // justify-content: center
+            .shop-cart-button
+                display: flex
+                align-items: center
+                justify-content: center
+    .close-button
+        @extend .combo-button
+    &.Grow-Light-Modal
+        .product-title
+            color: $gc
+    li
+        strong
+            a
+                text-transform: capitalize

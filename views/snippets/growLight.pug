@@ -1,0 +1,278 @@
+-if(growLight)
+	-if(customGrowLight)
+		.l.col-sm-16
+			.l-material-card
+				-var formId = uuidv4()
+				form.l-form(id=formId, method="post", name="singleTent").l-center
+					.l-title.l-large.l-inline.l-nudge-below.l-center Custom Light
+					.l-title.l-nudge-down-more Dimensions, in 
+						select.l-btn.l-btn-dropdown.l-normal.l-inline-block.l-medium.l-align-left
+							each unit in [ "cm", "m" , "ft", "inches" ]
+								option(id='unit',value= unit) #{unit}
+			
+						|: 
+					.l-inputs-row
+						input.l-input.l-number.l-center.l-inline-block.l-medium(type="Number", id='lightWidth', placeholder="width", style="min-width: 33px").l-nudge-below
+						input.l-input.l-number.l-center.l-inline-block.l-medium(type="Number", id='lightDepth', placeholder="depth", style="min-width: 33px").l-nudge-below
+						input.l-input.l-number.l-center.l-inline-block.l-medium(type="Number", id='lightHeight', placeholder="height", style="min-width: 33px").l-nudge-below
+					input.l-submit.l-filled.l-wide.l-small.l-block.l-nudge-below-more(type="submit", data-formId=formId, value="save", style="font-weight: 700")
+
+					.l-title diode ammount
+					.l-inputs-row
+						input.l-input.l-number.l-center.l-inline-block.l-medium.l-nudge-down(type="Number", id='diodeCount', placeholder="count", style="min-width: 33px")
+					.l-title.l-nudge-down-more Diodes
+
+					//- 	select.l-btn.l-btn-dropdown.l-normal.l-inline-block.l-medium.l-align-left
+					//- 		each unit in [ "cm", "m" , "ft", "inches" ]
+					//- 			option(id='unit',value= unit) #{unit}
+			
+					//- 	|: 
+					//- .l-inputs-row
+					//- 	input.l-input.l-number.l-center.l-inline-block.l-medium(type="text", id='width', placeholder="width", style="min-width: 33px").l-nudge-below
+					//- 	input.l-input.l-number.l-center.l-inline-block.l-medium(type="text", id='depth', placeholder="depth", style="min-width: 33px").l-nudge-below
+					//- 	input.l-input.l-number.l-center.l-inline-block.l-medium(type="text", id='height', placeholder="height", style="min-width: 33px").l-nudge-below
+
+					.l-form-group
+						.l-multi-adder-group
+							.l-multi-adder-template(style="display: none")
+								.l-form-group.l-form-group-multi.l-nudge-below.l-nudge-down
+									.l-title.l-inline-block Wavelength:  
+										select.l-btn.l-btn-dropdown.l-normal.l-inline-block.l-medium.l-align-left
+											-var wavelengths = []
+											-for(var i =0; i <= 500; i++)
+												-wavelengths.push(i+300)
+											each wavelength in wavelengths
+												option(id='wavelength',value= wavelength+"nm") #{wavelength}nm
+									i(style="color: red", onclick=('removeMultiAdderOption(this)')).fa.fa-close-mdi.l-inline-block.l-btn.l-normal.l-medium
+									.l-form-group.l-inline-block
+										-var uuid1 = uuidv4()
+										//- -var uuid2 = uuidv4()
+										.l-form-group.l-inline-block.l-underline
+											input(type="number", id='diodePercentage'+uuid1, placeholder="Percentage", name="Percentage"+uuid1).l-input.l-medium.l-center.l-placeholder-medium.l-inline-block.l-slide-input
+											label(for="percentage"+uuid1).l-abs-top-right-nudge-more %
+										.l-title.l-inline-block or
+										.l-form-group.l-inline-block.l-underline
+											input(type="number", id='diodeCount'+uuid1, placeholder="Count", name="count"+uuid1).l-input.l-medium.l-center.l-placeholder-medium.l-inline-block.l-slide-input
+											label(for="count"+uuid1).l-abs-top-left-nudge-more #
+									-var uuid2 = uuidv4()
+									.l-form-group.l-nudge-down-more-more.l-underline
+										.l-title What is the wattage?
+										input(type="number", id='diodeWattage'+uuid2, value="1" name="diodeWattage"+uuid2).l-input.l-medium.l-center.l-placeholder-medium.l-inline-block.l-slide-input
+										label(for="diodeWattage"+uuid2).l-abs-top-left-nudge-more Watts
+									.l-form-group.l-nudge-down-more-more.l-underline
+										.l-title What is the lumens?
+										input(type="number", id='diodeLumens'+uuid2, value="1" name="diodeLumens"+uuid2).l-input.l-medium.l-center.l-placeholder-medium.l-inline-block.l-slide-input
+										label(for="diodeLumens"+uuid2).l-abs-top-left-nudge-more Lumens
+									.l-form-group.l-nudge-down-more-more.l-underline
+										.l-title What is the PAR?
+										input(type="number", id='diodePAR'+uuid2, value="1" name="diodePAR"+uuid2).l-input.l-medium.l-center.l-placeholder-medium.l-inline-block.l-slide-input
+										label(for="diodePAR"+uuid2).l-abs-top-left-nudge-more PAR
+									.l-form-group.l-nudge-down-more-more.l-underline
+										.l-title What is the PPFD?
+										input(type="number", id='diodePPFD'+uuid2, value="1" name="diodePPFD"+uuid2).l-input.l-medium.l-center.l-placeholder-medium.l-inline-block.l-slide-input
+										label(for="diodePPFD"+uuid2).l-abs-top-left-nudge-more PPFD
+										
+						.l-btn.l-small.l-wide.l-btn-add.l-block.l-bold.l-float-left(onclick="addMultiAdderOption(this)") add diode +
+						//- .l-btn.l-btn-submit.l-small.l-inline-block.l-float-left.l-nudge-right go
+
+					input.l-submit.l-filled.l-small.l-nudge-below-more.l-block(type="submit", data-formId=formId, value="save", style="font-weight: 700").l-wide
+					.l-nudge-below-quite-alot
+				script(async).
+					$("##{formId}").submit(e=>{
+						e.preventDefault()
+						$(e.target).find("input").each((v, data)=>{
+						})
+					})
+
+	-var uuid = uuidv4()
+	.sceneContainer.col-lg-24.growLightSceneContainer(id="sceneContainer"+uuid).l
+		.scene(id="scene"+uuid, style="width: 1400px; max-width 100%")
+
+	script.
+		console.log(globalGrowLightPxr)
+		if(!globalGrowLightPxr){
+			var globalGrowLightPxr
+		}
+		$(window).ready(function(){
+			console.log("globalGrowLightPxr before if statement")
+			console.log(globalGrowLightPxr)
+			//- if(globalGrowLightPxr == 0) {
+			//- 	console.log("globalGrowLightPxr")
+			//- 	console.log(globalGrowLightPxr)
+			//- 	globalGrowLightPxr = undefined
+			//- 	console.log("globalGrowLightPxr")
+			//- 	console.log(globalGrowLightPxr)
+			//- }
+			var scene = new Scene({
+				render: true,
+				id: "scene#{uuid}",
+				containerId: "sceneContainer#{uuid}",
+				sizeType: "object",
+				pxr: globalGrowLightPxr,
+				type: '3d'
+			})
+			var growLight = !{mts(growLight)}
+			growLight.scene = scene
+			var gl = new GrowLight(growLight)
+			console.log(gl)
+			if(globalGrowLightPxr){} else {
+				globalGrowLightPxr = scene.pxr
+				console.log('is scene.pxr')
+				console.log(scene.pxr)
+			}
+		})
+
+
+-else
+	-
+		var templateLight = {
+			width: 350,
+			height: 60,
+			depth: 20,
+			switchable: true,
+			wavelengths:[
+				{nm:"k3000",ratio:.1},
+				{nm:"nm440",ratio:.125},
+				{nm:"nm460",ratio:.125},
+				{nm:"nm630",ratio:.325},
+				{nm:"nm660",ratio:.325},
+			],
+			emissionInset: 14,
+			model: 'pro',
+			wattage: 800,
+			wattageFormatted: function(){return this.wattage+"W"},
+			lightType: "led",
+			price: 600,
+			priceFormatted: function(){return "$"+this.price},
+			spectrumSpread: 'both',
+			showLables: true,
+			lensAngle: 120,
+			showInfoButton: true,
+			customLightHeight: undefined,
+			customLightSpread: undefined,
+			lightHeight: function(){
+				if(this.customLightHeight !== undefined){
+					return this.customLightHeight
+				}
+				else {
+					return (((Math.sqrt(this.wattage)))*15)
+				}
+			},
+			diodeCoverage: function(height){
+				if(this.customLightSpread == undefined){
+					return (Math.tan(r2d2(this.lensAngle)/2)*height)
+				}
+				else {
+					return this.customLightSpread/2
+				}
+			},
+			coverageWidth: function(height){
+					return (((this.diodeCoverage(this.lightHeight()))*2)+this.width)
+			},
+			lightOpacity: 1,
+			centerColour: 'auto',
+			classes: '',
+			uuid: uuidv4(),
+			_id: uuidv4()
+
+		}
+	-if(light)
+		each val, property in templateLight
+			//- span= val
+			//- span= property\
+			-if(light[property] !== undefined)
+				//- span fuck
+			-else
+				-light[property] = templateLight[property]
+			
+	-else
+		-var light = templateLight
+	.light-container(id="id"+light._id, class=light.classes).l
+		.growLight(id="id"+light._id, class=light.model+" modalOpener includeSpecificChildren", style="width: "+light.width*sizeFactor+"px; height: "+light.height*sizeFactor+"px")
+			-if(light.showLables)
+				.light-labels-positioner
+					.light-labels-container
+						.light-label.wattage
+							span= light.wattageFormatted()
+						.light-label.price
+							span= light.priceFormatted()
+						//- .light-label.type
+						//- 	-if(light.ledBrand)
+						//- 		-if(light.model == 'Pro')
+						//- 			span= light.ledBrand
+						//- 		-else
+						//- 			span= light.ledBrand
+						//- 			//- span= light.type
+						//- 	-else
+						//- 		span= light.lightType
+						-if(light.vendor)
+							.light-label.vendor
+								span= light.vendor
+						.light-label.more-info
+							span all info
+			-if(light.showInfoButton)
+				.light-info-container
+					.light-info-positioner
+						i.fa.fa-clipboard-text
+						.more-info
+							| All Specs
+			-if(light.switchable)
+				.light-switches-container
+					.light-switches-positioner
+						-if(light.spectrumType !== 'rainbow')
+							div(class="material-toggle veg-toggle-container")
+								.light-btn-label.veg-spectrum Veg
+								input(type="checkbox", id="veg-toggle"+light._id, name="veg-toggle"+light._id, checked=true).ignoreClick
+								label(for="veg-toggle"+light._id, class="veg-label").ignoreClick
+							div(class="material-toggle flower-toggle-container")
+								.light-btn-label.flower-spectrum Flower
+								input(type="checkbox", id="flower-toggle"+light._id, name="flower-toggle"+light._id, checked=true).ignoreClick
+								label(for="flower-toggle"+light._id, class="flower-label").ignoreClick
+		//-  Renders Light Output (Spectrum)
+		-var height = light.lightHeight()
+		-var directlyBelow = 200
+		-var wideCoverage = 280
+		-light.emitWidth = light.width*sizeFactor - (light.emissionInset*2)
+		-var coverageWidth = light.diodeCoverage(light.lightHeight())
+		.spectrums-container(style="width: "+light.emitWidth+"px;height:"+height).clearfix
+			-var percentUsed = 0
+			-var newPercentUsed = percentUsed
+			-var zindex = 20
+			-var center = true
+			-if(light.centerColour)
+				-if(light.centerColour == 'auto')
+					-var centerNumber = light.wavelengths.length/2
+				-else
+					-var centerNumber = light.centerColour
+			-else
+				-var centerNumber = light.wavelengths.length/2
+			each wavelength, key in light.wavelengths
+				-if(wavelength.ratio !== 'auto')
+					-newPercentUsed = percentUsed + wavelength.ratio
+				-if(wavelength.ratio == 'auto')
+					-newPercentUsed = percentUsed + (1/light.wavelengths.length)
+				-if(light.spectrumSpread !== 'both')
+					-
+						var points = (light.emitWidth*percentUsed)+",0 "+(light.emitWidth*newPercentUsed)+",0 "+((coverageWidth*newPercentUsed))+","+height+" "+((coverageWidth*percentUsed))+","+height
+				-else if(light.spectrumSpread == 'both')
+					-
+						var points = (light.emitWidth*percentUsed)+",0 "+(light.emitWidth*newPercentUsed)+",0 "+((light.emitWidth*newPercentUsed)+((coverageWidth)))+","+height+" "+((light.emitWidth*percentUsed)-((coverageWidth)))+","+height
+
+				-if(light.centerOut)
+					-if(light.centerOut == true)
+						-if(key+1 < centerNumber)
+							-zindex = zindex + 1
+						-else if(key+1 >= centerNumber)
+							-if(center == true)
+								-zindex = zindex + 1
+								-center = false
+							-else
+								-zindex = zindex - 1
+				svg(style="height: "+height+"px;z-index:"+zindex)
+					polygon(class=wavelength.nm, points=points, style="z-index:"+zindex+";opacity:"+light.lightOpacity)
+				-if(light.backBoost)
+					svg(style="height: "+height+"px;z-index:"+(zindex-15))
+						polygon(class=wavelength.nm, points=points, style="z-index:"+(zindex-15)+";opacity:1")
+				-percentUsed = newPercentUsed
+			-var percentUsed = 0
+			-var newPercentUsed = percentUsed

@@ -1,11 +1,210 @@
-//- script
--
-    var ts = function(thing){
-        return JSON.stringify(thing)
-    }
-    var getLightHeight = function(wattage){
-        return 1/Math.sqrt(this.wattage)*10
-    }
-    var r2d2 = function(d){
-        return d*(180/Math.PI)
-    }
+append content
+    -
+        Function.prototype.clone = function(){
+            var that = this
+            var temp = function temporary(){return that.apply(this, arguments)}
+            //- for(var key in this){
+            //-     if(this.hasOwnProperty(key)){
+            //-         temp[key] = this[key]
+            //-     }
+            //- }
+            return temp
+        }
+        function ts(thing){
+            var newThing = thing
+            var Str = JSON.stringify(newThing, function(key, value){
+                    if(typeof(value) == 'function'){
+                        var str = "{function}"+value.toString()+"{/function}"
+                        str = str.replace(/\s{2}/g, '')
+                        str = str.replace(/\"/g, '{"}')
+                        return str
+                    } else {
+                        return value
+                    }
+                }
+            )
+            Str = Str.replace(/"{function}/g,'')
+            Str = Str.replace(/{\/function}\"/g,'')
+            //- Str = Str.replace(/\/\/.{0,100}?\\n|\\n/g, '')
+            Str = Str.replace(/\\n/g, '')
+            Str = Str.replace(/{\\"}/g,'"')
+            //- Str = Str.replace(/\n|\\/g,'')
+            return Str
+
+        }
+        function mts(doc){
+            var curDoc = doc
+            var ret = {}
+            if(curDoc.schema && curDoc.schema.paths){
+                for(var path in curDoc.schema.paths){
+                    ret[path] = curDoc[path]
+                }
+            }
+            if(curDoc.schema && curDoc.schema.methods){
+                for(var method in curDoc.schema.methods){
+                    ret[method] = curDoc[method]
+                }
+            }
+            var Str = JSON.stringify(ret, function(key, value){
+                    if(typeof(value) == 'function'){
+                        var str = "{function}"+value.toString()+"{/function}"
+                        str = str.replace(/\s{2}/g, '')
+                        str = str.replace(/\"/g, '{"}')
+                        return str
+                    } else {
+                        return value
+                    }
+                }
+            )
+            Str = Str.replace(/"{function}/g,'')
+            Str = Str.replace(/{\/function}\"/g,'')
+            //- Str = Str.replace(/\/\/.{0,100}?\\n|\\n/g, '')
+            Str = Str.replace(/\\n/g, '')
+            Str = Str.replace(/{\\"}/g,'"')
+            //- Str = Str.replace(/\n|\\/g,'')
+            return Str
+        }
+        function mats(docArray){
+            var Str = '['
+            for(var i in docArray){
+                var curDoc = docArray[i]
+                var ret = {
+                    methods: {}
+                }
+                for(var path in curDoc.schema.paths){
+                    ret[path] = curDoc[path]
+                }
+                for(var method in curDoc.schema.methods){
+                    ret[method] = curDoc[method]
+                }
+                var str = JSON.stringify(ret, function(key, value){
+                        if(typeof(value) == 'function'){
+                            var str = "{function}"+value.toString()+"{/function}"
+                            //- str = str.replace(/\s{2}/g, '')
+                            str = str.replace(/\"/g, '{"}')
+                            return str
+                        } else {
+                            return value
+                        }
+                    }
+                )
+                if(i < docArray.length-1){
+                    Str = Str + str + ','
+                } else {
+                    Str = Str + str +']'
+                } 
+            }
+            Str = Str.replace(/"{function}/g,'')
+            Str = Str.replace(/{\/function}\"/g,'')
+            //- Str = Str.replace(/\/\/.{0,100}?\\n|\\n/g, '')
+            Str = Str.replace(/\\n/g, '')
+            Str = Str.replace(/{\\"}/g,'"')
+            //- Str = Str.replace(/\n|\\/g,'')
+            return Str
+        }
+        function getLightHeight(wattage){
+            return 1/Math.sqrt(this.wattage)*10
+        }
+        function r2d2(d){
+            return d*(180/Math.PI)
+        }
+        function jsonConcat(o1, o2) {
+            for (var key in o2) {
+                o1[key] = {}
+                o1[key] = o2[key]
+            }
+        }
+        function deepCopy(oldObj){
+            var newObj = oldObj
+            if (oldObj && typeof oldObj === 'object') {
+                newObj = Object.prototype.toString.call(oldObj) === "[object Array]" ? [] : {}
+                for (var i in oldObj) {
+                    newObj[i] = deepCopy(oldObj[i])
+                }
+            }
+            return newObj
+        }
+        function returnJsonConcat(o1, o2) {
+            //- var ourObj = JSON.parse(mts(o1))
+            var ourObj = o1
+            for (var key in o2) {
+                if(typeof(o2[key]) == 'function'){
+                    ourObj[key] = {}
+                    ourObj[key] = o2[key]
+                } else {
+                    ourObj[key] = {}
+                    ourObj[key] = o2[key]
+                }
+            }
+            return ourObj
+        }
+        function evalMethods(o1) {
+            console.log("idk where this logs to")
+            console.log(o1)
+            for (var key in o1["schema"]["methods"]) {
+                //- if(typeof(o1[key]) == 'function'){
+                    o1[key] = o1["schema"]["methods"][key]()
+                //- }
+            }
+            return o1
+        }
+
+    script.
+        $('document').ready(function(){
+            $('.modalOpener').click(function(e){
+                //- if(e.)
+                console.log(e)
+                if(e.target !== e.currentTarget) {
+                        console.log(e.currentTarget.className.indexOf('includeChildren'))
+                    if(e.currentTarget.className.indexOf('includeChildren') >= 0){
+                    } else if (e.currentTarget.className.indexOf('includeSpecificChildren') >= 0) {
+                        if(e.target.className.indexOf('ignoreClick') >= 0){
+                            return
+                        }
+                    } else {
+                        return
+                    }
+                }
+                $("#"+e.currentTarget.id+"Modal").modal('show')          
+            })
+        })
+        function openModal(e){
+            if(typeof(e) == 'string'){
+                $("#"+e+"Modal").modal('show')
+                $('#'+e+"Modal").trigger('shown')         
+            } else {
+                if(e.target !== e.currentTarget) return
+                $("#"+e.id+"Modal").modal('show')          
+                $('#'+e.id+"Modal").trigger('shown')         
+            }
+        }
+        function jsonConcat(o1, o2) {
+            for (var key in o2) {
+                if(typeof(o2[key]) == 'function'){
+                    o1[key] = o2[key]
+                } else {
+                    o1[key] = o2[key]
+                }
+            }
+        }
+        function returnJsonConcat(o1, o2) {
+            for (var key in o2) {
+                if(typeof(o2[key]) == 'function'){
+                    o1[key] = o2[key]()
+                } else {
+                    o1[key] = o2[key]
+                }
+            }
+            return o1
+        }
+        function d2r(d){
+            var dd = d
+            return dd*(Math.PI/180)
+        }
+        function SVG(tag)
+        {
+            return document.createElementNS('http://www.w3.org/2000/svg', tag)
+        }
+        function cl(msg){
+            console.log(msg)
+        }

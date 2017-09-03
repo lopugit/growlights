@@ -1,3 +1,6 @@
-include /snippets/head
-include /snippets/products/green
-include /snippets/footer
+extends /snippets/layout
+append content
+    include /snippets/products/green
+    //- include /snippets/includeAllGrowLights
+    //- each growLight in growLightModels["Green"]
+    //-     include

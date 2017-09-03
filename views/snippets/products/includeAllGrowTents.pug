@@ -1,0 +1,9 @@
+append content
+	-var allGrowTents = []
+	-if(growTentVendors)
+			each growTentVendor in growTentVendors
+				each growTent in growTentVendor
+					-allGrowTents.push(growTent)
+
+	each product in allGrowTents
+		include /snippets/productModal

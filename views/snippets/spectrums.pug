@@ -1,108 +1,16 @@
-#spectrums.l
-	.container-fluid.specrum-container
-		.row    
-			.col-xs-24.title-col
-				h1 wavelengths and spectrums
-				h2(style="font-weight: 700") How do they work?
-			.col-xs-24.light-col
-				//- .light-container
-				-
-					var light = {
-						width: 350,
-						height: 60,
-						switchable: true,
-						wavelengths:[
-							{nm:"k3000",ratio:.1},
-							{nm:"nm440",ratio:.125},
-							{nm:"nm460",ratio:.125},
-							{nm:"nm630",ratio:.325},
-							{nm:"nm660",ratio:.325},
-						],
-						model: 'pro',
-						emissionInset: 10,
-						wattage: 800,
-						wattageFormatted: function(){return this.wattage+"W"},
-						type: "led",
-						price: 1200,
-						priceFormatted: function(){return "$"+this.price+".00"},
-						spectrumSpread: 'both',
-						showLables: true,
-						lensAngle: 120,
-						showInfoButton: true,
-						customLightHeight: 600,
-						customLightSpread: 600,
-						lightOpacity: .8,
-						centerOut: false
-					}
-				include /snippets/light
-				-
-					var light = {
-						width: 350,
-						height: 18,
-						switchable: false,
-						wavelengths:[
-							{nm:"rainbowRed",ratio:'auto'},
-							{nm:"rainbowOrange",ratio:'auto'},
-							{nm:"rainbowYellow",ratio:'auto'},
-							{nm:"rainbowGreen",ratio:'auto'},
-							{nm:"rainbowCyan",ratio:'auto'},
-							{nm:"rainbowBlue",ratio:'auto'},
-							{nm:"rainbowPurple",ratio:'auto'},
-						],
-						model: 'flourescent',
-						emissionInset: 15,
-						wattage: 100,
-						wattageFormatted: function(){return this.wattage+"W"},
-						type: "flourescent",
-						price: 100,
-						priceFormatted: function(){return "$"+this.price+".00"},
-						spectrumType: 'mixed',
-						spectrumSpread: 'both',
-						showLables: true,
-						lensAngle: 120,
-						showInfoButton: true,
-						customLightHeight: 600,
-						customLightSpread: 500,
-						lightOpacity: .4,
-						centerOut: true,
-						backBoost: true,
-					}
-				include /snippets/light
-				-
-					var light = {
-						width: 80,
-						height: 30,
-						switchable: false,
-						wavelengths:[
-							{nm:"rainbowRed",ratio:'auto'},
-							{nm:"rainbowOrange",ratio:'auto'},
-							{nm:"rainbowYellow",ratio:'auto'},
-							{nm:"rainbowGreen",ratio:'auto'},
-							{nm:"rainbowCyan",ratio:'auto'},
-							{nm:"rainbowBlue",ratio:'auto'},
-							{nm:"rainbowPurple",ratio:'auto'},
-						],
-						model: 'hid',
-						emissionInset: 15,
-						wattage: 100,
-						wattageFormatted: function(){return this.wattage+"W"},
-						type: "hid",
-						price: 100,
-						priceFormatted: function(){return "$"+this.price+".00"},
-						spectrumType: 'mixed',
-						spectrumSpread: 'both',
-						showLables: true,
-						lensAngle: 120,
-						showInfoButton: true,
-						customLightHeight: 600,
-						customLightSpread: 500,
-						lightOpacity: .4,
-						centerOut: true,
-						backBoost: true,
-					}
-				include /snippets/light
-
-					//- .light-switch
-					//- .light-switch
-				//- svg(id="svgLight")
-				//- 	path(d="M0,0 h200 a5,5 0 0 1 5,5 v50 a5,5 0 0 1 -5,5 h-200 a5,5 0 0 1 -5,5 v-50 a5,5 0 0 1 -5,5", fill="white")
+append content
+	#spectrums.l
+		.container-fluid.specrum-container
+			.row    
+				.col-xs-24.title-col
+					h1.wavelengths-title
+						span Wavelengths and spectrums
+							.coming-soon Coming soon!
+					h2(style="font-weight: 700") How do they work?
+				.col-xs-24.light-col
+					//- .light-container
+					-var growLight = growLightModels.custom["Rainbow"]
+					-var globalGrowLightPxr = undefined
+					-growLight.object.ratio = 70
+					-growLight.object.type = '2d'
+					include /snippets/growLight

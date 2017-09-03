@@ -3,14 +3,14 @@
 	max-width: 100%
 	height: auto
 	overflow: hidden
-	padding-top: 60px
+	// padding-top: 60px
 	// padding-bottom: 20px
 	font-family: Montserrat
 	background: $gw
 	color: $gb
 	.banner-text
-		padding-top: 20px
-		padding-bottom: 20px
+		padding-top: 40px
+		padding-bottom: 10px
 		height: auto
 		max-width: 100%
 		overflow: hidden
@@ -25,14 +25,29 @@
 		white-space: pre-wrap
 		width: auto
 		max-width: 100%
-	@media(max-width: 795px)
-		.banner-text
-			min-height: 220px
-		.intro-text
-			font-size: 3.3rem
 	.typed-cursor
 		display: inline-block
 		font-size: 3.7rem
+	@media(max-width: 795px)
+		.banner-text
+			min-height: 200px
+		.intro-text
+			font-size: 3.3rem
+		.typed-cursor
+			font-size: 3.3rem		
+	@media(max-width: 375px)
+		.banner-text
+			padding-top: 15px
+			padding-bottom: 5px
+		.l-nudge-below-quite-alot
+			margin-bottom: 0px
+		.intro-text
+			font-size: 2.7rem
+			font-family: 'Montserrat'
+			font-weight: 400
+		.typed-cursor
+			font-size: 2.7rem
+	
 	.front-page-likes
 		+animate(all, 250ms, ease)
 		&:hover,
@@ -40,11 +55,14 @@
 		&:focus,
 		&:active
 			color: nth($colours, random(length($colours)))
+	.container-fluid
+		padding-bottom: 0px		
 	.banner-light-container
 		display: flex
 		justify-content: center
 		align-content: flex-start
 		flex-direction: column
+		padding: 0px
 	.light-button-positioner
 		position: relative
 		z-index: 400
@@ -62,18 +80,19 @@
 			width: 100%
 		.light-button
 			font-size: 2.45rem
-			color: rgba($gw, .8)
+			// color: rgba($gw, .8)
 			// margin-top: -450px
 			z-index: 400
 			cursor: pointer
-			padding: 5px 24px
+			padding: 8px 30px
 			border-radius: 4px
 			border: 2px solid rgba($gw, .75)
-			background: rgba($gw, 0)
+			background: rgba($gw, 1)
+			font-size: 1.8rem
 			font-weight: 700
 			font-family: 'Montserrat'
 			text-transform: uppercase
-			animation: borderAndBackgroundFlickerRainbow 5000ms forwards infinite linear
+			animation: borderAndTextFlickerRainbow 5000ms forwards infinite linear
 			+animate(all, 350ms, ease)
 			&:hover
 				font-size: 2.8rem
@@ -82,3 +101,15 @@
 				// border: 2px solid rgba($gb, .4)
 				// border: 2px solid rgba(nth($rainbow,random(length($rainbow))), .4)
 				// background: rgba(nth($rainbow,random(length($rainbow))), .25)
+	.growLight-container
+		position: relative !important
+		overflow: visible
+		height: auto
+		.light,
+		.spectrumsContainer
+			position: relative !important
+			margin-top: 0px
+			.wavelengthPolygon
+				opacity: .75
+		.growLight
+			position: relative !important

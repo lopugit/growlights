@@ -1,34 +1,44 @@
-html
-	body
-		-
-			var light = {
-				width: 300,
-				height: 40,
-				switchable: true,
-				wavelengths:[
-					{nm:"rainbowRed",ratio:'auto'},
-					{nm:"rainbowOrange",ratio:'auto'},
-					{nm:"rainbowYellow",ratio:'auto'},
-					{nm:"rainbowGreen",ratio:'auto'},
-					{nm:"rainbowCyan",ratio:'auto'},
-					{nm:"rainbowBlue",ratio:'auto'},
-					{nm:"rainbowPurple",ratio:'auto'},
-				],
-				modelId: 'proModel',
-				emissionInset: 12,
-				wattage: 800,
-				wattageFormatted: function(){return this.wattage+"W"},
-				lightType: "led",
-				price: 1200,
-				priceFormatted: function(){return "$"+this.price+".00"},
-				spectrumSpread: 'both',
-				lightSpread: 0,
-				lightHeight: function(){return (1/Math.sqrt(this.wattage))*10},
-				manualLightHeight: 555,
-				showLables: false,
-				switchable: false,
-				centerOut: true,
-				lightOpacity: .25,
-				backBoost: true,
-				
-			}
+-
+	var light = {
+		width: 300,
+		height: 40,
+		switchable: true,
+		wavelengths:[
+			{nm:"rainbowRed",ratio:'auto'},
+			{nm:"rainbowOrange",ratio:'auto'},
+			{nm:"rainbowYellow",ratio:'auto'},
+			{nm:"rainbowGreen",ratio:'auto'},
+			{nm:"rainbowCyan",ratio:'auto'},
+			{nm:"rainbowBlue",ratio:'auto'},
+			{nm:"rainbowPurple",ratio:'auto'},
+		],
+		modelId: 'proModel',
+		emissionInset: 12,
+		wattage: 800,
+		wattageFormatted: function(){return this.wattage+"W"},
+		lightType: "led",
+		price: 1200,
+		priceFormatted: function(){return "$"+this.price+".00"},
+		spectrumSpread: 'both',
+		lightSpread: 0,
+		lightHeight: function(){return (1/Math.sqrt(this.wattage))*10},
+		manualLightHeight: 555,
+		showLables: false,
+		switchable: false,
+		centerOut: true,
+		lightOpacity: .25,
+		backBoost: true,
+		
+	}
+	var glRenderRules = {
+		object: true,
+		switches: true,
+		light: true,
+		labels: [
+			'wattageFormatted',
+			'priceFormatted',
+			'vendor',
+			'more-info',
+			'hangHeight'
+		]
+	}

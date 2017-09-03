@@ -1,0 +1,198 @@
+-var formId = uuidv4()
+-var objectModel = "coverageMap"
+-if(!secId)
+    -var secId = uuidv4()
+form.l-form.l-clear(id=formId, method="post", name="singleTent", data-_id=growLight._id).l-center
+    .l-form-group(data-objectModel=objectModel, id=uuidv4(), data-currentGrowLightId=growLight._id)
+        .l-title.l-nudge-down-more Measurements, in 
+            select(data-property="unit").l-btn.l-btn-dropdown.l-normal.l-inline-block.l-medium.l-align-left
+                each unit in [ "cm" ]
+                    option(data-property="unit", id='unit'+secId, name='unit'+secId,value= unit, data-parsley-required="true") #{unit}
+
+            |: 
+        .l-title.l-nudge-down-more Coverage Dimensions
+        .l-inputs-row
+            .l-input-wrapper.l-inline-block
+                input.l-input.l-number.l-center.l-inline-block.l-medium(type="Number", value=null, data-property="width", id='width'+secId, name='width'+secId, placeholder="width", style="min-width: 33px", data-parsley-required="true", data-parsley-gte="#xResolution"+secId).l-nudge-below
+            .l-input-wrapper.l-inline-block
+                input.l-input.l-number.l-center.l-inline-block.l-medium(type="Number", value=null, data-property="depth", id='depth'+secId, name='depth'+secId, placeholder="depth", style="min-width: 33px", data-parsley-required="true", data-parsley-gte="#zResolution"+secId).l-nudge-below
+        .l-title.l-nudge-down-more Coverage Resolution
+        .l-inputs-row
+            .l-input-wrapper.l-inline-block
+                input.l-input.l-number.l-center.l-inline-block.l-medium(type="Number", value=null, data-property="xResolution", id='xResolution'+secId, name='xResolution'+secId, placeholder="width", style="min-width: 33px", data-parsley-required="true", data-parsley-lte="#width"+secId).l-nudge-below
+            .l-input-wrapper.l-inline-block
+                input.l-input.l-number.l-center.l-inline-block.l-medium(type="Number", value=null, data-property="zResolution", id='zResolution'+secId, name='zResolution'+secId, placeholder="depth", style="min-width: 33px", data-parsley-required="true", data-parsley-lte="#depth"+secId).l-nudge-below
+        //- .l-title.l-nudge-down-more Coverage position
+        //- .l-inputs-row.l-nudge-below-more
+        //-     .l-input-wrapper.l-inline-block
+        //-         input.l-input.l-number.l-center.l-inline-block.l-medium(type="Number", value=0, data-property="coverageMapX", id='coverageMapX{id}', placeholder="x", style="min-width: 33px", data-parsley-required="false")
+        //-     .l-input-wrapper.l-inline-block
+        //-         input.l-input.l-number.l-center.l-inline-block.l-medium(type="Number", value=0, data-property="coverageMapY", id='coverageMapY{id}', placeholder="y", style="min-width: 33px", data-parsley-required="false")
+        //-     .l-input-wrapper.l-inline-block
+        //-         input.l-input.l-number.l-center.l-inline-block.l-medium(type="Number", value=0, data-property="coverageMapZ", id='coverageMapZ{id}', placeholder="z", style="min-width: 33px", data-parsley-required="false")
+        .l-title.l-nudge-down-more Light Height
+        .l-inputs-row.l-nudge-below-more
+            .l-input-wrapper.l-inline-block
+                input.l-input.l-number.l-center.l-inline-block.l-medium(type="Number", value=null, data-property="hangHeight", id='hangHeight{id}', placeholder="Light Height", style="min-width: 33px", data-parsley-required="true")
+
+        input.l-submit.l-filled.l-small.l-block(type="submit", data-formId=formId, value="shine", style="font-weight: 700").l-wide
+    .success.l-small.l-block.l-btn
+    -if(!wait)
+        -var wait = false
+    -if(!modalId)
+        -var modalId = ''
+    script.
+        $(document).ready(()=>{
+            var form = $('##{formId}').parsley()
+            var object = {}
+            var scene = new lopu3d.scene({
+                id: "#{sceneId}",
+                containerId: "#{sceneContId}",
+                sizeType: "object",
+                type: '3d',
+                theme: 'relative',
+                ratio: 80
+            })
+            console.log("$().width()")
+            console.log($('##{sceneId}').width())
+            console.log($('##{sceneId}'))
+            console.log($('##{sceneId}')[0].offsetWidth)
+            var currentLight = new GrowLight(allGrowLights.find(gl => gl._id == "#{growLight._id}"), {makeDiodes: true})
+            var opts = {
+                scene: scene,
+                lights: [currentLight],
+                render: true,
+                frontOn: true
+            } 
+            var newOpts = returnJsonConcat(opts, {
+                coverageMaps: [
+                    {
+                        width: currentLight.coverageAt({dimension: "x"}),
+                        depth: currentLight.coverageAt({dimension: "z"}),
+                        //- width: 100,
+                        //- depth: 100,
+                        unit: "cm",
+                        resolution: 15,
+                        lightPosition: {
+                            x: 0,
+                            y: 0
+                        }
+                    }
+                ]
+            })
+            if(#{wait}){
+                console.log('yes we wait')
+                $("##{modalId}").attrchange({
+                    trackValues: true,
+                    callback: function(evnt){
+                        if(evnt.attributeName == 'class'){
+                            if(evnt.newValue.search(/\sin\s|^in$|^in\s|in$/i) >= 0){
+                                console.log("did we?")
+                                grow.ai.calculateCoverage(newOpts)                        
+                            }
+                        }
+                    }
+                })
+            } else {
+                //- console.log("")
+                grow.ai.calculateCoverage(newOpts)
+            }
+            
+            console.log("the scene elements width")
+            console.log($("##{sceneId}").width())
+            if("#{covCalcId}".length > 0){
+                $("#!{covCalcId}"+ " .slick-arrow").bind('click', {allGrowLights: allGrowLights, sliderId: "#{covCalcId}-parent", aiOpts: newOpts}, (e)=>{
+                        var _id = $("#"+e.data.sliderId).find('.slick-current .growLight').attr('data-_id')
+                        $("##{formId}").attr('data-_id', _id)
+                        var growLight = new GrowLight(allGrowLights.find(gl => gl._id == _id), {makeDiodes: true})
+                        //- console.log(growLight)
+                        //- console.log(_id)
+                        //- console.log($("#"+e.data.sliderId).find('.slick-current .growLight'))
+                        e.data.aiOpts.lights = [growLight]
+                        e.data.aiOpts.coverageMaps[0] = {
+                            width: growLight.coverageAt({dimension: "x"}),
+                            depth: growLight.coverageAt({dimension: "z"}),
+                            //- width: 100,
+                            //- depth: 100,
+                            unit: "cm",
+                            resolution: 15,
+                            lightPosition: {
+                                x: 0,
+                                y: 0
+                            }
+                        }
+                        //- console.log(scene)
+                        e.data.aiOpts.scene.clear()
+                        console.log(e.data.aiOpts)
+                        grow.ai.calculateCoverage(e.data.aiOpts)
+                        $("##{secId}").find('[lopu-bind="{currentLightTitle}"]').html(growLight.title+ " Energy Map")
+                })
+            }
+            $("##{formId}").submit(e=>{
+                e.preventDefault()
+                if(form.isValid()){
+                    var opts = {
+                        scene: scene,
+                        lights: [],
+                        render: true,
+                        frontOn: true,
+                        coverageMaps: []
+                    }
+                    var _id = $("##{formId}").attr('data-_id')
+                    opts.lights.push(new GrowLight(allGrowLights.find(gl=>gl._id == _id), {makeDiodes: true}))
+                    $(e.target).find('[data-objectModel="#{objectModel}"]').each((v, data)=>{
+                        var coverageMap = {
+                            position: {}
+                        }
+                        $(data).find('input').each((vv, input)=>{
+                            if(form.fieldsMappedById["Field-"+$(input).data('parsley-id')]){
+                                if($(input).attr('type') == "Number"){
+                                    coverageMap[$(input).data('property')] = parseInt(form.fieldsMappedById["Field-"+$(input).data('parsley-id')].value)
+                                    console.log()
+                                } else {
+                                    coverageMap[$(input).data('property')] = form.fieldsMappedById["Field-"+$(input).data('parsley-id')].value
+                                }
+                            }
+                        })
+                        $(data).find('select').each((vv, input)=>{
+                            if(form.fieldsMappedById["Field-"+$(input).data('parsley-id')]){
+                                coverageMap[$(input).data('property')] = form.fieldsMappedById["Field-"+$(input).data('parsley-id')].value
+                            }
+                        })
+                        var positionTemplate = {
+                            rx: 90,
+                            x: 0,
+                            y: 0,
+                            z: 0
+                        }
+                        jsonConcat(coverageMap.position, positionTemplate)
+                        coverageMap.lightPosition = {
+                            x: 0,
+                            y: 0
+                        }
+                        for(light in opts.lights){
+                            opts.lights[light].hangHeight = coverageMap.hangHeight
+                        }
+                        console.log(opts.lights)
+                        console.log(coverageMap)
+                        opts.coverageMaps.push(coverageMap)
+                    })
+                    for(map in opts.coverageMaps){
+                        var curMap = opts.coverageMaps[map]
+                        if((curMap.depth / curMap.zResolution)*(curMap.width/curMap.xResolution) > 500){
+                            sendError("You want to render a map that will crash your browser, try a lower resolution")
+                            return
+                        }
+                    }
+                    scene.clear()
+                    grow.ai.calculateCoverage(opts)
+                    $('##{formId} .success').html('Submitted Succesfully')                                            
+                } else {
+                    sendError("Please correct the form, something went wrong")
+                }
+            })
+        })
+        function sendError(msg){
+            $('##{formId} .success').html(msg)       
+        }
+        

@@ -1,0 +1,271 @@
+.tent-customization
+	padding-top: 80px
+	// padding-bottom: 80px
+	overflow-y: visible
+	background: $gw
+	.tent-customization-title
+		margin-bottom: 50px
+		text-align: center
+		color: $gb
+		span
+			position: relative
+	.coming-soon
+		position: absolute
+		top: -12px
+		right: -35px
+		width: auto
+		height: auto
+		border-radius: 5px
+		font-size: 1rem
+		color: white
+		padding: 5px 12px
+		$labelColour: lighten(red, 3)
+		background: rgba($labelColour, .85)
+		border: 1px solid $labelColour
+		z-index: 200
+.growTentSceneContainer
+	width: 100%
+	height: auto
+	display: flex
+	justify-content: center
+	align-items: center
+	margin: 0px
+	padding: 0px
+	// padding-bottom: 80px
+	overflow: auto
+	// perspective: 1000px
+	transform-style: preserve-3d
+	pointer-events: none
+	background: $gw
+.scene
+	&.growTentSceneContainer
+		overflow: hidden
+	.tent
+		background: rgba(white, 0)
+		width: auto
+		transform-style: preserve-3d
+		// border: 1px solid rgba(white, .25)
+		height: auto
+		position: relative
+		display: flex
+		align-items: center
+		justify-content: center
+		pointer-events: none
+		overflow: visible
+		// transform: translateZ(50)
+		// animation: spinX 8000ms linear reverse infinite
+
+		>.faceParent
+			&.bottomParent
+				// background: lighten($tentFaceColour, 1)
+				// opacity: 0
+				// border: 1px solid $tentBorderColour
+			&.frontParent
+				display: none
+				
+				// border: 0px solid $tentBorderColour
+				// border-bottom: 1px solid $tentBorderColour				
+			&.topParent
+				opacity: 0
+			&.leftParent
+				// border-left: 10px solid $tentBorderColour
+			&.rightParent
+				// border-right: 10px solid $tentBorderColour
+			&.backParent
+				// border-left: 1px solid $tentBorderColour
+				// border-right: 1px solid $tentBorderColour
+			.face
+				// position: absolute
+				// LEAVE COMMENTED FOR CHROME TO WORK
+				// left: 0
+				// top: 0
+				// display: block
+				$tentFaceColour: rgba(200,200,200, .4)
+				background: $tentFaceColour
+				// border: 2px solid rgb(244, 164, 26)
+				// $tentBorderColour: rgba(147,147,147, 1)
+				$tentBorderColour: darken($tentFaceColour, 10)
+				border: 1px solid $tentBorderColour
+				z-index: 105
+				pointer-events: none
+				// &.leftWall,
+				// &.rightWall,
+				// &.backWall,
+		// box-shadow: 120px 120px 0px 0px rgba(white, .1)
+		// +makeBoxShadowsSolid(1000, rgba(lighten(black, 7.5), 1))
+
+		.floorCoverage
+			z-index: 120
+			.face
+				z-index: 120
+				// border: 1px solid $pink
+				// background: $pink
+
+				// background: rgb(40, 245, 120)
+				&:hover
+					background: rgb(40, 245, 120)
+			&:hover
+				opacity: 1 !important
+				.face
+					background: rgb(40, 245, 120)
+					opacity: 1 !important
+				.floorGridData
+					opacity: 1
+					display: block
+		.floorGrid
+			@extend .floorCoverage
+			pointer-events: none
+			.face
+				background: $pink
+				z-index: 121
+				&:hover
+					// background: rgb(40, 245, 120)
+					// opacity: 1 !important
+			.bottom
+
+				background: $pink
+				// border: 1px solid $pink
+				z-index: 122
+		
+		.floorGridData
+			display: none
+			z-index: 120
+			opacity: 1
+			transform-style: preserve-3d
+			transform: rotateX(0deg) translate3d(0px, -50%, 0px)
+			position: relative
+			bottom: 0
+			.data
+				padding: 20px 120px
+				display: flex
+				align-items: center
+				justify-content: center
+				text-transform: uppercase
+				background: white
+				z-index: 121
+				font-size: 1.6rem
+				color: black
+				// text-shadow: 0px 0px 4px black
+				
+
+		$labelColour: rgba(darken($gw, 12), 1)
+		.tentDimensionLabel
+			width: auto !important
+			height: auto !important
+			padding: 6px 15px
+			background: $labelColour
+			border: 0px solid rgba(0,0,0,0)
+			display: flex
+			align-items: center
+			justify-content: center
+			.dimensionLabel
+				font-size: 1.4rem
+				display: flex
+				flex-direction: row
+				font-family: 'Montserrat'
+				font-weight: 700
+				color: darken($labelColour, 55)
+				>div
+					&:first-child
+						text-transform: uppercase
+						margin-right: 5px
+						animation: colourFlickerRainbow 2000ms forwards infinite
+			// @for $i from 0 through 5
+			// 	&:nth-child(#{$i})
+			// 		.dimensionLabel
+			// 			>div
+			// 				&:first-child
+			// 					color: nth($colours, random(length($colours)))
+			>.face
+				width: auto !important
+				height: auto !important
+				border: 0px solid rgba(0,0,0,0)
+
+		.tentMoreInfoLabel
+			background: $labelColour
+			color: darken($labelColour, 55)
+			font-size: 1.8rem
+			text-transform: uppercase
+			font-weight: 700
+			// width: auto
+			// height: auto
+			padding: 4px 10px
+			font-family: 'Montserrat'
+			line-height: 1.5rem
+			cursor: pointer
+			display: flex
+			align-items: center
+			justify-content: center
+			&:hover
+				animation: colourFlickerRainbow 2000ms forwards infinite
+
+
+		.growLight
+			// animation: rotateClockwiseY 5000ms linear forwards infinite
+		.growLight-container
+			overflow: visible !important
+			.light
+				z-index: 104
+				polygon
+					opacity: .4
+				.wavelengthLabelObj
+					transform: translate3d(0px, -90px, 15px) !important
+			.coverageMapSquare
+				pointer-events: none !important
+				>.bottom	
+					pointer-events: all !important
+			.coverageSquareData
+				transform: rotateX(0deg) translate3d(0px, -30px, -50px) !important
+				>div
+					background: rgba($pink, .85)
+					border: 1px $pink
+					text-shadow: 1px 1px 0px rgba(0,0,0,.18)
+
+	// height: 100%
+	// display: flex
+	// align-items: flex-end
+	// justify-content: flex-start
+
+	// align-items: center
+	// justify-content: center
+.growLight
+	display: flex
+	align-items: center
+	justify-content: center
+	transform-style: preserve-3d
+	// margin: 3%
+	z-index: 102
+	>.face
+		background: $gc
+		&.front
+			z-index: 103
+	.diodes
+		z-index: 102
+// 			background: rgb(60, 255, 115)
+// 			// border: 8px solid green
+.diode
+	border-radius: 50%
+	.face
+		background: rgb(255, 64, 213)
+		z-index: 102
+		border-radius: 50%
+		// LEAVE COMMENTED FOR CHROME TO WORK
+		// left: 0
+		// top: 0
+.scene
+	.face
+		
+		// border: 1px solid rgb(98, 98, 98)
+		// LEAVE COMMENTED FOR CHROME TO WORK
+		// left: 0
+		// top: 0
+
+#actions
+	display: flex
+	align-items: center
+	justify-content: center
+	padding: 50px
+	flex-wrap: wrap
+	// border-top: 18px solid rgb(0, 0, 0)
+	box-shadow: 0px 8px 5px 0px rgba(20, 12, 57,.7) inset
+	background: rgb(26, 28, 55)

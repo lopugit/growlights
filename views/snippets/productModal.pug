@@ -1,0 +1,140 @@
+//- extends /snippets/layout
+append content
+	//- .modal-container
+	-var modalId = "id"+product._id+"Modal"
+	.text-styling-products.portfolio-modal.modal.fade(id=modalId,class=product.product_type.replace(' ', '-')+"-Modal productModal", tabindex='-1', role='dialog', aria-hidden='true')
+		.modal-content
+			.close-modal(data-dismiss='modal')
+				.lr
+					.rl
+			.container
+				.row
+					.col-lg-16.col-lg-offset-4
+						.modal-body
+							h2.product-title= product.title
+							ul.list-inline.item-details-product
+								-if(product.product_type == 'Grow Light')
+									li Wattage Draw: 
+										strong
+											a(href='#')= " "+product.wattageFormatted()
+											
+									li Theoretical Wattage: 
+										strong
+											a(href='#')= " "+product.theoreticalWattageFormatted()
+											
+									li Theoretical Diode Wattage:
+										strong
+											a(href='#')= " "+product.ledWattageFormatted()
+									li Diode Efficiency:
+										strong
+											a(href='#')= " "+product.ledEfficiencyFormatted()
+									li Diode Wattage Draw:
+										strong
+											a(href='#')= " "+product.ledWattage/2 + "W"
+
+									li Diode Count:
+										strong
+											a(href='#')= " "+product.ledCount()
+									-if(product.lumens)
+										li Lumens:
+											strong
+												a(href='#')= " "+product.lumensFormatted()
+									li Lense Angle:
+										strong
+											a(href='#')= " "+product.lensAngle
+									li Width:
+										strong
+											a(href='#')= " "+product.width+product.unit
+									li Height:
+										strong
+											a(href='#')= " "+product.height+product.unit
+									li Depth:
+										strong
+											a(href='#')= " "+product.depth+product.unit
+								-else if(product.product_type == 'Grow Tent')
+									li Tent Material: 
+										strong
+											a(href='#')= " "+product.materialOutFormatted()
+									li Inner Material: 
+										strong
+											a(href='#')= " "+product.materialIn
+									li Width:
+										strong
+											a(href='#')= " "+product.width+product.unit
+									li Height:
+										strong
+											a(href='#')= " "+product.height+product.unit
+									li Depth:
+										strong
+											a(href='#')= " "+product.depth+product.unit
+									//- li Vents: 
+									//- 	each vent, key in product.vents
+									//- 		strong= key+" vent"
+									//- 		-if(vent.shape == 'circle')
+									//- 			li Diametre: 
+									//- 				strong
+									//- 					a(href="#")= vent.width+" inches"
+									//- 			li Quantity: 
+									//- 				strong
+									//- 					a(href="#")= vent.qty
+									//- 		-else if(vent.shape == 'rectangle')
+									//- 			li Width: 
+									//- 				strong
+									//- 					a(href="#")= vent.width+" inches"
+									//- 			li Height: 
+									//- 				strong
+									//- 					a(href="#")= vent.height+" inches"
+									//- 			li Quantity: 
+									//- 				strong
+									//- 					a(href="#")= vent.qty
+													
+							.preview-product-gallery(align='center')
+								img(name='name'+product._id+"Preview", src=product.images[0].src, alt=product.vendor+" "+product.product_type+" "+product.title)
+							.product-gallery-thumbnails
+								each image, key in product.images
+									img(onmouseover='name'+product._id+'Preview.src=name'+product._id+key+'.src', name='name'+product._id+key, src=image.src, alt=product.vendor+" "+product.product_type+" "+product.title)
+								//- img(onmouseover='name'+product._id+'Preview.src=name'+product._id+'img28.src', name='name'+product._id+'img28', src='/img/products/products/black-1600-1.png', alt=product.vendor+" "+product.product_type+" "+product.title)
+								//- img(onmouseover='name'+product._id+'Preview.src=name'+product._id+'img29.src', name='name'+product._id+'img29', src='/img/products/products/black-1600-3.jpg', alt=product.vendor+" "+product.product_type+" "+product.title)
+								//- img(onmouseover='name'+product._id+'Preview.src=name'+product._id+'img30.src', name='name'+product._id+'img30', src='/img/products/products/black-1600-4.png', alt=product.vendor+" "+product.product_type+" "+product.title)
+								//- img(onmouseover='name'+product._id+'Preview.src=name'+product._id+'img31.src', name='name'+product._id+'img31', src='/img/products/products/black-1600-stolen.jpg', alt=product.vendor+" "+product.product_type+" "+product.title)
+							.product-description!= product.body_html
+								//- | The Black Series LED Grow light is just a square panel of 5W LED diodes with 120 degree lenses and ventilation slits on the sides and top for fans. The only thing that changes as you go from 200W, 350W, 450W, 600W to 800W is the size of the housing and the ammount of 5W diodes, the ammount of fans also changes but that isn&apos;t too important.
+							ul.list-inline.item-details-product
+								-if(product.product_type == 'Grow Light')
+									li
+										| Spectrum: 
+										strong
+											a(href='#')
+												each wavelength in product.spectrum
+													-if(wavelength.wavelength)
+														span= (wavelength.percent*100).toFixed(2)+"% " + wavelength.wavelength + "nm, " 
+													-else if(wavelength.temperature)
+														span= (wavelength.percent*100).toFixed(2)+"% " + wavelength.temperature 
+
+								li.price Price: 
+									strong
+										a(href="#")= product.priceFormatted()
+									//- li
+									//- 	| Coverage area at hang height 20cm, 40cm, 100cm:
+									//- 	strong
+									//- 		a(href='http://ozledgrowlights.com.au/how-to-calculate-coverage.html') 1.2m X 1.2m (1.44M ^2), 2m X 2m (4M ^2), 3.9m X 3.9m (15.2M ^2)
+									//- li
+									//- 	| Lumens per Square Metre at Hang Height 20cm, 40cm, 100cm:
+									//- 	strong
+									//- 		a(href='http://ozledgrowlights.com.au/how-to-calculate-coverage.html') 16,600 Lumens, 5500 Lumens, 1280 Lumens per Metre/squared
+							.combo-button-container
+								.combo-button.clearfix(id=product.shopifyProductId+"-"+product.shopifyVariantId)
+									a.order-button add to order
+									a.shop-cart-button
+										i.fa.fa-shopping-cart(aria-hidden='true')
+							
+					-if(product.product_type == 'Grow Light')
+						.col-lg-16.col-lg-offset-4
+							-var growLight = product
+							-var wait = true
+							include /snippets/grow.ai/growLightCoverage
+										
+							//- .close-button
+							//- 	button.btn.btn-default(type='button', data-dismiss='modal')
+							//- 		i.fa.fa-times
+							//- 		|  Close

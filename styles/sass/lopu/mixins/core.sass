@@ -8,6 +8,8 @@
     display: block
   .l-wide
     width: 100% !important
+    margin-left: 0px
+    margin-right: 0px
   .l-normal
     background-color: rgba(white, 0)
     border: 0px
@@ -28,6 +30,10 @@
   .l-project-colour-background
     background: $gc
   /// FONT SIZES
+  .l-xxlarge
+    font-size: $xxlarge !important
+  .l-xlarge
+    font-size: $xlarge !important
   .l-large
     font-size: $large !important
   .l-medium
@@ -36,3 +42,29 @@
     font-size: $small !important
   .l-tiny
     font-size: $tiny !important
+  .l-absolute,
+  .l-abs
+    position: absolute
+  .l-abs-top
+    @extend .l-abs
+    top: 0
+  .l-abs-top-right
+    @extend .l-abs-top
+    right: 0
+  .l-abs-top-right-nudge
+    @extend .l-abs-top-right
+    right: 5px
+  .l-abs-top-right-nudge-more
+    @extend .l-abs-top-right-nudge
+    right: 10px
+  .l-abs-top-left
+    @extend .l-abs-top
+    left: 0
+  .l-abs-top-left-nudge
+    @extend .l-abs-top-left
+    left: 5px
+  .l-abs-top-left-nudge-more
+    @extend .l-abs-top-left-nudge
+    left: 10px
+  .l-underline
+    border-bottom: 1px solid rgba(0,0,0,.4)

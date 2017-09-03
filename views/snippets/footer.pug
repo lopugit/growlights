@@ -1,29 +1,28 @@
-html
-	block prepend body
-		body
-			footer.text-center
-				.footer-above
-					.container
-						.row
-							.footer-col.col-md-8
-								h3 Contact
-								a.link-white(href="mailto:nikolaj@ozledgrowlights.com.au")
-									p info@ozledgrowlights.com.au
-							.footer-col.col-md-8
-							.footer-col.col-md-8
-								h3 About Oz LEDs
-								p I&apos;m an Australian grower just trying to do my part in helping beginners, intermediate and advanced growers getting the right advice and products regarding LED&apos;s
-				.footer-below
-					.container
-						.row
-							.col-lg-24
-								| &copy; 2017 - 
-								a(style='color: white', href='index') www.ozledgrowlights.com.au
-								span(style='display: block')  ABN: 65161312097
-							div
-			.scroll-top.page-scroll.visible-xs.visble-sm
-				a.btn.btn-primary(href='#page-top')
-					i.fa.fa-chevron-up
-			.scroll-top.page-scroll.visible-xs.visble-sm
-				a.btn.btn-primary(href='#page-top')
-					i.fa.fa-chevron-up
+block footer
+	footer.text-center
+		.footer-above
+			.container
+				.row
+					.footer-col.col-md-8
+						h3 Contact
+						a.link-white(href="mailto:nikolaj@ozledgrowlights.com.au")
+							p info@ozledgrowlights.com.au
+					.footer-col.col-md-8
+					.footer-col.col-md-8
+						h3 About Oz LEDs
+						p I&apos;m an Australian grower just trying to do my part in helping beginners, intermediate and advanced growers getting the right advice and products regarding LED&apos;s
+		.footer-below
+			.container
+				.row
+					.col-lg-24
+						| &copy; 2017 - 
+						a(style='color: white', href='index') www.ozledgrowlights.com.au
+						span(style='display: block')  ABN: 65161312097
+					div
+	append content
+		.scroll-top.page-scroll.visible-xs.visble-sm
+			a.btn.btn-primary(href='#page-top')
+				i.fa.fa-keyboard-arrow-up
+		.scroll-top.page-scroll.visible-xs.visble-sm
+			a.btn.btn-primary(href='#page-top')
+				i.fa.fa-keyboard-arrow-up

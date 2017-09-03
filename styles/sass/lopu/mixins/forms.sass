@@ -4,8 +4,13 @@
 		max-width: 100%
 		margin: 0
 		position: relative
+		background: rgba(white, 0)
 		.l-form-group
 			position: relative
+			clear: both
+			margin-top: 10px
+			margin-bottom: 10px
+			background: rgba(white, 1)
 		.l-form-group-multi
 			border-bottom: 1px solid rgba(black, .4)
 			position: relative
@@ -20,8 +25,11 @@
 			flex-wrap: nowrap
 			width: 100%
 			overflow: hidden
+			.l-input-wrapper
+				margin: 4px
 			.l-input
 				margin: 4px
+				overflow: hidden
 				&:first-child
 					margin-left: 0px
 				&:last-child
@@ -48,24 +56,38 @@
 				width: auto
 				padding-left: 15px
 				padding-right: 15px
-
-
+		.l-input-wrapper
+			@extend .l-input
+			// overflow: visible !important
+			.l-input
+				margin: 0px
+				border-bottom: 0px
 		.l-slide-input
 			border: none
 		select,
 		.l-select
 			@extend .l-input
-			border: none
+			border: 0px
 			width: auto
 			text-transform: uppercase
+			text-align: center
 			// outline-color: rgba(white, 0)
 		.l-select-placeholder
 			text-transform: capitalize
-
+		&.l-clear-all,
+		&.l-all-clear
+		&.l-clear
+			.l-form-group
+				background: rgba(white, 0)
+			.l-input
+				background: rgba(white, 0)
 		option,
 		.l-option
 			font-size: 2rem
-
+			margin-top: 3px
+			margin-bottom: 3px
+			border: 0px
+			text-align: center
 		label,
 		.label
 			font-size: 1.5rem
@@ -131,3 +153,62 @@
 		left: 20px
 	.label
 		background-color: lighten(blue, 15)
+	.parsley-errors-list
+		position: absolute
+		top: 0
+		right: 0
+		height: auto
+		width: auto
+		padding: 0px
+		margin: 0px
+		pointer-events: none
+		// overflow: visible
+
+		li
+			width: auto
+			pointer-events: all
+			position: absolute
+			top: 0
+			right: 4px
+			border: 1px solid $errColour1
+			padding: 0px 3px
+			background: $errColour2
+			content: "required!"
+			color: white
+			font-size: .85rem
+			border-radius: 2px
+			visibility: visible
+		.parsley-required
+			visibility: hidden
+			width: auto
+			height: auto
+			&:after
+				pointer-events: all
+				position: absolute
+				top: 0
+				right: 4px
+				border: 1px solid $errColour1
+				padding: 0px 3px
+				background: $errColour2
+				content: "required!"
+				color: white
+				font-size: .85rem
+				border-radius: 2px
+				visibility: visible
+			// overflow: visible
+		.parsley-gte
+			@extend .parsley-required
+			&:after
+				content: "not >="
+		.parsley-gt
+			@extend .parsley-required
+			&:after
+				content: "not >"
+		.parsley-lte,
+			@extend .parsley-required
+			&:after
+				content: "not <="
+		.parsley-lt
+			@extend .parsley-required
+			&:after
+				content: "not >"
