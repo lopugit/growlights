@@ -1,4 +1,15 @@
+.modal-backdrop
+    // display: none !important
+    +animate(opacity, 400ms, ease)
+    &.in
+        opacity: 0.2 !important
 .productModal
+    // position: absolute !important
+    padding: 100px !important
+    @media(max-width: 800px)
+        padding: 50px !important
+    @media(max-width: 600px)
+        padding: 10px !important
     .product-title
         padding-bottom: 20px
         color: $gc
@@ -6,8 +17,12 @@
         padding-bottom: 15px
     .product-description
         p
-            font-size: 1.7rem
+            font-size: 1.65rem
             font-family: "Montserrat"  
+        @media(max-width: 400px)
+            // text-align: left
+            p
+                text-align: left
     .item-details-product
     .price
         padding-top: 15px
@@ -35,6 +50,13 @@
     &.Grow-Light-Modal
         .product-title
             color: $gc
+    .thumb
+        height: 60px
+        @media(max-width: 500px)
+            height: 50px 
+    strong
+        color: $gc
+        text-transform: capitalize
     li
         strong
             a

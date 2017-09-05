@@ -24,9 +24,6 @@
 				pxr: globalGrowTentPxr
 			})
 			var growTent = !{mts(growTent)}
-			console.log('growTent.minPxWidth')
-			console.log(growTent.minPxWidth)
-
 			var growRoom = new Growroom(
 				!{mts(growTent)}, 
 				{
@@ -43,33 +40,9 @@
 					id: "growRoom#{uuid}",
 					renderDimensionLabels: true,
 					mongoId: "#{growTent._id}",
-					scene: scene
+					scene: scene,
 				}
 			)
-			//- var growRoom = new Growroom({
-			//- 	height: #{growTent.height},
-			//- 	width: #{growTent.width},
-			//- 	depth: #{growTent.depth},
-			//- 	unit: "#{growTent.unit}",
-			//- 	//- height: 2,
-			//- 	//- width: 4,
-			//- 	//- depth: 2.5,
-			//- 	//- unit: 'm',
-			//- 	ratio: 15,
-			//- 	render: true,
-			//- 	id: "growRoom#{uuid}",
-			//- 	class: 'tent',
-			//- 	scene: scene,
-			//- 	position: {
-			//- 		x: 0,
-			//- 		y: 0,
-			//- 		z: 0,
-			//- 		rx: 0,
-			//- 		unit: "cm"
-			//- 	},
-			//- 	renderDimensionLabels: true,
-			//- 	mongoId: "#{growTent._id}"
-			//- })
 			growRoom.labels.push(                    
 				new Cube({
 					height: 12,
@@ -98,40 +71,9 @@
 					}
 				})
 			)
-			if(globalGrowTentPxr){
-			} else {
+			if(globalGrowTentPxr){} else {
 				globalGrowTentPxr = scene.pxr
 			}
-			
-			//- var light2 = marsBar48Template()
-			//- light2.position.x = (growRoom.width/4)*2
-			//- light2.position.ry = 0
-			//- light2.id = "green120W2#{uuid}"
-			//- var light3 = marsBar48Template()
-			//- light3.position.x = (growRoom.width/4)*3
-			//- light3.id = "green120W3#{uuid}"
-
-			//- growRoom.lights.push(
-				//- new GrowLight(marsBar48Template()),
-				//- new GrowLight(light2)
-				//- new GrowLight(light3)
-			//- )
-			
-			
-			//- growRoom.renderCoverage({
-			//-     resolution: .15,
-			//-     squareSize: .15,
-			//-     unit: "m",
-			//-     //- includeY: true,
-			//-     type: '3d',
-			//-     sides: ["bottom"],
-			//-     id: "floorGrid#{uuid}",
-			//-     class: "floorGrid",
-			//-     yPlane: 0.001,
-			//-     position: {
-			//-         type: 'center'
-			//-     }
-			//- })
 		})
 -else
 	script.
@@ -167,15 +109,15 @@
 				},
 				renderDimensionLabels: true
 			})	
-			var growLightTemplate = !{mts(growLightModels.custom["Rainbow"])}
-			growLightTemplate.renderRules.object = true		
-			growLightTemplate.renderRules.light = true
-			growLightTemplate.scene = scene	
-			var growLight = new GrowLight(
-				growLightTemplate
-			)
-			growRoom.lights.push(
-				growLight    
-			)
+			//- var growLightTemplate = !{mts(growLightModels.custom["Rainbow"])}
+			//- growLightTemplate.renderRules.object = true		
+			//- growLightTemplate.renderRules.light = true
+			//- growLightTemplate.scene = scene	
+			//- var growLight = new GrowLight(
+			//- 	growLightTemplate
+			//- )
+			//- growRoom.lights.push(
+			//- 	growLight    
+			//- )
 
 		})

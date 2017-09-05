@@ -44,7 +44,7 @@
 	position: relative !important
 	// width: 350px
 	// height: 60px
-	background: rgba(247,247,247,1)
+	background: rgba(213, 213, 213,1)
 	.face
 		border-radius: 3px
 	&.Pro
@@ -338,7 +338,7 @@
 .light
 	display: flex
 	align-items: flex-start
-	justify-content: center
+	justify-content: center !important
 	clear: both
 	z-index: 50 !important
 	max-width: 95%
@@ -347,17 +347,10 @@
 	pointer-events: none !important
 	// height: auto !important
 	// width: auto !important
-	.wavelengthObject
+	.spectrumLabels
 		top: 0
-		overflow: visible
-		width: auto
-		justify-content: flex-start
-		&.backBoosted
-			opacity: .4
-			+animate(all, 400ms, ease)
-		&.backBoost
-			opacity: .9
-			+animate(all, 400ms, ease)
+		bottom: auto !important
+		z-index: 100
 		.wavelengthLabelObj
 			height: auto !important
 			width: auto !important
@@ -366,6 +359,14 @@
 			align-items: center
 			justify-content: center
 			flex-direction: column
+			opacity: 0
+			overflow: visible
+			max-width: 2px
+
+			top: 5% !important
+			// margin-left: -50%
+			transform-origin: 200% 0
+			bottom: auto
 			// margin-left: -35px
 			// padding-top: 20px
 		&:nth-child(odd)
@@ -375,7 +376,6 @@
 				&:last-child
 					// margin-bottom: -30px
 		.wavelengthLabel
-			opacity: 0
 			// display: none
 			font-size: 1.2rem
 			font-family: 'Montserrat'
@@ -388,10 +388,10 @@
 			margin-top: 5px
 			.valueLabel
 				font-size: .8rem
-			&.on
-				display: block
-			&.off
-				display: none
+			// &.on
+			// 	display: block
+			// &.off
+			// 	display: none
 			&:first-child
 				// margin-top: 20px
 		&:hover
@@ -402,6 +402,29 @@
 			&.backBoosted
 				opacity: .8
 				
+	canvas
+		z-index: 20
+		pointer-events: all
+		&.k3000
+		&.nm430
+		&.nm440
+		&.nm460
+		&.nm480
+		&.nm620
+		&.nm630
+		&.nm640
+		&.nm650
+		&.nm660
+		&.nm670
+		&.nm680
+		&.nm730
+		&.Red
+		&.Orange
+		&.Yellow
+		&.Green
+		&.Cyan
+		&.Blue
+		&.Purple
 	svg
 		// flex: 1
 		clear: both
@@ -431,7 +454,9 @@
 				stroke: $colour
 				stroke-width: .5
 			&.nm430
+				// $colour: rgb(149, 160, 255)
 				$colour: rgb(56, 160, 255)
+
 				fill: $colour
 				stroke: $colour
 				stroke-width: .5

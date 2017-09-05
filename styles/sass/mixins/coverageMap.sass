@@ -1,4 +1,9 @@
 .coverageMap
+	display: flex
+	justify-content: center
+	align-items: center
+	flex-direction: column
+	height: auto !important
 	>.bottom
 		// background: rgb(200, 20, 50)
 		// opacity: .7
@@ -54,3 +59,70 @@
 		// &.width
 		// 	border-bottom: 1px solid rgba(0,0,0,.7)
 		// 	transform: translateY(-100%)
+	// .coverageMapDataParent
+	// 	position: relative !important
+	// 	width: auto !important
+	// 	height: auto !important
+	// 	display: flex
+	// 	align-items: flex-start
+	// 	justify-content: flex-start
+	// 	flex-direction: column
+	.coverageMapData-group-positioner,
+	.coverageSquareData-group-positioner
+		position: relative
+		display: flex
+		align-items: flex-start
+		justify-content: flex-start
+		flex-direction: row
+		flex-wrap: wrap
+		width: auto !important
+		height: auto !important
+	.coverageMapData,
+	.coverageSquareData
+		position: relative
+		display: flex
+		align-items: flex-start
+		justify-content: flex-start
+		flex-direction: row
+		flex-wrap: wrap
+		width: auto !important
+		height: auto !important
+	.coverageMapDataItem
+		position: relative
+		width: auto !important
+		height: auto !important
+		display: flex
+		justify-content: center
+		align-items: center
+		flex-direction: column
+		font-family: Montserrat
+		padding: 3px 7px
+		background: rgba($gc, .85)
+		border: 1px solid $gc
+		color: white
+		top: 0
+		bottom: auto
+	.coverageSquareData-group-positioner
+		max-width: 100%
+		.coverageMapDataItem
+			border-right: 0px
+			&:last-child
+				border-right: 1px
+	.coverageMapData-group-positioner
+		position: absolute
+		top: 0
+		left: 0
+		bottom: auto
+		.coverageMapDataItem
+			padding: 3px 7px
+			background: rgba($gc, .85)
+			border: 1px solid $gc
+			color: white
+			border-top: 0px
+			flex-direction: row
+			border-right: 0px
+			&:first-child
+				border-bottom-left-radius: 3px
+			&:last-child
+				border-bottom-right-radius: 3px
+				border-right: 1px

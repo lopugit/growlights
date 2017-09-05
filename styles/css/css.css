@@ -502,6 +502,10 @@ body {
   float: left; }
 .l .l-float-right {
   float: right; }
+.l .l-group {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center; }
 .l .l-center {
   text-align: center; }
 .l .l-align-left {
@@ -623,9 +627,11 @@ body {
     transform-style: preserve-3d;
     z-index: 110;
     pointer-events: none; }
+  .scene .unit {
+    display: flex; }
   .scene .squared {
     font-size: 1rem;
-    top: 0; }
+    display: inline-block; }
   .scene .relative {
     position: relative;
     top: auto;
@@ -1131,7 +1137,7 @@ input[type=number]::-webkit-outer-spin-button {
     -ms-transition: all 250ms ease;
     transition: all 250ms ease; }
     #nav .navbar-brand:hover, #nav .navbar-brand:active, #nav .navbar-brand:focus {
-      color: #ff325d; }
+      color: #f9383e; }
   #nav .navbar-toggle {
     margin-right: 8px;
     background-color: rgba(255, 255, 255, 0); }
@@ -1142,21 +1148,21 @@ input[type=number]::-webkit-outer-spin-button {
     -ms-transition: all 300ms ease;
     transition: all 300ms ease; }
   #nav li:nth-child(0):hover a, #nav li:nth-child(0):active a, #nav li:nth-child(0):focus a {
-    color: #ff325d; }
-  #nav li:nth-child(1):hover a, #nav li:nth-child(1):active a, #nav li:nth-child(1):focus a {
-    color: #8145ff; }
-  #nav li:nth-child(2):hover a, #nav li:nth-child(2):active a, #nav li:nth-child(2):focus a {
-    color: #f9383e; }
-  #nav li:nth-child(3):hover a, #nav li:nth-child(3):active a, #nav li:nth-child(3):focus a {
-    color: #21ff9b; }
-  #nav li:nth-child(4):hover a, #nav li:nth-child(4):active a, #nav li:nth-child(4):focus a {
     color: #2be2ff; }
-  #nav li:nth-child(5):hover a, #nav li:nth-child(5):active a, #nav li:nth-child(5):focus a {
+  #nav li:nth-child(1):hover a, #nav li:nth-child(1):active a, #nav li:nth-child(1):focus a {
     color: #ff325d; }
-  #nav li:nth-child(6):hover a, #nav li:nth-child(6):active a, #nav li:nth-child(6):focus a {
+  #nav li:nth-child(2):hover a, #nav li:nth-child(2):active a, #nav li:nth-child(2):focus a {
+    color: #b1ff18; }
+  #nav li:nth-child(3):hover a, #nav li:nth-child(3):active a, #nav li:nth-child(3):focus a {
+    color: #2be2ff; }
+  #nav li:nth-child(4):hover a, #nav li:nth-child(4):active a, #nav li:nth-child(4):focus a {
     color: #ff7118; }
+  #nav li:nth-child(5):hover a, #nav li:nth-child(5):active a, #nav li:nth-child(5):focus a {
+    color: #8145ff; }
+  #nav li:nth-child(6):hover a, #nav li:nth-child(6):active a, #nav li:nth-child(6):focus a {
+    color: #f9383e; }
   #nav li:nth-child(7):hover a, #nav li:nth-child(7):active a, #nav li:nth-child(7):focus a {
-    color: #21ff9b; }
+    color: #b1ff18; }
   #nav .icon-bar {
     width: 20px;
     background-color: #d5d5d5;
@@ -1349,7 +1355,7 @@ input[type=number]::-webkit-outer-spin-button {
         color: #80bc18; }
       .growLightsSection .slick-slider-custom .slick-arrow.slick-arrow, .coverageCalculator .slick-slider-custom .slick-arrow.slick-arrow {
         top: auto;
-        bottom: 18%; }
+        bottom: 8%; }
 @media(max-width: 600px) {
   .growLightsSection .slick-slider-custom .slick-arrow.slick-arrow, .coverageCalculator .slick-slider-custom .slick-arrow.slick-arrow {
     bottom: -15px;
@@ -1363,46 +1369,111 @@ input[type=number]::-webkit-outer-spin-button {
   .growLightsSection .light .wavelengthPolygon, .coverageCalculator .light .wavelengthPolygon, .growLightsSection .spectrums-container .wavelengthPolygon, .coverageCalculator .spectrums-container .wavelengthPolygon {
     opacity: 0.6; }
 
-.coverageMap > .bottom {
-  pointer-events: none;
-  border-top: 1px solid rgba(0, 0, 0, 0.6);
-  border-left: 1px solid rgba(0, 0, 0, 0.6); }
-.coverageMap .coverageMapSquare {
-  z-index: 400; }
-  .coverageMap .coverageMapSquare > .bottomParent {
-    background: #ff2b97; }
-  .coverageMap .coverageMapSquare .coverageSquareData {
-    display: none;
-    font-size: 1.4rem;
-    color: white;
+.coverageMap {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  height: auto !important; }
+  .coverageMap > .bottom {
+    pointer-events: none;
+    border-top: 1px solid rgba(0, 0, 0, 0.6);
+    border-left: 1px solid rgba(0, 0, 0, 0.6); }
+  .coverageMap .coverageMapSquare {
+    z-index: 400; }
+    .coverageMap .coverageMapSquare > .bottomParent {
+      background: #ff2b97; }
+    .coverageMap .coverageMapSquare .coverageSquareData {
+      display: none;
+      font-size: 1.4rem;
+      color: white;
+      width: auto !important;
+      height: auto !important; }
+      .coverageMap .coverageMapSquare .coverageSquareData > div {
+        border-radius: 2px;
+        background: #80bc18;
+        margin-top: 2px;
+        margin-bottom: 2px;
+        padding: 3px 8px;
+        width: auto;
+        height: auto;
+        font-family: "Montserrat";
+        font-weight: 700; }
+    .coverageMap .coverageMapSquare:hover > .bottomParent {
+      opacity: 0.8; }
+    .coverageMap .coverageMapSquare:hover .coverageSquareData {
+      display: block; }
+  .coverageMap .coverageMapFullLabel {
+    z-index: 120;
+    pointer-events: none; }
+    .coverageMap .coverageMapFullLabel .data {
+      padding: 3px 18px;
+      background: #80bc18;
+      border-radius: 2px;
+      color: #f8f8f8;
+      font-family: "Montserrat";
+      font-weight: 700;
+      font-size: 1.5rem;
+      -webkit-font-smoothing: anti-aliased; }
+  .coverageMap .coverageMapData-group-positioner,
+  .coverageMap .coverageSquareData-group-positioner {
+    position: relative;
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+    flex-direction: row;
+    flex-wrap: wrap;
     width: auto !important;
     height: auto !important; }
-    .coverageMap .coverageMapSquare .coverageSquareData > div {
-      border-radius: 2px;
-      background: #80bc18;
-      margin-top: 2px;
-      margin-bottom: 2px;
-      padding: 3px 8px;
-      width: auto;
-      height: auto;
-      font-family: "Montserrat";
-      font-weight: 700; }
-  .coverageMap .coverageMapSquare:hover > .bottomParent {
-    opacity: 0.8; }
-  .coverageMap .coverageMapSquare:hover .coverageSquareData {
-    display: block; }
-.coverageMap .coverageMapFullLabel {
-  z-index: 120;
-  pointer-events: none; }
-  .coverageMap .coverageMapFullLabel .data {
-    padding: 3px 18px;
-    background: #80bc18;
-    border-radius: 2px;
-    color: #f8f8f8;
-    font-family: "Montserrat";
-    font-weight: 700;
-    font-size: 1.5rem;
-    -webkit-font-smoothing: anti-aliased; }
+  .coverageMap .coverageMapData,
+  .coverageMap .coverageSquareData {
+    position: relative;
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+    flex-direction: row;
+    flex-wrap: wrap;
+    width: auto !important;
+    height: auto !important; }
+  .coverageMap .coverageMapDataItem {
+    position: relative;
+    width: auto !important;
+    height: auto !important;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    font-family: Montserrat;
+    padding: 3px 7px;
+    background: rgba(128, 188, 24, 0.85);
+    border: 1px solid #80bc18;
+    color: white;
+    top: 0;
+    bottom: auto; }
+  .coverageMap .coverageSquareData-group-positioner {
+    max-width: 100%; }
+    .coverageMap .coverageSquareData-group-positioner .coverageMapDataItem {
+      border-right: 0px; }
+      .coverageMap .coverageSquareData-group-positioner .coverageMapDataItem:last-child {
+        border-right: 1px; }
+  .coverageMap .coverageMapData-group-positioner {
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: auto; }
+    .coverageMap .coverageMapData-group-positioner .coverageMapDataItem {
+      padding: 3px 7px;
+      background: rgba(128, 188, 24, 0.85);
+      border: 1px solid #80bc18;
+      color: white;
+      border-top: 0px;
+      flex-direction: row;
+      border-right: 0px; }
+      .coverageMap .coverageMapData-group-positioner .coverageMapDataItem:first-child {
+        border-bottom-left-radius: 3px; }
+      .coverageMap .coverageMapData-group-positioner .coverageMapDataItem:last-child {
+        border-bottom-right-radius: 3px;
+        border-right: 1px; }
 
 .coverageCalculator .coverage-calc-col {
   display: flex;
@@ -1639,7 +1710,7 @@ input[type=number]::-webkit-outer-spin-button {
     -ms-transition: all 250ms ease;
     transition: all 250ms ease; }
     #banner .front-page-likes:hover, #banner .front-page-likes:visited, #banner .front-page-likes:focus, #banner .front-page-likes:active {
-      color: #ff325d; }
+      color: #8145ff; }
   #banner .container-fluid {
     padding-bottom: 0px; }
   #banner .banner-light-container {
@@ -1770,7 +1841,7 @@ input[type=number]::-webkit-outer-spin-button {
   z-index: 55 !important;
   max-width: 99%;
   position: relative !important;
-  background: #f7f7f7; }
+  background: #d5d5d5; }
   .growLight .face {
     border-radius: 3px; }
   .growLight.Pro {
@@ -2044,40 +2115,32 @@ input[type=number]::-webkit-outer-spin-button {
 .light, .spectrums-container {
   display: flex;
   align-items: flex-start;
-  justify-content: center;
+  justify-content: center !important;
   clear: both;
   z-index: 50 !important;
   max-width: 95%;
   overflow: visible;
   position: relative !important;
   pointer-events: none !important; }
-  .light .wavelengthObject, .spectrums-container .wavelengthObject {
+  .light .spectrumLabels, .spectrums-container .spectrumLabels {
     top: 0;
-    overflow: visible;
-    width: auto;
-    justify-content: flex-start; }
-    .light .wavelengthObject.backBoosted, .spectrums-container .wavelengthObject.backBoosted {
-      opacity: 0.4;
-      -webkit-transition: all 400ms ease;
-      -moz-transition: all 400ms ease;
-      -ms-transition: all 400ms ease;
-      transition: all 400ms ease; }
-    .light .wavelengthObject.backBoost, .spectrums-container .wavelengthObject.backBoost {
-      opacity: 0.9;
-      -webkit-transition: all 400ms ease;
-      -moz-transition: all 400ms ease;
-      -ms-transition: all 400ms ease;
-      transition: all 400ms ease; }
-    .light .wavelengthObject .wavelengthLabelObj, .spectrums-container .wavelengthObject .wavelengthLabelObj {
+    bottom: auto !important;
+    z-index: 100; }
+    .light .spectrumLabels .wavelengthLabelObj, .spectrums-container .spectrumLabels .wavelengthLabelObj {
       height: auto !important;
       width: auto !important;
       pointer-events: none;
       display: flex;
       align-items: center;
       justify-content: center;
-      flex-direction: column; }
-    .light .wavelengthObject .wavelengthLabel, .spectrums-container .wavelengthObject .wavelengthLabel {
+      flex-direction: column;
       opacity: 0;
+      overflow: visible;
+      max-width: 2px;
+      top: 5% !important;
+      transform-origin: 200% 0;
+      bottom: auto; }
+    .light .spectrumLabels .wavelengthLabel, .spectrums-container .spectrumLabels .wavelengthLabel {
       font-size: 1.2rem;
       font-family: "Montserrat";
       font-weight: 700;
@@ -2090,20 +2153,19 @@ input[type=number]::-webkit-outer-spin-button {
       -ms-transition: all 1150ms ease;
       transition: all 1150ms ease;
       margin-top: 5px; }
-      .light .wavelengthObject .wavelengthLabel .valueLabel, .spectrums-container .wavelengthObject .wavelengthLabel .valueLabel {
+      .light .spectrumLabels .wavelengthLabel .valueLabel, .spectrums-container .spectrumLabels .wavelengthLabel .valueLabel {
         font-size: 0.8rem; }
-      .light .wavelengthObject .wavelengthLabel.on, .spectrums-container .wavelengthObject .wavelengthLabel.on {
-        display: block; }
-      .light .wavelengthObject .wavelengthLabel.off, .spectrums-container .wavelengthObject .wavelengthLabel.off {
-        display: none; }
-    .light .wavelengthObject:hover .wavelengthLabel, .spectrums-container .wavelengthObject:hover .wavelengthLabel {
+    .light .spectrumLabels:hover .wavelengthLabel, .spectrums-container .spectrumLabels:hover .wavelengthLabel {
       -webkit-transition: all 10ms ease;
       -moz-transition: all 10ms ease;
       -ms-transition: all 10ms ease;
       transition: all 10ms ease;
       opacity: 1; }
-    .light .wavelengthObject:hover.backBoosted, .spectrums-container .wavelengthObject:hover.backBoosted {
+    .light .spectrumLabels:hover.backBoosted, .spectrums-container .spectrumLabels:hover.backBoosted {
       opacity: 0.8; }
+  .light canvas, .spectrums-container canvas {
+    z-index: 20;
+    pointer-events: all; }
   .light svg, .spectrums-container svg {
     clear: both;
     width: auto;
@@ -2350,15 +2412,30 @@ input[type=number]::-webkit-outer-spin-button {
     font-size: 1.8rem;
     text-transform: uppercase;
     font-weight: 700;
-    padding: 4px 10px;
+    padding: 8px 15px;
     font-family: "Montserrat";
     line-height: 1.5rem;
     cursor: pointer;
     display: flex;
     align-items: center;
-    justify-content: center; }
+    justify-content: center;
+    transform: none !important;
+    top: 15% !important;
+    right: 0px !important;
+    left: auto !important;
+    bottom: auto !important;
+    width: auto !important;
+    height: auto !important;
+    max-width: 90px;
+    animation: colourFlickerRainbow 2000ms forwards infinite;
+    border-top-left-radius: 3px;
+    border-bottom-left-radius: 3px;
+    -webkit-transition: all 300ms ease;
+    -moz-transition: all 300ms ease;
+    -ms-transition: all 300ms ease;
+    transition: all 300ms ease; }
     .scene .tent .tentMoreInfoLabel:hover {
-      animation: colourFlickerRainbow 2000ms forwards infinite; }
+      font-size: 1.9rem; }
   .scene .tent .growLight-container {
     overflow: visible !important; }
     .scene .tent .growLight-container .light, .scene .tent .growLight-container .spectrums-container {
@@ -2420,36 +2497,63 @@ input[type=number]::-webkit-outer-spin-button {
     color: #151515;
     box-shadow: 0px 5px 8px 0px rgba(87, 100, 124, 0.3); }
 
-.productModal .product-title {
-  padding-bottom: 20px;
-  color: #80bc18; }
-.productModal .item-details-product {
-  padding-bottom: 15px; }
-.productModal .product-description p {
-  font-size: 1.7rem;
-  font-family: "Montserrat"; }
-.productModal .price {
-  padding-top: 15px;
-  font-size: 2.4rem; }
-.productModal .combo-button-container {
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding-top: 30px; }
-  .productModal .combo-button-container .combo-button, .productModal .combo-button-container .close-button {
-    margin-left: 5% !important;
-    margin-right: 5% !important;
-    width: 90% !important;
-    max-width: 300px; }
-    .productModal .combo-button-container .combo-button .shop-cart-button, .productModal .combo-button-container .close-button .shop-cart-button {
-      display: flex;
-      align-items: center;
-      justify-content: center; }
-.productModal.Grow-Light-Modal .product-title {
-  color: #80bc18; }
-.productModal li strong a {
-  text-transform: capitalize; }
+.modal-backdrop {
+  -webkit-transition: opacity 400ms ease;
+  -moz-transition: opacity 400ms ease;
+  -ms-transition: opacity 400ms ease;
+  transition: opacity 400ms ease; }
+  .modal-backdrop.in {
+    opacity: 0.2 !important; }
+
+.productModal {
+  padding: 100px !important; }
+@media(max-width: 800px) {
+  .productModal {
+    padding: 50px !important; } }
+@media(max-width: 600px) {
+  .productModal {
+    padding: 10px !important; } }
+  .productModal .product-title {
+    padding-bottom: 20px;
+    color: #80bc18; }
+  .productModal .item-details-product {
+    padding-bottom: 15px; }
+  .productModal .product-description p {
+    font-size: 1.65rem;
+    font-family: "Montserrat"; }
+@media(max-width: 400px) {
+  .productModal .product-description p {
+    text-align: left; } }
+  .productModal .price {
+    padding-top: 15px;
+    font-size: 2.4rem; }
+  .productModal .combo-button-container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-top: 30px; }
+    .productModal .combo-button-container .combo-button, .productModal .combo-button-container .close-button {
+      margin-left: 5% !important;
+      margin-right: 5% !important;
+      width: 90% !important;
+      max-width: 300px; }
+      .productModal .combo-button-container .combo-button .shop-cart-button, .productModal .combo-button-container .close-button .shop-cart-button {
+        display: flex;
+        align-items: center;
+        justify-content: center; }
+  .productModal.Grow-Light-Modal .product-title {
+    color: #80bc18; }
+  .productModal .thumb {
+    height: 60px; }
+@media(max-width: 500px) {
+  .productModal .thumb {
+    height: 50px; } }
+  .productModal strong {
+    color: #80bc18;
+    text-transform: capitalize; }
+  .productModal li strong a {
+    text-transform: capitalize; }
 
 .btn-primary {
   display: flex;
@@ -2515,8 +2619,8 @@ input[type=number]::-webkit-outer-spin-button {
           justify-content: center;
           z-index: 150; }
         .coverage-calc-scene-container .scene .coverageMap .mapSquare .mapSquareData {
-          opacity: 0;
           visibility: hidden;
+          opacity: 0;
           position: relative;
           top: 0;
           left: 0;

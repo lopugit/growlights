@@ -7,11 +7,16 @@ append content
 					each growLight in growLightModel
 						-if(growLight.vendor !== 'ozled')
 							-allGrowLights.push(growLight)
+				each growLightModel in growLightModels.custom
+					-allGrowLights.push(growLightModel)
+						//- -if(growLight.vendor !== 'ozled')
 	-else if (growLightModels.commerce)
 		each growLightModel in growLightModels.commerce
 			each growLight in growLightModel
 				-if(growLight.vendor !== 'ozled')
 					-allGrowLights.push(growLight)
+		each growLightModel in growLightModels.custom
+			-allGrowLights.push(growLightModel)
 	-
 		var rainbowGrowLight = {
 			spectrum: [

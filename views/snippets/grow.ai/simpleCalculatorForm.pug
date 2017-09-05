@@ -45,7 +45,7 @@ form.l-form.l-clear(id=formId, method="post", name="singleTent", data-_id=growLi
         $(document).ready(()=>{
             var form = $('##{formId}').parsley()
             var object = {}
-            var scene = new lopu3d.scene({
+            var scene = new l3.scene({
                 id: "#{sceneId}",
                 containerId: "#{sceneContId}",
                 sizeType: "object",
@@ -53,10 +53,6 @@ form.l-form.l-clear(id=formId, method="post", name="singleTent", data-_id=growLi
                 theme: 'relative',
                 ratio: 80
             })
-            console.log("$().width()")
-            console.log($('##{sceneId}').width())
-            console.log($('##{sceneId}'))
-            console.log($('##{sceneId}')[0].offsetWidth)
             var currentLight = new GrowLight(allGrowLights.find(gl => gl._id == "#{growLight._id}"), {makeDiodes: true})
             var opts = {
                 scene: scene,
@@ -81,33 +77,26 @@ form.l-form.l-clear(id=formId, method="post", name="singleTent", data-_id=growLi
                 ]
             })
             if(#{wait}){
-                console.log('yes we wait')
                 $("##{modalId}").attrchange({
                     trackValues: true,
                     callback: function(evnt){
                         if(evnt.attributeName == 'class'){
                             if(evnt.newValue.search(/\sin\s|^in$|^in\s|in$/i) >= 0){
-                                console.log("did we?")
+                                console.log('why so much lag?')
                                 grow.ai.calculateCoverage(newOpts)                        
                             }
                         }
                     }
                 })
             } else {
-                //- console.log("")
                 grow.ai.calculateCoverage(newOpts)
             }
             
-            console.log("the scene elements width")
-            console.log($("##{sceneId}").width())
             if("#{covCalcId}".length > 0){
                 $("#!{covCalcId}"+ " .slick-arrow").bind('click', {allGrowLights: allGrowLights, sliderId: "#{covCalcId}-parent", aiOpts: newOpts}, (e)=>{
                         var _id = $("#"+e.data.sliderId).find('.slick-current .growLight').attr('data-_id')
                         $("##{formId}").attr('data-_id', _id)
                         var growLight = new GrowLight(allGrowLights.find(gl => gl._id == _id), {makeDiodes: true})
-                        //- console.log(growLight)
-                        //- console.log(_id)
-                        //- console.log($("#"+e.data.sliderId).find('.slick-current .growLight'))
                         e.data.aiOpts.lights = [growLight]
                         e.data.aiOpts.coverageMaps[0] = {
                             width: growLight.coverageAt({dimension: "x"}),
@@ -121,9 +110,7 @@ form.l-form.l-clear(id=formId, method="post", name="singleTent", data-_id=growLi
                                 y: 0
                             }
                         }
-                        //- console.log(scene)
                         e.data.aiOpts.scene.clear()
-                        console.log(e.data.aiOpts)
                         grow.ai.calculateCoverage(e.data.aiOpts)
                         $("##{secId}").find('[lopu-bind="{currentLightTitle}"]').html(growLight.title+ " Energy Map")
                 })
@@ -148,7 +135,6 @@ form.l-form.l-clear(id=formId, method="post", name="singleTent", data-_id=growLi
                             if(form.fieldsMappedById["Field-"+$(input).data('parsley-id')]){
                                 if($(input).attr('type') == "Number"){
                                     coverageMap[$(input).data('property')] = parseInt(form.fieldsMappedById["Field-"+$(input).data('parsley-id')].value)
-                                    console.log()
                                 } else {
                                     coverageMap[$(input).data('property')] = form.fieldsMappedById["Field-"+$(input).data('parsley-id')].value
                                 }
@@ -173,13 +159,11 @@ form.l-form.l-clear(id=formId, method="post", name="singleTent", data-_id=growLi
                         for(light in opts.lights){
                             opts.lights[light].hangHeight = coverageMap.hangHeight
                         }
-                        console.log(opts.lights)
-                        console.log(coverageMap)
                         opts.coverageMaps.push(coverageMap)
                     })
                     for(map in opts.coverageMaps){
                         var curMap = opts.coverageMaps[map]
-                        if((curMap.depth / curMap.zResolution)*(curMap.width/curMap.xResolution) > 500){
+                        if((curMap.depth / curMap.zResolution)*(curMap.width/curMap.xResolution) > 50000){
                             sendError("You want to render a map that will crash your browser, try a lower resolution")
                             return
                         }

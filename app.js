@@ -219,6 +219,7 @@ app.get('/(|home|index)', function(req, res) {
         })
         .then(function() {
             return growLightModels.then(models => {
+                console.log(models)
                 res.locals.growLightModels = models
                 return
             }).catch(function() {

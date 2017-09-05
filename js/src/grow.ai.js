@@ -15,8 +15,8 @@ function Grow(props) {
         var curDiode = props.diode
         if (curDiode) {
             if (props.target) {
-                xNormal = (props.target.x / lopu3d.ai.unitScale(props.target.unit)) + (curDiode.position.sox / curDiode.position.unitScale)
-                zNormal = (props.target.z / lopu3d.ai.unitScale(props.target.unit)) + (curDiode.position.soz / curDiode.position.unitScale)
+                xNormal = (props.target.x / l3.ai.unitScale(props.target.unit)) + (curDiode.position.sox / curDiode.position.unitScale)
+                zNormal = (props.target.z / l3.ai.unitScale(props.target.unit)) + (curDiode.position.soz / curDiode.position.unitScale)
                 yNormal = (curDiode.parent.hangHeight / curDiode.parent.unitScale)
                 cumulativeEnergy += curDiode[props.lightUnit] *
                     (
@@ -47,7 +47,7 @@ function Grow(props) {
         }
         _this.lightSources = props.lights || props.lightSources
         if (props.render)
-            if (!props.scene) console.error("you need to include a lopu3d scene if you want to render the map")
+            if (!props.scene) console.error("you need to include a l3 scene if you want to render the map")
         _this.scene = props.scene
         _this.ratio = props.scene.ratio || props.ratio
         _this.coverageMaps = props.coverageMaps || []
@@ -92,18 +92,21 @@ function Grow(props) {
                     yResolution: coverageMap.yResolution || coverageMap.resolution || coverageMap.zResolution || 0,
                     type: coverageMap.type || '2d',
                     id: uuidv4(),
-                    maxLumens: 0,
-                    maxLux: 0,
-                    maxPar: 0,
-                    maxPhotons: 0,
-                    maxPpfd: 0,
-                    maxWattage: 0,
-                    totalLumens: 0,
-                    totalLux: 0,
-                    totalPar: 0,
-                    totalPhotons: 0,
-                    totalPpfd: 0,
-                    totalWattage: 0,
+                    lumensMax: 0,
+                    luxMax: 0,
+                    photonsMax: 0,
+                    ppfdMax: 0,
+                    wattageMax: 0,
+                    lumensTotal: 0,
+                    luxTotal: 0,
+                    photonsTotal: 0,
+                    ppfdTotal: 0,
+                    wattageTotal: 0,
+                    lumensAvg: 0,
+                    luxAvg: 0,
+                    photonsAvg: 0,
+                    ppfdAvg: 0,
+                    wattageAvg: 0,
                     object: {},
                     position: {
                         x: coverageMap.position.x || 0,
@@ -118,15 +121,26 @@ function Grow(props) {
                 coverageMap.width = (Math.floor(coverageMap.width / coverageMap.xResolution)) * coverageMap.xResolution
                 coverageMap.depth = (Math.floor(coverageMap.depth / coverageMap.zResolution)) * coverageMap.zResolution
                 coverageMap.height = (Math.floor(coverageMap.height / coverageMap.yResolution)) * coverageMap.yResolution
+                coverageMap.area = (coverageMap.width * coverageMap.depth).toFixed(2)
                 coverageMap.object = new Cube({
                     width: coverageMap.width,
                     height: coverageMap.height,
                     depth: coverageMap.depth,
                     unit: coverageMap.unit,
-                    type: '2d',
-                    sides: [globFace],
+                    type: 'canvas',
                     scene: _this.scene,
                     id: uuidv4(),
+                    render: false,
+                    canvas: {
+                        type: 'rects',
+                        rects: coverageMap.map,
+                        size: {
+                            height: true,
+                            width: true,
+                            inherit: true
+                        },
+                        pxRects: []
+                    },
                     group: {
                         id: 'coverageMaps' + _this.uuid,
                         class: 'coverageMaps ' + _this.scene.theme
@@ -140,8 +154,34 @@ function Grow(props) {
                         unit: coverageMap.unit
                     },
                     ratio: _this.scene.ratio || _this.ratio || props.mapRatio || 88
-
                 })
+
+                // DEPRECATED
+                // coverageMap.object.canvas.
+                // coverageMap.object = new Cube({
+                //     width: coverageMap.width,
+                //     height: coverageMap.height,
+                //     depth: coverageMap.depth,
+                //     unit: coverageMap.unit,
+                //     type: '2d',
+                //     sides: [globFace],
+                //     scene: _this.scene,
+                //     id: uuidv4(),
+                //     group: {
+                //         id: 'coverageMaps' + _this.uuid,
+                //         class: 'coverageMaps ' + _this.scene.theme
+                //     },
+                //     class: 'coverageMap ' + _this.scene.theme,
+                //     position: {
+                //         x: coverageMap.position.x,
+                //         y: coverageMap.position.y,
+                //         z: coverageMap.position.z,
+                //         // type: 'center',
+                //         unit: coverageMap.unit
+                //     },
+                //     ratio: _this.scene.ratio || _this.ratio || props.mapRatio || 88
+
+                // })
                 if (props.dimensionLabels !== false) {
                     coverageMap.object.children.push(
                         new Cube({
@@ -199,7 +239,7 @@ function Grow(props) {
                             var coverageMapSquare = {
                                 width: coverageMap.xResolution,
                                 depth: coverageMap.zResolution,
-                                height: coverageMap.zResolution,
+                                height: coverageMap.yResolution,
                                 unit: coverageMap.unit,
                                 position: {
                                     x: curX + (coverageMap.xResolution / 2),
@@ -215,58 +255,23 @@ function Grow(props) {
                                 photons: 0,
                                 ppfd: 0,
                                 wattage: 0,
-                                area: area
+                                area: area,
+                                areaNormalised: area / l3.ai.convertAreaScale(coverageMap.unit, "m")
                             }
                             if (_this.frontOn) { var zOffset = 0 } else { var zOffset = coverageMap.zResolution / 2 }
-                            coverageMapSquare.object = new Cube({
-                                id: uuidv4() + 'coverageMapSquare',
-                                class: 'coverageMapSquare d2',
+                            coverageMapSquare.rect = {
                                 width: coverageMapSquare.width,
                                 depth: coverageMapSquare.depth,
                                 height: coverageMapSquare.height,
                                 unit: coverageMapSquare.unit,
-                                sides: [globFace],
-                                // scene: this.object.scene,
                                 position: {
                                     x: coverageMapSquare.position.x - (coverageMap.xResolution / 2),
                                     y: coverageMapSquare.position[posAdjY] - (coverageMap.yResolution / 2),
                                     z: coverageMapSquare.position[posAdjZ] - zOffset,
-                                    unit: coverageMap.position.unit,
-                                    // type: coverageMap.position.type
-                                },
-                                parent: coverageMap.object,
-                                group: {
-                                    // positioner: true,
-                                    id: _this.uuid + 'map',
-                                    class: 'map ' + _this.scene.theme
-                                },
-                                class: 'mapSquare  ',
-                                type: '2d'
-                            })
+                                    unit: coverageMapSquare.position.unit
+                                }
+                            }
                             coverageMap.map.push(coverageMapSquare)
-                            var coverageMapSquareDataLabel = new Cube({
-                                id: uuidv4(),
-                                sides: [],
-                                class: 'mapSquareData',
-                                data: {
-                                    text: '<div>X: ' + coverageMapSquare.position.x + coverageMap.unit + ' Z: ' + coverageMapSquare.position.z + coverageMap.unit + '</div><div><div class="width">Width: ' + Math.round((coverageMap.xResolution)) + coverageMap.unit + '</div><div class="depth"></div> Depth: ' + Math.round((coverageMap.zResolution)) + coverageMap.unit + '</div></div><div class="area">' + (area / (lopu3d.ai.unitScale(coverageMap.unit) * 100)).toFixed(2) + 'm<span class="squared">2</span></div><div class="hang-height">Hang Height: ' + 0 + _this.unit + '</div><div class="lumens">Lumens: ' + coverageMapSquare.lumens + '</div><div class="Lux">Lux: ' + coverageMapSquare.lux + '</div><div class="PPFD">PPDF / PAR (umols/m2/s): ' + coverageMapSquare.ppfd + '</div><div class="photons">Photons (umols): ' + coverageMapSquare.photons + '</div><div class="wattage">Wattage: ' + coverageMapSquare.wattage + '</div>',
-                                    area: area
-                                },
-                                position: {
-                                    x: 0,
-                                    y: 0,
-                                    z: -10,
-                                    rx: labelRotationNormal,
-                                    type: 'center',
-                                    unit: "cm"
-                                },
-                                group: {
-                                    id: uuidv4(),
-                                    class: 'mapSquareDataGroup'
-                                },
-                                parent: coverageMapSquare.object
-                            })
-
                         }
                     }
                 }
@@ -275,16 +280,6 @@ function Grow(props) {
                     coverageMap.hangHeight = curLightSource.hangHeight
                     coverageMap.map.forEach((curSquare, index) => {
                         curLightSource.leds.diodes.forEach((curDiode, index2) => {
-                            // var curDiode = diode
-                            // var curSquare = coverageSquare
-                            //     lightUnit: "lumens",
-                            //     target: {
-                            //         x: (curX + (coverageMap.xResolution / 2)) - (coverageMap.width / 2),
-                            //         z: (curZ + (coverageMap.zResolution / 2)) - (coverageMap.depth / 2),
-                            //         unit: coverageMap.unit
-                            //     },
-                            //     diode: curDiode
-                            // }))
                             curSquare.lumens += this.energyAt({
                                 lightUnit: "lumens",
                                 target: {
@@ -312,16 +307,16 @@ function Grow(props) {
                                 },
                                 diode: curDiode
                             })
-                            if (coverageMap.maxLumens < curSquare.lumens)
-                                coverageMap.maxLumens = curSquare.lumens
-                            if (coverageMap.maxLux < curSquare.lux)
-                                coverageMap.maxLux = curSquare.lux
-                            if (coverageMap.maxPpfd < curSquare.ppfd)
-                                coverageMap.maxPpfd = curSquare.ppfd
-                            if (coverageMap.maxPhotons < curSquare.photons)
-                                coverageMap.maxPhotons = curSquare.photons
-                            if (coverageMap.maxWattage < curSquare.wattage)
-                                coverageMap.maxWattage = curSquare.wattage
+                            if (coverageMap.lumensMax < curSquare.lumens)
+                                coverageMap.lumensMax = curSquare.lumens
+                            if (coverageMap.ppfdMax < curSquare.ppfd)
+                                coverageMap.ppfdMax = curSquare.ppfd
+                            if (coverageMap.wattageMax < curSquare.wattage)
+                                coverageMap.wattageMax = curSquare.wattage
+                            if (coverageMap.photonsMax < curSquare.photons)
+                                coverageMap.photonsMax = curSquare.photons
+                            if (coverageMap.luxMax < curSquare.lux)
+                                coverageMap.luxMax = curSquare.lux
                                 // for (var i = 0; i < curSquare.object.sides.length; i++) {
                                 //     d3.select($("#" + curSquare.object.id + "> .faceParent > .face").get(i))
                                 //         .transition()
@@ -330,6 +325,8 @@ function Grow(props) {
                                 //         .style('opacity', index / curLightSource.leds.diodes.length)
                                 // }
                         })
+
+
 
                     })
                 })
@@ -345,38 +342,219 @@ function Grow(props) {
                             temp = this.normalize(_this.lightSources[i].position.z - (curSquare.position.z - (coverageMap.depth / 2)))
                         }
                     }
-                    curSquare.photons = (curSquare.area / lopu3d.ai.convertAreaScale(coverageMap.unit, "m")) * curSquare.ppfd
-                    coverageMap.totalWattage += curSquare.wattage
-                    coverageMap.totalLumens += curSquare.lumens
-                    coverageMap.totalLux += curSquare.lux
-                    coverageMap.totalPpfd += curSquare.ppfd
-                    coverageMap.totalPhotons += curSquare.photons
-                    curSquare.lux = (curSquare.lumens / (curSquare.area / lopu3d.ai.convertAreaScale(coverageMap.unit, "m")))
-                    for (var i = 0; i < curSquare.object.sides.length; i++) {
-                        d3.select($("#" + curSquare.object.id + "> .faceParent > .face").get(i))
-                            .transition()
-                            // .duration(Math.random() * 40000)
-                            .duration(Math.random() * 7777)
-                            .style('opacity', curSquare.lumens / coverageMap.maxLumens)
-                    }
-                    d3.select($("#" + curSquare.object.id + " .mapSquareData .lumens").get(0))
-                        .html("Lumens: " + (curSquare.lumens).toFixed(2))
-                    d3.select($("#" + curSquare.object.id + " .mapSquareData .lux").get(0))
-                        .html("Lux (lumens/m2): " + (curSquare.lux).toFixed(2))
-                    d3.select($("#" + curSquare.object.id + " .mapSquareData .ppfd").get(0))
-                        .html("PPFD / PAR (umols/m2/s): " + (curSquare.ppfd).toFixed(2))
-                    d3.select($("#" + curSquare.object.id + " .mapSquareData .photons").get(0))
-                        .html("Photons (umols): " + (curSquare.photons).toFixed(2))
-                    d3.select($("#" + curSquare.object.id + " .mapSquareData .wattage").get(0))
-                        .html("Wattage: " + (curSquare.wattage).toFixed(2))
-                    d3.select($("#" + curSquare.object.id + " .mapSquareData .hang-height").get(0))
-                        .html("Hang Height: " + Math.round(closestHangHeight) + coverageMap.unit)
+                    curSquare.photons = (curSquare.area / l3.ai.convertAreaScale(coverageMap.unit, "m")) * curSquare.ppfd
+                    curSquare.lux = (curSquare.lumens / (curSquare.area / l3.ai.convertAreaScale(coverageMap.unit, "m")))
+                    coverageMap.wattageTotal += curSquare.wattage
+                    coverageMap.lumensTotal += curSquare.lumens
+                    coverageMap.luxTotal += curSquare.lux
+                    coverageMap.ppfdTotal += curSquare.ppfd
+                    coverageMap.photonsTotal += curSquare.photons
+                    coverageMap.wattageAvg = (coverageMap.wattageTotal / coverageMap.map.length)
+                    coverageMap.lumensAvg = (coverageMap.lumensTotal / coverageMap.map.length)
+                    coverageMap.luxAvg = (coverageMap.luxTotal / coverageMap.map.length)
+                    coverageMap.ppfdAvg = (coverageMap.ppfdTotal / coverageMap.map.length)
+                    coverageMap.photonsAvg = (coverageMap.photonsTotal / coverageMap.map.length)
+                    var tempLightColour = [255, 43, 151]
+                    curSquare.rect.fillStyle = 'rgba(' + tempLightColour[0] + ',' + tempLightColour[1] + ',' + tempLightColour[2] + ',' + curSquare.lumens / coverageMap.lumensMax + ')'
                 })
+                coverageMap.object.draw()
+                var squareArea = coverageMap.xResolution * coverageMap.zResolution
+                coverageMapData = new Cube({
+                    class: 'coverageMapDataParent',
+                    parent: coverageMap.object,
+                    sides: []
+                })
+                var mapData = [
+                    { key: 'width', text: "Width: <div class='value'>" + coverageMap.width + '</div>' + coverageMap.unit, group: 'coverageMapData' },
+                    { key: 'depth', text: "Depth: <div class='value'>" + coverageMap.depth + '</div>' + coverageMap.unit, group: 'coverageMapData' },
+                    { key: 'areaNormalised', text: "Area:  <div class='unit'><div class='value'>" + coverageMap.area / l3.ai.convertAreaScale(coverageMap.unit, "m") + '</div>m<div class="squared">2</div></div>', group: 'coverageMapData', round: 4 },
+                    // { key: 'ppfdTotal', text: "All PPFD:  <div class='unit'><div class='value'>" + (coverageMap.ppfdTotal).toFixed(2) + '</div>', group: 'coverageMapData' },
+                    // { key: 'luxTotal', text: "All Lux:  <div class='unit'><div class='value'>" + (coverageMap.luxTotal).toFixed(2) + '</div>', group: 'coverageMapData' },
+                    { key: 'photonsTotal', text: "Total Photons:  <div class='unit'><div class='value'>" + (coverageMap.photonsTotal).toFixed(0) + '</div>', group: 'coverageMapData' },
+                    { key: 'lumensTotal', text: "Total Lumens:  <div class='unit'><div class='value'>" + (coverageMap.lumensTotal).toFixed(0) + '</div>', group: 'coverageMapData' },
+                    { key: 'wattageTotal', text: "Total Wattage:  <div class='unit'><div class='value'>" + (coverageMap.wattageTotal).toFixed(0) + '</div>', group: 'coverageMapData' },
+                    { key: 'ppfdAvg', text: "Avg PPFD:  <div class='unit'><div class='value'>" + (coverageMap.ppfdAvg).toFixed(0) + '</div>', group: 'coverageMapData' },
+                    { key: 'luxAvg', text: "Avg Lux:  <div class='unit'><div class='value'>" + (coverageMap.luxAvg).toFixed(0) + '</div>', group: 'coverageMapData' },
+                ]
+                var tileData = [
+                    { key: 'width', text: "Tile Width: <div class='unit'><div class='value'>" + coverageMap.xResolution + "</div>" + coverageMap.unit + "</div>", group: 'coverageSquareData' },
+                    { key: 'depth', text: "Tile Depth: <div class='unit'><div class='value'>" + coverageMap.zResolution + "</div>" + coverageMap.unit + "</div>", group: 'coverageSquareData' },
+                    { key: 'areaNormalised', text: "Tile Area:  <div class='unit'><div class='value'>" + (coverageMap.zResolution * coverageMap.xResolution) / l3.ai.convertAreaScale(coverageMap.unit, "m") + '</div>m<div class="squared">2</div></div>', group: 'coverageSquareData', round: 4 },
+                    { key: 'position-x', text: "At X: <div class='value'>" + 0 + "</div>", group: 'coverageSquareData' },
+                    { key: 'position-z', text: "At Z: <div class='value'>" + 0 + "</div>", group: 'coverageSquareData' },
+                    { key: 'ppfd', text: "PPFD (umols/m2/s): <div class='value'>" + 0 + "</div>", group: 'coverageSquareData' },
+                    { key: 'lux', text: "Lux: <div class='value'>" + 0 + "</div>", group: 'coverageSquareData' },
+                    { key: 'photons', text: "Photons: <div class='value'>" + 0 + "</div>", group: 'coverageSquareData', round: 2 },
+                    { key: 'lumens', text: "Lumens: <div class='value'>" + 0 + "</div>", group: 'coverageSquareData' },
+                    { key: 'wattage', text: "Wattage: <div class='value'>" + 0 + "</div>", group: 'coverageSquareData' },
+                ]
+                mapData.forEach((data, datas) => {
+                    if (data.group) {
+                        var newGroup = {
+                            class: data.group,
+                            id: coverageMap.object.id + data.group,
+                            positioner: true
+                        }
+                    }
+                    var newCube = new Cube({
+                        class: 'coverageMapDataItem ' + data.key,
+                        parent: coverageMap.object,
+                        sides: [],
+                        group: newGroup,
+                        data: {
+                            text: data.text
+                        }
+                    })
+                })
+                tileData.forEach((data, datas) => {
+                    if (data.group) {
+                        var newGroup = {
+                            class: data.group,
+                            id: coverageMap.object.id + data.group,
+                            positioner: true
+                        }
+                    }
+                    var newCube = new Cube({
+                        class: 'coverageMapDataItem ' + data.key,
+                        parent: coverageMap.object,
+                        sides: [],
+                        group: newGroup,
+                        data: {
+                            text: data.text
+                        }
+                    })
+                })
+                coverageMap.object.canvas.rects.forEach((rect, index) => {
+                    var pxRect = {
+                        width: ((rect.rect.width / l3.ai.unitScale(rect.rect.unit)) * coverageMap.object.scene.pxr),
+                        height: ((rect.rect.height / l3.ai.unitScale(rect.rect.unit)) * coverageMap.object.scene.pxr),
+                        unit: 'px',
+                        position: {
+                            x: ((rect.rect.position.x / l3.ai.unitScale(rect.rect.unit)) * coverageMap.object.scene.pxr),
+                            y: ((rect.rect.position.y / l3.ai.unitScale(rect.rect.unit)) * coverageMap.object.scene.pxr),
+                            z: ((rect.rect.position.z / l3.ai.unitScale(rect.rect.unit)) * coverageMap.object.scene.pxr),
+                            unit: 'px'
+                        },
+                        zIndex: 20,
+                        index: index
+                    }
+                    coverageMap.object.canvas.pxRects.push(pxRect)
+                })
+
+                function updateData(e) {
+                    var mouseX = parseInt(e.offsetX)
+                    var mouseY = parseInt(e.offsetY)
+                    var hoveredRect = l3.ai.findCurrentRect({ mouse: { x: mouseX, y: mouseY }, rects: coverageMap.object.canvas.pxRects })
+                    var curSquare = coverageMap.map[hoveredRect.index]
+                    tileData.forEach((data, index) => {
+                        coverageMap.object.children.forEach((child, index) => {
+                            if (child.group && child.group.class.indexOf(data.group) > -1) {
+                                if (child.class.indexOf(data.key) > -1) {
+
+                                    var key = data.key.replace('-', '.')
+                                    if (typeof curSquare[key] == 'number') {
+                                        var round = data.round || 0
+                                        var html = Object.byString(curSquare, key).toFixed(round)
+                                    } else {
+                                        var html = Object.byString(curSquare, key)
+                                    }
+                                    console.log(key)
+                                    console.log(curSquare)
+                                    console.log(html)
+                                    d3.select($("#" + coverageMap.object.id + " #" + child.id + "." + data.key + " .value").get(0))
+                                        .html(html)
+                                }
+                            }
+                        })
+                    })
+
+                }
+                coverageMap.object.canvas.canvas.onmousemove = updateData
             })
         }
     }
     this.normalize = function(number) {
         return Math.sqrt(Math.pow(number, 2))
+    }
+    this.wavelengthColourCodes = []
+    this.firstColourCode = [179, 34, 255]
+    this.wavelengthRanges = [
+        { colour: 'violet', wavelengthRange: { min: 400, max: 440 }, rgbObj: { r: 57, g: 220, b: 255 }, rgb: [70, 140, 255] },
+        // { colour: 'violet', wavelengthRange: { min: 400, max: 440 }, rgbObj: { r: 110, g: 200, b: 255 }, rgb: [70, 140, 255] },
+        { colour: 'blue', wavelengthRange: { min: 440, max: 485 } },
+        { colour: 'cyan', wavelengthRange: { min: 485, max: 500 } },
+        { colour: 'green', wavelengthRange: { min: 500, max: 565 } },
+        { colour: 'yellow', wavelengthRange: { min: 565, max: 590 } },
+        { colour: 'orange', wavelengthRange: { min: 590, max: 600 } },
+        { colour: 'red', wavelengthRange: { min: 600, max: 680 }, rgbObj: { r: 255, g: 0, b: 1 }, rgb: [255, 0, 5] }
+        // { colour: 'near-infra-red', wavelengthRange: { min: 700, max: 730 }, rgbObj: { r: 255, g: 31, b: 31 }, rgb: [221, 0, 0] }
+    ]
+    this.customColours = [
+        { colour: 'Purple', wavelength: 'Purple', rgbObj: { r: 105, g: 52, b: 147 }, rgb: [105, 52, 147], rgbString: 'rgb(105, 52, 147)' },
+        { colour: 'Blue', wavelength: 'Blue', rgbObj: { r: 22, g: 112, b: 195 }, rgb: [22, 112, 195], rgbString: 'rgb(22, 112, 195)' },
+        { colour: 'Cyan', wavelength: 'Cyan', rgbObj: { r: 70, g: 201, b: 250 }, rgb: [70, 201, 250], rgbString: 'rgb(70, 201, 250)' },
+        { colour: 'Green', wavelength: 'Green', rgbObj: { r: 128, g: 188, b: 24 }, rgb: [128, 188, 24], rgbString: 'rgb(128, 188, 24)' },
+        { colour: 'Yellow', wavelength: 'Yellow', rgbObj: { r: 255, g: 224, b: 59 }, rgb: [255, 224, 59], rgbString: 'rgb(255, 224, 59)' },
+        { colour: 'Orange', wavelength: 'Orange', rgbObj: { r: 255, g: 160, b: 61 }, rgb: [255, 160, 61], rgbString: 'rgb(255, 160, 61)' },
+        { colour: 'Red', wavelength: 'Red', rgbObj: { r: 255, g: 65, b: 65 }, rgb: [255, 65, 65], rgbString: 'rgb(255, 65, 65)' },
+        { colour: 'yellow', wavelength: 'k3000', rgbObj: { r: 255, g: 191, b: 116 }, rgb: [255, 191, 116], rgbString: 'rgb(255, 191, 116)' },
+        { colour: 'infra red', wavelength: 'nm730', rgbObj: { r: 222, g: 0, b: 4 }, rgb: [221, 0, 0] },
+        { colour: 'UVA', wavelength: 'UVA', rgbObj: { r: 203, g: 44, b: 255 }, rgb: [203, 44, 255] }
+    ]
+    this.interpolateHSL = function(color1, color2, factor) {
+        if (arguments.length < 3) { factor = 0.5; }
+        var hsl1 = ROT.Color.rgb2hsl(color1)
+        var hsl2 = ROT.Color.rgb2hsl(color2)
+        for (var i = 0; i < 3; i++) {
+            hsl1[i] += factor * (hsl2[i] - hsl1[i])
+        }
+        // return ROT.Color.hsl2rgb(hsl1);
+        return hsl1
+    };
+    this.makeColours = function(props) {
+        if (!props) var props = {}
+        var minWavelength = props.minWavelength || this.wavelengthRanges[0].wavelengthRange.min || 280
+        var maxWavelength = props.maxWavelength || this.wavelengthRanges[this.wavelengthRanges.length - 1].wavelengthRange.max || 820
+        var firstColourRgb = [this.wavelengthRanges[0].rgbObj.r, this.wavelengthRanges[0].rgbObj.g, this.wavelengthRanges[0].rgbObj.b]
+        var secondColourRgb = [this.wavelengthRanges[this.wavelengthRanges.length - 1].rgbObj.r, this.wavelengthRanges[this.wavelengthRanges.length - 1].rgbObj.g, this.wavelengthRanges[this.wavelengthRanges.length - 1].rgbObj.b]
+        var totalWavelengths = (maxWavelength - minWavelength)
+        var factorStep = 1 / totalWavelengths
+        for (var wavelength = minWavelength; wavelength < maxWavelength; wavelength++) {
+            var index = wavelength - minWavelength
+            var rgb = ROT.Color.interpolateHSL(firstColourRgb, secondColourRgb, (factorStep + (factorStep * index)))
+            var curWavelength = wavelength
+            for (var colour = 0; colour < this.wavelengthRanges.length; colour++) {
+                if (this.wavelengthRanges[colour].wavelengthRange.min <= curWavelength && curWavelength < this.wavelengthRanges[colour].wavelengthRange.max) {
+                    var rgbObj = { r: rgb[0], g: rgb[1], b: rgb[2] }
+                    this.wavelengthColourCodes['nm' + curWavelength] = { curWavelength: curWavelength, colour: this.wavelengthRanges[colour].colour, rgb: rgb, rgbObj: rgbObj, rgbString: 'rgba(' + rgbObj.r + ',' + rgbObj.g + ',' + rgbObj.b + ',1)' }
+                }
+            }
+        }
+        for (var colourIter = 0; colourIter < this.customColours.length; colourIter++) {
+            this.wavelengthColourCodes[this.customColours[colourIter].wavelength] = this.customColours[colourIter]
+        }
+    }
+    this.makeColours()
+    this.getColour = function(wavelength) {
+        for (var colour = 0; colour < this.wavelengthRanges.length; colour++) {
+            if (this.wavelengthRanges[colour].wavelengthRange.min <= wavelength && wavelength < this.wavelengthRanges[colour].wavelengthRange.max) {
+                return this.wavelengthRanges[colour].colour
+            }
+        }
+    }
+    this.getColourCode = function(wavelength) {
+        for (var wavelength = 0; wavelength < this.wavelengthColourCodes.length; wavelength++) {
+            if (wavelength == this.wavelengthColourCodes[wavelength].wavelength) {
+                if (typeof wavelength == 'Number') {
+                    if (wavelength < 1000) {
+                        wavelength = 'nm' + wavelength
+                    } else if (wavelength > 1000) {
+                        wavelength = 'k' + wavelength
+                    }
+                }
+                return this.wavelengthColourCodes[wavelength].rgbString
+            }
+        }
     }
 }
 
@@ -406,8 +584,6 @@ function Growroom(props, opts) {
     this.unit = opts.unit || props.unit || "m"
     this.mongoId = opts.mongoId || props.mongoId
     this.minPxWidth = opts.minPxWidth || props.minPxWidth
-    console.log("grow tent minPxWidth")
-    console.log(this.minPxWidth)
     if (props.object) jsonConcat(this.object, props.object)
     if (opts.object) jsonConcat(this.object, opts.object)
     this.object = new Cube({
@@ -427,8 +603,6 @@ function Growroom(props, opts) {
             z: 0
         }
     })
-    console.log("grow tent object")
-    console.log(this.object)
     this.dimensions = {
         width: {
             dimension: 'width',
@@ -462,86 +636,88 @@ function Growroom(props, opts) {
     }
     this.renderDimensionLabels = function(props) {
         if (props.dimensions == '3d') {
-            for (dimension in this.dimensions) {
-                if (this.dimensions[dimension].dimension == 'width') {
-                    var dimensionLabel = new Cube({
-                        type: '2d',
-                        height: 0,
-                        width: 20,
-                        depth: 0,
-                        unit: "cm",
-                        class: this.class + "DimensionLabel",
-                        id: this.uuid + "labelFor" + this.dimensions[dimension].dimension,
-                        group: {
-                            class: "dimensionLabels",
-                            id: this.uuid + "dimensionLabels"
-                        },
-                        parent: this.object,
-                        position: {
-                            x: ((this.object.width / this.object.unitScale) / 2) + ((this.object.width / this.object.unitScale) / 9),
-                            y: 0.005,
-                            z: 0,
-                            unit: "m",
-                            // type: 'center'
-                        }
-                    })
-                    this.labels.push(dimensionLabel)
-                    var str = '<div class="dimensionLabel"><div>' + this.dimensions[dimension].dimension + ': </div><div>' + this.object.width + '' + this.object.unit + '</div></div></div>'
-                    $('#' + this.scene.id + ' #' + dimensionLabel.id).append(str)
-                } else if (this.dimensions[dimension].dimension == 'depth') {
-                    var dimensionLabel = new Cube({
-                        type: '2d',
-                        height: 20,
-                        width: 80,
-                        depth: 2,
-                        unit: "cm",
-                        class: this.class + "DimensionLabel",
-                        id: this.uuid + "labelFor" + this.dimensions[dimension].dimension,
-                        group: {
-                            class: "dimensionLabels",
-                            id: this.uuid + "dimensionLabels"
-                        },
-                        parent: this.object,
-                        position: {
-                            x: 0,
-                            y: 0.005,
-                            z: (this.object.depth / this.object.unitScale) / 2,
-                            unit: "m",
-                            // type: 'center'
-                        }
-                    })
-                    this.labels.push(dimensionLabel)
-                    var str = '<div class="dimensionLabel"><div>' + this.dimensions[dimension].dimension + ': </div><div>' + this.object.depth + '' + this.object.unit + '</div></div></div>'
-                    $('#' + this.scene.id + ' #' + dimensionLabel.id).append(str)
+            for (prop in this.dimensions) {
+                if (this.dimensions.hasOwnProperty(prop)) {
+                    if (this.dimensions[prop].dimension == 'width') {
+                        var dimensionLabel = new Cube({
+                            type: '2d',
+                            height: 0,
+                            width: 20,
+                            depth: 0,
+                            unit: "cm",
+                            class: this.class + "DimensionLabel",
+                            id: this.uuid + "labelFor" + this.dimensions[prop].dimension,
+                            group: {
+                                class: "dimensionLabels",
+                                id: this.uuid + "dimensionLabels"
+                            },
+                            parent: this.object,
+                            position: {
+                                x: ((this.object.width / this.object.unitScale) / 2) + ((this.object.width / this.object.unitScale) / 9),
+                                y: 0.005,
+                                z: 0,
+                                unit: "m",
+                                // type: 'center'
+                            }
+                        })
+                        this.labels.push(dimensionLabel)
+                        var str = '<div class="dimensionLabel"><div>' + this.dimensions[prop].dimension + ': </div><div>' + this.object.width + '' + this.object.unit + '</div></div></div>'
+                        $('#' + this.scene.id + ' #' + dimensionLabel.id).append(str)
+                    } else if (this.dimensions[prop].dimension == 'depth') {
+                        var dimensionLabel = new Cube({
+                            type: '2d',
+                            height: 20,
+                            width: 80,
+                            depth: 2,
+                            unit: "cm",
+                            class: this.class + "DimensionLabel",
+                            id: this.uuid + "labelFor" + this.dimensions[prop].dimension,
+                            group: {
+                                class: "dimensionLabels",
+                                id: this.uuid + "dimensionLabels"
+                            },
+                            parent: this.object,
+                            position: {
+                                x: 0,
+                                y: 0.005,
+                                z: (this.object.depth / this.object.unitScale) / 2,
+                                unit: "m",
+                                // type: 'center'
+                            }
+                        })
+                        this.labels.push(dimensionLabel)
+                        var str = '<div class="dimensionLabel"><div>' + this.dimensions[prop].dimension + ': </div><div>' + this.object.depth + '' + this.object.unit + '</div></div></div>'
+                        $('#' + this.scene.id + ' #' + dimensionLabel.id).append(str)
 
 
-                } else if (this.dimensions[dimension].dimension == 'height') {
-                    var dimensionLabel = new Cube({
-                        type: '2d',
-                        height: 20,
-                        width: 80,
-                        depth: 2,
-                        unit: "cm",
-                        class: this.class + "DimensionLabel",
-                        id: this.uuid + "labelFor" + this.dimensions[dimension].dimension,
-                        group: {
-                            class: "dimensionLabels",
-                            id: this.uuid + "dimensionLabels"
-                        },
-                        parent: this.object,
-                        position: {
-                            x: 0,
-                            y: (this.object.height / this.object.unitScale) / 2,
-                            z: 0,
-                            unit: "m",
-                            // type: 'center'
-                        }
-                    })
-                    this.labels.push(dimensionLabel)
-                    var str = '<div class="dimensionLabel"><div>' + this.dimensions[dimension].dimension + ': </div><div>' + this.object.height + '' + this.object.unit + '</div></div></div>'
-                    $('#' + this.scene.id + ' #' + dimensionLabel.id).append(str)
+                    } else if (this.dimensions[prop].dimension == 'height') {
+                        var dimensionLabel = new Cube({
+                            type: '2d',
+                            height: 20,
+                            width: 80,
+                            depth: 2,
+                            unit: "cm",
+                            class: this.class + "DimensionLabel",
+                            id: this.uuid + "labelFor" + this.dimensions[prop].dimension,
+                            group: {
+                                class: "dimensionLabels",
+                                id: this.uuid + "dimensionLabels"
+                            },
+                            parent: this.object,
+                            position: {
+                                x: 0,
+                                y: (this.object.height / this.object.unitScale) / 2,
+                                z: 0,
+                                unit: "m",
+                                // type: 'center'
+                            }
+                        })
+                        this.labels.push(dimensionLabel)
+                        var str = '<div class="dimensionLabel"><div>' + this.dimensions[prop].dimension + ': </div><div>' + this.object.height + '' + this.object.unit + '</div></div></div>'
+                        $('#' + this.scene.id + ' #' + dimensionLabel.id).append(str)
 
 
+                    }
                 }
             }
         }
@@ -920,128 +1096,6 @@ function GrowLight(props, opts) {
             }
         }
     }
-    this.switchSpectrum = function(props) {
-        if (props) {
-            var mode = props.mode
-            on = props.on
-            if (props.modes !== "all") {
-                for (mode in this.modes) {
-                    this.modes[mode] = false
-                }
-                for (mode in props.modes) {
-                    this.modes[mode] = true
-                }
-            } else {
-                for (mode in this.modes) {
-                    this.modes[mode] = true
-                }
-            }
-        } else {
-            var props = {}
-        }
-        if (this.light) {
-            var totalPercent = 0
-            edgeOffset = 2
-            filled = 0
-            emitWidth = this.width - edgeOffset
-            this.hangHeight = this.hangHeight || props.hangHeight || this.wattage / 6 || 60
-            highestPercentage = 0
-            for (wavelength in this.spectrum) {
-                var totalWavelengthPercent = 0
-                if (this.spectrum[wavelength].modes) {
-                    for (modeCount in this.spectrum[wavelength].modes) {
-                        if (this.modes[this.spectrum[wavelength].modes[modeCount].title]) {
-                            if (totalWavelengthPercent + this.spectrum[wavelength].modes[modeCount].percent !== 'auto') {
-                                if ((totalWavelengthPercent + this.spectrum[wavelength].modes[modeCount].percent) <= this.spectrum[wavelength].percent) {
-                                    totalWavelengthPercent += this.spectrum[wavelength].modes[modeCount].percent
-                                    totalPercent += this.spectrum[wavelength].modes[modeCount].percent
-
-                                }
-                                if (totalWavelengthPercent > highestPercentage) {
-                                    highestPercentage = totalWavelengthPercent
-                                }
-                            }
-
-                        }
-                    }
-                } else {
-                    totalPercent = 1
-                    highestPercentage = totalPercent / this.spectrum.length
-                }
-
-            }
-            this.spectrum.forEach((wavelength, index) => {
-                    var nm = wavelength.wavelength || wavelength.temperature
-                    var lensAngle = wavelength.lensAngle || this.lensAngle || props.lensAngle || 120
-                    pointsStr = ''
-                    percent = 0
-                        // Quickly sum up the percentage contribution of all "modes" of this wavelength
-                    if (wavelength.modes) {
-                        for (modeCount in wavelength.modes) {
-                            if (this.modes[wavelength.modes[modeCount].title]) {
-                                if ((percent + wavelength.modes[modeCount].percent) <= wavelength.percent) {
-                                    percent += wavelength.modes[modeCount].percent
-                                }
-                            }
-                        }
-                    } else {
-                        if (wavelength.percent !== 'auto') {
-                            percent = 1 / this.spectrum.length
-                        } else {
-                            percent = wavelength.percent
-                        }
-                    }
-                    if (totalPercent == 0) {
-                        this.light.children[index].svg.points[2].x = this.light.children[index].svg.points[1].x / 4 * 3
-                        this.light.children[index].svg.points[2].y = 0
-                        this.light.children[index].svg.points[3].x = this.light.children[index].svg.points[1].x / 4
-                        this.light.children[index].svg.points[3].y = 0
-                        var points = this.light.children[index].svg.points
-                    } else {
-                        var points = [
-                            { x: 0, y: 0 },
-                            { x: ((emitWidth) * (percent / totalPercent)), y: 0 },
-                            { x: (emitWidth * (percent / totalPercent)) + (Math.tan(d2r(lensAngle / 2)) * this.hangHeight), y: this.hangHeight },
-                            { x: (Math.tan(d2r(lensAngle / 2)) * this.hangHeight) * -1, y: this.hangHeight },
-                        ]
-                        this.light.children[index].svg.points = points
-                        this.light.children[index].moveTo({
-                            x: (emitWidth * filled)
-                        })
-                    }
-                    for (point in points) {
-                        pointsStr += Math.floor((points[point].x / this.object.unitScale) * this.object.scene.pxr) + ',' + Math.floor((points[point].y / this.object.unitScale) * this.object.scene.pxr) + ' '
-                    }
-                    var ourPolygon = d3.select(this.light.children[index].svg.elem.polygon.get(0))
-                    ourPolygon
-                        .transition()
-                        .duration(700)
-                        .attr('points', pointsStr)
-                    var percentElement = d3.select($("#" + this.light.children[index].id + " .wavelengthLabelObj .percent").get(0))
-                    percentElement.html(((percent / totalPercent) * 100).toFixed(1))
-                    var wattagePercentElement = d3.select($("#" + this.light.children[index].id + " .wavelengthLabelObj .wattagePercent").get(0))
-                    wattagePercentElement.html(((percent) * this.wattage).toFixed(1))
-                        // .style('opacity', percent / highestPercentage)
-                        // if (totalPercent == 0) {
-                        //     ourPolygon
-                        //         .transition()
-                        //         .duration(1000)
-                        //         .attr('opacity', 0)
-                        // }
-
-                    filled += percent / totalPercent
-                })
-                // if (this.labels.indexOf("wattage") >= 0) {
-
-
-            //
-            d3.select($("#" + this.object.id + " .light-label.wattageFormatted .labelValue").get(0))
-                .html(Math.round(this.wattage * totalPercent) + "W")
-
-            // }
-
-        }
-    }
     this.fillLedData = function() {
         if (this.leds) {
             if (this.leds.layout.unit == "m") {
@@ -1118,9 +1172,9 @@ function GrowLight(props, opts) {
             coverageUnit = props.unit || this.unit
             if (props.dimension) {
                 if (props.dimension == 'x') {
-                    return (this.width / (lopu3d.ai.unitScale(this.unit)) + ((Math.atan(d2r(lensAngle / 2)) * hangHeight) / lopu3d.ai.unitScale(coverageUnit)) * 2) * lopu3d.ai.unitScale(coverageUnit)
+                    return (this.width / (l3.ai.unitScale(this.unit)) + ((Math.atan(d2r(lensAngle / 2)) * hangHeight) / l3.ai.unitScale(coverageUnit)) * 2) * l3.ai.unitScale(coverageUnit)
                 } else if (props.dimension == 'z') {
-                    return (this.depth / (lopu3d.ai.unitScale(this.unit)) + ((Math.atan(d2r(lensAngle / 2)) * hangHeight) / lopu3d.ai.unitScale(coverageUnit)) * 2) * lopu3d.ai.unitScale(coverageUnit)
+                    return (this.depth / (l3.ai.unitScale(this.unit)) + ((Math.atan(d2r(lensAngle / 2)) * hangHeight) / l3.ai.unitScale(coverageUnit)) * 2) * l3.ai.unitScale(coverageUnit)
                 } else {
                     return (Math.atan(d2r(lensAngle / 2)) * hangHeight) * 2
                 }
@@ -1136,7 +1190,7 @@ function GrowLight(props, opts) {
             depth: props.depth || this.depth,
             unit: props.unit || this.unit,
             render: props.render || this.render,
-            ratio: this.object.ratio || props.ratio || this.ratio || this.scene.ratio,
+            ratio: props.ratio || this.object.ratio || this.ratio || this.scene.ratio,
             id: uuidv4(),
             scene: props.scene || this.scene,
             position: props.position || this.position,
@@ -1161,7 +1215,7 @@ function GrowLight(props, opts) {
         this.position = this.object.position
     }
     this.renderLabels = function(labels) {
-        for (label in labels) {
+        labels.forEach((labelObj, label) => {
             var value
             if (typeof(this[labels[label]]) == 'function') {
                 value = '<div class="labelValue">' + this[labels[label]]() + '</div>'
@@ -1267,14 +1321,14 @@ function GrowLight(props, opts) {
                 }
                 this.object.labels.push(labelToPush)
             }
-        }
+        })
 
     }
 
     this.renderSwitches = function(modes) {
         var modes = modes || this.modes
         this.modes = []
-        for (mode in modes) {
+        modes.forEach((modeObj, mode) => {
             this.switches.push(
                 new Cube({
                     width: 12,
@@ -1302,43 +1356,37 @@ function GrowLight(props, opts) {
                 e.data.obj.modes[mode] = !e.target.control.checked
                 e.data.obj.switchSpectrum()
             })
-        }
+        })
 
     }
     this.renderLight = function(props) {
         if (!props) var props = {}
-        var edgeOffset = 2
+        this.light = {}
+        this.lightEdgeOffset = 2
+        edgeOffset = this.lightEdgeOffset
         filled = 0
         emitWidth = this.width - edgeOffset
         this.hangHeight = props.hangHeight || this.hangHeight || this.wattage / 6 || 60
-        this.light = new Cube({
-            sides: [],
-            height: this.hangHeight,
-            width: emitWidth,
-            unit: this.unit,
-            group: {
-                id: this.uuid + 'growLight-container',
-                class: 'growLight-container'
-            },
-            id: uuidv4(),
-            parent: this.object.parent,
-            position: this.object.position || props.position,
-            scene: this.object.scene,
-            class: 'light',
-            type: '2d',
-            sizeSelf: true
-        })
-        var zIndex = 14
+            // var totalCoverage = ((Math.sqrt(Math.pow(Math.tan(d2r(lensAngle / 2)), 2)) * this.hangHeight) * 2) + emitWidth
+        var zIndex = props.zIndex || 14
         var center = true
+        var paths = []
+        var backBoostPaths = []
+        var maxLensAngle = 0
+        this.spectrum.forEach((wavelength, index) => {
+            if (wavelength.lensAngle > maxLensAngle) maxLensAngle = wavelength.lensAngle
+        })
+        this.light.totalWidth = ((Math.sqrt(Math.pow(Math.tan(d2r(maxLensAngle / 2)), 2)) * this.hangHeight) * 2) + emitWidth
+        var totalWidth = this.light.totalWidth
+        this.light.offsetWidth = (totalWidth - emitWidth) / 2
+        var offsetWidth = this.light.offsetWidth
         this.spectrum.forEach((wavelengthIter, index) => {
             var wavelength = wavelengthIter
             var nm = wavelength.wavelength || wavelength.temperature
-            if (typeof(nm) == 'number') {
-                nm = 'nm' + nm
-            } else if (nm.indexOf('k') > -1) {
-                nm = 'k' + nm
-            }
             var lensAngle = props.lensAngle || wavelength.lensAngle || this.lensAngle || 120
+            var lightOpacity = wavelength.lightOpacity || 0.6
+            var addedClass = ''
+            var rgb = [200, 200, 200]
             if (wavelength.percent !== 'auto') {
                 var percent = wavelength.percent
             } else if (wavelength.percent == 'auto') {
@@ -1350,105 +1398,352 @@ function GrowLight(props, opts) {
                 } else if ((index + 1) >= (this.spectrum.length / 2)) {
                     if (center == true) {
                         zIndex = zIndex + 1
+                        var pathComposite = 'source-over'
                         center = false
                     } else {
                         zIndex = zIndex - 1
+                        var pathComposite = 'destination-over'
                     }
+                }
+            } else {
+                zIndex++
+            }
+            if (nm < 1000) {
+                nm = 'nm' + nm
+                if (grow.ai.wavelengthColourCodes[nm]) {
+                    rgb = grow.ai.wavelengthColourCodes[nm].rgbObj
+                    var rgbString = 'rgba(' + rgb.r + ',' + rgb.g + ',' + rgb.b + ',' + lightOpacity + ')'
+                }
+
+            } else if (nm > 1000) {
+                nm = 'k' + nm
+                if (grow.ai.wavelengthColourCodes[nm]) {
+                    rgb = grow.ai.wavelengthColourCodes[nm].rgbObj
+                    var rgbString = 'rgba(' + rgb.r + ',' + rgb.g + ',' + rgb.b + ',' + lightOpacity + ')'
+                }
+            } else {
+                if (grow.ai.wavelengthColourCodes[nm]) {
+                    rgb = grow.ai.wavelengthColourCodes[nm].rgbObj
+                    var rgbString = 'rgba(' + rgb.r + ',' + rgb.g + ',' + rgb.b + ',' + lightOpacity + ')'
+                } else {
+                    var rgbString = 'rgba(' + rgb.r + ',' + rgb.g + ',' + rgb.b + ',' + lightOpacity + ')'
                 }
             }
-            var addedClass = ''
-            if (this.backBoost) addedClass = ' backBoosted'
-            wavelength.object = new Cube({
-                parent: this.light,
-                unit: this.light.unit,
-                height: this.hangHeight,
-                class: 'wavelengthObject ' + nm + addedClass,
-                id: uuidv4() + 'wavelength',
-                type: 'svg',
-                zIndex: zIndex,
-                svg: {
-                    class: 'wavelength ' + nm,
-                    points: [
-                        { x: 0, y: 0 },
-                        { x: ((emitWidth) * percent), y: 0 },
-                        { x: (emitWidth * percent) + (Math.sqrt(Math.pow(Math.tan(d2r(lensAngle / 2)), 2)) * this.hangHeight), y: this.hangHeight },
-                        { x: (Math.sqrt(Math.pow(Math.tan(d2r(lensAngle / 2)), 2)) * this.hangHeight) * -1, y: this.hangHeight },
-                    ]
-                },
-                position: {
-                    x: ((emitWidth) * filled),
-                    y: 0,
-                    z: 0,
-                    unit: this.unit
-                }
-            })
             if (this.backBoost) {
-                wavelength.object = new Cube({
-                    parent: this.light,
-                    unit: this.light.unit,
-                    height: this.hangHeight,
-                    class: 'wavelengthObject backBoost ' + nm,
-                    id: uuidv4() + 'wavelength',
-                    type: 'svg',
-                    zIndex: zIndex - 10,
-                    svg: {
-                        class: 'wavelength ' + nm,
-                        points: [
-                            { x: 0, y: 0 },
-                            { x: ((emitWidth) * percent), y: 0 },
-                            { x: (emitWidth * percent) + (Math.sqrt(Math.pow(Math.tan(d2r(lensAngle / 2)), 2)) * this.hangHeight), y: this.hangHeight },
-                            { x: (Math.sqrt(Math.pow(Math.tan(d2r(lensAngle / 2)), 2)) * this.hangHeight) * -1, y: this.hangHeight },
-                        ]
-                    },
-                    position: {
-                        x: ((emitWidth) * filled),
-                        y: 0,
-                        z: 0,
-                        unit: this.unit
-                    }
+                addedClass = ' backBoosted'
+                var backBoostRgbString = rgbString.replace(/,.{3}\)/, ',0.6)')
+                backBoostPaths.push({
+                    points: [
+                        { x: offsetWidth + (emitWidth * filled), y: 0 },
+                        { x: offsetWidth + (emitWidth * filled) + ((emitWidth) * percent), y: 0 },
+                        { x: offsetWidth + (emitWidth * filled) + ((emitWidth * percent) + (Math.sqrt(Math.pow(Math.tan(d2r(lensAngle / 2)), 2)) * this.hangHeight)), y: this.hangHeight },
+                        { x: offsetWidth + (emitWidth * filled) + ((Math.sqrt(Math.pow(Math.tan(d2r(lensAngle / 2)), 2)) * this.hangHeight) * -1), y: this.hangHeight }
+                    ],
+                    fillStyle: backBoostRgbString,
+                    composite: 'destination-over',
+                    zIndex: 13,
+                    countOnHover: false,
+                    wavelength: nm,
+                    id: uuidv4()
                 })
             }
+
+            paths.push({
+                points: [
+                    { x: offsetWidth + (emitWidth * filled), y: 0 },
+                    { x: offsetWidth + (emitWidth * filled) + ((emitWidth) * percent), y: 0 },
+                    { x: offsetWidth + (emitWidth * filled) + ((emitWidth * percent) + (Math.sqrt(Math.pow(Math.tan(d2r(lensAngle / 2)), 2)) * this.hangHeight)), y: this.hangHeight },
+                    { x: offsetWidth + (emitWidth * filled) + ((Math.sqrt(Math.pow(Math.tan(d2r(lensAngle / 2)), 2)) * this.hangHeight) * -1), y: this.hangHeight }
+                ],
+                fillStyle: rgbString,
+                composite: pathComposite,
+                zIndex: zIndex,
+                countOnHover: true,
+                wavelength: nm,
+                id: uuidv4()
+
+            })
             filled += (percent)
         })
-        this.spectrum.forEach((wavelength, index) => {
-            if (wavelength.wavelength) {
-                if (typeof(wavelength.wavelength) == 'number') {
-                    var wavelengthValue = wavelength.wavelength + "nm"
-                } else {
-                    var wavelengthValue = wavelength.wavelength
-                }
-                var type = 'Wavelength'
+        if (this.backBoost) { backBoostPaths.forEach(path => { paths.push(path) }) }
+        this.light.object = new Cube({
+            sides: [],
+            height: this.hangHeight,
+            width: emitWidth,
+            unit: this.unit,
+            group: {
+                id: this.uuid + 'growLight-container',
+                class: 'growLight-container'
+            },
+            id: uuidv4(),
+            parent: this.object.parent,
+            position: this.width / 2,
+            scene: this.object.scene,
+            class: 'light',
+            type: 'canvas',
+            canvas: {
+                type: 'polygons',
+                paths: paths,
+                size: {
+                    width: true,
+                    height: true
+                },
+                width: totalWidth
+            }
+        })
+        var light = this.light
 
-            } else if (wavelength.temperature) {
-                var wavelengthValue = wavelength.temperature
-                var type = 'Temperature'
+        function showWavelengthLabel(e) {
+            var mouseX = parseInt(e.offsetX)
+            var mouseY = parseInt(e.offsetY)
+            var hoveredPath = l3.ai.findCurrentPath({ mouse: { x: mouseX, y: mouseY }, paths: light.object.canvas.paths })
+            if (hoveredPath) {
+                var elem = $("#" + light.object.id + ' .' + hoveredPath.wavelength)
+                elem.css('opacity', 1)
+                for (path in light.object.canvas.paths) {
+                    var paths = light.object.canvas.paths
+                    if (paths.hasOwnProperty(path)) {
+                        var curPath = paths[path]
+                        if (curPath.id !== hoveredPath.id) {
+                            var tmpElem = $("#" + light.object.id + ' .' + curPath.wavelength)
+                            tmpElem.css('opacity', 0)
+                        }
+                    }
+                }
+            } else {
+                setTimeout(
+                    () => {
+                        for (path in light.object.canvas.paths) {
+                            var paths = light.object.canvas.paths
+                            if (paths.hasOwnProperty(path)) {
+                                var curPath = paths[path]
+                                var tmpElem = $("#" + light.object.id + ' .' + curPath.wavelength)
+                                tmpElem.css('opacity', 0)
+                            }
+                        }
+                    }, 300
+                )
+            }
+        }
+        this.light.object.canvas.canvas.onmousemove = showWavelengthLabel
+
+        var filled = 0
+        this.spectrum.forEach((wavelength, index) => {
+            var nm = wavelength.wavelength || wavelength.temperature
+            var origNm = nm
+            var type = l3.propToString(wavelength, nm)
+            if (nm < 1000) {
+                nm = 'nm' + nm
+                origNm = origNm + 'nm'
+            } else if (nm > 1000) {
+                nm = 'k' + nm
+                origNm = origNm + 'k'
             }
             if (wavelength.percent !== 'auto') {
                 var percent = wavelength.percent
             } else if (wavelength.percent == 'auto') {
                 var percent = 1 / this.spectrum.length
             }
-            var str = '<div class="wavelengthLabel">  <span class="valueLabel">' + type + ': </span><span class="value wavelength">' + wavelengthValue + ' </span> </div><div class="wavelengthLabel"> <span class="value percent"> ' + (percent * 100).toFixed(1) + '</span><span class="valueLabel">%</span>  </div> <div class="wavelengthLabel"> <span class="value wattagePercent"> ' + ((percent) * this.wattage).toFixed(1) + '</span><span class="valueLabel">W</span>  </div>'
-            wavelength.object.children.push(
-                new Cube({
-                    sides: [],
-                    id: uuidv4(),
-                    class: 'wavelengthLabelObj',
-                    width: 25,
-                    height: 15,
-                    unit: "cm",
-                    parent: wavelength.object,
-                    position: {
-                        z: -5,
-                        y: (this.hangHeight) - 21,
-                        x: -(emitWidth * wavelength.percent) / 2
-                    },
-                    data: {
-                        text: str
-                    }
-                })
-            )
+            var str = '<div class="wavelengthLabel">  <span class="valueLabel">' + type + ': </span><span class="value wavelength">' + origNm + ' </span> </div><div class="wavelengthLabel"> <span class="value percent"> ' + (percent * 100).toFixed(1) + '</span><span class="valueLabel">%</span>  </div> <div class="wavelengthLabel"> <span class="value wattagePercent"> ' + ((percent) * this.wattage).toFixed(1) + '</span><span class="valueLabel">W</span>  </div>'
+            new Cube({
+                id: uuidv4(),
+                class: 'wavelengthLabelObj ' + nm,
+                parent: this.light.object,
+                sides: [],
+                unit: 'cm',
+                position: {
+                    x: (filled * emitWidth) + ((this.object.width - emitWidth) / 2) + ((emitWidth * wavelength.percent) / 2)
+                },
+                group: {
+                    class: 'spectrumLabels',
+                    id: this.light.object.id + 'spectrumLabels'
+                },
+                data: {
+                    text: str
+                }
+            })
+            filled = filled + wavelength.percent
         })
+    }
+    this.switchSpectrum = function(props) {
+        if (props) {
+            var mode = props.mode
+            on = props.on
+            if (props.modes !== "all") {
+                this.modes.forEach((modeObj, index) => {
+                    this.modes[mode] = false
+                })
+                props.modes.forEach((modeObj, index) => {
+                    this.modes[mode] = true
+                })
+            } else {
+                this.modes.forEach((modeObj, index) => {
+                    this.modes[mode] = true
+                })
+            }
+        } else {
+            var props = {}
+        }
+        if (this.light) {
+            var totalPercent = 0
+            edgeOffset = this.lightEdgeOffset
+            filled = 0
+            emitWidth = this.width - edgeOffset
+            this.hangHeight = this.hangHeight || props.hangHeight || this.wattage / 6 || 60
+            highestPercentage = 0
+            this.spectrum.forEach((wavelengthObj, wavelength) => {
+                var totalWavelengthPercent = 0
+                if (this.spectrum[wavelength].modes) {
+                    this.spectrum[wavelength].modes.forEach((modeObj, modeCount) => {
+                        if (this.modes[this.spectrum[wavelength].modes[modeCount].title]) {
+                            if (totalWavelengthPercent + this.spectrum[wavelength].modes[modeCount].percent !== 'auto') {
+                                if ((totalWavelengthPercent + this.spectrum[wavelength].modes[modeCount].percent) <= this.spectrum[wavelength].percent) {
+                                    totalWavelengthPercent += this.spectrum[wavelength].modes[modeCount].percent
+                                    totalPercent += this.spectrum[wavelength].modes[modeCount].percent
+
+                                }
+                                if (totalWavelengthPercent > highestPercentage) {
+                                    highestPercentage = totalWavelengthPercent
+                                }
+                            }
+
+                        }
+                    })
+                } else {
+                    totalPercent = 1
+                    highestPercentage = totalPercent / this.spectrum.length
+                }
+            })
+            var newPaths = []
+            if (totalPercent == 0) {
+                if (this.light.object.canvas.paths) {
+                    this.light.object.canvas.paths.forEach((path, index) => {
+                        var newPath = {}
+                        jsonConcat(newPath, path)
+                        newPath.points = [
+                            { x: path.points[0].x, y: path.points[0].y },
+                            { x: path.points[1].x, y: path.points[1].y },
+                            { x: path.points[1].x - ((path.points[1].x - path.points[0].x) / 1.5), y: 0 },
+                            { x: path.points[1].x - ((path.points[1].x - path.points[0].x) / 2.5), y: 0 }
+                        ]
+
+                        newPaths.push(newPath)
+                    })
+                }
+            } else {
+                var allNewPoints = []
+                this.spectrum.forEach((wavelength, index) => {
+                    if (this.backBoost) addedClass = ' backBoosted'
+                    var lensAngle = wavelength.lensAngle
+                    var rgb = [200, 200, 200]
+                    var nm = wavelength.wavelength || wavelength.temperature
+                    var addedClass = ''
+                    var lightOpacity = wavelength.lightOpacity
+                    var lensAngle = wavelength.lensAngle || this.lensAngle || props.lensAngle || 120
+                    var pointsStr = ''
+                    var percent = 0
+                    if (nm < 1000) {
+                        nm = 'nm' + nm
+                        if (grow.ai.wavelengthColourCodes[nm]) {
+                            rgb = grow.ai.wavelengthColourCodes[nm].rgbObj
+                            var rgbString = 'rgba(' + rgb.r + ',' + rgb.g + ',' + rgb.b + ',' + lightOpacity + ')'
+                        }
+
+                    } else if (nm > 1000) {
+                        nm = 'k' + nm
+                        if (grow.ai.wavelengthColourCodes[nm]) {
+                            rgb = grow.ai.wavelengthColourCodes[nm].rgbObj
+                            var rgbString = 'rgba(' + rgb.r + ',' + rgb.g + ',' + rgb.b + ',' + lightOpacity + ')'
+                        }
+                    } else {
+                        if (grow.ai.wavelengthColourCodes[nm]) {
+                            rgb = grow.ai.wavelengthColourCodes[nm].rgbObj
+                            var rgbString = 'rgba(' + rgb.r + ',' + rgb.g + ',' + rgb.b + ',' + lightOpacity + ')'
+                        } else {
+                            var rgbString = 'rgba(' + rgb.r + ',' + rgb.g + ',' + rgb.b + ',' + lightOpacity + ')'
+                        }
+                    }
+                    // Quickly sum up the percentage contribution of all "modes" of this wavelength
+                    if (wavelength.modes) {
+                        wavelength.modes.forEach((modeObj, modeCount) => {
+                            if (this.modes[wavelength.modes[modeCount].title]) {
+                                if ((percent + wavelength.modes[modeCount].percent) <= wavelength.percent) {
+                                    percent += wavelength.modes[modeCount].percent
+                                }
+                            }
+                        })
+                    } else {
+                        if (wavelength.percent !== 'auto') {
+                            percent = 1 / this.spectrum.length
+                        } else {
+                            percent = wavelength.percent
+                        }
+                    }
+                    var newPoints = [
+                        { x: this.light.offsetWidth + (emitWidth * filled), y: 0 },
+                        { x: this.light.offsetWidth + (emitWidth * filled) + ((emitWidth) * (percent / totalPercent)), y: 0 },
+                        { x: this.light.offsetWidth + (emitWidth * filled) + ((emitWidth * (percent / totalPercent)) + (Math.tan(d2r(lensAngle / 2)) * this.hangHeight)), y: this.hangHeight },
+                        { x: this.light.offsetWidth + (emitWidth * filled) + ((Math.tan(d2r(lensAngle / 2)) * this.hangHeight) * -1), y: this.hangHeight },
+                    ]
+
+                    allNewPoints.push(newPoints)
+                    var percentElement = d3.select($("#" + this.light.object.children[index].id + " .percent").get(0))
+                    percentElement.html(((percent / totalPercent) * 100).toFixed(1))
+                    var wattagePercentElement = d3.select($("#" + this.light.object.children[index].id + " .wattagePercent").get(0))
+                    wattagePercentElement.html(((percent) * this.wattage).toFixed(1))
+
+                    filled += (percent / totalPercent)
+                })
+                if (this.backBoost) {
+                    allNewPoints.forEach(point => {
+                        allNewPoints.push(point)
+                    })
+                }
+                this.light.object.canvas.paths.forEach((path, pathIndex) => {
+                    var newPath = {}
+                    jsonConcat(newPath, path)
+                    newPath.points = allNewPoints[pathIndex]
+                    newPaths.push(newPath)
+                })
+            }
+            if (this.light.object.canvas.paths) {
+                if (totalPercent !== 0) {
+                    this.light.object.redraw({
+                        transition: {
+                            duration: 400,
+                            ease: d3.easeCubic
+                        },
+                        canvas: {
+                            paths: newPaths
+                        }
+                    })
+                } else if (totalPercent == 0) {
+                    this.light.object.redraw({
+                        transition: {
+                            duration: 400,
+                            ease: d3.easeCubic
+                        },
+                        canvas: {
+                            paths: newPaths
+                        }
+                    })
+
+                } else {
+                    this.light.object.redraw({
+                        transition: {
+                            duration: 400,
+                            ease: d3.easeCubic
+                        },
+                        canvas: {
+                            paths: newPaths
+                        }
+                    })
+                }
+            }
+            d3.select($("#" + this.object.id + " .light-label.wattageFormatted .labelValue").get(0))
+                .html(Math.round(this.wattage * totalPercent) + "W")
+
+        }
     }
     this.createCoverageMap = function(props) {
         if (!props) var props = {}
@@ -1595,7 +1890,7 @@ function GrowLight(props, opts) {
                         sides: [],
                         class: 'coverageSquareData',
                         data: {
-                            text: '<div>X: ' + Math.round(curX + (coverageMap.xResolution / 2)) + coverageMap.unit + ' Z: ' + Math.round(curZ + (coverageMap.zResolution / 2)) + coverageMap.unit + '</div><div>Width: ' + Math.round((coverageMap.xResolution)) + coverageMap.unit + ' Depth: ' + Math.round((coverageMap.zResolution)) + coverageMap.unit + '</div><div class="area">' + (area / (lopu3d.ai.unitScale(coverageMap.unit) * 100)).toFixed(2) + 'm<span class="squared">2</span></div><div>Hang Height: ' + this.hangHeight + this.unit + '</div><div>Lumens: ' + lumens + '</div><div class="lux">Lux: ' + lumens + '</div>',
+                            text: '<div>X: ' + Math.round(curX + (coverageMap.xResolution / 2)) + coverageMap.unit + ' Z: ' + Math.round(curZ + (coverageMap.zResolution / 2)) + coverageMap.unit + '</div><div>Width: ' + Math.round((coverageMap.xResolution)) + coverageMap.unit + ' Depth: ' + Math.round((coverageMap.zResolution)) + coverageMap.unit + '</div><div class="area">' + (area / (l3.ai.unitScale(coverageMap.unit) * 100)).toFixed(2) + 'm<span class="squared">2</span></div><div>Hang Height: ' + this.hangHeight + this.unit + '</div><div>Lumens: ' + lumens + '</div><div class="lux">Lux: ' + lumens + '</div>',
                             area: area
                         },
                         position: {
@@ -1647,9 +1942,9 @@ function GrowLight(props, opts) {
                 this.renderObject({
                     sides: ['front', 'bottom', 'left', 'right', 'top', 'back'],
                     type: '3d',
-                    scene: this.scene,
+                    scene: this.scene || this.object.scene,
                     sizeSelf: true,
-                    ratio: props.ratio || this.ratio || this.scene.ratio,
+                    ratio: props.ratio || this.object.ratio || this.ratio || this.scene.ratio,
                     class: 'growLight ' + this.model + ' ' + this.wattage + 'watts',
                     position: {
                         unit: this.unit
@@ -1704,7 +1999,7 @@ function Diode(props) {
         layout: props.layout || props.parent.leds.layout
     }
     jsonConcat(this.position, props.position)
-    this.position.unitScale = lopu3d.ai.unitScale(this.position.unit)
+    this.position.unitScale = l3.ai.unitScale(this.position.unit)
     this.parent = props.parent
     this.id = props.id
     this.number = props.number
@@ -1712,7 +2007,7 @@ function Diode(props) {
     this.height = props.height || 0.002
     this.depth = props.depth || 0.002
     this.unit = props.unit || "m"
-    this.unitScale = lopu3d.ai.unitScale(this.unit)
+    this.unitScale = l3.ai.unitScale(this.unit)
     if (props.render !== false) {
         this.object = props.object || new Cube({
             width: props.width || .002,
@@ -2091,6 +2386,7 @@ function Plant(props) {
 
 // var growlighttt = storage.growlights.add()wLightSchema)
 
+// var growlighttt = storage.growlights.add()
 // var growlighttt = storage.growlights.add()
 // var growlighttt = storage.growlights.add()
 // var growlighttt = storage.growlights.add()

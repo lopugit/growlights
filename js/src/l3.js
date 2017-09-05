@@ -117,11 +117,11 @@ Element.prototype = {
 
 function Cube(props) {
     jsonConcat(this, props)
-    this.id = props.id
-    this.class = props.class
-    this.height = props.height || 0
-    this.width = props.width || 0
-    this.depth = props.depth || 0
+    this.id = props.id || uuidv4()
+    this.class = props.class || 'l3Object'
+    this.height = props.height || 5
+    this.width = props.width || 5
+    this.depth = props.depth || 5
     this.unit = props.unit || "cm"
     this.scene = props.scene || props.parent.scene
     this.ratio = props.ratio || this.scene.ratio || 90
@@ -176,6 +176,7 @@ function Cube(props) {
     this.children = []
     this.type = props.type || '3d'
     this.svg = props.svg
+    this.functions = []
     this.addChild = function(child) {
         this.children.push(child)
     }
@@ -403,9 +404,9 @@ function Cube(props) {
             $("#" + this.scene.id + parentId).append($element)
         }
         if (this.datas) {
-            for (data in this.datas) {
+            this.datas.forEach((dataObj, data) => {
                 $("#" + this.scene.id + parentId + " #" + this.id).attr('data-' + this.datas[data].property, this.datas[data].value)
-            }
+            })
         }
         if (this.type == '2d') {
             if (this.sides.length > 0) {
@@ -449,9 +450,9 @@ function Cube(props) {
             $("#" + this.scene.id + parentId + " #" + this.id).append($svg)
             $("#" + this.scene.id + parentId + " #" + this.id + " #" + $svg[0].id).css(svgCss)
             var pointsStr = ''
-            for (point in this.svg.points) {
+            this.svg.points.forEach((pointObj, point) => {
                 pointsStr += Math.floor((this.svg.points[point].x / this.unitScale) * this.scene.pxr) + ',' + Math.floor((this.svg.points[point].y / this.unitScale) * this.scene.pxr) + ' '
-            }
+            })
             var $polygon = $(SVG('polygon'))
 
             $polygon
@@ -464,8 +465,96 @@ function Cube(props) {
             }
             $("#" + this.scene.id + parentId + " #" + this.id + " #" + $svg[0].id).append($polygon)
 
-        }
+        } else if (this.type == 'canvas') {
+            var canvasParentId = ''
+            var canvasClass = this.canvas.class || ''
+            if (this.canvas && this.canvas.positioner) {
+                canvasParentCss = {}
+                if (this.canvas && this.canvas.size && this.canvas.size.parent) {
+                    if (this.canvas.size.parent.height) {
+                        canvasParentCss.height = (this.height / this.unitScale) * this.scene.pxr
+                    }
+                    if (this.canvas.size.parent.width) {
+                        canvasParentCss.width = (this.width / this.unitScale) * this.scene.pxr
+                    }
+                    if (!this.canvas.size.parent.height && !this.canvas.size.parent.height) {
+                        canvasParentCss.height = (this.height / this.unitScale) * this.scene.pxr
+                    }
+                }
+                var $canvasParent = $('<div>', {
+                    class: canvasClass + 'l3CanvasParent' || 'l3CanvasParent',
+                    id: this.canvas.parentId || uuidv4()
+                })
+                $("#" + this.scene.id + canvasParentId + " #" + this.id).append($canvasParent)
+                $("#" + this.scene.id + canvasParentId + " #" + this.id + " #" + $canvasParent[0].id).css(canvasParentCss)
+                canvasParentId = " #" + $canvasParent[0].id
+            }
+            var $canvas = $('<canvas/>', {
+                class: canvasClass + ' l3canvas',
+                id: this.canvas.id || uuidv4()
+            })
+            this.canvas.elem = {
+                parentElement: $canvasParent,
+                canvas: $canvas
+            }
+            $("#" + this.scene.id + parentId + " #" + this.id + canvasParentId).append($canvas)
+            var canvasCss = {}
+            if (this.canvas && this.canvas.size) {
+                if (this.canvas.size.inherit) {
+                    if (this.canvas.size.height) {
+                        canvasCss.height = (this.height / this.unitScale) * this.scene.pxr
+                    }
+                    if (this.canvas.size.width) {
+                        canvasCss.width = (this.width / this.unitScale) * this.scene.pxr
+                    }
+                } else {
+                    if (this.canvas.size.height) {
+                        canvasCss.height = (this.height / this.unitScale) * this.scene.pxr
+                    }
+                    if (this.canvas.size.width) {
+                        canvasCss.width = (this.canvas.width / this.unitScale) * this.scene.pxr
+                    }
+                }
+            }
+            for (key in canvasCss) {
+                if (canvasCss.hasOwnProperty(key)) {
+                    $("#" + this.scene.id + parentId + " #" + this.id + canvasParentId + " #" + $canvas[0].id)
+                        .attr(key, canvasCss[key])
+                }
+            }
+            // $("#" + this.scene.id + parentId + " #" + this.id + canvasParentId + " #" + $canvas[0].id).css(canvasCss)
 
+            var canvas = $("#" + $canvas[0].id)[0]
+            var canv = canvas.getContext('2d')
+            this.canvas.canvas = canvas
+                // canv.fillStyle = "#80bc18"
+            this.canvas.context = canv
+            if (this.canvas.type == 'polygon') {
+                this.drawPath(this.canvas.points)
+            } else if (this.canvas.type == 'polygons') {
+                if (this.canvas.paths) {
+                    this.canvas.paths.forEach((path, pathIndex) => {
+                        this.drawPath(path)
+                    })
+                }
+            } else if (this.canvas.type == 'rect') {
+                this.canvas.pxRect = this.canvas.pxRect || {}
+            } else if (this.canvas.type == 'rects') {
+                this.canvas.pxRects = this.canvas.pxRects || []
+                if (this.canvas.rects[0].hasOwnProperty('rect')) {
+                    this.canvas.rects.forEach((rectParent, index) => {
+                        this.drawPath(rectParent.rect)
+                    })
+                } else if (this.canvas.rects[0].hasOwnProperty('fillStyle')) {
+
+                }
+            }
+            // canv.translate(0.5, 0.5)
+
+        }
+        if (typeof this.hoverListener == 'function') {
+            this.functions.push(this.hoverListener(this.canvas))
+        }
         if (this.sizeSelf) {
             $("#" + this.scene.id + parentId + " #" + this.id).css({
                 width: this.widthPx,
@@ -627,7 +716,123 @@ function Cube(props) {
         }
 
     }
+    this.drawPath = function(props, opts) {
+        if (!props) var props = {}
+        if (!opts) var opts = {}
+        if (!props.fillStyle) { var fillStyle = this.canvas.fillStyle || 'rgb(100,100,100)' } else if (props.fillStyle) { var fillStyle = props.fillStyle } else { var fillStyle = 'rgb(200,200,200)' }
+        var composite = 'source-over'
+        if (this.canvas && this.canvas.canvas && this.canvas.context) {
+            if (props.composite) var composite = props.composite
+            this.canvas.context.globalCompositeOperation = composite
+            if (this.canvas.type == 'polygon' || this.canvas.type == 'polygons') {
+                this.canvas.context.beginPath()
+                props.pointsPx = []
+                props.points.forEach((pointObj, point) => {
+                    if (this.canvas.unit !== 'px') {
+                        if (point == 0) {
+                            this.canvas.context.moveTo(Math.floor((props.points[point].x / this.unitScale) * this.scene.pxr), Math.floor((props.points[point].y / this.unitScale) * this.scene.pxr))
+                            props.pointsPx.push({ x: Math.floor((props.points[point].x / this.unitScale) * this.scene.pxr), y: Math.floor((props.points[point].y / this.unitScale) * this.scene.pxr) })
+                        } else {
+                            this.canvas.context.lineTo(Math.floor((props.points[point].x / this.unitScale) * this.scene.pxr), Math.floor((props.points[point].y / this.unitScale) * this.scene.pxr))
+                            props.pointsPx.push({ x: Math.floor((props.points[point].x / this.unitScale) * this.scene.pxr), y: Math.floor((props.points[point].y / this.unitScale) * this.scene.pxr) })
+                        }
+                    } else if (this.canvas.unit == 'px') {
 
+                        if (point == 0) {
+                            this.canvas.context.moveTo(Math.floor((props.points[point].x)), Math.floor((props.points[point].y)))
+                            props.pointsPx.push({ x: Math.floor((props.points[point].x)), y: Math.floor((props.points[point].y)) })
+                        } else {
+                            this.canvas.context.lineTo(Math.floor((props.points[point].x)), Math.floor((props.points[point].y)))
+                            props.pointsPx.push({ x: Math.floor((props.points[point].x)), y: Math.floor((props.points[point].y)) })
+                        }
+
+                    }
+                })
+                if (fillStyle) this.canvas.context.fillStyle = fillStyle
+                this.canvas.context.fill()
+                this.canvas.context.closePath()
+
+            } else if (this.canvas.type == 'rect' || this.canvas.type == 'rects') {
+                this.canvas.context.beginPath()
+                if (this.canvas.unit !== 'px') {
+                    this.canvas.context.rect((props.position.x / this.unitScale) * this.scene.pxr, (props.position.y / this.unitScale) * this.scene.pxr, (props.width / this.unitScale) * this.scene.pxr, (props.height / this.unitScale) * this.scene.pxr)
+                } else if (this.canvas.unit == 'px') {
+                    this.canvas.context.rect(props.position.x, props.position.y, props.width, props.height)
+                }
+                this.canvas.context.fillStyle = fillStyle
+                this.canvas.context.fill()
+            }
+        }
+    }
+    this.redraw = function(props, opts) {
+        if (!props) var props = {}
+        if (!opts) var opts = {}
+        if (this.type == 'canvas') {
+            if (this.canvas.type == 'polygon') {
+                if (props.transition) {
+
+                } else {
+                    this.canvas.context = this.canvas.canvas.getContext('2d')
+                    if (props.canvas && props.canvas.points) {
+                        this.canvas.context.clearRect(0, 0, this.canvas.canvas.width, this.canvas.canvas.height)
+                        this.canvas.points = props.canvas.points
+                        this.drawPath(this.canvas)
+                    }
+                }
+            } else if (this.canvas.type == 'polygons') {
+                if (props.canvas) this.canvas.canvas.width = (props.canvas.width / this.unitScale) * this.scene.pxr || this.canvas.canvas.width
+                if (props.canvas) this.canvas.canvas.height = (props.canvas.height / this.unitScale) * this.scene.pxr || this.canvas.canvas.height
+                if (props.transition) {
+                    for (path in this.canvas.paths) {
+                        if (this.canvas.paths.hasOwnProperty(path)) {
+                            for (point in this.canvas.paths[path].points) {
+                                if (this.canvas.paths[path].points.hasOwnProperty(point)) {
+                                    this.canvas.paths[path].points[point].sx = this.canvas.paths[path].points[point].x
+                                    this.canvas.paths[path].points[point].sy = this.canvas.paths[path].points[point].y
+                                    if (props.canvas.paths) {
+                                        this.canvas.paths[path].points[point].tx = props.canvas.paths[path].points[point].x
+                                        this.canvas.paths[path].points[point].ty = props.canvas.paths[path].points[point].y
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    var duration = props.transition.duration || 300
+                    var ease = props.transition.ease || d3.easeCubic
+                    var timer = d3.timer((elapsed) => {
+                        const t = Math.min(1, ease(elapsed / duration))
+                        for (path in this.canvas.paths) {
+                            if (this.canvas.paths.hasOwnProperty(path)) {
+                                for (point in this.canvas.paths[path].points) {
+                                    if (this.canvas.paths[path].points.hasOwnProperty(point)) {
+                                        this.canvas.paths[path].points[point].x = this.canvas.paths[path].points[point].sx * (1 - t) + props.canvas.paths[path].points[point].x * t
+                                        this.canvas.paths[path].points[point].y = this.canvas.paths[path].points[point].sy * (1 - t) + props.canvas.paths[path].points[point].y * t
+                                    }
+                                }
+                            }
+                        }
+                        this.redrawAuxPaths()
+                        if (t === 1) {
+                            timer.stop()
+                        }
+                    })
+                }
+            } else if (this.canvas.type == 'rect') {
+
+            }
+        }
+    }
+    this.redrawAuxPaths = function() {
+        const context = this.canvas.context
+        if (this.canvas.paths) {
+            context.clearRect(0, 0, this.canvas.canvas.width, this.canvas.canvas.height)
+            for (path in this.canvas.paths) {
+                if (this.canvas.paths.hasOwnProperty(path)) {
+                    this.drawPath(this.canvas.paths[path])
+                }
+            }
+        }
+    }
     this.setUnitScale()
     var windowWidthPxRatioed = (window.innerWidth * (this.ratio / 100))
     var windowWidthPx = window.innerWidth * .8
@@ -636,32 +841,18 @@ function Cube(props) {
     if (this.scene == undefined) {} else if (this.scene.sizeType == "window") {
         // thought this catered for widths an units that change between 1.2 ~ 0.8
         // ie the change between >1 and <1 but we don't need it
-        if (normalWidth >= 1) {
-            if (this.scene.pxr == undefined) {
-                this.scene.pxr = windowWidthPxRatioed / normalWidth
-                if (this.minPxWidth) {
-                    if (this.scene.pxr * normalWidth < this.minPxWidth) {
-                        this.scene.pxr = this.minPxWidth / normalWidth
-                    }
-                }
-                if (this.scene.pxr * normalWidth > windowWidthPxRatioed) {
-                    this.scene.pxr = windowWidthPxRatioed / normalWidth
+        if (this.scene.pxr == undefined) {
+            this.scene.pxr = windowWidthPxRatioed / normalWidth
+            if (this.minPxWidth) {
+                if (this.scene.pxr * normalWidth < this.minPxWidth) {
+                    this.scene.pxr = this.minPxWidth / normalWidth
                 }
             }
-        } else if (normalWidth < 1) {
-            if (this.scene.pxr == undefined) {
-                this.scene.pxr = windowWidthPxRatioed * normalWidth
-                if (this.minPxWidth) {
-                    if (this.scene.pxr * normalWidth < this.minPxWidth) {
-                        this.scene.pxr = this.minPxWidth / normalWidth
-                    }
-                }
-                if (this.scene.pxr * normalWidth > windowWidthPxRatioed) {
-                    this.scene.pxr = windowWidthPxRatioed / normalWidth
-                }
+            if (this.scene.pxr * normalWidth > windowWidthPx) {
+                this.scene.pxr = windowWidthPx / normalWidth
             }
-
         }
+
 
         this.setPxs()
         this.createFaces()
@@ -671,124 +862,64 @@ function Cube(props) {
             @param windowWidthPX is the normalised window width according to the set scene ratio
         */
         if (this.scene.pxr == undefined) {
-            if (normalWidth >= 1) {
-                this.scene.pxr = sceneObjectWidth / normalWidth
-                    /*
-                        First we check if the @param minPxWidth minimum pixel width is less than 
-                        the @param window.innerWidth
-                        window width * the special ratio
-                    */
-                if (this.minPxWidth && this.minPxWidth < windowWidthPxRatioed) {
-                    /*
-                        If it is, we then check if the currently set scene pxr and
-                        @param this.scene.pxr * @param (this.width/this.unitScale)
-                        is greater than the @param minPxWidth
-                        If so, we need to change the scene pxr accordingly
-                    */
-                    if (this.scene.pxr * normalWidth > this.minPxWidth) {
-                        /*
-                            If the object would have been rendered larger than our @param minPxWidth
-                            We recalculate the scene pxr as @param minPxWidth divided by the @param normalised object width
-                        */
-                        this.scene.pxr = this.minPxWidth / normalWidth
-                    }
-                }
+            /*
+                We set the @param this.scene.pxr to the @param sceneObjectWidth divided by our @param normalised width
+                To get our scene pixel to unit ratio
+            */
+            this.scene.pxr = sceneObjectWidth / normalWidth
                 /*
-                    Then we do a final check to see if the current @param this.scene.pxr * the @param (this.width/this.unitScale)
-                    object noramlised width is greater than the current @param window.innerWidth, if so, the object would have been 
-                    rendered larger than the window could have accomodated
+                    We then check if the currently set scene pxr and
+                    @param this.scene.pxr * @param (this.width/this.unitScale)
+                    is greater than the @param minPxWidth
+                    If so, we need to change the scene pxr accordingly
                 */
-                if (this.scene.pxr * normalWidth >= windowWidthPx) {
-                    /*
-                        Since the object would have been rendered too large, we change the @param scene.pxr to basically
-                        the @param winddow.innerWidth * @param (this.ratio/100) / @param (this.width/this.unitScale) which
-                        means our object cannot be rendered larger than the scene
-                    */
-                    this.scene.pxr = windowWidthPx / normalWidth
-                }
+            if (this.minPxWidth && this.scene.pxr * normalWidth < this.minPxWidth) {
+                /*
+                    If the object would have been rendered larger than our @param minPxWidth
+                    We recalculate the scene pxr as @param minPxWidth divided by the @param normalised object width
+                */
+                this.scene.pxr = this.minPxWidth / normalWidth
+            }
+            /*
+                Then we do a final check to see if the current @param this.scene.pxr * the @param (this.width/this.unitScale)
+                object noramlised width is greater than the current @param window.innerWidth, if so, the object would have been 
+                rendered larger than the window could have accomodated
+            */
+            if (this.scene.pxr * normalWidth >= windowWidthPx) {
+                /*
+                    Since the object would have been rendered too large, we change the @param scene.pxr to basically
+                    the @param winddow.innerWidth * @param (this.ratio/100) / @param (this.width/this.unitScale) which
+                    means our object cannot be rendered larger than the scene
+                */
+                this.scene.pxr = windowWidthPx / normalWidth
+            }
 
-            } else if (normalWidth < 1) {
-                this.scene.pxr = sceneObjectWidth / (normalWidth)
-                    /*
-                        First we check if the @param minPxWidth minimum pixel width is less than 
-                        the @param window.innerWidth
-                        window width * the special ratio
-                    */
-                if (this.minPxWidth && this.minPxWidth < windowWidthPxRatioed) {
-                    /*
-                        If it is, we then check if the currently set scene pxr and
-                        @param this.scene.pxr * @param (this.width/this.unitScale)
-                        is greater than the @param minPxWidth
-                        If so, we need to change the scene pxr accordingly
-                    */
-                    if (this.scene.pxr * normalWidth > this.minPxWidth) {
-                        /*
-                            If the object would have been rendered larger than our @param minPxWidth
-                            We recalculate the scene pxr as @param minPxWidth divided by the normalised object width
-                        */
-                        this.scene.pxr = this.minPxWidth / normalWidth
-                    }
-                }
-                /*
-                    Then we do a final check to see if the current @param this.scene.pxr * the @param (this.width/this.unitScale)
-                    object noramlised width is greater than the current @param window.innerWidth, if so, the object would have been 
-                    rendered larger than the window could have accomodated
-                */
-                if (this.scene.pxr * normalWidth >= windowWidthPx) {
-                    /*
-                        Since the object would have been rendered too large, we change the @param scene.pxr to basically
-                        the @param winddow.innerWidth * @param (this.ratio/100) / @param (this.width/this.unitScale) which
-                        means our object cannot be rendered larger than the scene
-                    */
-                    this.scene.pxr = windowWidthPx / normalWidth
-                }
+        } else if (this.scene.pxr * normalWidth >= this.minPxWidth) {
+            if (this.minPxWidth && this.scene.pxr * normalWidth < this.minPxWidth) {
+                this.scene.pxr = this.minPxWidth / normalWidth
             }
-        } else if (this.scene.pxr * normalWidth >= windowWidthPxRatioed) {
-            if (normalWidth >= 1) {
-                if (this.minPxWidth && this.minPxWidth < windowWidthPxRatioed) {
-                    if (this.scene.pxr * normalWidth > this.minPxWidth) {
-                        this.scene.pxr = this.minPxWidth / normalWidth
-                    }
-                }
+            /*
+                Then we do a final check to see if the current @param this.scene.pxr * the @param (this.width/this.unitScale)
+                object noramlised width is greater than the current @param window.innerWidth, if so, the object would have been 
+                rendered larger than the window could have accomodated
+            */
+            if (this.scene.pxr * normalWidth >= windowWidthPx) {
                 /*
-                    Then we do a final check to see if the current @param this.scene.pxr * the @param (this.width/this.unitScale)
-                    object noramlised width is greater than the current @param window.innerWidth, if so, the object would have been 
-                    rendered larger than the window could have accomodated
+                    Since the object would have been rendered too large, we change the @param scene.pxr to basically
+                    the @param winddow.innerWidth * @param (this.ratio/100) / @param (this.width/this.unitScale) which
+                    means our object cannot be rendered larger than the scene
                 */
-                if (this.scene.pxr * normalWidth >= windowWidthPx) {
-                    /*
-                        Since the object would have been rendered too large, we change the @param scene.pxr to basically
-                        the @param winddow.innerWidth * @param (this.ratio/100) / @param (this.width/this.unitScale) which
-                        means our object cannot be rendered larger than the scene
-                    */
-                    this.scene.pxr = windowWidthPx / normalWidth
-                }
-            } else if (normalWidth < 1) {
-                if (this.minPxWidth && this.minPxWidth < windowWidthPxRatioed) {
-                    if (this.scene.pxr * normalWidth > this.minPxWidth) {
-                        this.scene.pxr = this.minPxWidth / normalWidth
-                    }
-                }
-                /*
-                    Then we do a final check to see if the current @param this.scene.pxr * the @param (this.width/this.unitScale)
-                    object noramlised width is greater than the current @param window.innerWidth, if so, the object would have been 
-                    rendered larger than the window could have accomodated
-                */
-                if (this.scene.pxr * normalWidth >= windowWidthPx) {
-                    /*
-                        Since the object would have been rendered too large, we change the @param scene.pxr to basically
-                        the @param winddow.innerWidth * @param (this.ratio/100) / @param (this.width/this.unitScale) which
-                        means our object cannot be rendered larger than the scene
-                    */
-                    this.scene.pxr = windowWidthPx / normalWidth
-                }
+                this.scene.pxr = windowWidthPx / normalWidth
             }
+
         }
         this.setPxs()
         this.createFaces()
     }
     if (this.parent) {
-        this.parent.children.push(this)
+        if (this.type !== 'group') {
+            this.parent.children.push(this)
+        }
     }
     if (this.render) {
         this.draw()
@@ -807,7 +938,7 @@ function Cube(props) {
     }
 }
 
-function Lopu3d(props) {
+function L3(props) {
     this.units = ["km", "m", "cm", "mm", "um", "miles", "ft", "inches", ]
     this.unitScale = function(unit) {
         if (unit == 'm') {
@@ -834,13 +965,143 @@ function Lopu3d(props) {
     this.convertAreaScale = function(fromUnit, toUnit) {
         var ret = 0
         if (toUnit == "m") {
-            for (unit in this.units) {
-                if (this.units[unit] == toUnit) {
+            this.units.forEach((unit) => {
+                if (unit == toUnit) {
                     ret = this.unitScale(fromUnit) * this.unitScale(fromUnit)
-                    return ret
+                }
+            })
+            return ret
+        } else {
+            return false
+        }
+    }
+    this.pointInPolygon = function(point, points, opts) {
+        // ray-casting algorithm based on
+        // http://www.ecse.rpi.edu/Homepages/wrf/Research/Short_Notes/pnpoly.html
+        if (!opts) var opts = {}
+        if (!opts.type) {
+            var xSelector = 'x'
+            var ySelector = 'y'
+            var zSelector = 'z'
+        } else if (opts.type == 'useStrings') {
+            var xSelector = 'x'
+            var ySelector = 'y'
+            var zSelector = 'z'
+        } else if (opts.type == 'normal') {
+            var xSelector = 0
+            var ySelector = 1
+            var zSelector = 2
+        }
+        var x = point[xSelector],
+            y = point[ySelector];
+
+        var inside = false;
+        for (var i = 0, j = points.length - 1; i < points.length; j = i++) {
+            var xi = points[i][xSelector],
+                yi = points[i][ySelector]
+            var xj = points[j][xSelector],
+                yj = points[j][ySelector]
+
+            var intersect = ((yi > y) != (yj > y)) &&
+                (x < (xj - xi) * (y - yi) / (yj - yi) + xi);
+            if (intersect) inside = !inside;
+        }
+
+        return inside;
+    }
+    this.pointInRect = function(point, rect, opts) {
+        // ray-casting algorithm based on
+        // http://www.ecse.rpi.edu/Homepages/wrf/Research/Short_Notes/pnpoly.html
+        if (rect.unit !== 'px') {
+            var points = [
+                { x: rect.position.x, y: rect.position.y },
+                { x: rect.position.x, y: rect.position.y + rect.height },
+                { x: rect.position.x + rect.width, y: rect.position.y + rect.height },
+                { x: rect.position.x + rect.width, y: rect.position.y },
+            ]
+        } else if (rect.unit == 'px') {
+            var points = [
+                { x: rect.position.x, y: rect.position.y },
+                { x: rect.position.x, y: rect.position.y + rect.height },
+                { x: rect.position.x + rect.width, y: rect.position.y + rect.height },
+                { x: rect.position.x + rect.width, y: rect.position.y },
+            ]
+        }
+        if (!opts) var opts = {}
+        if (!opts.type) {
+            var xSelector = 'x'
+            var ySelector = 'y'
+            var zSelector = 'z'
+        } else if (opts.type == 'useStrings') {
+            var xSelector = 'x'
+            var ySelector = 'y'
+            var zSelector = 'z'
+        } else if (opts.type == 'normal') {
+            var xSelector = 0
+            var ySelector = 1
+            var zSelector = 2
+        }
+        var x = point[xSelector],
+            y = point[ySelector];
+
+        var inside = false;
+        for (var i = 0, j = points.length - 1; i < points.length; j = i++) {
+            var xi = points[i][xSelector],
+                yi = points[i][ySelector]
+            var xj = points[j][xSelector],
+                yj = points[j][ySelector]
+
+            var intersect = ((yi > y) != (yj > y)) &&
+                (x < (xj - xi) * (y - yi) / (yj - yi) + xi);
+            if (intersect) inside = !inside;
+        }
+        return inside;
+    }
+    this.finit = function(props, opts) {
+        if (!props) var props = {}
+        if (!opts) var opts = {}
+    }
+    this.findCurrentPath = function(props, opts) {
+        this.finit(props, opts)
+        var maybePath
+        var curzIndex = -Infinity
+        for (path in props.paths) {
+            if (props.paths.hasOwnProperty(path)) {
+                var curPath = props.paths[path]
+                if (curPath.zIndex > curzIndex) {
+                    if (this.pointInPolygon(props.mouse, curPath.pointsPx)) {
+                        maybePath = curPath
+                        curzIndex = curPath.zIndex
+                    }
                 }
             }
         }
+        return maybePath
+    }
+    this.findCurrentRect = function(props, opts) {
+        this.finit(props, opts)
+        var maybeRect
+        var curzIndex = -Infinity
+        for (rect in props.rects) {
+            if (props.rects.hasOwnProperty(rect)) {
+                var curRect = props.rects[rect]
+                if (this.pointInRect(props.mouse, curRect)) {
+                    if (curRect.zIndex > curzIndex) {
+                        maybeRect = curRect
+                        curzIndex = curRect.zIndex
+                    }
+                }
+            }
+        }
+        return maybeRect
+    }
+    this.propToString = function(prop, value) {
+        for (var key in prop) {
+            if (prop[key] == value) {
+                return key;
+            }
+        }
+        return false;
     }
     this.scene = Scene
     this.cube = Cube
@@ -855,4 +1116,4 @@ function Group(props) {
 
 }
 
-var lopu3d = new Lopu3d()
+var l3 = new L3()

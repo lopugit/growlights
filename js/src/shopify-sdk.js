@@ -2391,6 +2391,7 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
                 return value
             },
             get variant_title() {
+                console.log(this)
                 return this.attrs.variant_title
             },
             get price() {
@@ -2496,6 +2497,7 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
             },
             addVariants: function addVariants() {
                 var newLineItems = [].concat(Array.prototype.slice.call(arguments)).map(function(item) {
+                    if (item.variant.title == 'Default Title') var title = item.variant.productTitle.split(' ')[item.variant.productTitle.split(' ').length - 1]
                     var lineItem = {
                         image: item.variant.image,
                         variant_id: item.variant.id,
@@ -2503,7 +2505,7 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
                         title: item.variant.productTitle,
                         quantity: parseInt(item.quantity, 10),
                         properties: item.properties || {},
-                        variant_title: item.variant.title,
+                        variant_title: title || item.variant.title,
                         price: item.variant.price,
                         compare_at_price: item.variant.compareAtPrice,
                         grams: item.variant.grams
@@ -2536,7 +2538,7 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
                 if (quantity < 1) {
                     return this.removeLineItem(id)
                 };
-            
+
 
                 var lineItem = this.lineItems.filter(function(item) {
                     return item.variant_id === id

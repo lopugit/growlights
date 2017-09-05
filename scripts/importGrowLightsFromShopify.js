@@ -66,7 +66,7 @@ module.exports = function(vars) {
                                     }
                                     if ((product.attrs.vendor == "Mars Hydro") && (product.attrs.product_type == "Grow Light")) {
                                         productData.spectrum = [{
-                                                temperature: "3000k",
+                                                temperature: 3000,
                                                 colour: "white",
                                                 lensAngle: 120,
                                                 percent: 0.07,
@@ -74,6 +74,7 @@ module.exports = function(vars) {
                                                 lumens: 2.58,
                                                 wattage: consts.wattage,
                                                 efficiency: .5,
+                                                lightOpacity: 0.6,
                                                 modes: [{
                                                     title: "veg",
                                                     percent: 0.07
@@ -90,6 +91,7 @@ module.exports = function(vars) {
                                                 lumens: 2.58,
                                                 wattage: consts.wattage,
                                                 efficiency: .5,
+                                                lightOpacity: 0.6,
                                                 modes: [{
                                                     title: "veg",
                                                     percent: 0.1
@@ -106,6 +108,7 @@ module.exports = function(vars) {
                                                 lumens: 2.58,
                                                 wattage: consts.wattage,
                                                 efficiency: .5,
+                                                lightOpacity: 0.6,
                                                 modes: [{
                                                     title: "veg",
                                                     percent: 0.1
@@ -122,6 +125,7 @@ module.exports = function(vars) {
                                                 lumens: 2.58,
                                                 wattage: consts.wattage,
                                                 efficiency: .5,
+                                                lightOpacity: 0.6,
                                                 modes: [{
                                                     title: "veg",
                                                     percent: 0.125
@@ -138,6 +142,7 @@ module.exports = function(vars) {
                                                 lumens: 2.58,
                                                 wattage: consts.wattage,
                                                 efficiency: .5,
+                                                lightOpacity: 0.6,
                                                 modes: [{
                                                     title: "veg",
                                                     percent: 0.125
@@ -154,6 +159,7 @@ module.exports = function(vars) {
                                                 lumens: 2.58,
                                                 wattage: consts.wattage,
                                                 efficiency: .5,
+                                                lightOpacity: 0.6,
                                                 modes: [{
                                                     title: "veg",
                                                     percent: 0.01
@@ -193,9 +199,33 @@ module.exports = function(vars) {
                                             if (productData.renderRules) productData.renderRules.labels = false
 
 
+                                        } else if (productData.model == 'MarsBar') {
+                                            productData.spectrum = [{
+                                                wavelength: 440,
+                                                colour: "blue",
+                                                lensAngle: 140,
+                                                percent: 0.8,
+                                                ppfd: 1.6,
+                                                lumens: 2.58,
+                                                wattage: consts.wattage,
+                                                efficiency: .5
+                                            }, {
+                                                wavelength: 660,
+                                                colour: "blue",
+                                                lensAngle: 140,
+                                                percent: 0.2,
+                                                ppfd: 1.6,
+                                                lumens: 2.58,
+                                                wattage: consts.wattage,
+                                                efficiency: .5
+                                            }]
+                                            jsonConcat(productData, {
+                                                backBoost: true,
+                                                modes: []
+                                            })
                                         } else {
                                             productData.spectrum = [{
-                                                    temperature: "3000k",
+                                                    temperature: 3000,
                                                     colour: "white",
                                                     lensAngle: 120,
                                                     percent: 0.07,

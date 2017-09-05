@@ -11,6 +11,11 @@ append content
 				.col-xs-24.coverage-calc-col
 					-if(allGrowLights)
 						.slick-slider-custom.coverageCalculatorSlider.parent(id=covCalcId+'-parent')
+							-var growLight = growLightModels.custom["MarsBar"]
+								-growLight.object.type = '2d'
+								-growLight.renderRules.switches = false
+								.slick-slide(style="z-index: 200")
+									include /snippets/growLight
 							each growLight, key1 in allGrowLights
 								-growLight.object.type = '2d'
 								.slick-slide(style="z-index:"+(150-key1)+";")
@@ -29,7 +34,7 @@ append content
 									//- lazyLoad: 'progressive'
 								})
 							})
-				-var growLight = allGrowLights[0]
+				-var growLight = growLightModels.custom.MarsBar
 				.col-lg-12.col-lg-offset-6.col-xs-24.col-sm-24.coverage-calc-col(style="flex-direction: column")
 						include /snippets/grow.ai/growLightCoverage
 				//- .col-xs-24.coverage-calc-col

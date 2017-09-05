@@ -139,8 +139,6 @@ append content
             return ourObj
         }
         function evalMethods(o1) {
-            console.log("idk where this logs to")
-            console.log(o1)
             for (var key in o1["schema"]["methods"]) {
                 //- if(typeof(o1[key]) == 'function'){
                     o1[key] = o1["schema"]["methods"][key]()
@@ -153,9 +151,7 @@ append content
         $('document').ready(function(){
             $('.modalOpener').click(function(e){
                 //- if(e.)
-                console.log(e)
                 if(e.target !== e.currentTarget) {
-                        console.log(e.currentTarget.className.indexOf('includeChildren'))
                     if(e.currentTarget.className.indexOf('includeChildren') >= 0){
                     } else if (e.currentTarget.className.indexOf('includeSpecificChildren') >= 0) {
                         if(e.target.className.indexOf('ignoreClick') >= 0){
@@ -168,14 +164,28 @@ append content
                 $("#"+e.currentTarget.id+"Modal").modal('show')          
             })
         })
+        Object.byString = function(o, s) {
+            s = s.replace(/\[(\w+)\]/g, '.$1'); // convert indexes to properties
+            s = s.replace(/^\./, '');           // strip a leading dot
+            var a = s.split('.');
+            for (var i = 0, n = a.length; i < n; ++i) {
+                var k = a[i];
+                if (k in o) {
+                    o = o[k];
+                } else {
+                    return;
+                }
+            }
+            return o;
+        }
         function openModal(e){
-            if(typeof(e) == 'string'){
+            if(typeof e == 'string'){
                 $("#"+e+"Modal").modal('show')
                 $('#'+e+"Modal").trigger('shown')         
             } else {
                 if(e.target !== e.currentTarget) return
                 $("#"+e.id+"Modal").modal('show')          
-                $('#'+e.id+"Modal").trigger('shown')         
+                $('#'+e.id+"Modal").trigger('shown') 
             }
         }
         function jsonConcat(o1, o2) {

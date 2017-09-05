@@ -162,7 +162,7 @@ form.l-form(id=formId, method="post", name="singleTent", data-_id=growLight._id)
         $('document').ready(()=>{
             var form = $('##{formId}').parsley()
             var object = {}
-            var scene = new lopu3d.scene({
+            var scene = new l3.scene({
                 id: "#{sceneId}",
                 containerId: "#{sceneContId}",
                 sizeType: "object",
@@ -170,10 +170,6 @@ form.l-form(id=formId, method="post", name="singleTent", data-_id=growLight._id)
                 theme: 'relative',
                 ratio: 80
             })
-            console.log("this is the filter function and return")
-            //- for(i in allGrowLights){
-            //-     console.log(allGrowLights[i])
-            //- }
             allGrowLights.filter(
                 function(gl){
                     console.log(gl);
@@ -226,7 +222,6 @@ form.l-form(id=formId, method="post", name="singleTent", data-_id=growLight._id)
                         }
                         //- console.log(scene)
                         e.data.aiOpts.scene.clear()
-                        console.log(e.data.aiOpts)
                         grow.ai.calculateCoverage(e.data.aiOpts)
                 })
             }

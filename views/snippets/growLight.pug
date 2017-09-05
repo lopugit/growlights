@@ -89,19 +89,12 @@
 		.scene(id="scene"+uuid, style="width: 1400px; max-width 100%")
 
 	script.
-		console.log(globalGrowLightPxr)
 		if(!globalGrowLightPxr){
 			var globalGrowLightPxr
 		}
-		$(window).ready(function(){
-			console.log("globalGrowLightPxr before if statement")
-			console.log(globalGrowLightPxr)
+		$(document).ready(function(){
 			//- if(globalGrowLightPxr == 0) {
-			//- 	console.log("globalGrowLightPxr")
-			//- 	console.log(globalGrowLightPxr)
 			//- 	globalGrowLightPxr = undefined
-			//- 	console.log("globalGrowLightPxr")
-			//- 	console.log(globalGrowLightPxr)
 			//- }
 			var scene = new Scene({
 				render: true,
@@ -112,13 +105,14 @@
 				type: '3d'
 			})
 			var growLight = !{mts(growLight)}
+			if(!growLight.object.ratio) {
+				growLight.object.ratio = 80
+			}
+
 			growLight.scene = scene
 			var gl = new GrowLight(growLight)
-			console.log(gl)
 			if(globalGrowLightPxr){} else {
 				globalGrowLightPxr = scene.pxr
-				console.log('is scene.pxr')
-				console.log(scene.pxr)
 			}
 		})
 
