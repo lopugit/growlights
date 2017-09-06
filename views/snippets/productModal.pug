@@ -1,17 +1,24 @@
 //- extends /snippets/layout
 append content
 	//- .modal-container
-	-var modalId = "id"+product._id+"Modal"
+	-var modalId = product._id+"Modal"
+	-var productType = product.product_type
 	.l.text-styling-products.portfolio-modal.modal.fade(id=modalId,class=product.product_type.replace(' ', '-')+"-Modal productModal", tabindex='-1', role='dialog', aria-hidden='true')
 		.modal-content
 			.close-modal(data-dismiss='modal')
 				.lr
 					.rl
-			.container
+			.container-fluid
 				.row
 					.col-lg-16.col-lg-offset-4
 						.modal-body
 							h2.product-title= product.title
+							-if(productType == 'Grow Light')
+								.l-title Energy Specs
+							-else if (productType == 'Grow Tent')
+								.l-title Specs
+							-else
+								.l-title Specs
 							ul.list-inline.item-details-product
 								-if(product.product_type == 'Grow Light')
 									li Wattage Draw: 
@@ -20,57 +27,81 @@ append content
 									li Theoretical Wattage: 
 										strong=" "+product.theoreticalWattageFormatted()
 											
-									li Theoretical Diode Wattage:
-										strong=" "+product.ledWattageFormatted()
-									li Diode Efficiency:
-										strong=" "+product.ledEfficiencyFormatted()
-									li Diode Wattage Draw:
-										strong=" "+product.ledWattage/2 + "W"
-
-									li Diode Count:
-										strong=" "+product.ledCount()
 									-if(product.lumens)
 										li Lumens:
 											strong=" "+product.lumensFormatted()
-									li Lense Angle:
-										strong=" "+product.lensAngle
-									li Width:
-										strong=" "+product.width+product.unit
-									li Height:
-										strong=" "+product.height+product.unit
-									li Depth:
-										strong=" "+product.depth+product.unit
+									.l-title.l-nudge-down-more-more Diodes
+									.l-group.diodes
+										.l-subgroup
+											li Diode Count:
+												strong=" "+product.ledCount()
+											li Theoretical Diode Wattage:
+												strong=" "+product.ledWattageFormatted()
+											li Diode Wattage Reduction:
+												strong=" "+product.ledEfficiencyFormatted()
+											li Diode Wattage Draw:
+												strong=" "+product.ledWattage/2 + "W"
+											li Lense Angle:
+												strong=" "+product.lensAngle
+									.l-title.l-nudge-down-more-more Dimensions
+									.l-group.dimensions-list
+										li  Width:
+											strong=" "+product.width+product.unit
+										li  Height:
+											strong=" "+product.height+product.unit
+										li  Depth:
+											strong=" "+product.depth+product.unit
+									.l-title.l-nudge-down-more-more= product.spectrum.length +" Band Spectrum"											
+									.l-group.spectrum-list
+										each wavelength, index in product.spectrum
+											-if(index !== product.spectrum.length-1) 
+												-var comastring = ', '
+											-else
+												-var comastring = ''
+											-if(wavelength.wavelength)
+												li= (wavelength.percent*100).toFixed(2)+"% "
+													strong=" " + wavelength.wavelength + "nm"+comastring 
+											-else if(wavelength.temperature)
+												li= (wavelength.percent*100).toFixed(2)+"% "
+													strong=" "+ wavelength.temperature + "k"+comastring
+
 								-else if(product.product_type == 'Grow Tent')
 									li Tent Material: 
 										strong=" "+product.materialOutFormatted()
 									li Inner Material: 
 										strong=" "+product.materialIn
-									li Width:
-										strong=" "+product.width+product.unit
-									li Height:
-										strong=" "+product.height+product.unit
-									li Depth:
-										strong=" "+product.depth+product.unit
-									//- li Vents: 
-									//- 	each vent, key in product.vents
-									//- 		strong= key+" vent"
-									//- 		-if(vent.shape == 'circle')
-									//- 			li Diametre: 
-									//- 				strong
-									//- 					a(href="#")= vent.width+" inches"
-									//- 			li Quantity: 
-									//- 				strong
-									//- 					a(href="#")= vent.qty
-									//- 		-else if(vent.shape == 'rectangle')
-									//- 			li Width: 
-									//- 				strong
-									//- 					a(href="#")= vent.width+" inches"
-									//- 			li Height: 
-									//- 				strong
-									//- 					a(href="#")= vent.height+" inches"
-									//- 			li Quantity: 
-									//- 				strong
-									//- 					a(href="#")= vent.qty
+									.l-title.l-nudge-down-more-more Dimensions
+									.l-group.dimensions-list
+										li  Width:
+											strong=" "+product.width+product.unit
+										li  Height:
+											strong=" "+product.height+product.unit
+										li  Depth:
+											strong=" "+product.depth+product.unit
+								-if(product.product_type == 'Grow Tent')
+									.l-title.l-nudge-down-more-more.l-nudge-below Vents 
+									ul.list-inline.item-details-product.vents-list 
+										each vent, index in product.vents
+											-var indexTo = index
+											.l-group
+												strong= (indexTo+1)+thStr((indexTo+1))+" size "
+												ul.inner-vent-ul
+													-if(vent.shape == 'circle')
+														li Diametre: 
+															strong= vent.width+" inches"
+														li Quantity: 
+															strong= vent.qty
+														li Shape: 
+															strong= vent.shape
+													-else if(vent.shape == 'rectangle')
+														li Width: 
+															strong= vent.width+" inches"
+														li Height: 
+															strong= vent.height+" inches"
+														li Quantity: 
+															strong= vent.qty
+														li Shape: 
+															strong= vent.shape
 													
 							.preview-product-gallery(align='center')
 								img(name='name'+product._id+"Preview", src=product.images[0].src, alt=product.vendor+" "+product.product_type+" "+product.title)
@@ -78,20 +109,6 @@ append content
 								each image, key in product.images
 									img.thumb(onmouseover='name'+product._id+'Preview.src=name'+product._id+key+'.src', name='name'+product._id+key, src=image.src, alt=product.vendor+" "+product.product_type+" "+product.title)
 							.product-description!= product.body_html
-							ul.list-inline.item-details-product
-								-if(product.product_type == 'Grow Light')
-									li
-										| Spectrum: 
-										strong
-											each wavelength, index in product.spectrum
-												-if(index !== product.spectrum.length-1) 
-													-var comastring = ', '
-												-else
-													-var comastring = ''
-												-if(wavelength.wavelength)
-													span= (wavelength.percent*100).toFixed(2)+"% " + wavelength.wavelength + "nm"+comastring 
-												-else if(wavelength.temperature)
-													span= (wavelength.percent*100).toFixed(2)+"% " + wavelength.temperature + "k"+comastring
 
 							.l-group.l-wide
 								.price Price: 

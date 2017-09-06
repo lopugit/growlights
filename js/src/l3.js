@@ -19,7 +19,7 @@ function Scene(props) {
     this.sizeType = props.sizeType || "window"
     this.type = props.type || '3d'
     this.pxr = props.pxr
-    this.objects = props.objects || {}
+    this.objects = props.objects || []
     this.render = props.render || true
     this.renderCss = function() {
         $("#" + this.id).css(this.css)
@@ -58,7 +58,9 @@ function Scene(props) {
         }
     }
     this.clear = function(props) {
-        this.pxr = undefined
+        if (!props) var props = {}
+        if (props.pxr !== false)
+            this.pxr = undefined
         $('#' + this.id).html('')
     }
     if (this.sizeType == "window") {
@@ -158,6 +160,9 @@ function Cube(props) {
     this.labels = props.labels || []
     this.minPxWidth = props.minPxWidth
     this.datas = props.datas
+    if (this.scene.objects[this.id] == undefined) {
+        this.scene.objects[this.id] = this
+    }
     if (this.position.rx == undefined) {
         this.position.rx = 0
     }
@@ -177,6 +182,7 @@ function Cube(props) {
     this.type = props.type || '3d'
     this.svg = props.svg
     this.functions = []
+    this.tmps = props.tmps || {}
     this.addChild = function(child) {
         this.children.push(child)
     }
@@ -326,8 +332,9 @@ function Cube(props) {
         } else {
             var parentId = ''
         }
-        // If the cube is part of a group, we check if the group exists, if not, we make the group div and append our new object
-        // In the group, if it exists we just append the new object
+        this.tmps.parentId = parentId
+            // If the cube is part of a group, we check if the group exists, if not, we make the group div and append our new object
+            // In the group, if it exists we just append the new object
         if (this.group) {
             if (this.group.positioner) {
                 if ($("#" + this.scene.id + parentId + " #" + this.group.id + "-positioner").length < 1) {
@@ -467,7 +474,9 @@ function Cube(props) {
 
         } else if (this.type == 'canvas') {
             var canvasParentId = ''
+            this.tmps.canvasParentId = canvasParentId
             var canvasClass = this.canvas.class || ''
+
             if (this.canvas && this.canvas.positioner) {
                 canvasParentCss = {}
                 if (this.canvas && this.canvas.size && this.canvas.size.parent) {
@@ -488,68 +497,75 @@ function Cube(props) {
                 $("#" + this.scene.id + canvasParentId + " #" + this.id).append($canvasParent)
                 $("#" + this.scene.id + canvasParentId + " #" + this.id + " #" + $canvasParent[0].id).css(canvasParentCss)
                 canvasParentId = " #" + $canvasParent[0].id
+                this.tmps.canvasParentId = canvasParentId
+                this.tmps.$canvasParent = $canvasParent
             }
-            var $canvas = $('<canvas/>', {
-                class: canvasClass + ' l3canvas',
-                id: this.canvas.id || uuidv4()
-            })
-            this.canvas.elem = {
-                parentElement: $canvasParent,
-                canvas: $canvas
-            }
-            $("#" + this.scene.id + parentId + " #" + this.id + canvasParentId).append($canvas)
-            var canvasCss = {}
-            if (this.canvas && this.canvas.size) {
-                if (this.canvas.size.inherit) {
-                    if (this.canvas.size.height) {
-                        canvasCss.height = (this.height / this.unitScale) * this.scene.pxr
-                    }
-                    if (this.canvas.size.width) {
-                        canvasCss.width = (this.width / this.unitScale) * this.scene.pxr
-                    }
-                } else {
-                    if (this.canvas.size.height) {
-                        canvasCss.height = (this.height / this.unitScale) * this.scene.pxr
-                    }
-                    if (this.canvas.size.width) {
-                        canvasCss.width = (this.canvas.width / this.unitScale) * this.scene.pxr
+            if (this.canvas.render !== false) {
+                var $canvas = $('<canvas/>', {
+                    class: canvasClass + ' l3canvas',
+                    id: this.canvas.id || uuidv4()
+                })
+                this.canvas.elem = {
+                    parentElement: $canvasParent,
+                    canvas: $canvas
+                }
+                $("#" + this.scene.id + parentId + " #" + this.id + canvasParentId).append($canvas)
+                var canvasCss = {}
+                if (this.canvas && this.canvas.size) {
+                    if (this.canvas.size.inherit) {
+                        if (this.canvas.size.height) {
+                            canvasCss.height = (this.height / this.unitScale) * this.scene.pxr
+                        }
+                        if (this.canvas.size.width) {
+                            canvasCss.width = (this.width / this.unitScale) * this.scene.pxr
+                        }
+                    } else {
+                        if (this.canvas.size.height) {
+                            canvasCss.height = (this.height / this.unitScale) * this.scene.pxr
+                        }
+                        if (this.canvas.size.width) {
+                            canvasCss.width = (this.canvas.width / this.unitScale) * this.scene.pxr
+                        }
                     }
                 }
-            }
-            for (key in canvasCss) {
-                if (canvasCss.hasOwnProperty(key)) {
-                    $("#" + this.scene.id + parentId + " #" + this.id + canvasParentId + " #" + $canvas[0].id)
-                        .attr(key, canvasCss[key])
+                for (key in canvasCss) {
+                    if (canvasCss.hasOwnProperty(key)) {
+                        $("#" + this.scene.id + parentId + " #" + this.id + canvasParentId + " #" + $canvas[0].id)
+                            .attr(key, canvasCss[key])
+                    }
                 }
-            }
-            // $("#" + this.scene.id + parentId + " #" + this.id + canvasParentId + " #" + $canvas[0].id).css(canvasCss)
+                // $("#" + this.scene.id + parentId + " #" + this.id + canvasParentId + " #" + $canvas[0].id).css(canvasCss)
 
-            var canvas = $("#" + $canvas[0].id)[0]
-            var canv = canvas.getContext('2d')
-            this.canvas.canvas = canvas
-                // canv.fillStyle = "#80bc18"
-            this.canvas.context = canv
-            if (this.canvas.type == 'polygon') {
-                this.drawPath(this.canvas.points)
-            } else if (this.canvas.type == 'polygons') {
-                if (this.canvas.paths) {
-                    this.canvas.paths.forEach((path, pathIndex) => {
-                        this.drawPath(path)
-                    })
-                }
-            } else if (this.canvas.type == 'rect') {
-                this.canvas.pxRect = this.canvas.pxRect || {}
-            } else if (this.canvas.type == 'rects') {
-                this.canvas.pxRects = this.canvas.pxRects || []
-                if (this.canvas.rects[0].hasOwnProperty('rect')) {
-                    this.canvas.rects.forEach((rectParent, index) => {
-                        this.drawPath(rectParent.rect)
-                    })
-                } else if (this.canvas.rects[0].hasOwnProperty('fillStyle')) {
+                var canvas = $("#" + $canvas[0].id)[0]
+                var canv = canvas.getContext('2d')
+                this.canvas.canvas = canvas
+                    // canv.fillStyle = "#80bc18"
+                this.canvas.context = canv
+                this.canvas.context.translate(0.5, 0)
+                this.canvas.context.lineCap = "round"
+                this.canvas.context.imageSmoothingQuality = 'high'
+                this.canvas.context.imageSmoothingEnabled = true
+                if (this.canvas.type == 'polygon') {
+                    this.drawPath(this.canvas.points)
+                } else if (this.canvas.type == 'polygons') {
+                    if (this.canvas.paths) {
+                        this.canvas.paths.forEach((path, pathIndex) => {
+                            this.drawPath(path)
+                        })
+                    }
+                } else if (this.canvas.type == 'rect') {
+                    this.canvas.pxRect = this.canvas.pxRect || {}
+                } else if (this.canvas.type == 'rects') {
+                    this.canvas.pxRects = this.canvas.pxRects || []
+                    if (this.canvas.rects[0].hasOwnProperty('rect')) {
+                        this.canvas.rects.forEach((rectParent, index) => {
+                            this.drawPath(rectParent.rect)
+                        })
+                    } else if (this.canvas.rects[0].hasOwnProperty('fillStyle')) {
 
+                    }
                 }
             }
-            // canv.translate(0.5, 0.5)
 
         }
         if (typeof this.hoverListener == 'function') {
@@ -716,6 +732,76 @@ function Cube(props) {
         }
 
     }
+    this.renderCanvas = function(props, opts) {
+        var canvasClass = this.canvas.class || ''
+        var parentId = this.tmps.parentId
+        var canvasParentId = this.tmps.canvasParentId
+        var $canvasParent = this.tmps.$canvasParent
+        var $canvas = $('<canvas/>', {
+            class: canvasClass + ' l3canvas',
+            id: this.canvas.id || uuidv4()
+        })
+        this.canvas.elem = {
+            parentElement: $canvasParent,
+            canvas: $canvas
+        }
+        $("#" + this.scene.id + parentId + " #" + this.id + canvasParentId).append($canvas)
+        var canvasCss = {}
+        if (this.canvas && this.canvas.size) {
+            if (this.canvas.size.inherit) {
+                if (this.canvas.size.height) {
+                    canvasCss.height = (this.height / this.unitScale) * this.scene.pxr
+                }
+                if (this.canvas.size.width) {
+                    canvasCss.width = (this.width / this.unitScale) * this.scene.pxr
+                }
+            } else {
+                if (this.canvas.size.height) {
+                    canvasCss.height = (this.height / this.unitScale) * this.scene.pxr
+                }
+                if (this.canvas.size.width) {
+                    canvasCss.width = (this.canvas.width / this.unitScale) * this.scene.pxr
+                }
+            }
+        }
+        for (key in canvasCss) {
+            if (canvasCss.hasOwnProperty(key)) {
+                $("#" + this.scene.id + parentId + " #" + this.id + canvasParentId + " #" + $canvas[0].id)
+                    .attr(key, canvasCss[key])
+            }
+        }
+        // $("#" + this.scene.id + parentId + " #" + this.id + canvasParentId + " #" + $canvas[0].id).css(canvasCss)
+
+        var canvas = $("#" + $canvas[0].id)[0]
+        var canv = canvas.getContext('2d')
+        this.canvas.canvas = canvas
+            // canv.fillStyle = "#80bc18"
+        this.canvas.context = canv
+        this.canvas.context.translate(0.5, 0)
+        this.canvas.context.lineCap = "round"
+        this.canvas.context.imageSmoothingQuality = 'high'
+        this.canvas.context.imageSmoothingEnabled = true
+        if (this.canvas.type == 'polygon') {
+            this.drawPath(this.canvas.points)
+        } else if (this.canvas.type == 'polygons') {
+            if (this.canvas.paths) {
+                this.canvas.paths.forEach((path, pathIndex) => {
+                    this.drawPath(path)
+                })
+            }
+        } else if (this.canvas.type == 'rect') {
+            this.canvas.pxRect = this.canvas.pxRect || {}
+        } else if (this.canvas.type == 'rects') {
+            this.canvas.pxRects = this.canvas.pxRects || []
+            if (this.canvas.rects[0].hasOwnProperty('rect')) {
+                this.canvas.rects.forEach((rectParent, index) => {
+                    this.drawPath(rectParent.rect)
+                })
+            } else if (this.canvas.rects[0].hasOwnProperty('fillStyle')) {
+
+            }
+        }
+    }
     this.drawPath = function(props, opts) {
         if (!props) var props = {}
         if (!opts) var opts = {}
@@ -730,20 +816,20 @@ function Cube(props) {
                 props.points.forEach((pointObj, point) => {
                     if (this.canvas.unit !== 'px') {
                         if (point == 0) {
-                            this.canvas.context.moveTo(Math.floor((props.points[point].x / this.unitScale) * this.scene.pxr), Math.floor((props.points[point].y / this.unitScale) * this.scene.pxr))
-                            props.pointsPx.push({ x: Math.floor((props.points[point].x / this.unitScale) * this.scene.pxr), y: Math.floor((props.points[point].y / this.unitScale) * this.scene.pxr) })
+                            this.canvas.context.moveTo(Math.round((props.points[point].x / this.unitScale) * this.scene.pxr), Math.round((props.points[point].y / this.unitScale) * this.scene.pxr))
+                            props.pointsPx.push({ x: Math.round((props.points[point].x / this.unitScale) * this.scene.pxr), y: Math.round((props.points[point].y / this.unitScale) * this.scene.pxr) })
                         } else {
-                            this.canvas.context.lineTo(Math.floor((props.points[point].x / this.unitScale) * this.scene.pxr), Math.floor((props.points[point].y / this.unitScale) * this.scene.pxr))
-                            props.pointsPx.push({ x: Math.floor((props.points[point].x / this.unitScale) * this.scene.pxr), y: Math.floor((props.points[point].y / this.unitScale) * this.scene.pxr) })
+                            this.canvas.context.lineTo(Math.round((props.points[point].x / this.unitScale) * this.scene.pxr), Math.round((props.points[point].y / this.unitScale) * this.scene.pxr))
+                            props.pointsPx.push({ x: Math.round((props.points[point].x / this.unitScale) * this.scene.pxr), y: Math.round((props.points[point].y / this.unitScale) * this.scene.pxr) })
                         }
                     } else if (this.canvas.unit == 'px') {
 
                         if (point == 0) {
-                            this.canvas.context.moveTo(Math.floor((props.points[point].x)), Math.floor((props.points[point].y)))
-                            props.pointsPx.push({ x: Math.floor((props.points[point].x)), y: Math.floor((props.points[point].y)) })
+                            this.canvas.context.moveTo(Math.round((props.points[point].x)), Math.round((props.points[point].y)))
+                            props.pointsPx.push({ x: Math.round((props.points[point].x)), y: Math.round((props.points[point].y)) })
                         } else {
-                            this.canvas.context.lineTo(Math.floor((props.points[point].x)), Math.floor((props.points[point].y)))
-                            props.pointsPx.push({ x: Math.floor((props.points[point].x)), y: Math.floor((props.points[point].y)) })
+                            this.canvas.context.lineTo(Math.round((props.points[point].x)), Math.round((props.points[point].y)))
+                            props.pointsPx.push({ x: Math.round((props.points[point].x)), y: Math.round((props.points[point].y)) })
                         }
 
                     }
@@ -755,7 +841,7 @@ function Cube(props) {
             } else if (this.canvas.type == 'rect' || this.canvas.type == 'rects') {
                 this.canvas.context.beginPath()
                 if (this.canvas.unit !== 'px') {
-                    this.canvas.context.rect((props.position.x / this.unitScale) * this.scene.pxr, (props.position.y / this.unitScale) * this.scene.pxr, (props.width / this.unitScale) * this.scene.pxr, (props.height / this.unitScale) * this.scene.pxr)
+                    this.canvas.context.rect(((props.position.x / this.unitScale) * this.scene.pxr), ((props.position.y / this.unitScale) * this.scene.pxr), ((props.width / this.unitScale) * this.scene.pxr), ((props.height / this.unitScale) * this.scene.pxr))
                 } else if (this.canvas.unit == 'px') {
                     this.canvas.context.rect(props.position.x, props.position.y, props.width, props.height)
                 }
@@ -769,12 +855,11 @@ function Cube(props) {
         if (!opts) var opts = {}
         if (this.type == 'canvas') {
             if (this.canvas.type == 'polygon') {
-                if (props.transition) {
-
-                } else {
+                if (props.transition) {} else {
                     this.canvas.context = this.canvas.canvas.getContext('2d')
                     if (props.canvas && props.canvas.points) {
                         this.canvas.context.clearRect(0, 0, this.canvas.canvas.width, this.canvas.canvas.height)
+                        this.canvas.context.translate(0.5, 0)
                         this.canvas.points = props.canvas.points
                         this.drawPath(this.canvas)
                     }
@@ -787,11 +872,11 @@ function Cube(props) {
                         if (this.canvas.paths.hasOwnProperty(path)) {
                             for (point in this.canvas.paths[path].points) {
                                 if (this.canvas.paths[path].points.hasOwnProperty(point)) {
-                                    this.canvas.paths[path].points[point].sx = this.canvas.paths[path].points[point].x
-                                    this.canvas.paths[path].points[point].sy = this.canvas.paths[path].points[point].y
+                                    this.canvas.paths[path].points[point].sx = Math.round(this.canvas.paths[path].points[point].x)
+                                    this.canvas.paths[path].points[point].sy = Math.round(this.canvas.paths[path].points[point].y)
                                     if (props.canvas.paths) {
-                                        this.canvas.paths[path].points[point].tx = props.canvas.paths[path].points[point].x
-                                        this.canvas.paths[path].points[point].ty = props.canvas.paths[path].points[point].y
+                                        this.canvas.paths[path].points[point].tx = Math.round(props.canvas.paths[path].points[point].x)
+                                        this.canvas.paths[path].points[point].ty = Math.round(props.canvas.paths[path].points[point].y)
                                     }
                                 }
                             }
@@ -805,8 +890,8 @@ function Cube(props) {
                             if (this.canvas.paths.hasOwnProperty(path)) {
                                 for (point in this.canvas.paths[path].points) {
                                     if (this.canvas.paths[path].points.hasOwnProperty(point)) {
-                                        this.canvas.paths[path].points[point].x = this.canvas.paths[path].points[point].sx * (1 - t) + props.canvas.paths[path].points[point].x * t
-                                        this.canvas.paths[path].points[point].y = this.canvas.paths[path].points[point].sy * (1 - t) + props.canvas.paths[path].points[point].y * t
+                                        this.canvas.paths[path].points[point].x = Math.round(this.canvas.paths[path].points[point].sx * (1 - t) + props.canvas.paths[path].points[point].x * t)
+                                        this.canvas.paths[path].points[point].y = Math.round(this.canvas.paths[path].points[point].sy * (1 - t) + props.canvas.paths[path].points[point].y * t)
                                     }
                                 }
                             }
@@ -823,12 +908,35 @@ function Cube(props) {
         }
     }
     this.redrawAuxPaths = function() {
-        const context = this.canvas.context
+        var context = this.canvas.context
         if (this.canvas.paths) {
             context.clearRect(0, 0, this.canvas.canvas.width, this.canvas.canvas.height)
             for (path in this.canvas.paths) {
                 if (this.canvas.paths.hasOwnProperty(path)) {
                     this.drawPath(this.canvas.paths[path])
+                    this.canvas.context.beginPath()
+                    if (this.canvas.unit !== 'px') {
+                        this.canvas.paths[path].points.forEach((pointObj, point) => {
+                            if (point == 0) {
+                                this.canvas.context.moveTo(Math.round((pointObj.x / this.unitScale) * this.scene.pxr), Math.round((pointObj.y / this.unitScale) * this.scene.pxr))
+                            } else {
+                                this.canvas.context.lineTo(Math.round((pointObj.x / this.unitScale) * this.scene.pxr), Math.round((pointObj.y / this.unitScale) * this.scene.pxr))
+                            }
+                        })
+                    } else if (this.canvas.unit == 'px') {
+                        this.canvas.paths[path].points.forEach((pointObj, point) => {
+
+                            if (point == 0) {
+                                this.canvas.context.moveTo(Math.round((pointObj.x)), Math.round((pointObj.y)))
+                            } else {
+                                this.canvas.context.lineTo(Math.round((pointObj.x)), Math.round((pointObj.y)))
+                            }
+                        })
+
+                    }
+                    if (fillStyle) this.canvas.context.fillStyle = fillStyle
+                    this.canvas.context.fill()
+                    this.canvas.context.closePath()
                 }
             }
         }
@@ -1103,6 +1211,7 @@ function L3(props) {
         }
         return false;
     }
+    this.scenePxrs = []
     this.scene = Scene
     this.cube = Cube
     this.ai = this

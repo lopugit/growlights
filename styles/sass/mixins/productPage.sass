@@ -23,8 +23,10 @@
     text-align: left
     float: left
     display: flex
-    justify-content: flex-start
     align-items: flex-start
+    justify-content: flex-start
+    @media(max-width: 800px)
+      justify-content: center
     flex-direction: row
     flex-wrap: wrap
     .product-square
@@ -34,3 +36,6 @@
         justify-content: center
         align-items: center
         position: relative
+    @media(max-width: 490px)
+      .product-square
+        width: 100%

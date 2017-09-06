@@ -74,6 +74,12 @@
 					&:visited
 						outline-color: rgba(0,0,0,0)
 						outline-width: 0px
+					&.slick-current
+						z-index: 250 !important
+						canvas
+							z-index: 250 !important
+						.spectrumLabels
+							z-index: 255 !important
 		.slick-arrow
 			$colour: $gc
 			color: $colour

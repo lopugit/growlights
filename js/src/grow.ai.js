@@ -91,22 +91,25 @@ function Grow(props) {
                     zResolution: coverageMap.zResolution || coverageMap.resolution || coverageMap.depth || 0,
                     yResolution: coverageMap.yResolution || coverageMap.resolution || coverageMap.zResolution || 0,
                     type: coverageMap.type || '2d',
-                    id: uuidv4(),
+                    id: coverageMap.id || uuidv4(),
                     lumensMax: 0,
                     luxMax: 0,
                     photonsMax: 0,
                     ppfdMax: 0,
                     wattageMax: 0,
+                    wattagePsqmMax: 0,
                     lumensTotal: 0,
                     luxTotal: 0,
                     photonsTotal: 0,
                     ppfdTotal: 0,
                     wattageTotal: 0,
+                    wattagePsqmTotal: 0,
                     lumensAvg: 0,
                     luxAvg: 0,
                     photonsAvg: 0,
                     ppfdAvg: 0,
                     wattageAvg: 0,
+                    wattagePsqmAvg: 0,
                     object: {},
                     position: {
                         x: coverageMap.position.x || 0,
@@ -129,8 +132,7 @@ function Grow(props) {
                     unit: coverageMap.unit,
                     type: 'canvas',
                     scene: _this.scene,
-                    id: uuidv4(),
-                    render: false,
+                    id: coverageMap.id + "object",
                     canvas: {
                         type: 'rects',
                         rects: coverageMap.map,
@@ -139,7 +141,8 @@ function Grow(props) {
                             width: true,
                             inherit: true
                         },
-                        pxRects: []
+                        pxRects: [],
+                        render: false
                     },
                     group: {
                         id: 'coverageMaps' + _this.uuid,
@@ -155,34 +158,7 @@ function Grow(props) {
                     },
                     ratio: _this.scene.ratio || _this.ratio || props.mapRatio || 88
                 })
-
-                // DEPRECATED
-                // coverageMap.object.canvas.
-                // coverageMap.object = new Cube({
-                //     width: coverageMap.width,
-                //     height: coverageMap.height,
-                //     depth: coverageMap.depth,
-                //     unit: coverageMap.unit,
-                //     type: '2d',
-                //     sides: [globFace],
-                //     scene: _this.scene,
-                //     id: uuidv4(),
-                //     group: {
-                //         id: 'coverageMaps' + _this.uuid,
-                //         class: 'coverageMaps ' + _this.scene.theme
-                //     },
-                //     class: 'coverageMap ' + _this.scene.theme,
-                //     position: {
-                //         x: coverageMap.position.x,
-                //         y: coverageMap.position.y,
-                //         z: coverageMap.position.z,
-                //         // type: 'center',
-                //         unit: coverageMap.unit
-                //     },
-                //     ratio: _this.scene.ratio || _this.ratio || props.mapRatio || 88
-
-                // })
-                if (props.dimensionLabels !== false) {
+                if (props.dimensionLabels) {
                     coverageMap.object.children.push(
                         new Cube({
                             width: coverageMap.width,
@@ -255,6 +231,7 @@ function Grow(props) {
                                 photons: 0,
                                 ppfd: 0,
                                 wattage: 0,
+                                wattagePsqm: 0,
                                 area: area,
                                 areaNormalised: area / l3.ai.convertAreaScale(coverageMap.unit, "m")
                             }
@@ -280,8 +257,8 @@ function Grow(props) {
                     coverageMap.hangHeight = curLightSource.hangHeight
                     coverageMap.map.forEach((curSquare, index) => {
                         curLightSource.leds.diodes.forEach((curDiode, index2) => {
-                            curSquare.lumens += this.energyAt({
-                                lightUnit: "lumens",
+                            curSquare.lux += this.energyAt({
+                                lightUnit: "lux",
                                 target: {
                                     x: ((curSquare.position.x)) - (coverageMap.width / 2),
                                     z: ((curSquare.position.z)) - (coverageMap.depth / 2),
@@ -298,8 +275,8 @@ function Grow(props) {
                                 },
                                 diode: curDiode
                             })
-                            curSquare.wattage += this.energyAt({
-                                lightUnit: "wattage",
+                            curSquare.wattagePsqm += this.energyAt({
+                                lightUnit: "wattagePsqm",
                                 target: {
                                     x: ((curSquare.position.x)) - (coverageMap.width / 2),
                                     z: ((curSquare.position.z)) - (coverageMap.depth / 2),
@@ -311,10 +288,10 @@ function Grow(props) {
                                 coverageMap.lumensMax = curSquare.lumens
                             if (coverageMap.ppfdMax < curSquare.ppfd)
                                 coverageMap.ppfdMax = curSquare.ppfd
-                            if (coverageMap.wattageMax < curSquare.wattage)
-                                coverageMap.wattageMax = curSquare.wattage
-                            if (coverageMap.photonsMax < curSquare.photons)
-                                coverageMap.photonsMax = curSquare.photons
+                            if (coverageMap.wattagePsqmMax < curSquare.wattagePsqm)
+                                coverageMap.wattagePsqmMax = curSquare.wattagePsqm
+                                // if (coverageMap.photonsMax < curSquare.photons)
+                                //     coverageMap.photonsMax = curSquare.photons
                             if (coverageMap.luxMax < curSquare.lux)
                                 coverageMap.luxMax = curSquare.lux
                                 // for (var i = 0; i < curSquare.object.sides.length; i++) {
@@ -343,50 +320,35 @@ function Grow(props) {
                         }
                     }
                     curSquare.photons = (curSquare.area / l3.ai.convertAreaScale(coverageMap.unit, "m")) * curSquare.ppfd
-                    curSquare.lux = (curSquare.lumens / (curSquare.area / l3.ai.convertAreaScale(coverageMap.unit, "m")))
+                    curSquare.lumens = ((curSquare.area / l3.ai.convertAreaScale(coverageMap.unit, "m"))) * curSquare.lux
+                    curSquare.wattage = ((curSquare.area / l3.ai.convertAreaScale(coverageMap.unit, "m"))) * curSquare.wattagePsqm
                     coverageMap.wattageTotal += curSquare.wattage
+                    coverageMap.wattagePsqmTotal += curSquare.wattagePsqm
                     coverageMap.lumensTotal += curSquare.lumens
                     coverageMap.luxTotal += curSquare.lux
                     coverageMap.ppfdTotal += curSquare.ppfd
                     coverageMap.photonsTotal += curSquare.photons
                     coverageMap.wattageAvg = (coverageMap.wattageTotal / coverageMap.map.length)
+                    coverageMap.wattagePsqmAvg = (coverageMap.wattagePsqmTotal / coverageMap.map.length)
                     coverageMap.lumensAvg = (coverageMap.lumensTotal / coverageMap.map.length)
                     coverageMap.luxAvg = (coverageMap.luxTotal / coverageMap.map.length)
                     coverageMap.ppfdAvg = (coverageMap.ppfdTotal / coverageMap.map.length)
                     coverageMap.photonsAvg = (coverageMap.photonsTotal / coverageMap.map.length)
                     var tempLightColour = [255, 43, 151]
-                    curSquare.rect.fillStyle = 'rgba(' + tempLightColour[0] + ',' + tempLightColour[1] + ',' + tempLightColour[2] + ',' + curSquare.lumens / coverageMap.lumensMax + ')'
-                })
-                coverageMap.object.draw()
-                var squareArea = coverageMap.xResolution * coverageMap.zResolution
-                coverageMapData = new Cube({
-                    class: 'coverageMapDataParent',
-                    parent: coverageMap.object,
-                    sides: []
+                    curSquare.rect.fillStyle = 'rgba(' + tempLightColour[0] + ',' + tempLightColour[1] + ',' + tempLightColour[2] + ',' + curSquare.ppfd / coverageMap.ppfdMax + ')'
                 })
                 var mapData = [
-                    { key: 'width', text: "Width: <div class='value'>" + coverageMap.width + '</div>' + coverageMap.unit, group: 'coverageMapData' },
-                    { key: 'depth', text: "Depth: <div class='value'>" + coverageMap.depth + '</div>' + coverageMap.unit, group: 'coverageMapData' },
+                    { key: 'width', text: "Width:  <div class='unit'><div class='value'>" + coverageMap.width + '</div>' + coverageMap.unit + '</div>', group: 'coverageMapData' },
+                    { key: 'depth', text: "Depth:  <div class='unit'><div class='value'>" + coverageMap.depth + '</div>' + coverageMap.unit + '</div>', group: 'coverageMapData' },
                     { key: 'areaNormalised', text: "Area:  <div class='unit'><div class='value'>" + coverageMap.area / l3.ai.convertAreaScale(coverageMap.unit, "m") + '</div>m<div class="squared">2</div></div>', group: 'coverageMapData', round: 4 },
                     // { key: 'ppfdTotal', text: "All PPFD:  <div class='unit'><div class='value'>" + (coverageMap.ppfdTotal).toFixed(2) + '</div>', group: 'coverageMapData' },
                     // { key: 'luxTotal', text: "All Lux:  <div class='unit'><div class='value'>" + (coverageMap.luxTotal).toFixed(2) + '</div>', group: 'coverageMapData' },
-                    { key: 'photonsTotal', text: "Total Photons:  <div class='unit'><div class='value'>" + (coverageMap.photonsTotal).toFixed(0) + '</div>', group: 'coverageMapData' },
+                    // { key: 'photonsTotal', text: "Total Photons (umols/s):  <div class='unit'><div class='value'>" + (coverageMap.photonsTotal).toFixed(0) + '</div>', group: 'coverageMapData' },
                     { key: 'lumensTotal', text: "Total Lumens:  <div class='unit'><div class='value'>" + (coverageMap.lumensTotal).toFixed(0) + '</div>', group: 'coverageMapData' },
                     { key: 'wattageTotal', text: "Total Wattage:  <div class='unit'><div class='value'>" + (coverageMap.wattageTotal).toFixed(0) + '</div>', group: 'coverageMapData' },
-                    { key: 'ppfdAvg', text: "Avg PPFD:  <div class='unit'><div class='value'>" + (coverageMap.ppfdAvg).toFixed(0) + '</div>', group: 'coverageMapData' },
-                    { key: 'luxAvg', text: "Avg Lux:  <div class='unit'><div class='value'>" + (coverageMap.luxAvg).toFixed(0) + '</div>', group: 'coverageMapData' },
-                ]
-                var tileData = [
-                    { key: 'width', text: "Tile Width: <div class='unit'><div class='value'>" + coverageMap.xResolution + "</div>" + coverageMap.unit + "</div>", group: 'coverageSquareData' },
-                    { key: 'depth', text: "Tile Depth: <div class='unit'><div class='value'>" + coverageMap.zResolution + "</div>" + coverageMap.unit + "</div>", group: 'coverageSquareData' },
-                    { key: 'areaNormalised', text: "Tile Area:  <div class='unit'><div class='value'>" + (coverageMap.zResolution * coverageMap.xResolution) / l3.ai.convertAreaScale(coverageMap.unit, "m") + '</div>m<div class="squared">2</div></div>', group: 'coverageSquareData', round: 4 },
-                    { key: 'position-x', text: "At X: <div class='value'>" + 0 + "</div>", group: 'coverageSquareData' },
-                    { key: 'position-z', text: "At Z: <div class='value'>" + 0 + "</div>", group: 'coverageSquareData' },
-                    { key: 'ppfd', text: "PPFD (umols/m2/s): <div class='value'>" + 0 + "</div>", group: 'coverageSquareData' },
-                    { key: 'lux', text: "Lux: <div class='value'>" + 0 + "</div>", group: 'coverageSquareData' },
-                    { key: 'photons', text: "Photons: <div class='value'>" + 0 + "</div>", group: 'coverageSquareData', round: 2 },
-                    { key: 'lumens', text: "Lumens: <div class='value'>" + 0 + "</div>", group: 'coverageSquareData' },
-                    { key: 'wattage', text: "Wattage: <div class='value'>" + 0 + "</div>", group: 'coverageSquareData' },
+                    // { key: 'wattageTotal', text: "Total Wattage:  <div class='unit'><div class='value'>" + (coverageMap.wattageTotal).toFixed(0) + '</div>', group: 'coverageMapData' },
+                    { key: 'ppfdAvg', text: "Avg PPFD (umols/m2/s):  <div class='unit'><div class='value'>" + (coverageMap.ppfdAvg).toFixed(0) + '</div>', group: 'coverageMapData' },
+                    { key: 'luxAvg', text: "Avg Lux (lumens/m2):  <div class='unit'><div class='value'>" + (coverageMap.luxAvg).toFixed(0) + '</div>', group: 'coverageMapData' },
                 ]
                 mapData.forEach((data, datas) => {
                     if (data.group) {
@@ -402,10 +364,26 @@ function Grow(props) {
                         sides: [],
                         group: newGroup,
                         data: {
-                            text: data.text
+                            text: '<div class="data-container">' + data.text + '</div'
                         }
                     })
                 })
+                coverageMap.object.renderCanvas()
+                var squareArea = coverageMap.xResolution * coverageMap.zResolution
+
+                var tileData = [
+                    { key: 'width', text: "Tile Width: <div class='unit'><div class='value'>" + coverageMap.xResolution + "</div>" + coverageMap.unit + "</div>", group: 'coverageSquareData' },
+                    { key: 'depth', text: "Tile Depth: <div class='unit'><div class='value'>" + coverageMap.zResolution + "</div>" + coverageMap.unit + "</div>", group: 'coverageSquareData' },
+                    { key: 'areaNormalised', text: "Tile Area:  <div class='unit'><div class='value'>" + (coverageMap.zResolution * coverageMap.xResolution) / l3.ai.convertAreaScale(coverageMap.unit, "m") + '</div>m<div class="squared">2</div></div>', group: 'coverageSquareData', round: 4 },
+                    { key: 'position-x', text: "At X: <div class='value'>" + 0 + "</div>", group: 'coverageSquareData' },
+                    { key: 'position-z', text: "At Z: <div class='value'>" + 0 + "</div>", group: 'coverageSquareData' },
+                    { key: 'ppfd', text: "PPFD (umols/m2/s): <div class='value'>" + 0 + "</div>", group: 'coverageSquareData' },
+                    { key: 'lux', text: "Lux (lumens/m2): <div class='value'>" + 0 + "</div>", group: 'coverageSquareData' },
+                    { key: 'photons', text: "Photons (umols): <div class='value'>" + 0 + "</div>", group: 'coverageSquareData', round: 2 },
+                    { key: 'lumens', text: "Lumens: <div class='value'>" + 0 + "</div>", group: 'coverageSquareData', round: 2 },
+                    { key: 'wattage', text: "Wattage: <div class='value'>" + 0 + "</div>", group: 'coverageSquareData', round: 2 },
+                ]
+
                 tileData.forEach((data, datas) => {
                     if (data.group) {
                         var newGroup = {
@@ -450,7 +428,6 @@ function Grow(props) {
                         coverageMap.object.children.forEach((child, index) => {
                             if (child.group && child.group.class.indexOf(data.group) > -1) {
                                 if (child.class.indexOf(data.key) > -1) {
-
                                     var key = data.key.replace('-', '.')
                                     if (typeof curSquare[key] == 'number') {
                                         var round = data.round || 0
@@ -458,9 +435,6 @@ function Grow(props) {
                                     } else {
                                         var html = Object.byString(curSquare, key)
                                     }
-                                    console.log(key)
-                                    console.log(curSquare)
-                                    console.log(html)
                                     d3.select($("#" + coverageMap.object.id + " #" + child.id + "." + data.key + " .value").get(0))
                                         .html(html)
                                 }
@@ -1063,7 +1037,9 @@ function GrowLight(props, opts) {
                         ppfd: this.spectrum[currentType].ppfd,
                         photons: this.spectrum[currentType].photons,
                         wattage: this.spectrum[currentType].wattage,
+                        wattagePsqm: this.spectrum[currentType].wattagePsqm,
                         lumens: this.spectrum[currentType].lumens,
+                        lux: this.spectrum[currentType].lux,
                         id: "diodeC" + i + "d" + randomLedPositions[i] + "x" + Math.round(position.x / this.leds.layout.xPadding) + "z" + Math.round(position.z / this.leds.layout.zPadding) + "R" + Math.ceil(Math.random() * 100),
                         ammount: Math.round((this.spectrum[currentType].percent) * diodeCount),
                         position: position,
@@ -1240,7 +1216,7 @@ function GrowLight(props, opts) {
                         sides: [],
                         data: {
                             text: value,
-                            do: "openModal('id" + this._id + "')"
+                            do: "openModal('" + this._id + "Modal')"
                         }
                     })
                 } else if (labels[label] !== 'see-the-light') {
@@ -1257,7 +1233,7 @@ function GrowLight(props, opts) {
                         sides: [],
                         data: {
                             text: value,
-                            do: "openModal('id" + this._id + "')"
+                            do: "openModal('" + this._id + "Modal')"
                         }
                     })
                     $('#' + this.object.group.object.id + " .see-the-light").bind('click', { obj: this }, function(e) {
@@ -1380,6 +1356,7 @@ function GrowLight(props, opts) {
         var totalWidth = this.light.totalWidth
         this.light.offsetWidth = (totalWidth - emitWidth) / 2
         var offsetWidth = this.light.offsetWidth
+        var incrOpac = .15
         this.spectrum.forEach((wavelengthIter, index) => {
             var wavelength = wavelengthIter
             var nm = wavelength.wavelength || wavelength.temperature
@@ -1431,38 +1408,77 @@ function GrowLight(props, opts) {
             }
             if (this.backBoost) {
                 addedClass = ' backBoosted'
-                var backBoostRgbString = rgbString.replace(/,.{3}\)/, ',0.6)')
-                backBoostPaths.push({
+                if (nm == 'Green') {
+                    var rgbString = rgbString.replace(/,.{3}\)/, ',0.7)')
+                    var backBoostRgbString = rgbString.replace(/,.{3}\)/, ',0.4)')
+                    paths.push({
+                        points: [
+                            { x: offsetWidth + (emitWidth * filled), y: 0 },
+                            { x: offsetWidth + (emitWidth * filled) + ((emitWidth) * percent), y: 0 },
+                            { x: offsetWidth + (emitWidth * filled) + ((emitWidth * percent) + (Math.sqrt(Math.pow(Math.tan(d2r(lensAngle / 2)), 2)) * this.hangHeight)), y: this.hangHeight },
+                            { x: offsetWidth + (emitWidth * filled) + ((Math.sqrt(Math.pow(Math.tan(d2r(lensAngle / 2)), 2)) * this.hangHeight) * -1), y: this.hangHeight }
+                        ],
+                        fillStyle: backBoostRgbString,
+                        composite: 'destination-over',
+                        zIndex: 13,
+                        countOnHover: false,
+                        wavelength: nm,
+                        id: uuidv4()
+                    })
+
+                } else {
+                    var backBoostRgbString = rgbString.replace(/,.{3}\)/, ',0.8)')
+                    var rgbString = rgbString.replace(/,.{3}\)/, ',' + incrOpac + ')')
+                    incrOpac += 0.15
+                    backBoostPaths.push({
+                        points: [
+                            { x: offsetWidth + (emitWidth * filled), y: 0 },
+                            { x: offsetWidth + (emitWidth * filled) + ((emitWidth) * percent), y: 0 },
+                            { x: offsetWidth + (emitWidth * filled) + ((emitWidth * percent) + (Math.sqrt(Math.pow(Math.tan(d2r(lensAngle / 2)), 2)) * this.hangHeight)), y: this.hangHeight },
+                            { x: offsetWidth + (emitWidth * filled) + ((Math.sqrt(Math.pow(Math.tan(d2r(lensAngle / 2)), 2)) * this.hangHeight) * -1), y: this.hangHeight }
+                        ],
+                        fillStyle: backBoostRgbString,
+                        composite: 'destination-over',
+                        zIndex: 13,
+                        countOnHover: false,
+                        wavelength: nm,
+                        id: uuidv4()
+                    })
+                }
+                paths.push({
                     points: [
                         { x: offsetWidth + (emitWidth * filled), y: 0 },
                         { x: offsetWidth + (emitWidth * filled) + ((emitWidth) * percent), y: 0 },
                         { x: offsetWidth + (emitWidth * filled) + ((emitWidth * percent) + (Math.sqrt(Math.pow(Math.tan(d2r(lensAngle / 2)), 2)) * this.hangHeight)), y: this.hangHeight },
                         { x: offsetWidth + (emitWidth * filled) + ((Math.sqrt(Math.pow(Math.tan(d2r(lensAngle / 2)), 2)) * this.hangHeight) * -1), y: this.hangHeight }
                     ],
-                    fillStyle: backBoostRgbString,
-                    composite: 'destination-over',
-                    zIndex: 13,
-                    countOnHover: false,
+                    fillStyle: rgbString,
+                    composite: pathComposite,
+                    zIndex: zIndex,
+                    countOnHover: true,
                     wavelength: nm,
                     id: uuidv4()
+
+                })
+
+            } else {
+                paths.push({
+                    points: [
+                        { x: offsetWidth + (emitWidth * filled), y: 0 },
+                        { x: offsetWidth + (emitWidth * filled) + ((emitWidth) * percent), y: 0 },
+                        { x: offsetWidth + (emitWidth * filled) + ((emitWidth * percent) + (Math.sqrt(Math.pow(Math.tan(d2r(lensAngle / 2)), 2)) * this.hangHeight)), y: this.hangHeight },
+                        { x: offsetWidth + (emitWidth * filled) + ((Math.sqrt(Math.pow(Math.tan(d2r(lensAngle / 2)), 2)) * this.hangHeight) * -1), y: this.hangHeight }
+                    ],
+                    fillStyle: rgbString,
+                    composite: pathComposite,
+                    zIndex: zIndex,
+                    countOnHover: true,
+                    wavelength: nm,
+                    id: uuidv4()
+
                 })
             }
 
-            paths.push({
-                points: [
-                    { x: offsetWidth + (emitWidth * filled), y: 0 },
-                    { x: offsetWidth + (emitWidth * filled) + ((emitWidth) * percent), y: 0 },
-                    { x: offsetWidth + (emitWidth * filled) + ((emitWidth * percent) + (Math.sqrt(Math.pow(Math.tan(d2r(lensAngle / 2)), 2)) * this.hangHeight)), y: this.hangHeight },
-                    { x: offsetWidth + (emitWidth * filled) + ((Math.sqrt(Math.pow(Math.tan(d2r(lensAngle / 2)), 2)) * this.hangHeight) * -1), y: this.hangHeight }
-                ],
-                fillStyle: rgbString,
-                composite: pathComposite,
-                zIndex: zIndex,
-                countOnHover: true,
-                wavelength: nm,
-                id: uuidv4()
-
-            })
             filled += (percent)
         })
         if (this.backBoost) { backBoostPaths.forEach(path => { paths.push(path) }) }
@@ -1710,7 +1726,7 @@ function GrowLight(props, opts) {
                 if (totalPercent !== 0) {
                     this.light.object.redraw({
                         transition: {
-                            duration: 400,
+                            duration: 500,
                             ease: d3.easeCubic
                         },
                         canvas: {
@@ -1720,7 +1736,7 @@ function GrowLight(props, opts) {
                 } else if (totalPercent == 0) {
                     this.light.object.redraw({
                         transition: {
-                            duration: 400,
+                            duration: 500,
                             ease: d3.easeCubic
                         },
                         canvas: {
@@ -1731,7 +1747,7 @@ function GrowLight(props, opts) {
                 } else {
                     this.light.object.redraw({
                         transition: {
-                            duration: 400,
+                            duration: 500,
                             ease: d3.easeCubic
                         },
                         canvas: {
@@ -1988,7 +2004,9 @@ function Diode(props) {
     this.par = props.par
     this.ppfd = props.ppfd
     this.lumens = props.lumens
+    this.lux = props.lux
     this.wattage = props.wattage
+    this.wattagePsqm = props.wattagePsqm
     this.ammount = props.ammount || 1
     this.position = {
         x: 0,

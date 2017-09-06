@@ -3,7 +3,7 @@ append content
     -if(!growLight && allGrowLights[0]) var growLight = allGrowLights[0]
     -growLight.hangHeight = Math.round(growLight.lightHeight())
     -var secId = uuidv4()
-    .col-xs-24.l(id=secId)
+    .col-xs-24.l.growLight-coverage-container(id=secId)
         .l-material-card.l-center.stump-top
             .l-title.l-xlarge.l-inline.l-nudge-below.l-center(lopu-bind="{currentLightTitle}")= growLight.title + " Energy Map"
             -var sceneContId = uuidv4()

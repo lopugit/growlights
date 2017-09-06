@@ -62,7 +62,8 @@ module.exports = function(vars) {
                                     jsonConcat(product.attrs, product.attrs.variants[0])
                                     jsonConcat(productData, product.attrs)
                                     var consts = {
-                                        wattage: 0.01921
+                                        wattage: 0.01921,
+                                        wattagePsqm: 1.9
                                     }
                                     if ((product.attrs.vendor == "Mars Hydro") && (product.attrs.product_type == "Grow Light")) {
                                         productData.spectrum = [{
@@ -70,9 +71,11 @@ module.exports = function(vars) {
                                                 colour: "white",
                                                 lensAngle: 120,
                                                 percent: 0.07,
-                                                ppfd: 1.6,
+                                                ppfd: 2.25,
                                                 lumens: 2.58,
+                                                lux: 50,
                                                 wattage: consts.wattage,
+                                                wattagePsqm: consts.wattagePsqm,
                                                 efficiency: .5,
                                                 lightOpacity: 0.6,
                                                 modes: [{
@@ -87,9 +90,11 @@ module.exports = function(vars) {
                                                 colour: "blue",
                                                 lensAngle: 140,
                                                 percent: 0.135,
-                                                ppfd: 1.6,
+                                                ppfd: 2.25,
                                                 lumens: 2.58,
+                                                lux: 50,
                                                 wattage: consts.wattage,
+                                                wattagePsqm: consts.wattagePsqm,
                                                 efficiency: .5,
                                                 lightOpacity: 0.6,
                                                 modes: [{
@@ -104,9 +109,11 @@ module.exports = function(vars) {
                                                 colour: "blue",
                                                 lensAngle: 140,
                                                 percent: 0.135,
-                                                ppfd: 1.6,
+                                                ppfd: 2.25,
                                                 lumens: 2.58,
+                                                lux: 50,
                                                 wattage: consts.wattage,
+                                                wattagePsqm: consts.wattagePsqm,
                                                 efficiency: .5,
                                                 lightOpacity: 0.6,
                                                 modes: [{
@@ -121,9 +128,11 @@ module.exports = function(vars) {
                                                 colour: "red",
                                                 lensAngle: 120,
                                                 percent: 0.325,
-                                                ppfd: 1.6,
+                                                ppfd: 2.25,
                                                 lumens: 2.58,
+                                                lux: 50,
                                                 wattage: consts.wattage,
+                                                wattagePsqm: consts.wattagePsqm,
                                                 efficiency: .5,
                                                 lightOpacity: 0.6,
                                                 modes: [{
@@ -138,9 +147,11 @@ module.exports = function(vars) {
                                                 colour: "red",
                                                 lensAngle: 120,
                                                 percent: 0.325,
-                                                ppfd: 1.6,
+                                                ppfd: 2.25,
                                                 lumens: 2.58,
+                                                lux: 50,
                                                 wattage: consts.wattage,
+                                                wattagePsqm: consts.wattagePsqm,
                                                 efficiency: .5,
                                                 lightOpacity: 0.6,
                                                 modes: [{
@@ -155,9 +166,11 @@ module.exports = function(vars) {
                                                 colour: "infra red",
                                                 lensAngle: 120,
                                                 percent: 0.01,
-                                                ppfd: 1.6,
+                                                ppfd: 2.25,
                                                 lumens: 2.58,
+                                                lux: 50,
                                                 wattage: consts.wattage,
+                                                wattagePsqm: consts.wattagePsqm,
                                                 efficiency: .5,
                                                 lightOpacity: 0.6,
                                                 modes: [{
@@ -179,13 +192,13 @@ module.exports = function(vars) {
                                         productData.model = product.attrs.title.split(' ')[0]
                                         if (productData.model == 'Rainbow') {
                                             productData.spectrum = [
-                                                { wavelength: "Purple", percent: .1428, lumens: 2.58, lensAngle: 30, ppfd: 1.6, wattage: consts.wattage, efficiency: .5 },
-                                                { wavelength: "Blue", percent: .1428, lumens: 2.58, lensAngle: 30, ppfd: 1.6, wattage: consts.wattage, efficiency: .5 },
-                                                { wavelength: "Cyan", percent: .1428, lumens: 2.58, lensAngle: 30, ppfd: 1.6, wattage: consts.wattage, efficiency: .5 },
-                                                { wavelength: "Green", percent: .1428, lumens: 2.58, lensAngle: 30, ppfd: 1.6, wattage: consts.wattage, efficiency: .5 },
-                                                { wavelength: "Yellow", percent: .1428, lumens: 2.58, lensAngle: 30, ppfd: 1.6, wattage: consts.wattage, efficiency: .5 },
-                                                { wavelength: "Orange", percent: .1428, lumens: 2.58, lensAngle: 30, ppfd: 1.6, wattage: consts.wattage, efficiency: .5 },
-                                                { wavelength: "Red", percent: .1428, lumens: 2.58, lensAngle: 30, ppfd: 1.6, wattage: consts.wattage, efficiency: .5 }
+                                                { wavelength: "Purple", percent: .1428, lumens: 2.58, lux: 2.58, lensAngle: 30, ppfd: 1.6, wattage: consts.wattage, wattagePsqm: consts.wattagePsqm, efficiency: .5 },
+                                                { wavelength: "Blue", percent: .1428, lumens: 2.58, lux: 2.58, lensAngle: 30, ppfd: 1.6, wattage: consts.wattage, wattagePsqm: consts.wattagePsqm, efficiency: .5 },
+                                                { wavelength: "Cyan", percent: .1428, lumens: 2.58, lux: 2.58, lensAngle: 30, ppfd: 1.6, wattage: consts.wattage, wattagePsqm: consts.wattagePsqm, efficiency: .5 },
+                                                { wavelength: "Green", percent: .1428, lumens: 2.58, lux: 2.58, lensAngle: 30, ppfd: 1.6, wattage: consts.wattage, wattagePsqm: consts.wattagePsqm, efficiency: .5 },
+                                                { wavelength: "Yellow", percent: .1428, lumens: 2.58, lux: 2.58, lensAngle: 30, ppfd: 1.6, wattage: consts.wattage, wattagePsqm: consts.wattagePsqm, efficiency: .5 },
+                                                { wavelength: "Orange", percent: .1428, lumens: 2.58, lux: 2.58, lensAngle: 30, ppfd: 1.6, wattage: consts.wattage, wattagePsqm: consts.wattagePsqm, efficiency: .5 },
+                                                { wavelength: "Red", percent: .1428, lumens: 2.58, lux: 2.58, lensAngle: 30, ppfd: 1.6, wattage: consts.wattage, wattagePsqm: consts.wattagePsqm, efficiency: .5 }
                                             ]
                                             jsonConcat(productData, {
                                                 minPxWidth: 280,
@@ -207,7 +220,9 @@ module.exports = function(vars) {
                                                 percent: 0.8,
                                                 ppfd: 1.6,
                                                 lumens: 2.58,
+                                                lux: 2.58,
                                                 wattage: consts.wattage,
+                                                wattagePsqm: consts.wattagePsqm,
                                                 efficiency: .5
                                             }, {
                                                 wavelength: 660,
@@ -216,7 +231,9 @@ module.exports = function(vars) {
                                                 percent: 0.2,
                                                 ppfd: 1.6,
                                                 lumens: 2.58,
+                                                lux: 2.58,
                                                 wattage: consts.wattage,
+                                                wattagePsqm: consts.wattagePsqm,
                                                 efficiency: .5
                                             }]
                                             jsonConcat(productData, {
@@ -231,7 +248,9 @@ module.exports = function(vars) {
                                                     percent: 0.07,
                                                     ppfd: 1.6,
                                                     lumens: 2.58,
+                                                    lux: 2.58,
                                                     wattage: consts.wattage,
+                                                    wattagePsqm: consts.wattagePsqm,
                                                     efficiency: .5,
                                                     modes: [{
                                                         title: "veg",
@@ -247,7 +266,9 @@ module.exports = function(vars) {
                                                     percent: 0.135,
                                                     ppfd: 1.6,
                                                     lumens: 2.58,
+                                                    lux: 2.58,
                                                     wattage: consts.wattage,
+                                                    wattagePsqm: consts.wattagePsqm,
                                                     efficiency: .5,
                                                     modes: [{
                                                         title: "veg",
@@ -263,7 +284,9 @@ module.exports = function(vars) {
                                                     percent: 0.135,
                                                     ppfd: 1.6,
                                                     lumens: 2.58,
+                                                    lux: 2.58,
                                                     wattage: consts.wattage,
+                                                    wattagePsqm: consts.wattagePsqm,
                                                     efficiency: .5,
                                                     modes: [{
                                                         title: "veg",
@@ -279,7 +302,9 @@ module.exports = function(vars) {
                                                     percent: 0.325,
                                                     ppfd: 1.6,
                                                     lumens: 2.58,
+                                                    lux: 2.58,
                                                     wattage: consts.wattage,
+                                                    wattagePsqm: consts.wattagePsqm,
                                                     efficiency: .5,
                                                     modes: [{
                                                         title: "veg",
@@ -295,7 +320,9 @@ module.exports = function(vars) {
                                                     percent: 0.325,
                                                     ppfd: 1.6,
                                                     lumens: 2.58,
+                                                    lux: 2.58,
                                                     wattage: consts.wattage,
+                                                    wattagePsqm: consts.wattagePsqm,
                                                     efficiency: .5,
                                                     modes: [{
                                                         title: "veg",
@@ -311,7 +338,9 @@ module.exports = function(vars) {
                                                     percent: 0.01,
                                                     ppfd: 1.6,
                                                     lumens: 2.58,
+                                                    lux: 2.58,
                                                     wattage: consts.wattage,
+                                                    wattagePsqm: consts.wattagePsqm,
                                                     efficiency: .5,
                                                     modes: [{
                                                         title: "veg",

@@ -1,0 +1,20 @@
+-if(product)
+    -var modalId = product._id+"Modal"
+    .col-xs-12.col-sm-12.col-lg-8.col-md-8.product-square
+        .thumbnail
+            a.portfolio-link(href="#"+modalId, data-toggle='modal')
+                i.fa.fa-expand(aria-hidden='true')
+                -if(product.product_type == 'Grow Light')
+                    img(src=product.images[0].src, alt=product.title+ " quality LED Grow Light full spectrum")
+                -else if(product.product_type == 'Grow Tent')
+                    img(src=product.images[0].src, alt=product.title+ " quality indoor plant grow tent hydroponic mylar")
+                -else
+                    img(src=product.images[0].src, alt=product.title+ " thumbnail image ozledgrowlights growlights")
+            .caption
+                h4.pull-right= product.formatted_price
+                h3#product-title
+                    a.portfolio-link(href="#"+modalId, data-toggle='modal')= product.title                                 
+            .combo-button.clearfix(id=product.shopifyProductId + " " +product.shopifyVariantId)
+                a.order-button add to cart                                     
+                a.shop-cart-button
+                    i.fa.fa-shopping-cart(aria-hidden='true')

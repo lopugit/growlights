@@ -1,0 +1,46 @@
+extends /snippets/layout
+append content
+    html
+        body
+            .container#productPage
+                .row
+                    .col-md-6
+                        // <p class="product-title">Our Lights</p>
+                        .list-group
+                            each model, key in productModel.models
+                                -var productType = model[0].product_type.toLowerCase().replace(' ','')
+                                a.list-group-item(href='/products/'+productType+'/'+key)= ucFirst(key)
+                    .col-md-18
+                        .row.carousel-holder
+                            .col-md-24
+                                #carousel-example-generic.carousel.slide(data-ride='carousel')
+                                    ol.carousel-indicators
+                                        each image, key in productModel.promotionalImages.productPageSlider
+                                            -if(key == 0)
+                                                li.active(data-target='#carousel-example-generic', data-slide-to=key)
+                                            -else
+                                                li(data-target='#carousel-example-generic', data-slide-to=key)
+                                    .carousel-inner
+                                        each image, key in productModel.promotionalImages.productPageSlider
+                                            -if(key == 0)
+                                                .item.active
+                                                    a
+                                                        img.slide-image(src=image.src, alt=image.alt || productModel.products[0].title+ " product image australian led growlights and hydroponics store")                                 
+                                            -else
+                                                .item
+                                                    a
+                                                        img.slide-image(src=image.src, alt=image.alt || productModel.products[0].title+ " product image australian led growlights and hydroponics store")                                 
+                                    a.left.carousel-control(href='#carousel-example-generic', data-slide='prev')
+                                        span.glyphicon.glyphicon-chevron-left                             
+                                    a.right.carousel-control(href='#carousel-example-generic', data-slide='next')
+                                        span.glyphicon.glyphicon-chevron-right                 
+                        #product-list.row
+                            each product, key in productModel.products
+                                include /snippets/products/productSquare
+            .container
+                hr
+                // Footer
+                footer
+                    .row
+                        .col-lg-24
+                            p www.ozledgrowlights.com.au

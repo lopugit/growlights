@@ -1,0 +1,41 @@
+.growtent-customisation
+	padding-top: 80px
+	overflow-y: visible
+	background: $gw
+	.coming-soon
+		position: absolute
+		top: -12px
+		right: -35px
+		width: auto
+		height: auto
+		border-radius: 5px
+		font-size: 1rem
+		color: white
+		padding: 5px 12px
+		$labelColour: lighten(red, 3)
+		background: rgba($labelColour, .85)
+		border: 1px solid $labelColour
+		z-index: 200
+	.tent-customisation-title
+		margin-bottom: 50px
+		@media(max-width: 600px)
+			margin-bottom: 25px
+		text-align: center
+		color: $gb
+		span
+			position: relative
+			.text
+				animation: colourFlickerRainbow 7777ms ease forwards infinite
+	.grow-actions
+		display: flex
+		align-items: center
+		justify-content: center
+		padding: 50px
+		flex-wrap: wrap
+		// border-top: 18px solid rgb(0, 0, 0)
+		box-shadow: 0px 8px 5px 0px rgba(20, 12, 57,.7) inset
+		background: rgb(26, 28, 55)
+		@media(max-width: 600px)
+			padding: 10px
+			padding-top: 15px
+			padding-bottom: 16px
