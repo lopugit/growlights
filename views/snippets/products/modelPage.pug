@@ -2,45 +2,55 @@ extends /snippets/layout
 append content
     html
         body
-            .container#productPage
-                .row
-                    .col-md-6
-                        // <p class="product-title">Our Lights</p>
-                        .list-group
-                            each model, key in productModel.models
-                                -var productType = model[0].product_type.toLowerCase().replace(' ','')
-                                a.list-group-item(href='/products/'+productType+'/'+key)= ucFirst(key)
-                    .col-md-18
-                        .row.carousel-holder
-                            .col-md-24
-                                #carousel-example-generic.carousel.slide(data-ride='carousel')
-                                    ol.carousel-indicators
-                                        each image, key in productModel.promotionalImages.productPageSlider
-                                            -if(key == 0)
-                                                li.active(data-target='#carousel-example-generic', data-slide-to=key)
-                                            -else
-                                                li(data-target='#carousel-example-generic', data-slide-to=key)
-                                    .carousel-inner
-                                        each image, key in productModel.promotionalImages.productPageSlider
-                                            -if(key == 0)
-                                                .item.active
-                                                    a
-                                                        img.slide-image(src=image.src, alt=image.alt || productModel.products[0].title+ " product image australian led growlights and hydroponics store")                                 
-                                            -else
-                                                .item
-                                                    a
-                                                        img.slide-image(src=image.src, alt=image.alt || productModel.products[0].title+ " product image australian led growlights and hydroponics store")                                 
-                                    a.left.carousel-control(href='#carousel-example-generic', data-slide='prev')
-                                        span.glyphicon.glyphicon-chevron-left                             
-                                    a.right.carousel-control(href='#carousel-example-generic', data-slide='next')
-                                        span.glyphicon.glyphicon-chevron-right                 
-                        #product-list.row
-                            each product, key in productModel.products
-                                include /snippets/products/productSquare
-            .container
-                hr
-                // Footer
-                footer
-                    .row
-                        .col-lg-24
-                            p www.ozledgrowlights.com.au
+            .modelPage
+                .modelPageParentCol
+                    .container.modelPageCol
+                        .row.modelPageRow
+                            .col-md-6.list-group-col
+                                // <p class="product-title">Our Lights</p>
+                                .list-group
+                                    each modelType, key in model.models
+                                        -var productType = model.products[0].product_type.toLowerCase()
+                                        -productType = productType.replace(' ','')
+                                        -var modelTyped = modelType.replace(' ','').toLowerCase()
+                                        //- -modelTyped = modelTyped.replace('\s','')
+                                        -if(modelType == model.products[0].model)
+                                            a.active-item.list-group-item(href='/products/'+productType+'/'+modelTyped)= ucFirst(modelType)
+                                        -else
+                                            a.list-group-item(href='/products/'+productType+'/'+modelTyped)= ucFirst(modelType)
+
+                            .col-md-18.carousel-col
+                                .row.carousel-holder
+                                    -if(model.type == 'Grow Light')
+                                        -var growLights = model.products
+                                        -var ratio = 10
+                                        include /snippets/grow.ai/growLightCarousel
+                                    -else
+                                        -var slickId = uuidv4()
+                                        .slick-slider-custom(id=slickId)
+                                            each image, key in model.promotionalImages.productPageSlider
+                                                .slick-slide
+                                                    img.slide-image(src=image.src, alt=image.alt || model.products[0].title+ " product image australian led growlights and hydroponics store")                                 
+                                        script(type='text/javascript').
+                                            $(document).ready(()=>{
+                                                $('##{slickId}').slick({
+                                                    arrows: true,
+                                                    centerMode: false,
+                                                    dots: true
+                                                })
+                                            })                 
+                .container.product-list-container
+                    .row.modelPageRow
+                        .col-md-18.col-md-offset-6.carousel-col
+                            #product-list.row
+                                each product, key in model.products
+                                    include /snippets/products/productSquare
+            each product, key2 in model.products
+                include /snippets/productModal
+            -var productid = productId || false
+            script.
+                $(document).ready(()=>{
+                    if("#{productid}"){
+                        $("##{productid}Modal").modal('show')
+                    }
+                })

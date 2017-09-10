@@ -37,10 +37,15 @@
 		padding: 50px 0px 15px 0px
 		&:first-child
 			// margin-top: 20px
-		.model-title
-			padding-bottom: 50px
-		font-size: 3.5rem
-					
+		a
+			font-size: 3.5rem
+			color: $gb
+			+animate(all, 350ms, ease)
+			.model-title
+				padding-bottom: 50px
+			&:hover
+				text-decoration: none
+				color: $gc		
 	.product-col
 		text-align: center
 		display: flex

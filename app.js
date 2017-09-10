@@ -60,15 +60,16 @@ var adminModels = require('./models/admin')
 var likes = mainModels.likes
 var user = adminModels.user
 var productModelsModel = require('./models/CMS/productModels')
-    // var productsModel = require('./models/CMS/products')
+var productsModel = require('./models/CMS/products')
 var growLightsModel = require('./models/CMS/growLights.js')
+var products = require('./models/CMS/growLights.js')
 require('./scripts/importGrowLightsFromShopify.js')({ model: growLightsModel, type: 'Grow Light' })
 
 var growLightModels = new Promise((resolve, reject) => {
     growLightsModel.then(model => {
             var productType = 'Grow Light'
             model.find({
-                    product_type: productType
+                    product_type: 'Grow Light'
                 }).sort({ 'wattage': 1 }).exec()
                 .then((products, err) => {
                     if (!err) {
@@ -131,33 +132,50 @@ var growLightModels = new Promise((resolve, reject) => {
 var growTentsModel = require('./models/CMS/growTents.js')
 require('./scripts/importGrowTentsFromShopify.js')({ model: growTentsModel, type: 'Grow Tent' })
 
-var growTentVendors = new Promise((resolve, reject) => {
+var growTentModels = new Promise((resolve, reject) => {
     growTentsModel.then(model => {
+            var productType = 'Grow Tent'
             model.find({
-                    product_type: 'Grow Tent'
+                    product_type: productType
                 }).sort({ 'width': 1 }).exec()
                 .then((products, err) => {
                     if (!err) {
-                        var vendorsList = []
+                        var modelsList = []
                             // var key = 0
                         for (product in products) {
-                            if (vendorsList.indexOf(products[product].vendor) < 0) {
-                                vendorsList.push(products[product].vendor)
-                                    // vendorsList.push([products[product].vendor, key])
+                            if (modelsList.indexOf(products[product].model) < 0) {
+                                modelsList.push(products[product].model)
+                                    // modelsList.push([products[product].model, key])
                                     // key += 1
                             }
 
                         }
-                        var vendors = []
-                        for (vendor in vendorsList) {
-                            vendors[vendor] = []
-                            for (product in products) {
-                                if (products[product].vendor == vendorsList[vendor]) {
-                                    vendors[vendor].push(products[product])
+                        var models = []
+                        for (model in modelsList) {
+                            models[model] = []
+                            productModelsModel.find({ type: productType }).then((modelsFromMongo, err) => {
+                                if (!err) {
+                                    if (modelsFromMongo) {
+                                        for (index in modelsFromMongo) {
+                                            var model = modelsFromMongo[index].model
+                                            if (modelsFromMongo.hasOwnProperty(index)) {
+                                                models[index] = []
+                                                for (product in products) {
+                                                    if (products.hasOwnProperty(product)) {
+                                                        if (products[product].model == modelsFromMongo[index].model) {
+                                                            modelsFromMongo[index].products.push(products[product])
+                                                        }
+                                                    }
+                                                }
+                                                models[index] = modelsFromMongo[index]
+
+                                            }
+                                        }
+                                        resolve(models)
+                                    }
                                 }
-                            }
+                            })
                         }
-                        resolve(vendors)
                     } else {
                         console.error(err)
                         resolve([])
@@ -171,53 +189,109 @@ var growTentVendors = new Promise((resolve, reject) => {
 
 var accessoriesModel = require('./models/CMS/accessories.js')
 require('./scripts/importAccessoriesFromShopify.js')({ model: accessoriesModel, type: 'Accessory' })
-    // var accessories = new Promise((resolve, reject) => {
-    //         accessoriesModel.then(model => {
-    //             model.find({}).then((accessories, err) => {
-    //                 if (!err) {
-    //                     console.log(accessories)
-    //                 }
-    //             })
-    //         })
-    //     })
-    // ////// FUNCTIONS AND GLOBAL VARIABLES
-    // var allProducts = new Promise((resolve, reject) => {
-    //     productsModel.find({}).then((products, err) => {
-    //         if (!err) {
-    //             if (products) {
-    //                 for (product in products) {
-    //                     if (products.hasOwnProperty(product)) {
-    //                         productModelsModel.find({ type: products[product] }).then((models, err) => {
-    //                             if (!err) {
-    //                                 if (models) {
-    //                                     for (model in models) {
-    //                                         if (models[model].hasOwnProperty(model)) {
-    //                                             if (products[product].type == 'Grow Light') {
-    //                                                 growLightModels.then((Models) => {
-    //                                                     products[product].models = Models.commerce
-    //                                                 })
-    //                                             } else if (products[product].type == 'Grow Tent') {
-    //                                                 growTentVendors.then((Models) => {
-    //                                                     products[product].models = Models.commerce
-    //                                                 })
-    //                                             } else if (products[product].type == 'Accessory') {
-    //                                                 accessoriesModel.then((Models) => {
-    //                                                     products[product].models = Models.commerce
-    //                                                 })
-    //                                             } else {
-    //                                                 console.log('nuff')
-    //                                             }
-    //                                         }
-    //                                     }
-    //                                 }
-    //                             }
-    //                         })
-    //                     }
-    //                 }
-    //             }
-    //         }
-    //     })
-    // })
+var accessories = new Promise((resolve, reject) => {
+        accessoriesModel.then(model => {
+                var productType = 'Accessory'
+                model.find({ product_type: productType }).then((accessories, err) => {
+                        if (!err) {
+                            var models = []
+                            productModelsModel.find({ type: productType }).then((modelsFromMongo, err) => {
+                                if (!err) {
+                                    if (modelsFromMongo) {
+                                        for (index in modelsFromMongo) {
+                                            var model = modelsFromMongo[index].model
+                                            if (modelsFromMongo.hasOwnProperty(index)) {
+                                                models[index] = []
+                                                modelsFromMongo[index].products = accessories
+                                                models[index] = modelsFromMongo[index]
+
+                                            }
+                                        }
+                                        resolve(models)
+                                    } else {
+                                        reject("somethign went wrong saving accessory models and shit")
+                                    }
+                                } else {
+                                    reject("somethign went wrong saving accessory models and shit")
+                                }
+                            })
+                        }
+                    })
+                    .catch(() => {
+                        reject("something went wrong")
+                    })
+            })
+            .catch(() => {
+                reject("something went wrong")
+            })
+    })
+    //// FUNCTIONS AND GLOBAL VARIABLES
+var allProducts = new Promise((resolve, reject) => {
+    productsModel.find({}).then((products1, err1) => {
+            productsModel.find({}).then((productsList, err) => {
+
+                if (!err) {
+                    if (productsList) {
+                        for (prodCount in productsList) {
+                            if (productsList.hasOwnProperty(prodCount)) {
+
+                                if (productsList[prodCount].type == 'Grow Light') {
+                                    var subCount = prodCount
+                                    growLightModels.then((Models) => {
+                                        Models.commerce.forEach((glModelObj, glModel) => {
+                                            if (Models.commerce.hasOwnProperty(glModel)) {
+                                                productsList[subCount].models[glModel] = Models.commerce[glModel]
+                                                Models.commerce[glModel].products.forEach((glObj, gl) => {
+                                                    if (Models.commerce[glModel].products.hasOwnProperty(gl)) {
+                                                        productsList[subCount].products.push(Models.commerce[glModel].products[gl])
+                                                    }
+                                                })
+                                            }
+                                        })
+                                    })
+                                } else if (productsList[prodCount].type == 'Grow Tent') {
+                                    var subCount2 = prodCount
+                                    growTentModels.then((models) => {
+                                        models.forEach((modelObj, model) => {
+                                            if (models.hasOwnProperty(model)) {
+                                                productsList[subCount2].models.push(models[model])
+                                                models[model].products.forEach((productObj, tentCount) => {
+                                                    if (models[model].products.hasOwnProperty(tentCount)) {
+                                                        productsList[subCount2].products.push(models[model].products[tentCount])
+                                                    }
+                                                })
+                                            }
+                                        })
+                                    })
+                                } else if (productsList[prodCount].type == 'Accessory') {
+                                    var subCount3 = prodCount
+                                    accessories.then((Accessories) => {
+                                        productsList[subCount3].models = Accessories
+                                        Accessories.forEach((acc, accessoryModel) => {
+                                            if (Accessories.hasOwnProperty(accessoryModel)) {
+                                                Accessories[accessoryModel].products.forEach((accObj, accessoryProduct) => {
+                                                    if (Accessories[accessoryModel].products.hasOwnProperty(accessoryProduct)) {
+                                                        productsList[subCount3].products.push(Accessories[accessoryModel].products[accessoryProduct])
+                                                    }
+                                                })
+                                            }
+                                        })
+                                    })
+                                } else {
+                                    console.error("nuff")
+                                }
+
+                            }
+                        }
+                        resolve(productsList)
+                    }
+                }
+            })
+        })
+        .catch(() => {
+            reject("something went wrong making all products object")
+        })
+})
 
 function search(prop, value, array) {
     for (var i = 0; i < array.length; i++) {
@@ -266,58 +340,194 @@ app.use('/fonts', express.static(__dirname + "/fonts"))
 app.use('/public', express.static(__dirname + "/public"))
     ////888################################ ROUTES #######################################333\\\\
 app.get('/(|home|index)', function(req, res) {
-    likes.find({
-            place: "front page"
-        }).exec()
-        .then((mainPageLikes, err) => {
-            if (!mainPageLikes) {
-                res.locals.likes = 12
-                return
-            } else {
-                res.locals.likes = mainPageLikes[0].likes
-                return
+        likes.find({
+                place: "front page"
+            }).exec()
+            .then((mainPageLikes, err) => {
+                if (!mainPageLikes) {
+                    res.locals.likes = 12
+                    return
+                } else {
+                    res.locals.likes = mainPageLikes[0].likes
+                    return
+                }
+            })
+            .then(function() {
+                return accessories.then(sessories => {
+                    res.locals.accessories = sessories[0]
+                    return
+                })
+            })
+            .then(function() {
+                return growLightModels.then(models => {
+                    res.locals.growLightModels = models
+                    return
+                }).catch(function() {
+                    res.locals.growLightModels = []
+                    return
+                })
+
+            })
+            .then(function() {
+                return growTentModels.then(models => {
+                    res.locals.growTentModels = models
+                    return
+                }).catch(err => {
+                    console.error("there was an error getting the grow tent models")
+                    console.error(err)
+                    return
+                })
+            })
+            .then(function() {
+                res.render('pages/home')
+            })
+
+    })
+    // app.get('/pages/:page', function(req, res) {
+    //     res.render('pages/' + req.params.page)
+    // })
+app.get('/(|products/)(|growlight|growlights|ledgrowlight|ledgrowlights)(|/:model|/:model/:product)', (req, res) => {
+    console.log(req.params)
+    if (!req.params.model) {
+        growLightModels.then(models => {
+            res.locals.growLightModels = models
+            res.render('snippets/grow.ai/growlights')
+        })
+    } else {
+        allProducts.then(allprods => {
+            // console.log(allprods)
+            for (productType in allprods) {
+                if (allprods.hasOwnProperty(productType)) {
+                    // console.log(allprods)
+                    var prodType = allprods[productType].type.toLowerCase().replace(' ', '')
+                    if (prodType == 'growlight' || prodType + "s" == 'growlight' || prodType == 'growlight' + "s" || prodType.slice(prodType.length - 2) + "ies" == 'growlight' || prodType == 'growlight'.slice('growlight'.length - 2) + "ies" || prodType.slice(prodType.length - 5) + "y" == 'growlight' || prodType == 'growlight'.slice('growlight'.length - 5) + "y") {
+                        var models = allprods[productType].models
+                        for (model in models) {
+                            if (models.hasOwnProperty(model)) {
+                                if (models[model].products && models[model].products[0] && models[model].products[0].model.toLowerCase().replace(' ', '') == req.params.model.toLowerCase()) {
+                                    res.locals.model = models[model]
+                                    if (req.params.product) {
+                                        for (product in models[model].products) {
+                                            if (models[model].products.hasOwnProperty(product)) {
+                                                console.log(models[model].products[product].title)
+                                                if (models[model].products[product].title && models[model].products[product].title.toLowerCase().replace(' ', '').indexOf(req.params.product) > -1) {
+                                                    res.locals.productId = models[model].products[product]._id
+                                                }
+                                            }
+                                        }
+                                    }
+                                    res.render('snippets/products/modelPage')
+                                    return
+                                }
+                            }
+                        }
+                    }
+                }
             }
         })
-        .then(function() {
-            return growLightModels.then(models => {
-                res.locals.growLightModels = models
-                return
-            }).catch(function() {
-                res.locals.growLightModels = []
-                return
-            })
-
+    }
+})
+app.get('/(|products/)(|growtents|tents|growtent|tent|growroom|growrooms|room|rooms)(|/:model)', (req, res) => {
+    console.log(req.params)
+    growTentModels.then(tentModels => {
+        res.locals.growTentModels = tentModels
+        growLightModels.then(glModels => {
+            res.locals.growLightModels = glModels
+            if (!req.params.model) {
+                res.render('snippets/grow.ai/growtents')
+            } else {
+                console.log("we get to here right?")
+                tentModels.forEach((model, index1) => {
+                    console.log(model)
+                    model.products.forEach((product, index2) => {
+                        console.log(product)
+                        if (product.title && product.title.toLowerCase().replace(' ', '').indexOf(req.params.model) > -1) {
+                            res.locals.productId = product._id
+                        }
+                    })
+                })
+                res.render('snippets/grow.ai/growtents')
+            }
         })
-        .then(function() {
-            return growTentVendors.then(vendors => {
-                res.locals.growTentVendors = vendors
-                return
-            }).catch(err => {
-                console.error("there was an error getting the grow tent vendors")
-                console.error(err)
-                return
-            })
+    })
+
+
+})
+app.get('/(|products/)(|extras|goodies|accessories|addons)(|/:model)', (req, res) => {
+        accessories.then(sessories => {
+            console.log(sessories)
+            res.locals.product = sessories[0]
+            res.locals.product.noCarousel = true
+            if (!req.params.model) {
+                res.render('snippets/products/productPage')
+            } else {
+                sessories[0].products.forEach((product, index2) => {
+                    console.log(product.title)
+                    console.log(req.params.model)
+                    if (product.title && product.title.toLowerCase().replace(' ', '').indexOf(req.params.model) > -1) {
+                        res.locals.productId = product._id
+                    }
+                })
+                res.render('snippets/products/productPage')
+            }
         })
-        .then(function() {
-            res.render('pages/home')
-        })
+    })
+    // app.get('/products(|/:productType|/:productType/:model)', function(req, res) {
+    //         console.log(req.params)
+    //         if (req.params.productType) {
+    //             // products.then(model=>{
+    //             //     model.find({product_type: req.params.productType})
+    //             // })
+    //             console.log(req.params.productType)
+    //             productsModel.findOne({ normalAltTypeNames: { $in: [req.params.productType] } }).exec().then((product, err) => {
+    //                 if (!err && product) {
+    //                     products.find({ type: product.type }).exec().then((products, err) => {
+    //                         if (!err && products) {
+    //                             productModelsModel.find({ type: product.type }).exec().then((models, err) => {
+    //                                     if (!err & models) {
+    //                                         res.locals.models = models
+    //                                         res.locals.products = products
+    //                                         res.render('snippets/products/productPage')
+    //                                     }
+    //                                 })
+    //                                 // if (req.params.model) {
 
-})
-app.get('/pages/:page', function(req, res) {
-    res.render('pages/' + req.params.page)
-})
-app.get('/products/:product', function(req, res) {
+//                             // } else {
+//                             // }
+//                         }
+//                     })
+//                 }
+//             })
+//         }
+//         // allProducts.then(allprods => {
+//         //     // console.log(allprods)
+//         //     for (productType in allprods) {
+//         //         if (allprods.hasOwnProperty(productType)) {
+//         //             // console.log(allprods)
+//         //             var prodType = allprods[productType].type.toLowerCase().replace(' ', '')
+//         //             if (prodType == req.params.productType || prodType + "s" == req.params.productType || prodType == req.params.productType + "s" || prodType.slice(prodType.length - 2) + "ies" == req.params.productType || prodType == req.params.productType.slice(req.params.productType.length - 2) + "ies" || prodType.slice(prodType.length - 5) + "y" == req.params.productType || prodType == req.params.productType.slice(req.params.productType.length - 5) + "y") {
+//         //                 var models = allprods[productType].models
+//         //                 for (model in models) {
+//         //                     if (models.hasOwnProperty(model)) {
+//         //                         if (models[model].products && models[model].products[0].model.toLowerCase().replace(' ', '') == req.params.model.toLowerCase()) {
+//         //                             res.locals.model = models[model]
+//         //                             res.render('snippets/products/modelPage')
+//         //                             return
+//         //                         }
+//         //                     }
+//         //                 }
+//         //             }
+//         //         }
+//         //     }
+//         // })
+//     })
+// app.get('/products/:product/:variant', function(req, res) {
 
-    res.render('pages/products/' + req.params.product)
+//     res.locals.variant = req.params.variant
+//     res.render('pages/products/' + req.params.product)
+//         // res.render('pages/products/'+req.params.product)
 
-})
-app.get('/products/:product/:variant', function(req, res) {
-
-    res.locals.variant = req.params.variant
-    res.render('pages/products/' + req.params.product)
-        // res.render('pages/products/'+req.params.product)
-
-})
+// })
 app.get('/contact*', function(req, res) {
         var page = url.parse(req.url).pathname
         res.render('pages/contact')
@@ -492,5 +702,15 @@ app.get('/logout', function(req, res) {
     res.redirect('/')
 })
 
-//// APP LISTENER FOR CLIENTS
+app.get('/|404', function(req, res) {
+        growLightModels.then(models => {
+            res.locals.growLight = models.custom['Rainbow']
+            res.render('snippets/err404')
+        })
+    })
+    //// APP LISTENER FOR CLIENTS
 var port = 1337
+
+app.listen(port,
+    console.error("listening on port %s", port)
+)

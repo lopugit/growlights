@@ -1,0 +1,20 @@
+append content
+	-var allGrowTents = []
+	-if(growTentVendors)
+			each growTentVendor in growTentVendors
+				each growTent in growTentVendor
+					-allGrowTents.push(growTent)
+	-else if(growTentModels)
+			each growTentModel in growTentModels
+				each growTent in growTentModel.products
+					-allGrowTents.push(growTent)
+	
+	each product in allGrowTents
+		include /snippets/productModal
+	-var productid = productId || false
+		script.
+			$(document).ready(()=>{
+				if("#{productid}"){
+					$("##{productid}Modal").modal('show')
+				}
+			})

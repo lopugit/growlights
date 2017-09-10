@@ -46,7 +46,7 @@ module.exports = new Promise((resolve, reject) => {
             var schema = generateSchema.mongoose(product.attrs);
             var productSchema = new Schema(schema);
             productSchema.add({
-                    model: String,
+                    model: { type: String },
                     unit: {
                         type: String,
                         default: "cm"
@@ -59,7 +59,7 @@ module.exports = new Promise((resolve, reject) => {
                     },
                     minPxWidth: {
                         type: Number,
-                        default: 300
+                        default: 180
                     }
                 })
                 // console.log("this is productSchema")

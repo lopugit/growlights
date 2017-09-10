@@ -21,8 +21,12 @@
 		&:active,
 		&:focus
 			color: nth($colours, random(length($colours)))
+	.navbar-header
+		display: flex
+		align-items: center
 	.navbar-toggle
-		margin-right: 8px
+		margin-right: 12px
+		margin-left: auto
 		background-color: rgba(white, 0)
 	a
 		color: $gg
@@ -52,8 +56,8 @@
 	.icon-bar + .icon-bar
 		margin: 8px 0px
 		// animation: boxShadowFlickerRainbow 1700ms forwards infinite linear
-		animation-delay: 100ms
+		// animation-delay: 100ms
 	.icon-bar:last-child
 		// animation: boxShadowFlickerRainbow 1700ms forwards infinite linear
-		animation-delay: 200ms
+		// animation-delay: 200ms
 		margin: 0 !important

@@ -1,0 +1,58 @@
+append content
+    -var productIter = product
+    .productPage
+        .modelPageParentCol
+            .container.modelPageCol
+                .row.modelPageRow
+                    .col-md-18.col-md-offset-3.list-group-col
+                        -if(product.type[product.type.length-1] == 'y')
+                            -var title = product.type.slice(0,product.type.length-1)+"ies"
+                        -else
+                            -var title = product.type
+                        .product-title= title
+                        //- .list-group
+                        //-     each model, key in models
+                        //-         -var productType = model.products[0].product_type.toLowerCase()
+                        //-         -productType = productType.replace(' ','')
+                        //-         -var modeld = model.replace(' ','').toLowerCase()
+                        //-         //- -modeld = modeld.replace('\s','')
+                        //-         -if(model == model.products[0].model)
+                        //-             a.active-item.list-group-item(href='/products/'+productType+'/'+modeld)= ucFirst(model)
+                        //-         -else
+                        //-             a.list-group-item(href='/products/'+productType+'/'+modelTyped)= ucFirst(modelType)
+                    .col-md-18.col-md-offset-3.carousel-col
+                        -if(!product.noCarousel)
+                            .row.carousel-holder
+                                .col-md-24
+                                    #carousel-example-generic.carousel.slide(data-ride='carousel')
+                                        //- ol.carousel-indicators
+                                        //-     each image, key in product.promotionalImages.productPageSlider
+                                        //-         -if(key == 0)
+                                        //-             li.active(data-target='#carousel-example-generic', data-slide-to=key)
+                                        //-         -else
+                                        //-             li(data-target='#carousel-example-generic', data-slide-to=key)
+                                        -var slickId = uuidv4()
+                                        .slick-slider-custom(id=slickId)
+                                            each image, key in product.promotionalImages.productPageSlider
+                                                .slick-slide
+                                                    img.slide-image(src=image.src, alt=image.alt || product.products[0].title+ " product image australian led growlights and hydroponics store")                                 
+                                        script(type='text/javascript').
+                                            $(document).ready(()=>{
+                                                $('##{slickId}').slick({
+                                                    arrows: true,
+                                                    centerMode: false,
+                                                    dots: true
+                                                })
+                                            })     
+                        #product-list.row
+                            each product, key in productIter.products
+                                include /snippets/products/productSquare
+    each product, key2 in productIter.products
+        include /snippets/productModal
+    -var productid = productId || false
+    script.
+        $(document).ready(()=>{
+            if("#{productid}"){
+                $("##{productid}Modal").modal('show')
+            }
+        })

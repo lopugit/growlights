@@ -1,0 +1,42 @@
+append content
+	#growtents.growTentsSection.l
+		.container-fluid
+			.row
+				.col-xs-24.title-col
+					h3.lights-section-title Now you need a 
+						h1.lights-section-title Room
+			.row
+				
+				each growTentModel, key1 in growTentModels
+					.col-xs-24.model-col
+
+						h1.model-title= growTentModel.model
+						.col-xs-24.product-col
+							-var currentModel = growTentModel.model.replace(' ','-')
+							//
+								CHECK IF POSSIBLE PUG GITHUB
+								.#{currentModel+"Slider"}
+							//- each product, key2 in model
+							//- 	-if(key2 == 0)
+							//- 		include /snippets/grow.ai/growLight
+							//- 	-else if(product.model == currentModel)
+							//- 		include /snippets/grow.ai/growLight
+							//- 	-else
+							//- 		-currentModel = product.model
+							//- 		include /snippets/grow.ai/growLight
+
+							.slick-slider-custom(class=currentModel+"Slider")
+								each growTent, key2 in growTentModel.products
+									.slick-slide
+										-if(growTent.model.replace(' ','-') == currentModel)
+											include /snippets/grow.ai/growTent
+							script.
+								var globalPxr = undefined
+
+							//- append scripts
+							script(type='text/javascript').
+								$('.#{currentModel}Slider').slick({
+									arrows: true,
+									centerMode: false,
+									lazyLoad: 'progressive'
+								})

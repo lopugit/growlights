@@ -2,7 +2,7 @@
 .growLight-container
 	display: flex
 	position: relative
-	justify-content: center
+	justify-content: flex-end !important
 	align-items: center !important
 	flex-direction: column
 	width: auto
@@ -256,6 +256,8 @@
 			background: rgba($glw, 0)
 			border-radius: 4px
 			+animate(all, 400ms, ease)
+			@media(max-width: 390px)
+				padding: 3px 16px
 			.labelValue
 				padding-left: 2px
 				padding-right: 2px
@@ -271,6 +273,9 @@
 				// >div
 				background: rgba($gc, .9)
 				color: white
+				@media(max-width: 390px)
+					padding: 3px 14px
+					font-size: 1.8rem
 				&:hover
 					background: $gc
 					// color: $gc
@@ -302,6 +307,9 @@
 				// >div
 				padding: 4px 18px
 				font-size: 1.7rem
+				@media(max-width: 390px)
+					padding: 3px 12px
+					font-size: 1.5rem
 			&.vendor
 				// >div
 				font-size: .8rem

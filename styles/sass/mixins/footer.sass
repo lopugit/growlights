@@ -1,9 +1,31 @@
 footer
+    color: $gb
+    h3
+        margin-bottom: 5px !important
+    .footer-row
+        display: flex
+        align-items: flex-start
+        justify-content: center
+    .footer-above
+        background: rgba(darken($gw, 5),1)
+    .footer-below
+        background: rgba(darken($gw, 9),1)
+    .social-link
+        font-size: 2.8rem
+        padding: 10px
+    a
+        +animate(all, 300ms, ease)
+        color: $gc
+        animation: colourFlickerRainbow infinite forwards 7777ms ease
+        cursor: pointer
+        font-size: 1.6rem
+        &:hover
+            color: darken($gc, 4)
 .btn-primary
     display: flex
     align-items: center
     justify-content: center
-    background: rgba($gc, .9) !important
+    background: rgba(darken($gw,5), 1) !important
     border: 1px solid rgba($gc, .95) !important
     &:hover,
     &:visited,

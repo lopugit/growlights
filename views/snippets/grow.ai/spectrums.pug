@@ -1,0 +1,16 @@
+append content
+	#spectrums.l
+		.container-fluid.specrum-container
+			.row    
+				.col-xs-24.title-col
+					h1.wavelengths-title
+						span Wavelengths and spectrums
+							.coming-soon Coming soon!
+					h2(style="font-weight: 700") How do they work?
+				.col-xs-24.light-col
+					//- .light-container
+					-var growLight = growLightModels.custom["Rainbow"]
+					-var globalGrowLightPxr = undefined
+					-growLight.object.ratio = 70
+					-growLight.object.type = '2d'
+					include /snippets/grow.ai/growLight

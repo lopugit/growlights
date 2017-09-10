@@ -17,7 +17,7 @@ module.exports = function(vars) {
         client
             .fetchAllProducts()
             .then((products) => {
-                console.log("looping through all products")
+                // console.log("looping through all products")
                 var productIds = []
                 products.forEach((ProductIter, index) => {
                     var productIter1 = ProductIter
@@ -30,7 +30,7 @@ module.exports = function(vars) {
                         if (err) {
                             console.error("there was an error deleting all documents that are of type: " + type + " and do not have an id in our list of shopify id's")
                         } else {
-                            console.log("successfully removed all products which do not have id in our list of shopify id's and have the correct type")
+                            // console.log("successfully removed all products which do not have id in our list of shopify id's and have the correct type")
                         }
                     })
                     .catch(err => {
@@ -188,7 +188,7 @@ module.exports = function(vars) {
                                         delete product.attrs.id
                                         delete product.attrs.product_id
                                     } else if ((product.attrs.vendor == "ozled") && (product.attrs.product_type == "Grow Light")) {
-                                        console.log("we saved the rainbow one")
+                                        // console.log("we saved the rainbow one")
                                         productData.model = product.attrs.title.split(' ')[0]
                                         if (productData.model == 'Rainbow') {
                                             productData.spectrum = [
@@ -357,6 +357,118 @@ module.exports = function(vars) {
                                         productData.shopifyVariantId = product.attrs.id
                                         delete product.attrs.id
                                         delete product.attrs.product_id
+                                    } else {
+                                        productData.spectrum = [{
+                                                temperature: 3000,
+                                                colour: "white",
+                                                lensAngle: 120,
+                                                percent: 0.07,
+                                                ppfd: 1.6,
+                                                lumens: 2.58,
+                                                lux: 2.58,
+                                                wattage: consts.wattage,
+                                                wattagePsqm: consts.wattagePsqm,
+                                                efficiency: .5,
+                                                modes: [{
+                                                    title: "veg",
+                                                    percent: 0.07
+                                                }, {
+                                                    title: "bloom",
+                                                    percent: 0.07
+                                                }]
+                                            }, {
+                                                wavelength: 440,
+                                                colour: "blue",
+                                                lensAngle: 140,
+                                                percent: 0.135,
+                                                ppfd: 1.6,
+                                                lumens: 2.58,
+                                                lux: 2.58,
+                                                wattage: consts.wattage,
+                                                wattagePsqm: consts.wattagePsqm,
+                                                efficiency: .5,
+                                                modes: [{
+                                                    title: "veg",
+                                                    percent: 0.1
+                                                }, {
+                                                    title: "bloom",
+                                                    percent: 0.035
+                                                }]
+                                            }, {
+                                                wavelength: 460,
+                                                colour: "blue",
+                                                lensAngle: 140,
+                                                percent: 0.135,
+                                                ppfd: 1.6,
+                                                lumens: 2.58,
+                                                lux: 2.58,
+                                                wattage: consts.wattage,
+                                                wattagePsqm: consts.wattagePsqm,
+                                                efficiency: .5,
+                                                modes: [{
+                                                    title: "veg",
+                                                    percent: 0.1
+                                                }, {
+                                                    title: "bloom",
+                                                    percent: 0.035
+                                                }]
+                                            }, {
+                                                wavelength: 630,
+                                                colour: "red",
+                                                lensAngle: 120,
+                                                percent: 0.325,
+                                                ppfd: 1.6,
+                                                lumens: 2.58,
+                                                lux: 2.58,
+                                                wattage: consts.wattage,
+                                                wattagePsqm: consts.wattagePsqm,
+                                                efficiency: .5,
+                                                modes: [{
+                                                    title: "veg",
+                                                    percent: 0.125
+                                                }, {
+                                                    title: "bloom",
+                                                    percent: 0.2
+                                                }]
+                                            }, {
+                                                wavelength: 660,
+                                                colour: "red",
+                                                lensAngle: 120,
+                                                percent: 0.325,
+                                                ppfd: 1.6,
+                                                lumens: 2.58,
+                                                lux: 2.58,
+                                                wattage: consts.wattage,
+                                                wattagePsqm: consts.wattagePsqm,
+                                                efficiency: .5,
+                                                modes: [{
+                                                    title: "veg",
+                                                    percent: 0.125
+                                                }, {
+                                                    title: "bloom",
+                                                    percent: 0.2
+                                                }]
+                                            }, {
+                                                wavelength: 730,
+                                                colour: "infra red",
+                                                lensAngle: 120,
+                                                percent: 0.01,
+                                                ppfd: 1.6,
+                                                lumens: 2.58,
+                                                lux: 2.58,
+                                                wattage: consts.wattage,
+                                                wattagePsqm: consts.wattagePsqm,
+                                                efficiency: .5,
+                                                modes: [{
+                                                    title: "veg",
+                                                    percent: 0.01
+                                                }, {
+                                                    title: "bloom",
+                                                    percent: 0.01
+                                                }]
+                                            }]
+                                            // console.log(json)
+                                        if (productData.renderRules) { productData.renderRules.labels = false }
                                     }
                                     var newProduct = new productModel(productData)
                                 } else {
@@ -373,13 +485,15 @@ module.exports = function(vars) {
                                                 // console.log(res)
 
                                         } else if (res) {
+                                            // console.log("this is the product we're saving")
+                                            // console.log(newProduct)
                                             newProduct.save(err => {
                                                 if (err) {
                                                     console.log("there was an error saving the model to the database: ")
                                                     console.log(err)
                                                     console.log(err.errors.spectrum.reason)
                                                 } else {
-                                                    console.log("saved the model Grow Light succesfully")
+                                                    // console.log("saved the model Grow Light succesfully")
                                                 }
                                             })
                                         }
@@ -404,6 +518,7 @@ module.exports = function(vars) {
             .catch(err => {
                 console.error("there was an error when fetching all products from your shopify store")
                 console.error(err)
+
             })
 
     }).catch(err => {

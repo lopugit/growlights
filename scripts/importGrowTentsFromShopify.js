@@ -17,7 +17,7 @@ module.exports = function(vars) {
         client
             .fetchAllProducts()
             .then((products) => {
-                console.log("looping through all products")
+                // console.log("looping through all products")
                 var productIds = []
                 products.forEach((ProductIter, index) => {
                     var productIter1 = ProductIter
@@ -30,7 +30,7 @@ module.exports = function(vars) {
                         if (err) {
                             console.error("there was an error deleting all documents that are of type: " + type + " and do not have an id in our list of shopify id's")
                         } else {
-                            console.log("successfully removed all products which do not have id in our list of shopify id's and have the correct type")
+                            // console.log("successfully removed all products which do not have id in our list of shopify id's and have the correct type")
                         }
                     })
                     .catch(err => {
@@ -62,8 +62,9 @@ module.exports = function(vars) {
                                         var productData = json
                                         if ((product.attrs.vendor == "Mars Hydro") && (product.attrs.product_type == "Grow Tent")) {
                                             productData.title = product.attrs.title.split(' ').slice(0, 2)
-                                            productData.title = productData.title[0] + " " + productData.title[1]
-                                            productData.model = product.attrs.title.split(' ')[2]
+                                                // productData.title = productData.title[0] + " " + productData.title[1]
+                                            productData.title = productData.title[0] + " " + product.attrs.title.split(' ')[2]
+                                            productData.model = "Mars Tents"
                                             productData.shopifyVariantId = product.attrs.id
                                             productData.shopifyProductId = product.attrs.product_id
                                             delete product.attrs.id
@@ -91,8 +92,8 @@ module.exports = function(vars) {
                                                         console.log(err)
                                                             // console.log(err.errors.spectrum.reason)
                                                     } else {
-                                                        console.log("saved the model succesfully")
-                                                            // console.log(newProduct)
+                                                        // console.log("saved the model succesfully")
+                                                        // console.log(newProduct)
                                                     }
                                                 })
                                             }

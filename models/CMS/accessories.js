@@ -18,7 +18,6 @@ module.exports = new Promise((resolve, reject) => {
     client.fetchProduct('9931098321')
         .then(function(product, err) {
             var objects = {};
-            // console.log(product)
             delete product.attrs.variants[0].title
             jsonConcat(product.attrs, product.attrs.variants[0])
             delete product.attrs.variants
@@ -53,7 +52,6 @@ module.exports = new Promise((resolve, reject) => {
             resolve(objects.product);
         })
         .catch(function() {
-            // console.log(objects.product);
             console.error("the connection did not work, most likely due to no internet connection");
             return Db
                 .then((DB, err) => {

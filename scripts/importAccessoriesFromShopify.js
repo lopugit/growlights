@@ -17,7 +17,6 @@ module.exports = function(vars) {
         client
             .fetchAllProducts()
             .then((products) => {
-                console.log("looping through all products")
                 var productIds = []
                 products.forEach((ProductIter, index) => {
                     var productIter1 = ProductIter
@@ -29,9 +28,7 @@ module.exports = function(vars) {
                     }).then((res, err) => {
                         if (err) {
                             console.error("there was an error deleting all documents that are of type: " + type + " and do not have an id in our list of shopify id's")
-                        } else {
-                            console.log("successfully removed all products which do not have id in our list of shopify id's and have the correct type")
-                        }
+                        } else {}
                     })
                     .catch(err => {
                         console.error("there was an error deleting all documents that are of type: " + type + " and do not have an id in our list of shopify id's")
@@ -55,9 +52,9 @@ module.exports = function(vars) {
                                         .body_html
                                         .split('|||')[0]
                                     var productData = {}
+                                        // productData.model = 'Accessory'
                                     if (json) {
                                         json = json.replace(/(<.{0,1}span>|<meta.*">|<.{0,1}p>|\r?\n|\r|\s)/g, '')
-                                            // console.log(json)
                                         json = JSON.parse(json)
                                         var productData = json
                                         delete product.attrs.variants[0].title
@@ -67,6 +64,7 @@ module.exports = function(vars) {
                                         delete product.attrs.id
                                         delete product.attrs.product_id
                                         jsonConcat(productData, product.attrs)
+                                        productData.model = productData.title
                                         var newProduct = new productModel(productData)
                                     } else {
                                         delete product.attrs.variants[0].title
@@ -76,6 +74,7 @@ module.exports = function(vars) {
                                         delete product.attrs.id
                                         delete product.attrs.product_id
                                         jsonConcat(productData, product.attrs)
+                                        productData.model = productData.title
                                         var newProduct = new productModel(productData)
                                     }
                                     // if (!JSONequal(product, newProduct)) {
@@ -83,19 +82,16 @@ module.exports = function(vars) {
                                             shopifyProductId: newProduct.shopifyProductId
                                         }).then((res, err) => {
                                             if (err) {
-                                                console.log("there was an error removing all products from our database: ")
-                                                    // console.log(err)
-                                                console.log("and res")
-                                                    // console.log(res)
+                                                console.error("there was an error removing all products from our database: ")
+                                                    // console.error(err)
+                                                console.error("and res")
 
                                             } else if (res) {
                                                 newProduct.save(err => {
                                                     if (err) {
-                                                        console.log("there was an error saving the model to the database: ")
-                                                        console.log(err)
-                                                    } else {
-                                                        console.log("saved the model succesfully")
-                                                    }
+                                                        console.error("there was an error saving the model to the database: ")
+                                                        console.error(err)
+                                                    } else {}
                                                 })
                                             }
                                         })
@@ -104,7 +100,6 @@ module.exports = function(vars) {
                                             console.error(err)
                                         })
                                         // } else {
-                                        //     console.log("the product we fetched has the same data as the one in our database, we don't need to store it or delete it")
                                         // }
                                 }
                                 if (products.length == index - 1) {
@@ -131,23 +126,18 @@ module.exports = function(vars) {
 
 
     }).catch(err => {
-        console.log("there was some error waiting on the product model: ")
-        console.log(err)
+        console.error("there was some error waiting on the product model: ")
+        console.error(err)
     })
 }
 
 function JSONequal(o1, o2) {
-    console.log("what")
     var same
     for (var key in o2) {
-        console.log(typeof(o2[key]))
-        if (typeof(o2[key]) == 'string') {
-            console.log("the property was a string")
-        }
+        if (typeof(o2[key]) == 'string') {}
 
         if (typeof(o2[key]) == 'string' || 'number' || 'boolean') {
             if (o1[key] == o2[key]) {
-                console.log("the properties were equal")
                 same = true
             } else {
                 same = false

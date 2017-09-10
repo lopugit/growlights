@@ -3,22 +3,18 @@ append content
 		.container-fluid.l
 			.row.l-nudge-below-quite-alot
 				.col-lg-24.banner-text
-					.intro-text.intro-text-title
-				script(async).
-					$(document).ready(function() {
-						$(".intro-text").typed({
-							strings: ["Welcome to the revolution,^700 \n we'll help work out what LEDs you need."],
-							typeSpeed: 5
-						});
-
-						// $('.front-page-likes').on('click')
-					});
+					.intro-text.intro-text-title Welcome to the evolution, 
+						br
+						| we'll help work out what LEDs you need.
 			.row
 				.col-xs-24.banner-light-container
+					//- .light-button-positioner
+					//- 	.light-button-container 
+					//- 		a.light-button(href="#growlights") find your light
 					-var growLight = growLightModels.custom.Rainbow
+					-growLight.object.data = {text: '<a id="bannerGoToLights" href="#growlights">find your light</a>'}
+					-growLight.object.sides = []
 					-growLight.renderRules.labels = false
-					-growLight.object.ratio = 25
-					include /snippets/growLight
-					.light-button-positioner
-						.light-button-container 
-							a.light-button(href="#growlights") find your light
+					-ratio = 25
+					include /snippets/grow.ai/growLight
+					-growLight.object.data = {}

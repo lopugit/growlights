@@ -145,7 +145,9 @@ module.exports = new Promise((resolve, reject) => {
                 },
                 object: {
                     type: {},
-                    default: {}
+                    default: {
+                        ratio: 20
+                    }
                 },
                 renderRules: {
                     type: {},

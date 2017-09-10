@@ -1,0 +1,117 @@
+.modelPage
+	// width: 100%
+	max-width: 100%
+	height: auto
+	overflow: hidden
+	position: relative
+	display: block
+	padding-top: 20px
+	.modelPageParentCol
+		overflow: hidden
+		padding: 0px
+	.modelPageCol
+		overflow: visible
+	.modelPageRow
+		overflow: visible
+	.carousel-col
+		overflow: visible
+		padding-top: 15px
+		.carousel-holder
+			margin-bottom: 0px
+			// padding: 0px
+	.growLightCarouselCol
+		padding: 0px
+	.slick-slider-custom
+		padding-top: 20px
+		width: 900px
+		max-width: 100%
+		height: auto
+		overflow: visible
+		// overflow-x: visible
+		// overflow-y: hidden
+		pointer-events: none
+		.slick-list
+			overflow: visible
+			pointer-events: none
+			.slick-track
+				display: flex
+				align-items: flex-end
+				overflow: visible
+				pointer-events: none
+
+				.slick-slide
+					overflow: visible
+					height: auto
+					pointer-events: none
+					&:active,
+					&:focus,
+					&:hover,
+					&:visited
+						outline-color: rgba(0,0,0,0)
+						outline-width: 0px
+					&.slick-current
+						z-index: 250 !important
+						canvas
+							z-index: 250 !important
+						.spectrumLabels
+							z-index: 255 !important
+		.slick-arrow
+			$colour: $gc
+			color: $colour
+			z-index: 450
+			width: auto
+			height: auto
+			// top: 70%
+			pointer-events: all
+			&::before
+				font-size: 10rem
+				color: $colour
+			&.slick-arrow
+				top: auto
+				bottom: 8%
+				@media(max-width: 600px)
+					bottom: -15px
+					top: auto
+			&.slick-prev
+				left: 5%
+			&.slick-next
+				right: 5%
+	.list-group-col
+		z-index: 500
+	.product-list-container
+		
+	.list-group
+		z-index: 500
+		.list-group-item
+			border-radius: 0px !important
+			color: $gb
+			font-weight: 800
+			transition: border .1s ease-in-out, background .65s ease, color .25s ease
+			padding: 10px 15px
+			margin-bottom: 10px
+			border: 1px solid $gw
+			&.active-item,
+			&:hover
+				color: white
+				border: 1px solid darken($gc, 8)
+
+	#product-list
+		text-align: left
+		float: left
+		display: flex
+		align-items: flex-start
+		justify-content: flex-start
+		@media(max-width: 800px)
+			justify-content: center
+		flex-direction: row
+		flex-wrap: wrap
+		.product-square
+			// min-width: 30%
+			.shop-cart-button
+				display: flex
+				justify-content: center
+				align-items: center
+				position: relative
+		@media(max-width: 490px)
+			.product-square
+				width: 100%

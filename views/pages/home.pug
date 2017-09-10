@@ -1,18 +1,22 @@
 extends /snippets/layout
 append content
-    include /snippets/products/includeAllGrowTents
-    include /snippets/products/includeAllGrowLights
+    include /snippets/grow.ai/includeAllGrowTents
+    include /snippets/grow.ai/includeAllGrowLights
     include /snippets/banner
-    include /snippets/products/growLightsSection
+    include /snippets/grow.ai/growLightsSection
     include /snippets/grow.ai/coverageCalculator
-    include /snippets/products/growTentsSection
+    include /snippets/grow.ai/growTentsSection
     //- include /snippets/allConfigurationOptions
-    include /snippets/growTentCustomization
+    -var product = accessories
+    include /snippets/products/product
+    include /snippets/grow.ai/growTentCustomization
     //- include /snippets/test
     //- include /snippets/productsTri
-    include /snippets/wattageWarning
-    include /snippets/spectrums
+    include /snippets/grow.ai/wattageWarning
+    include /snippets/grow.ai/spectrums
     include /snippets/about
     //- include /snippets/growHelp
     include /snippets/contactForm
     include /snippets/paywith
+append scripts
+    script(type='text/javascript' src='/js/src/bannerTypedInit.js' async)

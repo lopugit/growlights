@@ -501,70 +501,7 @@ function Cube(props) {
                 this.tmps.$canvasParent = $canvasParent
             }
             if (this.canvas.render !== false) {
-                var $canvas = $('<canvas/>', {
-                    class: canvasClass + ' l3canvas',
-                    id: this.canvas.id || uuidv4()
-                })
-                this.canvas.elem = {
-                    parentElement: $canvasParent,
-                    canvas: $canvas
-                }
-                $("#" + this.scene.id + parentId + " #" + this.id + canvasParentId).append($canvas)
-                var canvasCss = {}
-                if (this.canvas && this.canvas.size) {
-                    if (this.canvas.size.inherit) {
-                        if (this.canvas.size.height) {
-                            canvasCss.height = (this.height / this.unitScale) * this.scene.pxr
-                        }
-                        if (this.canvas.size.width) {
-                            canvasCss.width = (this.width / this.unitScale) * this.scene.pxr
-                        }
-                    } else {
-                        if (this.canvas.size.height) {
-                            canvasCss.height = (this.height / this.unitScale) * this.scene.pxr
-                        }
-                        if (this.canvas.size.width) {
-                            canvasCss.width = (this.canvas.width / this.unitScale) * this.scene.pxr
-                        }
-                    }
-                }
-                for (key in canvasCss) {
-                    if (canvasCss.hasOwnProperty(key)) {
-                        $("#" + this.scene.id + parentId + " #" + this.id + canvasParentId + " #" + $canvas[0].id)
-                            .attr(key, canvasCss[key])
-                    }
-                }
-                // $("#" + this.scene.id + parentId + " #" + this.id + canvasParentId + " #" + $canvas[0].id).css(canvasCss)
-
-                var canvas = $("#" + $canvas[0].id)[0]
-                var canv = canvas.getContext('2d')
-                this.canvas.canvas = canvas
-                    // canv.fillStyle = "#80bc18"
-                this.canvas.context = canv
-                this.canvas.context.translate(0.5, 0)
-                this.canvas.context.lineCap = "round"
-                this.canvas.context.imageSmoothingQuality = 'high'
-                this.canvas.context.imageSmoothingEnabled = true
-                if (this.canvas.type == 'polygon') {
-                    this.drawPath(this.canvas.points)
-                } else if (this.canvas.type == 'polygons') {
-                    if (this.canvas.paths) {
-                        this.canvas.paths.forEach((path, pathIndex) => {
-                            this.drawPath(path)
-                        })
-                    }
-                } else if (this.canvas.type == 'rect') {
-                    this.canvas.pxRect = this.canvas.pxRect || {}
-                } else if (this.canvas.type == 'rects') {
-                    this.canvas.pxRects = this.canvas.pxRects || []
-                    if (this.canvas.rects[0].hasOwnProperty('rect')) {
-                        this.canvas.rects.forEach((rectParent, index) => {
-                            this.drawPath(rectParent.rect)
-                        })
-                    } else if (this.canvas.rects[0].hasOwnProperty('fillStyle')) {
-
-                    }
-                }
+                this.renderCanvas()
             }
 
         }
@@ -914,29 +851,31 @@ function Cube(props) {
             for (path in this.canvas.paths) {
                 if (this.canvas.paths.hasOwnProperty(path)) {
                     this.drawPath(this.canvas.paths[path])
-                    this.canvas.context.beginPath()
-                    if (this.canvas.unit !== 'px') {
-                        this.canvas.paths[path].points.forEach((pointObj, point) => {
-                            if (point == 0) {
-                                this.canvas.context.moveTo(Math.round((pointObj.x / this.unitScale) * this.scene.pxr), Math.round((pointObj.y / this.unitScale) * this.scene.pxr))
-                            } else {
-                                this.canvas.context.lineTo(Math.round((pointObj.x / this.unitScale) * this.scene.pxr), Math.round((pointObj.y / this.unitScale) * this.scene.pxr))
-                            }
-                        })
-                    } else if (this.canvas.unit == 'px') {
-                        this.canvas.paths[path].points.forEach((pointObj, point) => {
+                        // this.canvas.context.beginPath()
+                        // if (this.canvas.unit !== 'px') {
+                        //     this.canvas.paths[path].points.forEach((pointObj, point) => {
+                        //         if (point == 0) {
+                        //             this.canvas.context.moveTo(Math.round((pointObj.x / this.unitScale) * this.scene.pxr), Math.round((pointObj.y / this.unitScale) * this.scene.pxr))
+                        //         } else {
+                        //             this.canvas.context.lineTo(Math.round((pointObj.x / this.unitScale) * this.scene.pxr), Math.round((pointObj.y / this.unitScale) * this.scene.pxr))
+                        //         }
+                        //     })
+                        // } else if (this.canvas.unit == 'px') {
+                        //     this.canvas.paths[path].points.forEach((pointObj, point) => {
 
-                            if (point == 0) {
-                                this.canvas.context.moveTo(Math.round((pointObj.x)), Math.round((pointObj.y)))
-                            } else {
-                                this.canvas.context.lineTo(Math.round((pointObj.x)), Math.round((pointObj.y)))
-                            }
-                        })
+                    //         if (point == 0) {
+                    //             this.canvas.context.moveTo(Math.round((pointObj.x)), Math.round((pointObj.y)))
+                    //         } else {
+                    //             this.canvas.context.lineTo(Math.round((pointObj.x)), Math.round((pointObj.y)))
+                    //         }
+                    //     })
 
-                    }
-                    if (fillStyle) this.canvas.context.fillStyle = fillStyle
-                    this.canvas.context.fill()
-                    this.canvas.context.closePath()
+                    // }
+                    // if (this.canvas.paths[path].fillStyle) {
+                    //     this.canvas.context.fillStyle = this.canvas.paths[path].fillStyle
+                    // }
+                    // this.canvas.context.fill()
+                    // this.canvas.context.closePath()
                 }
             }
         }

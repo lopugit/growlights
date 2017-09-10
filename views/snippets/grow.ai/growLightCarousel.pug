@@ -1,0 +1,66 @@
+.col-xs-24.product-col.growLightCarouselCol
+    -var currentModel = growLights[0].model.replace(' ','-')
+    -var sliderUuid = uuidv4()
+    -var ratio = ratio || 80
+    .slick-slider-custom(class=currentModel+"Slider", id=sliderUuid)
+        - for(var gl = 0; gl < growLights.length; gl++){
+            -var growLight = growLights[gl]
+            -growLight.object.type = '2d'
+            .slick-slide(style="z-index: "+(150-key2)+";")
+                -if(growLight.model == currentModel)
+                    include /snippets/grow.ai/growLight
+
+        - }
+        //- each growLight, key2 in growLights
+    //- .debug= ratio
+    script(type='text/javascript').
+        $(document).ready(()=>{
+            $('.#{currentModel}Slider').slick({
+                arrows: true,
+                centerMode: false
+                //- lazyLoad: 'progressive'
+            })
+        })
+        $(document).ready(function(){
+                var globalGrowLightPxr
+                if(l3.ai.scenePxrs['gGLPxr']){
+                    var globalGrowLightPxr = l3.ai.scenePxrs['gGLPxr']
+                }
+                var uuid = uuidv4()
+                $('##{sliderUuid} .slick-cloned:nth-of-type(1) .sceneContainer').attr('id', 'sceneContainer'+uuid)
+                $('##{sliderUuid} .slick-cloned:nth-of-type(1) .scene').attr('id', 'scene'+uuid)
+                var scene = new Scene({
+                    render: true,
+                    id: "scene"+uuid,
+                    containerId: "sceneContainer"+uuid,
+                    sizeType: "object",
+                    pxr: globalGrowLightPxr,
+                    type: '2d'
+                })
+                console.log('globalGrowLightPxr')
+                console.log(globalGrowLightPxr)
+                scene.clear({pxr: false})
+                var growLightTemplate = !{ts(growLights[growLights.length-1])}
+                growLightTemplate.scene = scene
+                growLightTemplate.object.ratio = #{ratio}
+                console.log("ratio")
+                console.log(#{ratio})
+                console.log(growLightTemplate.object.ratio)
+                var growLight = new GrowLight(growLightTemplate)										
+                var uuid1 = uuidv4()
+
+                $('##{sliderUuid} .slick-cloned:nth-of-type(#{growLights.length+2}) .sceneContainer').attr('id', 'sceneContainer'+uuid1)
+                $('##{sliderUuid} .slick-cloned:nth-of-type(#{growLights.length+2}) .scene').attr('id', 'scene'+uuid1)
+                var scene1 = new Scene({
+                    render: true,
+                    id: "scene"+uuid1,
+                    containerId: "sceneContainer"+uuid1,
+                    sizeType: "object",
+                    pxr: globalGrowLightPxr,
+                    type: '2d'
+                })
+                scene1.clear({pxr: false})
+                var growLightTemplate1 = !{ts(growLights[0])}											
+                growLightTemplate1.scene = scene1
+                var growLight1 = new GrowLight(growLightTemplate1)									
+        })

@@ -1,0 +1,20 @@
+extends /snippets/layout
+append content
+	header#banner
+		.container-fluid.l
+			.row.l-nudge-below-quite-alot
+				.col-lg-24.banner-text
+					.intro-text.intro-text-title Error 404 
+						br
+						| Your light could not be found 
+			.row
+				.col-xs-24.banner-light-container
+					//- .light-button-positioner
+					//- 	.light-button-container 
+					//- 		a.light-button(href="#growlights") find your light
+					-growLight.object.data = {text: '<a id="bannerGoToLights" href="/growlights">find your light</a>'}
+					-growLight.object.sides = []
+					-growLight.renderRules.labels = false
+					-ratio = 25
+					include /snippets/grow.ai/growLight
+					-growLight.object.data = {}

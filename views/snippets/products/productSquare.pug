@@ -14,7 +14,7 @@
                 h4.pull-right= product.formatted_price
                 h3#product-title
                     a.portfolio-link(href="#"+modalId, data-toggle='modal')= product.title                                 
-            .combo-button.clearfix(id=product.shopifyProductId + " " +product.shopifyVariantId)
+            .combo-button.clearfix(id=product.shopifyProductId + "-" +product.shopifyVariantId)
                 a.order-button add to cart                                     
                 a.shop-cart-button
                     i.fa.fa-shopping-cart(aria-hidden='true')

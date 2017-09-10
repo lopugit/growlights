@@ -119,6 +119,7 @@ function Grow(props) {
                         rx: coverageMap.position.rx || 0,
                         ry: coverageMap.position.ry || 0,
                         rz: coverageMap.position.rz || 0,
+                        type: coverageMap.position.type || 'center'
                     }
                 })
                 coverageMap.width = (Math.floor(coverageMap.width / coverageMap.xResolution)) * coverageMap.xResolution
@@ -349,6 +350,7 @@ function Grow(props) {
                     // { key: 'wattageTotal', text: "Total Wattage:  <div class='unit'><div class='value'>" + (coverageMap.wattageTotal).toFixed(0) + '</div>', group: 'coverageMapData' },
                     { key: 'ppfdAvg', text: "Avg PPFD (umols/m2/s):  <div class='unit'><div class='value'>" + (coverageMap.ppfdAvg).toFixed(0) + '</div>', group: 'coverageMapData' },
                     { key: 'luxAvg', text: "Avg Lux (lumens/m2):  <div class='unit'><div class='value'>" + (coverageMap.luxAvg).toFixed(0) + '</div>', group: 'coverageMapData' },
+                    { key: 'position-type', text: "Coordinate position:  <div class='unit'><div class='value capitalise'>" + coverageMap.position.type + '</div>', group: 'coverageMapData' },
                 ]
                 mapData.forEach((data, datas) => {
                     if (data.group) {
@@ -880,7 +882,7 @@ function Growroom(props, opts) {
                                     z: this.coverage[props.id][point].position.z + zAdjustment,
                                 }))
                             }
-                            var averageOf = (results.reduce((a, b) => a + b, 0)) / results.length
+                            var averageOf = (results.reduce((a, b) => { a + b }, 0)) / results.length
                             this.coverage[props.id][point].lightSources.push(tempDiode)
 
                             this.coverage[props.id][point].lumensPsqm += averageOf
@@ -931,9 +933,6 @@ function Growroom(props, opts) {
 }
 
 function GrowLight(props, opts) {
-    // Object.assign(this, new GrowLightSchema({
-    //
-    // }))
     this.height = props.height || 0.06
     this.width = props.width || .83
     this.depth = props.depth || .26
@@ -950,7 +949,9 @@ function GrowLight(props, opts) {
     this.name = props.name || "Growlight"
 
     this.class = props.class || 'growlight'
+    console.log(props)
     jsonConcat(this, props)
+    console.log(this)
     this.id = props.id || uuidv4()
     this._id = props._id || undefined
     this.uuid = props.uuid || uuidv4()
@@ -993,6 +994,7 @@ function GrowLight(props, opts) {
             }
             number = Math.ceil(Math.random() * diodeCount - 1)
         }
+        // if(this.spectrum.length > -1)
         for (var i = 0; i < this.leds.ammount; i++) {
             // if(i == 0){
             // }
@@ -1164,20 +1166,20 @@ function GrowLight(props, opts) {
             height: props.height || this.height,
             width: props.width || this.width,
             depth: props.depth || this.depth,
-            unit: props.unit || this.unit,
-            render: props.render || this.render,
+            unit: props.unit || this.unit || this.object.unit,
+            render: props.render || this.object.render || this.render,
             ratio: props.ratio || this.object.ratio || this.ratio || this.scene.ratio,
             id: uuidv4(),
-            scene: props.scene || this.scene,
-            position: props.position || this.position,
-            parent: props.parent || this.parent,
-            sizeSelf: props.sizeSelf || this.sizeSelf,
-            class: props.class || this.class,
-            group: props.group || this.group,
+            scene: props.scene || this.scene || this.object.scene,
+            position: props.position || this.position || this.object.position,
+            parent: props.parent || this.parent || this.object.parent,
+            sizeSelf: props.sizeSelf || this.sizeSelf || this.object.sizeSelf,
+            class: props.class || this.class || this.object.class,
+            group: props.group || this.group || this.object.group,
             type: this.object.type || props.type || '3d',
-            sides: props.sides || this.sides,
-            data: props.data || this.data,
-            minPxWidth: props.minPxWidth || this.minPxWidth,
+            sides: props.sides || this.object.sides || this.sides,
+            data: props.data || this.object.data || this.data,
+            minPxWidth: props.minPxWidth || this.minPxWidth || this.object.minPxWidth,
             datas: props.datas || this.datas || [{
                     property: "title",
                     value: this.title
@@ -1406,8 +1408,10 @@ function GrowLight(props, opts) {
                     var rgbString = 'rgba(' + rgb.r + ',' + rgb.g + ',' + rgb.b + ',' + lightOpacity + ')'
                 }
             }
+            // var rgbString = rgbString.replace(/,.{3}\)/, ',' + incrOpac + ')')
             if (this.backBoost) {
                 addedClass = ' backBoosted'
+                var rgbString = rgbString.replace(/,.{3}\)/, ',0.7)')
                 if (nm == 'Green') {
                     var rgbString = rgbString.replace(/,.{3}\)/, ',0.7)')
                     var backBoostRgbString = rgbString.replace(/,.{3}\)/, ',0.4)')
@@ -1460,7 +1464,6 @@ function GrowLight(props, opts) {
                     id: uuidv4()
 
                 })
-
             } else {
                 paths.push({
                     points: [
@@ -1478,7 +1481,6 @@ function GrowLight(props, opts) {
 
                 })
             }
-
             filled += (percent)
         })
         if (this.backBoost) { backBoostPaths.forEach(path => { paths.push(path) }) }
@@ -1956,12 +1958,12 @@ function GrowLight(props, opts) {
         if (this.renderRules.object) {
             if (this.scene) {
                 this.renderObject({
-                    sides: ['front', 'bottom', 'left', 'right', 'top', 'back'],
-                    type: '3d',
-                    scene: this.scene || this.object.scene,
-                    sizeSelf: true,
+                    sides: this.object.sides || ['front', 'bottom', 'left', 'right', 'top', 'back'],
+                    type: this.object.type || '3d',
+                    scene: this.object.scene || this.scene,
+                    sizeSelf: this.object.sizeSelf || true,
                     ratio: props.ratio || this.object.ratio || this.ratio || this.scene.ratio,
-                    class: 'growLight ' + this.model + ' ' + this.wattage + 'watts',
+                    class: this.object.class || 'growLight ' + this.model + ' ' + this.wattage + 'watts',
                     position: {
                         unit: this.unit
                     }

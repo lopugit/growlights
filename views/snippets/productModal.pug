@@ -18,7 +18,7 @@ append content
 							-else if (productType == 'Grow Tent')
 								.l-title Specs
 							-else
-								.l-title Specs
+								//- .l-title Specs
 							ul.list-inline.item-details-product
 								-if(product.product_type == 'Grow Light')
 									li Wattage Draw: 
@@ -111,8 +111,10 @@ append content
 							.product-description!= product.body_html
 
 							.l-group.l-wide
-								.price Price: 
-									strong= product.priceFormatted()
+								.price Price:
+									//- -if(typeof product.priceFormatted !== 'function')
+									strong= product.formatted_price
+									//- strong= product.priceFormatted()
 									//- li
 									//- 	| Coverage area at hang height 20cm, 40cm, 100cm:
 									//- 	strong
