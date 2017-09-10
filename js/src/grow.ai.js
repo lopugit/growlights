@@ -51,7 +51,7 @@ function Grow(props) {
         _this.scene = props.scene
         _this.ratio = props.scene.ratio || props.ratio
         _this.coverageMaps = props.coverageMaps || []
-        _this.lightSources.forEach((lightSource, index) => {
+        _this.lightSources.forEach(function(lightSource, index) {
             var curLightSource = lightSource
                 // if(!curLightSource.object){
                 //     curLightSource.renderObject({
@@ -949,9 +949,7 @@ function GrowLight(props, opts) {
     this.name = props.name || "Growlight"
 
     this.class = props.class || 'growlight'
-    console.log(props)
     jsonConcat(this, props)
-    console.log(this)
     this.id = props.id || uuidv4()
     this._id = props._id || undefined
     this.uuid = props.uuid || uuidv4()

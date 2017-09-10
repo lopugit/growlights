@@ -1,5 +1,7 @@
+var compression = require('compression')
 var express = require("express")
 var app = express()
+app.use(compression())
 fs = require('fs')
 path = require('path')
 bodyParser = require('body-parser')
@@ -355,6 +357,7 @@ app.get('/(|home|index)', function(req, res) {
             .then(function() {
                 return accessories.then(sessories => {
                     res.locals.accessories = sessories[0]
+                    res.locals.accessories.noCarousel = true
                     return
                 })
             })

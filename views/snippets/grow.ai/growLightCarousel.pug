@@ -37,15 +37,10 @@
                     pxr: globalGrowLightPxr,
                     type: '2d'
                 })
-                console.log('globalGrowLightPxr')
-                console.log(globalGrowLightPxr)
                 scene.clear({pxr: false})
                 var growLightTemplate = !{ts(growLights[growLights.length-1])}
                 growLightTemplate.scene = scene
                 growLightTemplate.object.ratio = #{ratio}
-                console.log("ratio")
-                console.log(#{ratio})
-                console.log(growLightTemplate.object.ratio)
                 var growLight = new GrowLight(growLightTemplate)										
                 var uuid1 = uuidv4()
 

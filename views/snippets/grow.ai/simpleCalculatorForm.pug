@@ -91,12 +91,8 @@ form.l-form.l-clear(id=formId, method="post", name="singleTent", data-_id=growLi
                         if(evnt.attributeName == 'class'){
                             if(evnt.newValue.search(/\sin\s|^in$|^in\s|in$/i) >= 0){
                                 var render = true
-                                console.log("we're gonna check if the scene has already been rendered")
-                                console.log(newOpts)
                                 for(object in newOpts.scene.objects){
                                     if(newOpts.scene.objects.hasOwnProperty(object)){
-                                        console.log(newOpts.scene.objects[object].id)
-                                        console.log(newOpts.coverageMaps[0].id+"object")
                                         if(newOpts.scene.objects[object].id == newOpts.coverageMaps[0].id+"object"){
                                             render = false
                                         }

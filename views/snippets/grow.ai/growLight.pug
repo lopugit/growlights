@@ -103,8 +103,6 @@
 				pxr: globalGrowLightPxr,
 				type: '3d'
 			})
-			//- console.log(globalGrowlightPxr)
-			//- console.log("globalGrowlightPxr")
 			var growLight = !{mts(growLight)}
 			growLight.object.ratio = #{ratio}
 			if(!scene.pxr) {
@@ -112,8 +110,6 @@
 			}
 			growLight.scene = scene
 			var gl = new GrowLight(growLight)
-			console.log(growLight.object)
-			console.log(gl)
 			if(scene.pxr && !l3.ai.scenePxrs["gGLPxr"]) { l3.ai.scenePxrs["gGLPxr"] = scene.pxr}
 		})
 

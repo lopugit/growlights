@@ -67,14 +67,6 @@ append content
 			price: 999,
 			hangHeight: 40
 		}
-		//- rainbowGrowLight = returnJsonConcat(allGrowLights[0], rainbowGrowLight)
-		//- nusqeMars = returnJsonConcat(rainbowGrowLight, nusqeMars)
-		//- nusqeSeegree = returnJsonConcat(rainbowGrowLight, nusqeSeegree)
-	//- span= JSON.parse(ts(allGrowLights[0]))
-	//- span= nusqeSeegree
-	//- -allGrowLights.push(rainbowGrowLight)
-	//- -allGrowLights.push(nusqeMars)
-	//- -allGrowLights.push(nusqeSeegree)
 	each product in allGrowLights
 		include /snippets/productModal
 	script.
@@ -83,4 +75,3 @@ append content
 		for(gl in allGrowLights){
 			allGrowLightsTitleIndexed[allGrowLights[gl].title] = allGrowLights[gl]
 		}
-		//- console.log(allGrowLights[0])

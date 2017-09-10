@@ -170,12 +170,6 @@ form.l-form(id=formId, method="post", name="singleTent", data-_id=growLight._id)
                 theme: 'relative',
                 ratio: 80
             })
-            allGrowLights.filter(
-                function(gl){
-                    console.log(gl);
-                    //- return gl._id == "#{growLight._id}"
-                }
-            )
             var currentLight = new GrowLight(allGrowLights.find(gl => gl._id == "#{growLight._id}"), {makeDiodes: true})
             opts = {
                 scene: scene,
@@ -188,8 +182,6 @@ form.l-form(id=formId, method="post", name="singleTent", data-_id=growLight._id)
                     {
                         width: currentLight.coverageAt({dimension: "x"}),
                         depth: currentLight.coverageAt({dimension: "z"}),
-                        //- width: 100,
-                        //- depth: 100,
                         unit: "cm",
                         resolution: 15,
                         lightPosition: {
@@ -204,15 +196,10 @@ form.l-form(id=formId, method="post", name="singleTent", data-_id=growLight._id)
                         var _id = $("#"+e.data.sliderId).find('.slick-current .growLight').attr('data-_id')
                         $("##{formId}").attr('data-_id', _id)
                         var growLight = new GrowLight(allGrowLights.find(gl => gl._id == _id), {makeDiodes: true})
-                        //- console.log(growLight)
-                        //- console.log(_id)
-                        //- console.log($("#"+e.data.sliderId).find('.slick-current .growLight'))
                         e.data.aiOpts.lights = [growLight]
                         e.data.aiOpts.coverageMaps[0] = {
                             width: growLight.coverageAt({dimension: "x"}),
                             depth: growLight.coverageAt({dimension: "z"}),
-                            //- width: 100,
-                            //- depth: 100,
                             unit: "cm",
                             resolution: 15,
                             lightPosition: {
@@ -220,7 +207,6 @@ form.l-form(id=formId, method="post", name="singleTent", data-_id=growLight._id)
                                 y: 0
                             }
                         }
-                        //- console.log(scene)
                         e.data.aiOpts.scene.clear()
                         grow.ai.calculateCoverage(e.data.aiOpts)
                 })
