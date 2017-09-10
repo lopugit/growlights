@@ -49,8 +49,8 @@ append content
                 include /snippets/productModal
             -var productid = productId || false
             script.
-                $(document).ready(()=>{
+                //- $(document).ready(()=>{
                     if("#{productid}"){
                         $("##{productid}Modal").modal('show')
                     }
-                })
+                //- })

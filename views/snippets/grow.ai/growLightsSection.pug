@@ -21,14 +21,14 @@ append content
 										-if(growLight.model == currentModel)
 											include /snippets/grow.ai/growLight
 							script(type='text/javascript').
-								$(document).ready(()=>{
+								//- $(document).ready(()=>{
 									$('.#{currentModel}Slider').slick({
 										arrows: true,
 										centerMode: false
 										//- lazyLoad: 'progressive'
 									})
-								})
-								$(document).ready(function(){
+								//- })
+								//- $(document).ready(function(){
 										//- if(globalGrowLightPxr){} else {
 										//- 	globalGrowLightPxr = scene.pxr
 										//- }
@@ -76,4 +76,4 @@ append content
 										var growLightTemplate1 = !{ts(growLightModel.products[0])}											
 										growLightTemplate1.scene = scene1
 										var growLight1 = new GrowLight(growLightTemplate1)									
-								})
+								//- })

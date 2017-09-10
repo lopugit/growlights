@@ -90,11 +90,11 @@
 		.scene(id="scene"+uuid, style="width: 1400px; max-width 100%")
 	script.
 		if(l3.ai.scenePxrs && l3.ai.scenePxrs["gGLPxr"]) { var globalGrowLightPxr = l3.ai.scenePxrs["gGLPxr"]} else { var globalGrowLightPxr}
-		$(document).ready(function(){
+		//- $(document).ready(function(){
 			//- if(globalGrowLightPxr == 0) {
 			//- 	globalGrowLightPxr = undefined
 			//- }
-			if(l3.ai.scenePxrs && l3.ai.scenePxrs["gGLPxr"]) { var globalGrowLightPxr = l3.ai.scenePxrs["gGLPxr"]} else { var globalGrowLightPxr}
+			//- if(l3.ai.scenePxrs && l3.ai.scenePxrs["gGLPxr"]) { var globalGrowLightPxr = l3.ai.scenePxrs["gGLPxr"]} else { var globalGrowLightPxr}
 			var scene = new Scene({
 				render: true,
 				id: "scene#{uuid}",
@@ -111,7 +111,7 @@
 			growLight.scene = scene
 			var gl = new GrowLight(growLight)
 			if(scene.pxr && !l3.ai.scenePxrs["gGLPxr"]) { l3.ai.scenePxrs["gGLPxr"] = scene.pxr}
-		})
+		//- })
 
 
 -else
