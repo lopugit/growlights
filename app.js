@@ -29,7 +29,7 @@ RedisStore = require('connect-redis')(session)
 emailConf = require('./conf/email')
 
 //Set App Local Variables
-app.locals.deploy = "local"
+app.locals.deploy = "live"
     ///// SET BODY PARSER CONFIG
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({
