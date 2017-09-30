@@ -5,11 +5,11 @@
             a.portfolio-link(href="#"+modalId, data-toggle='modal')
                 i.fa.fa-expand(aria-hidden='true')
                 -if(product.product_type == 'Grow Light')
-                    img(src=product.images[0].src, alt=product.title+ " quality LED Grow Light full spectrum")
+                    img(data-original=product.images[0].src, alt=product.title+ " quality LED Grow Light full spectrum")
                 -else if(product.product_type == 'Grow Tent')
-                    img(src=product.images[0].src, alt=product.title+ " quality indoor plant grow tent hydroponic mylar")
+                    img(data-original=product.images[0].src, alt=product.title+ " quality indoor plant grow tent hydroponic mylar")
                 -else
-                    img(src=product.images[0].src, alt=product.title+ " thumbnail image ozledgrowlights growlights")
+                    img(data-original=product.images[0].src, alt=product.title+ " thumbnail image ozledgrowlights growlights")
             .caption
                 h4.pull-right= product.formatted_price
                 h3#product-title

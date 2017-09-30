@@ -198,11 +198,12 @@ append content
         function openModal(e){
             if(typeof e == 'string'){
                 $("#"+e).modal('show')
-                $('#'+e).trigger('shown')         
+                $('#'+e).trigger('shown')   
             } else {
                 if(e.target !== e.currentTarget) return
                 $("#"+e.id).modal('show')          
                 $('#'+e.id).trigger('shown') 
+                //- setTimeout(window.scrollBy(0,1), 3000)      
             }
         }
         function jsonConcat(o1, o2) {

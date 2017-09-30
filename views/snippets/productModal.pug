@@ -104,10 +104,10 @@ append content
 															strong= vent.shape
 													
 							.preview-product-gallery(align='center')
-								img(name='name'+product._id+"Preview", src=product.images[0].src, alt=product.vendor+" "+product.product_type+" "+product.title)
+								img(name='name'+product._id+"Preview",  data-original=product.images[0].src, sizes="100vw, 100vw", alt=product.vendor+" "+product.product_type+" "+product.title)
 							.product-gallery-thumbnails
 								each image, key in product.images
-									img.thumb(onmouseover='name'+product._id+'Preview.src=name'+product._id+key+'.src', name='name'+product._id+key, src=image.src, alt=product.vendor+" "+product.product_type+" "+product.title)
+									img.thumb(onmouseover='name'+product._id+'Preview.src=name'+product._id+key+'.src', name='name'+product._id+key,  data-original=image.src, data-set=image.src, sizes="100vw, 100vw", alt=product.vendor+" "+product.product_type+" "+product.title)
 							.product-description!= product.body_html
 
 							.l-group.l-wide
@@ -139,3 +139,18 @@ append content
 							//- 	button.btn.btn-default(type='button', data-dismiss='modal')
 							//- 		i.fa.fa-times
 							//- 		|  Close
+
+			script.
+				$('document').ready(function(){
+					$("##{modalId}").attrchange({
+						trackValues: true,
+						callback: function(evnt){
+							if(evnt.attributeName == 'class'){
+								if(evnt.newValue.search(/\sin\s|^in$|^in\s|in$/i) >= 0){
+									setTimeout(window.scrollBy(0,1), 3000)      
+								}
+							}
+
+						}
+					})
+				})
