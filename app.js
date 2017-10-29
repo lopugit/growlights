@@ -12,11 +12,6 @@ url = require('url')
 shopify = require('shopify-buy')
 nodemailer = require('nodemailer')
 pug = require('pug')
-client = shopify.buildClient({
-    accessToken: '30197388c16741334138de5dd1de3f1a',
-    domain: 'my-leisure.myshopify.com',
-    appId: '6'
-})
 var http = require('http').Server(app)
 var io = require('socket.io')(http)
 var session = require('express-session')
