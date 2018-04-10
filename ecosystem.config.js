@@ -7,7 +7,7 @@ module.exports = {
 
     // First application
     {
-      name      : 'ozled',
+      name      : 'ozledgrowlights',
       script    : 'app.js',
       watch	: ['app.js', 'models', 'routes', 'scripts'],
       env: {
