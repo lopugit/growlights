@@ -29,7 +29,11 @@
     "webpack": "^2.5.1"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "pm2 start ecosystem.config.js",
+    "s": "npm run start",
+    "stop": "pm2 stop ecosystem.config.js",
+    "p": "npm run stop"
   },
   "repository": {
     "type": "git",
