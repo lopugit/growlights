@@ -1,7 +1,7 @@
 
 var mongoose = require('mongoose');
 Schema = mongoose.Schema;
-dbconf = require('../../conf/secrets')
+dbconf = require('secrets')
 dbconf = dbconf.mongodb
 let uri = "mongodb://" + (dbconf.auth ? dbconf.username + ":" + dbconf.password + "@" : '') + dbconf.server + ":" + dbconf.port + "/" + dbconf.db + (dbconf.auth ? "?authSource="+dbconf.authDb+"" : '')
 let options = { useMongoClient: true }
