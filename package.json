@@ -2,11 +2,12 @@
   "name": "ozledgrowlights.com.au",
   "version": "1.0.0",
   "description": "",
-	"main": "index.js",
-	"scripts": {
-		"test": "echo \"Error: no test specified\" && exit 1",
-		"push" : "commit ; git push origin dev",
-		"pull" : "git pull origin dev"
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "push": "commit ; git push origin old",
+    "pull": "git pull origin old",
+    "start": "pm2 start ecosystem.config.js ; pm2 logs growlightsOld"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",

@@ -90,14 +90,16 @@ module.exports = function(vars) {
                                                 newProduct.save(err => {
                                                     if (err) {
                                                         console.error("there was an error saving the model to the database: ")
-                                                        console.error(err)
+																												console.error(err)
+																												return
                                                     } else {}
                                                 })
                                             }
                                         })
                                         .catch(err => {
                                             console.error("there was an error removing product from database with id: " + product.product_id)
-                                            console.error(err)
+																						console.error(err)
+																						return
                                         })
                                         // } else {
                                         // }
@@ -109,25 +111,29 @@ module.exports = function(vars) {
 
                             } else {
                                 console.error("there was an error finding a product with id: " + product.id)
-                                console.error(err)
+																console.error(err)
+																return
                             }
 
                         })
                         .catch(err => {
                             console.error("there was na error finding a product with id: " + product.id)
-                            console.error(err)
+														console.error(err)
+														return
                         })
                 })
             })
             .catch(err => {
                 console.error("there was an error when fetching all products from your shopify store")
-                console.error(err)
+								console.error(err)
+								return
             })
 
 
     }).catch(err => {
         console.error("there was some error waiting on the product model: ")
-        console.error(err)
+				console.error(err)
+				return
     })
 }
 

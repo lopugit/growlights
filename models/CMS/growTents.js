@@ -6,7 +6,7 @@ let uri = "mongodb://" + (dbconf.auth ? dbconf.username + ":" + dbconf.password 
 let options = { useMongoClient: true }
 let db = mongoose.createConnection(uri, options)
 
-var Db = MongoClient.connect('mongodb://localhost:27017/ozledgrowlights')
+var Db = MongoClient.connect(uri)
 var fs = require('fs')
 var path = require('path')
 var generateSchema = require('generate-schema')
