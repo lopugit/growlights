@@ -1,5 +1,5 @@
 // import something here
-import flamelink from 'flamelink'
+// import flamelink from 'flamelink'
 import firebase from 'firebase'
 
 const config = {
@@ -12,11 +12,11 @@ const config = {
 }
 // leave the export, even if you don't use it
 export default ({ app, router, Vue }) => {
-	var firebaseApp
-	if(!firebase.apps.length){
-		firebaseApp = firebase.initializeApp(config)
-	} else {
-		firebaseApp = firebase.app()
-	}
-	Vue.prototype.$fl = flamelink({firebaseApp})
+	// var firebaseApp
+	// if(!firebase.apps.length){
+	// 	firebaseApp = firebase.initializeApp(config)
+	// } else {
+	// 	firebaseApp = firebase.app()
+	// }
+	// Vue.prototype.$fl = flamelink({firebaseApp})
 }

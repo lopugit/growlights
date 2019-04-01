@@ -1,5 +1,4 @@
 import circularJSON from 'circular-json'
-import flamelink from 'flamelink'
 import firebase from 'firebase'
 import '@firebase/firestore'
 var fs = initFirestore()
@@ -106,7 +105,7 @@ export const clientId = (state, payload) => {
 			messagingSenderId: "278663639558"
 		}
 		const settings = {
-			timestampsInSnapshots: true
+			// timestampsInSnapshots: true
 		}
 
 		if(!firebase.apps.length){

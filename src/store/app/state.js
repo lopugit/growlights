@@ -1,7 +1,7 @@
 export default {
   isAuthenticated: false,
 	authLogs: [],
-	entityMessage: "welcome, <a href='/self'>" + (this.entity ? this.entity.username : 'anonymous') + "</a>",
+	entityMessage: "welcome, <a href='/self'>" + (this ? this.entity ? this.entity.username : 'anonymous' : 'anonymous') + "</a>",
 	realms: ['all', 'public','free','philosophy'],
 	pageHistory: [],
 	thingTypes: [

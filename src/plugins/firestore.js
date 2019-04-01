@@ -25,7 +25,7 @@ function initFirestore(){
 		messagingSenderId: "278663639558"
 	}
 	const settings = {
-		timestampsInSnapshots: true
+		// timestampsInSnapshots: true
 	}
 
 	if(!firebase.apps.length){

@@ -1,8 +1,8 @@
 <template lang="pug">
-	#q-app(ref="app")
-		//- navbar(:siteTitle="siteTitle")
-		router-view
-		//- sidebar
+#q-app(ref="app")
+	//- navbar(:siteTitle="siteTitle")
+	router-view
+	//- sidebar
 </template>
 
 <script>
@@ -52,14 +52,6 @@ export default {
 				}
 			}
 		},
-		giveRealms(data){
-			if(data.id == this.uuid){
-				// console.log("setting reamls in store")
-				// console.log(data)
-				this.$store.commit('SetRealms', data.realms)
-				// this.$store.state.app.realms = ret.realms
-			}
-		}
 	},
 	beforeCreated(){
 		},
@@ -378,6 +370,7 @@ body
 	img
 		width: 60px
 		height: auto
+		border-radius: 50%
 	width: auto
 	height: auto
 </style>

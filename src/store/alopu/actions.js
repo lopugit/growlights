@@ -3,15 +3,12 @@ export const someAction = (store) => {
 }
 */
 import smarts from 'smarts'
-import flamelink from 'flamelink'
 import firebase from 'firebase'
 import axios from 'axios'
 import '@firebase/firestore'
 import CJSON from 'circular-json'
 import UAParser from 'ua-parser-js'
 import { Notify } from 'quasar'
-
-console.log('Notify', Notify)
 
 var notify = Notify
 var uap = new UAParser()
@@ -62,7 +59,7 @@ export const switchUser = (store, args) => {
 								}
 							/** add facebook email to entity and some other facebook data */
 								var facebookEmailLink = new Promise((resolve, reject)=>{
-									FB.api('/me?locale=en_US&fields=name,email,picture', user=>{
+									FB.api('/me?locale=en_US&fields=name,email,picture.type(normal)', user=>{
 										if(user.email){
 											args.entity.ids["email-facebook"] = user.email
 										}
@@ -241,9 +238,9 @@ export const switchUser = (store, args) => {
 						store.dispatch('switchUserFailure', args)
 					}
 				} else {
-					console.error('there was an error processing a login attempt via facebook during facebook token authentication server side, context @param args: ', args)
+					console.error('there was an error processing a login attempt via Facebook during Facebook token authentication server side, context @param args: ', args)
 					args.feedback = {
-						message: `There was an error logging in with your facebook account`,
+						message: `There was an error logging in with your Facebook account`,
 						color: 'negative',
 						timeout: 4000,
 						position: 'top-right'
@@ -254,7 +251,7 @@ export const switchUser = (store, args) => {
 			.catch((err)=>{
 				console.error('Something went wrong syncing the user with the database: ', err)
 				args.feedback = {
-					message: `There was an error logging in with your facebook account`,
+					message: `There was an error logging in with your Facebook account`,
 					color: 'negative',
 					timeout: 4000,
 					position: 'top-right'
@@ -307,7 +304,7 @@ export const switchUser = (store, args) => {
 									store.dispatch('switchUserSuccess', args)
 								})
 								.catch(err=>{
-									console.error('there was an error processing a login attempt via Planet Express because of firebase', err)
+									console.error('there was an error processing a login attempt via Planet Express because of Firebase', err)
 									args.feedback = {
 										message: `There was an error logging in with your Planet Express account`,
 										color: 'negative',
@@ -544,10 +541,10 @@ export const switchUser = (store, args) => {
 				resolve(args)
 			})
 			.catch(err=>{
-				console.error('there was an error authenticating the user with firebase: ', err)
+				console.error('there was an error authenticating the user with Firebase: ', err)
 				reject({
 					success: false,
-					error: ['there was an error authenticating the user with firebase', err]
+					error: ['there was an error authenticating the user with Firebase', err]
 				})
 			})
 		})
@@ -779,7 +776,7 @@ function initFirestore(){
 		messagingSenderId: "278663639558"
 	}
 	const settings = {
-		timestampsInSnapshots: true
+		// timestampsInSnapshots: true
 	}
 
 	if(!firebase.apps.length){

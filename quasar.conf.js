@@ -18,8 +18,6 @@ module.exports = function (ctx) {
       'i18n',
       'axios',
       'circular-json',
-      'mapbox-gl',
-      'mapbox-gl-vue',
       'vue-awesome',
       'vue-img-inputer',
       'vuedraggable',
@@ -30,7 +28,6 @@ module.exports = function (ctx) {
       'vue-uuid',
       'eventHub',
       'globalCss',
-			'vue-particles',
 			'facebook-login',
 			'google-login',
 			'firebase',
@@ -39,6 +36,7 @@ module.exports = function (ctx) {
 			'env',
 			'smarts',
 			'ua-parser',
+			'webpackDev',
     ],
     css: [
       'app.styl'
@@ -51,10 +49,6 @@ module.exports = function (ctx) {
       // 'fontawesome'
     ],
     supportIE: true,
-    vendor: {
-      add: [],
-      remove: []
-    },
     build: {
       scopeHoisting: true,
       vueRouterMode: 'history',
@@ -76,7 +70,11 @@ module.exports = function (ctx) {
                 name:  path.join(__dirname, 'src', 'statics/cursors/[name].[hash:7].[ext]'),
             }
           },
-        )
+				)
+				cfg.module.rules.push({
+					test: /\.pug$/,
+					loader: 'pug-plain-loader'
+				})
         // fs.writeFile('debug.js', __dirname+"\n"+JSON.stringify(cfg), err=>{
         //   if(err){
         //     console.log(err)
@@ -86,7 +84,7 @@ module.exports = function (ctx) {
     },
     devServer: {
       // https: true,
-      port: 7788,
+      port: 1337,
       open: false // opens browser window automatically
     },
     // framework: 'all' --- includes everything; for dev only!
@@ -118,7 +116,10 @@ module.exports = function (ctx) {
     // },
     // animations: 'all' --- includes all animations
     animations: [
-    ],
+		],
+		ssr: {
+      pwa: true
+    },
     pwa: {
       cacheExt: 'js,html,css,ttf,eot,otf,woff,woff2,json,svg,gif,jpg,jpeg,png,wav,ogg,webm,flac,aac,mp4,mp3',
       manifest: {
@@ -176,8 +177,10 @@ module.exports = function (ctx) {
         // win32metadata: { ... }
       }
     },
+		builder: {
+			// https://www.electron.build/configuration/configuration
 
-    // leave this here for Quasar CLI
-    starterKit: '1.0.0'
+			// appId: 'quasar-app'
+		}
   }
 }

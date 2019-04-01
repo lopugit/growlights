@@ -153,7 +153,6 @@ $navSpace: 2%
   height: auto
   // alopu
   background: rgba($grey, .85)
-  // planetexpress
   // background: rgba($green, 1)
   // background: linear-gradient(to bottom, rgba($green, 1), rgba($green, 0))
   z-index: 500

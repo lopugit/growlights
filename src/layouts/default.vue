@@ -8,8 +8,7 @@
 			:overlay="true"
 			).z-top.q-flex.q-flex-column
 			//- :noHideOnRouteChange="true"
-			planet-express-drawer(
-				
+			app-drawer(
 			)
 			
 		q-page-container.q-pt-none
@@ -22,29 +21,12 @@
 				icon="menu"
 				@click="mainDrawer = !mainDrawer"
 				size="1.2rem"
-				).shadow-0
-			img(
-				src="statics/pe-logo.png"
-				@click="mainDrawer = !mainDrawer"
-				)
-			//- q-toolbar-title() Planet Express
-		//- q-layout-footer.fixed-bottom.q-nav-footer(
-			)
-			q-item
-				//- q-item-side(
-					icon="account balance wallet"
-					color="white"
-					)
-				q-item-main(
-					label="This platform is under active development"
-				).text-center.text-white.text-weight-medium
-				
-	//- sidebar
+				).shadow-0.q-ml-auto.text-primary
 </template>
 
 <script>
 /** components */
-import planetExpressDrawer from 'src/components/planet-express-drawer'
+import appDrawer from 'src/components/app-drawer'
 import smarts from 'smarts'
 export default {
 	mixins: [
@@ -129,7 +111,7 @@ export default {
 		// }
 	},
 	components: {
-		planetExpressDrawer
+		appDrawer
 	},
 	computed: {
 		navigator: {
@@ -387,6 +369,7 @@ body
 	img
 		width: 60px
 		height: auto
+		border-radius: 50%
 	width: auto
 	height: auto
 </style>
