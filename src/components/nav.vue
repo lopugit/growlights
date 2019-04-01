@@ -179,7 +179,7 @@ $navSpace: 2%
         // font-weight: 600
         font-size: 1.1rem
         img
-          max-height: 30pxplanet express
+          max-height: 30px
     .actions-group-container
       display: flex
       align-items: center

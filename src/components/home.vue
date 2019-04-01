@@ -1,6 +1,6 @@
 <template lang='pug'>
 q-page
-	.home-positioner lel
+	.home.home-positioner lel
 </template>
 
 <script>

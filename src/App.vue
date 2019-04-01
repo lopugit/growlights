@@ -12,7 +12,6 @@ export default {
 	name: 'app',
 	data(){
 		return {
-			siteTitle: 'Planet Express'
 		}
 	},
 	sockets: {

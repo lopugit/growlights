@@ -86,7 +86,7 @@ q-list.q-flex.q-flex-column
 						float-label="Username or Email"
 						color="white"
 						inverted-light
-						type="email"
+						type="username"
 					)
 		q-item.full-width.q-pa-no.q-mb-xs(
 			v-show="showLoginOptions"
@@ -127,7 +127,7 @@ q-list.q-flex.q-flex-column
 				q-btn.full-width(
 					color="primary"
 					@click="$store.dispatch('login', {provider: 'alopu'})"
-				) {{ $store.state.alopu.registerable == 'haventchecked' ? 'login / register' : $store.state.alopu.registerable ? 'register' : 'login' }}
+				) {{ $store.state.alopu.registerable == 'haventchecked' ? 'login or register' : $store.state.alopu.registerable ? 'register' : 'login' }}
 		q-item.full-width.q-pa-no.q-mb-xsmd(
 			v-if="$store.getters.loggedIn"
 			)

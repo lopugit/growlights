@@ -85,7 +85,7 @@ export default {
 			// let index = this.thingIn({option: { type: 'login' } , list: this.$store.state.alopu.feedback, keys: ['type'], retIndex: true})
 			for(var i=0; i<this.getsmart(this, '$store.state.alopu.feedback.length', 0); i++){
 				let feedback = this.$store.state.alopu.feedback[0]
-				this.$q.notify(feedback)
+				this.$q.notify(Object.assign({ position: 'top-left' }, feedback))
 				this.$store.commit('removefeedback', 0)
 			}
 		},

@@ -79,7 +79,6 @@ export const switchUser = (store, args) => {
 											message: `Welcome ${args.entity.facebook.name}. You have successfully ${args.newEntity ? 'signed up' : 'logged in'} with your Facebook acccount`,
 											color: 'positive',
 											timeout: 4000,
-											position: 'top-right'
 										}
 										store.dispatch('switchUserSuccess', args)
 									})
@@ -89,7 +88,6 @@ export const switchUser = (store, args) => {
 											message: `There was an error logging in with your Facebook account`,
 											color: 'negative',
 											timeout: 4000,
-											position: 'top-right'
 										}
 										store.dispatch('switchUserFailure', args)
 									})
@@ -100,7 +98,6 @@ export const switchUser = (store, args) => {
 										message: `There was an error logging in with your Facebook account`,
 										color: 'negative',
 										timeout: 4000,
-										position: 'top-right'
 									}
 									store.dispatch('switchUserFailure', args)
 								})
@@ -111,7 +108,6 @@ export const switchUser = (store, args) => {
 								message: `There was an error logging in with your Facebook account`,
 								color: 'negative',
 								timeout: 4000,
-								position: 'top-right'
 							}
 							store.dispatch('switchUserFailure', args)
 						})
@@ -122,7 +118,6 @@ export const switchUser = (store, args) => {
 							message: `There was an error logging in with your Facebook account`,
 							color: 'negative',
 							timeout: 4000,
-							position: 'top-right'
 						}
 						store.dispatch('switchUserFailure', args)
 					}
@@ -132,7 +127,6 @@ export const switchUser = (store, args) => {
 						message: `There was an error logging in with your Facebook account`,
 						color: 'negative',
 						timeout: 4000,
-						position: 'top-right'
 					}
 					store.dispatch('switchUserFailure', args)
 				}
@@ -143,7 +137,6 @@ export const switchUser = (store, args) => {
 					message: `There was an error logging in with your Facebook account`,
 					color: 'negative',
 					timeout: 4000,
-					position: 'top-right'
 				}
 				store.dispatch('switchUserFailure', args)
 
@@ -201,7 +194,6 @@ export const switchUser = (store, args) => {
 										message: `Welcome ${args.entity.google.w3.ofa}. You have successfully ${args.newEntity ? 'signed up' : 'logged in'} with your Google acccount`,
 										color: 'positive',
 										timeout: 4000,
-										position: 'top-right'
 									}
 									store.dispatch('switchUserSuccess', args)
 								})
@@ -211,7 +203,6 @@ export const switchUser = (store, args) => {
 										message: `There was an error logging in with your Google account`,
 										color: 'negative',
 										timeout: 4000,
-										position: 'top-right'
 									}
 									store.dispatch('switchUserFailure', args)
 								})
@@ -223,7 +214,6 @@ export const switchUser = (store, args) => {
 								message: `There was an error logging in with your Google account`,
 								color: 'negative',
 								timeout: 4000,
-								position: 'top-right'
 							}
 							store.dispatch('switchUserFailure', args)
 						})
@@ -233,7 +223,6 @@ export const switchUser = (store, args) => {
 							message: `There was an error logging in with your Google account`,
 							color: 'negative',
 							timeout: 4000,
-							position: 'top-right'
 						}
 						store.dispatch('switchUserFailure', args)
 					}
@@ -243,7 +232,6 @@ export const switchUser = (store, args) => {
 						message: `There was an error logging in with your Facebook account`,
 						color: 'negative',
 						timeout: 4000,
-						position: 'top-right'
 					}
 					store.dispatch('switchUserFailure', args)
 				}
@@ -254,7 +242,6 @@ export const switchUser = (store, args) => {
 					message: `There was an error logging in with your Facebook account`,
 					color: 'negative',
 					timeout: 4000,
-					position: 'top-right'
 				}
 				store.dispatch('switchUserFailure', args)
 			})
@@ -296,20 +283,18 @@ export const switchUser = (store, args) => {
 								ref.set(CJSON.parse(CJSON.stringify(args.entity)), {merge: true})
 								.then(()=>{
 									args.feedback = {
-										message: `Welcome ${args.entity.alopu.username}. You have successfully ${args.newEntity ? 'signed up with a' : 'logged in with your'} Planet Express acccount`,
+										message: `Welcome ${args.entity.alopu.username}. You have successfully ${args.newEntity ? 'signed up with a' : 'logged in with your'} Growlights.com.au acccount`,
 										color: 'positive',
 										timeout: 4000,
-										position: 'top-right'
 									}
 									store.dispatch('switchUserSuccess', args)
 								})
 								.catch(err=>{
-									console.error('there was an error processing a login attempt via Planet Express because of Firebase', err)
+									console.error('there was an error processing a login attempt via Growlights.com.au because of Firebase', err)
 									args.feedback = {
-										message: `There was an error logging in with your Planet Express account`,
+										message: `There was an error logging in with your Growlights.com.au account`,
 										color: 'negative',
 										timeout: 4000,
-										position: 'top-right'
 									}
 									store.dispatch('switchUserFailure', args)
 								})
@@ -318,30 +303,27 @@ export const switchUser = (store, args) => {
 						.catch(err=>{
 							console.error('Something went wrong authenticating the user with firebase: ', err)
 							args.feedback = {
-								message: `There was an error logging in with your Planet Express account`,
+								message: `There was an error logging in with your Growlights.com.au account`,
 								color: 'negative',
 								timeout: 4000,
-								position: 'top-right'
 							}
 							store.dispatch('switchUserFailure', args)
 						})
 					} else {
-						console.error("there was an error processing a login attempt via Planet Express because there's no firestore id assosciated with the entity, context @param args: ", args)
+						console.error("there was an error processing a login attempt via Growlights.com.au because there's no firestore id assosciated with the entity, context @param args: ", args)
 						args.feedback = {
-							message: `There was an error logging in with your Planet Express account`,
+							message: `There was an error logging in with your Growlights.com.au account`,
 							color: 'negative',
 							timeout: 4000,
-							position: 'top-right'
 						}
 						store.dispatch('switchUserFailure', args)
 					}
 				} else {
-					console.error('there was an error processing a login attempt via facebook during Planet Express token authentication server side, context @param args: ', args)
+					console.error('there was an error processing a login attempt via facebook during Growlights.com.au token authentication server side, context @param args: ', args)
 					args.feedback = {
-						message: `There was an error logging in with your Planet Express account`,
+						message: `There was an error logging in with your Growlights.com.au account`,
 						color: 'negative',
 						timeout: 4000,
-						position: 'top-right'
 					}
 					store.dispatch('switchUserFailure', args)
 				}
@@ -349,10 +331,9 @@ export const switchUser = (store, args) => {
 			.catch((err)=>{
 				console.error('Something went wrong syncing the user with the database: ', err)
 				args.feedback = {
-					message: `There was an error logging in with your Planet Express account`,
+					message: `There was an error logging in with your Growlights.com.au account`,
 					color: 'negative',
 					timeout: 4000,
-					position: 'top-right'
 				}
 				store.dispatch('switchUserFailure', args)
 			})
@@ -398,7 +379,6 @@ export const switchUser = (store, args) => {
 					// 		message: `Welcome ${args.entity.alopu.username}. You have successfully signed up with your Alopu acccount`,
 					// 		color: 'positive',
 					// 		timeout: 4000,
-					// 		position: 'top-right'
 					// 	}
 					// 	store.dispatch('switchUserSuccess', args)
 					// })
@@ -408,7 +388,6 @@ export const switchUser = (store, args) => {
 					// 		message: `There was an error logging in with your Alopu account`,
 					// 		color: 'negative',
 					// 		timeout: 4000,
-					// 		position: 'top-right'
 					// 	}
 					// 	store.dispatch('switchUserFailure', args)
 					// })
@@ -439,7 +418,6 @@ export const switchUser = (store, args) => {
 		// 						message: `Welcome back ${args.entity.username}. You have successfully logged in with your Alopu acccount`,
 		// 						color: 'positive',
 		// 						timeout: 4000,
-		// 						position: 'top-right'
 		// 					}
 		// 					store.dispatch('switchUserSuccess', args)
 		// 				})
@@ -449,7 +427,6 @@ export const switchUser = (store, args) => {
 		// 						message: `There was an error logging in via your Alopu account`,
 		// 						color: 'negative',
 		// 						timeout: 4000,
-		// 						position: 'top-right'
 		// 					}
 		// 					store.dispatch('switchUserFailure', args)
 		// 				})
@@ -464,7 +441,6 @@ export const switchUser = (store, args) => {
 		// 		message: `There was an error logging in via your Alopu account`,
 		// 		color: 'negative',
 		// 		timeout: 4000,
-		// 		position: 'top-right'
 		// 	}
 		// 	store.dispatch('switchUserFailure', args)
 
@@ -591,6 +567,7 @@ export const login = (store, {...args}) => {
 	if(args['provider'] == 'alopu'){
 		var passwordEmpty = s.getsmart(store, 'state.entity.alopu.password', '') == ''
 		var passwordMatch = ((s.getsmart(store, 'state.entity.alopu.password', false) == s.getsmart(store, 'state.passwordConfirmation', 0)) && !passwordEmpty) || !s.getsmart(store, 'state.registerable', false)
+		var feedback = {}
 		if(s.getsmart(store, 'state.entity.alopu.username', false) && passwordMatch){
 			store.commit('passwordConfirmation', '')
 			args['success'] = true
@@ -598,25 +575,26 @@ export const login = (store, {...args}) => {
 			if(s.getsmart(store, 'state.registerable', false)){
 				message = 'Signing up'
 			}
-			notify.create({
+			feedback = {
 				message,
 				color: 'positive',
 				timeout: 4000
-			})
+			}
 			store.dispatch('switchUser', args)
 		} else if (!passwordMatch && !passwordEmpty){
-			notify.create({
+			feedback = {
 				message: "Your passwords didn't match",
 				color: 'warning',
 				timeout: 4000
-			})					
+			}			
 		} else if(s.getsmart(store, 'state.showLoginOptions', false)){
-			notify.create({
+			feedback = {
 				message: "Your credentials weren't valid, please try again",
 				color: 'warning',
 				timeout: 4000
-			})
+			}
 		}
+		store.commit('feedback', {feedback})
 		store.commit('showLoginOptions', true)
 		// store.showLoginOptions = true
 	}
@@ -629,7 +607,6 @@ export const login = (store, {...args}) => {
 			message: `There was an error logging in with your ${args['provider']} account`,
 			color: 'negative',
 			timeout: 4000,
-			position: 'top-right'
 		}
 		store.dispatch('switchUserFailure', args)
 
@@ -683,7 +660,6 @@ export const logoutSuccess = (store, args) => {
 				message: 'Successfully logged out',
 				color: 'positive',
 				timeout: 4000,
-				position: 'top-right'
 			}
 		}
 	}
@@ -699,7 +675,6 @@ export const logoutFail = (store, args) => {
 				message: 'Something went wrong logging out, we wiped your data locally just to be safe',
 				color: 'info',
 				timeout: 4000,
-				position: 'top-right'
 			}
 		}
 	}
