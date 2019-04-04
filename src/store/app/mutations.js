@@ -1,5 +1,5 @@
 import circularJSON from 'circular-json'
-
+let smarts = require('smarts')()
 export const interactionStarted = (state, payload) => {
 	state.interactionStarted = payload
 }
@@ -78,9 +78,9 @@ export const passwordConfirmation = (state, val) => {
 	state.passwordConfirmation = val
 }
 
-export const mainDrawer = (state, val) => {
+export const leftSidebar = (state, val) => {
 	if(typeof val == 'boolean'){
-		state.mainDrawer = val
+		state.leftSidebar = val
 	}
 }
 
@@ -90,4 +90,10 @@ export const entity = (state, val) => {
 
 export const pageHistory = (state, val) => {
 	state.pageHistory = val
+}
+
+export const thing = (state, args) => {
+	if(args.path && args.val){
+		smarts.setsmart(state, args.path, args.val)
+	}
 }

@@ -1,5 +1,7 @@
 import smarts from 'smarts'
 
+window.smarts = smarts()
+
 export default ({app, router, Vue}) => {
 	// var s = {}
 	// s.install = function(){

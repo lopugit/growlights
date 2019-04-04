@@ -1,12 +1,12 @@
 <template lang='pug'>
-  .templateO-container
-		.templateO-positioner
-			.templateO
+  .product-container
+		.product-positioner
+			.product
 </template>
 
 <script>
 export default {
-  name: 'templateO-comp',
+  name: 'product-comp',
   data () {
     return {
       // objects: null,
@@ -60,7 +60,7 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="sass" scoped>
 @import 'src/styles/vars'
-.templateO
+.product
   width: 100%
   max-width: 100%
   overflow: hidden

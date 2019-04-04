@@ -1,122 +1,98 @@
 export default {
   isAuthenticated: false,
 	authLogs: [],
-	entityMessage: "welcome, <a href='/self'>" + (this ? this.entity ? this.entity.username : 'anonymous' : 'anonymous') + "</a>",
-	realms: ['all', 'public','free','philosophy'],
 	pageHistory: [],
-	thingTypes: [
-			"object",
-			"service",
-			"inventory",
-			"question",
-			"answer",
-			"moment",
-	],
-	types: [
-			"Array",
-			"String",
-			"Number",
-			"Boolean",
-			"Thing",
-			"Array of Arrays",
-			"Array of Booleans",
-			"Array of Numbers",
-			"Array of Things",
-			"Array of Strings",
-			"Thing of Arrays",
-			"Thing of Booleans",
-			"Thing of Numbers",
-			"Thing of Things",
-			"Thing of Strings",
-			// Array,
-			// Boolean,
-			// Number,
-			// Object,
-			// ,
-			// ,
-			// ,
-			// ,
-			// ,
-			// [String],
-			// "Array",
-			// "Boolean",
-			// "Number",
-			// "Object",
-			// "String",
-			// "[Array]",
-			// "[Boolean]",
-			// "[Number]",
-			// "[Object]",
-			// "[String]",
-	],
-	thingNames: [
-			"fork",
-			"flashlight",
-			"book",
-			"food",
-			"vegan lesagne",
-			"sour strap",
-			"wallet",
-			"blanket",
-			"mattress",
-	],
-	priceUnits: [
-			"purchase",
-			"unit",
-			"use",
-			"click",
-			"second",
-			"minute",
-			"hour",
-			"day",
-			"cm",
-			"metre",
-			"km",
-			"mg",
-			"g",
-			"kg",
-			"tonne",
-	],
-	currencies: [
-			"AUD",
-			"USD",
-			"EUR",
-			"REN",
-			"YEN",
-			"RUP",
-	],
-	sideBarOptions: [
-			'closed'
-	],
-	ico: {
-			sandboxThing: {
-					title: 'A lopu sandbox thing',
-					description: "change as much as you want, the change's will still be here when you return",
-					names: ['a lopu ico sandbox thing', 'thing'],
-			},
-			sandboxThingSchema: {
-					title: 'A lopu sandbox thing',
-					description: "change as much as you want, the change's will still be here when you return",
-					names: ['a lopu ico sandbox thing', 'thing'],
-			},
-	},
-	test: {
-			woo: Boolean,
-			woo1: Array,
-			woo2: [Array],
-			woo3: {Array: Array},
-			woo4: {
-					hmm: Boolean,
-					hmm1: Array,
-					hmm2: [Object],
-					hmm3: {Array: Array}
-			}
-	},
-	cached: [
-			[]
-	],
 	interactionStarted: false,
-	showLoginOptions: false,
-	mainDrawer: false,
-	
+	showLoginOptions: true,
+	leftSidebar: false,
+	cartSidebar: false,
+	cart: [
+		{
+			title: '100W Mars Hydro LED Grow light',
+			thumbnail: 'https://www.mars-hydro.com/media/catalog/product/cache/2/small_image/210x/9df78eab33525d08d6e5fb8d27136e95/1/3/13_1_3.jpg',
+			count: 1
+		},
+		{
+			title: '300W Mars Hydro LED Grow light',
+			thumbnail: 'https://www.mars-hydro.com/media/catalog/product/cache/2/small_image/210x/9df78eab33525d08d6e5fb8d27136e95/m/a/marshydro_reflector_480w_led_grow_light_full_spectrum_for_hydroponic_indoor_plants_veg_and_bloom.jpg',
+			count: 1
+		},
+		{
+			title: '300W Mars Hydro LED Grow light',
+			thumbnail: 'https://www.mars-hydro.com/media/catalog/product/cache/2/small_image/210x/9df78eab33525d08d6e5fb8d27136e95/m/a/marshydro_reflector_480w_led_grow_light_full_spectrum_for_hydroponic_indoor_plants_veg_and_bloom.jpg',
+			count: 1
+		},
+		{
+			title: '300W Mars Hydro LED Grow light',
+			thumbnail: 'https://www.mars-hydro.com/media/catalog/product/cache/2/small_image/210x/9df78eab33525d08d6e5fb8d27136e95/m/a/marshydro_reflector_480w_led_grow_light_full_spectrum_for_hydroponic_indoor_plants_veg_and_bloom.jpg',
+			count: 1
+		},
+		{
+			title: '300W Mars Hydro LED Grow light',
+			thumbnail: 'https://www.mars-hydro.com/media/catalog/product/cache/2/small_image/210x/9df78eab33525d08d6e5fb8d27136e95/m/a/marshydro_reflector_480w_led_grow_light_full_spectrum_for_hydroponic_indoor_plants_veg_and_bloom.jpg',
+			count: 1
+		},
+		{
+			title: '300W Mars Hydro LED Grow light',
+			thumbnail: 'https://www.mars-hydro.com/media/catalog/product/cache/2/small_image/210x/9df78eab33525d08d6e5fb8d27136e95/m/a/marshydro_reflector_480w_led_grow_light_full_spectrum_for_hydroponic_indoor_plants_veg_and_bloom.jpg',
+			count: 1
+		},
+		{
+			title: '300W Mars Hydro LED Grow light',
+			thumbnail: 'https://www.mars-hydro.com/media/catalog/product/cache/2/small_image/210x/9df78eab33525d08d6e5fb8d27136e95/m/a/marshydro_reflector_480w_led_grow_light_full_spectrum_for_hydroponic_indoor_plants_veg_and_bloom.jpg',
+			count: 1
+		},
+		{
+			title: '300W Mars Hydro LED Grow light',
+			thumbnail: 'https://www.mars-hydro.com/media/catalog/product/cache/2/small_image/210x/9df78eab33525d08d6e5fb8d27136e95/m/a/marshydro_reflector_480w_led_grow_light_full_spectrum_for_hydroponic_indoor_plants_veg_and_bloom.jpg',
+			count: 1
+		},
+		{
+			title: '300W Mars Hydro LED Grow light',
+			thumbnail: 'https://www.mars-hydro.com/media/catalog/product/cache/2/small_image/210x/9df78eab33525d08d6e5fb8d27136e95/m/a/marshydro_reflector_480w_led_grow_light_full_spectrum_for_hydroponic_indoor_plants_veg_and_bloom.jpg',
+			count: 1
+		},
+		{
+			title: '300W Mars Hydro LED Grow light',
+			thumbnail: 'https://www.mars-hydro.com/media/catalog/product/cache/2/small_image/210x/9df78eab33525d08d6e5fb8d27136e95/m/a/marshydro_reflector_480w_led_grow_light_full_spectrum_for_hydroponic_indoor_plants_veg_and_bloom.jpg',
+			count: 1
+		},
+		{
+			title: '300W Mars Hydro LED Grow light',
+			thumbnail: 'https://www.mars-hydro.com/media/catalog/product/cache/2/small_image/210x/9df78eab33525d08d6e5fb8d27136e95/m/a/marshydro_reflector_480w_led_grow_light_full_spectrum_for_hydroponic_indoor_plants_veg_and_bloom.jpg',
+			count: 1
+		},
+		{
+			title: '300W Mars Hydro LED Grow light',
+			thumbnail: 'https://www.mars-hydro.com/media/catalog/product/cache/2/small_image/210x/9df78eab33525d08d6e5fb8d27136e95/m/a/marshydro_reflector_480w_led_grow_light_full_spectrum_for_hydroponic_indoor_plants_veg_and_bloom.jpg',
+			count: 1
+		},
+	],
+	navigation: [
+		{
+			name: 'grow lights',
+			link: '/products/growlights',
+			icon: 'hothouse.png'
+		},
+		{
+			name: 'grow rooms',
+			link: '/products/growrooms',
+			icon: 'green-house.png'
+		},
+		{
+			name: 'grow kits',
+			link: '/products/growkits',
+			icon: 'stock.png'
+		},
+		{
+			name: 'additives',
+			link: '/products/grownutes',
+			icon: 'research.png'
+		},
+		{
+			name: 'accessories',
+			link: '/products/accessories',
+			icon: 'smart-farm.png'
+		},
+	]
 }

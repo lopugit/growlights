@@ -1,8 +1,7 @@
-export default {
+let state = {
 	schemas: {},
 	feedback: [],
 	dialog: [],
-	entity: undefined,
 	entityDefault: {
 		alopu: {
 			username: undefined,
@@ -15,3 +14,5 @@ export default {
 	registerable: 'haventchecked',
 	passwordConfirmation: ''
 }
+state.entity = state.entityDefault
+export default state

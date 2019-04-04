@@ -78,7 +78,7 @@ export const switchUser = (store, args) => {
 										args.feedback = {
 											message: `Welcome ${args.entity.facebook.name}. You have successfully ${args.newEntity ? 'signed up' : 'logged in'} with your Facebook acccount`,
 											color: 'positive',
-											timeout: 4000,
+											timeout: 2000,
 										}
 										store.dispatch('switchUserSuccess', args)
 									})
@@ -193,7 +193,7 @@ export const switchUser = (store, args) => {
 									args.feedback = {
 										message: `Welcome ${args.entity.google.w3.ofa}. You have successfully ${args.newEntity ? 'signed up' : 'logged in'} with your Google acccount`,
 										color: 'positive',
-										timeout: 4000,
+										timeout: 2000,
 									}
 									store.dispatch('switchUserSuccess', args)
 								})
@@ -285,7 +285,7 @@ export const switchUser = (store, args) => {
 									args.feedback = {
 										message: `Welcome ${args.entity.alopu.username}. You have successfully ${args.newEntity ? 'signed up with a' : 'logged in with your'} Growlights.com.au acccount`,
 										color: 'positive',
-										timeout: 4000,
+										timeout: 2000,
 									}
 									store.dispatch('switchUserSuccess', args)
 								})
@@ -378,7 +378,7 @@ export const switchUser = (store, args) => {
 					// 	args.feedback = {
 					// 		message: `Welcome ${args.entity.alopu.username}. You have successfully signed up with your Alopu acccount`,
 					// 		color: 'positive',
-					// 		timeout: 4000,
+					// 		timeout: 2000,
 					// 	}
 					// 	store.dispatch('switchUserSuccess', args)
 					// })
@@ -417,7 +417,7 @@ export const switchUser = (store, args) => {
 		// 					args.feedback = {
 		// 						message: `Welcome back ${args.entity.username}. You have successfully logged in with your Alopu acccount`,
 		// 						color: 'positive',
-		// 						timeout: 4000,
+		// 						timeout: 2000,
 		// 					}
 		// 					store.dispatch('switchUserSuccess', args)
 		// 				})
@@ -567,7 +567,7 @@ export const login = (store, {...args}) => {
 	if(args['provider'] == 'alopu'){
 		var passwordEmpty = s.getsmart(store, 'state.entity.alopu.password', '') == ''
 		var passwordMatch = ((s.getsmart(store, 'state.entity.alopu.password', false) == s.getsmart(store, 'state.passwordConfirmation', 0)) && !passwordEmpty) || !s.getsmart(store, 'state.registerable', false)
-		var feedback = {}
+		var feedback = undefined
 		if(s.getsmart(store, 'state.entity.alopu.username', false) && passwordMatch){
 			store.commit('passwordConfirmation', '')
 			args['success'] = true
@@ -578,7 +578,7 @@ export const login = (store, {...args}) => {
 			feedback = {
 				message,
 				color: 'positive',
-				timeout: 4000
+				timeout: 2000
 			}
 			store.dispatch('switchUser', args)
 		} else if (!passwordMatch && !passwordEmpty){
@@ -594,7 +594,9 @@ export const login = (store, {...args}) => {
 				timeout: 4000
 			}
 		}
-		store.commit('feedback', {feedback})
+		if(feedback){
+			store.commit('feedback', {feedback})
+		}
 		store.commit('showLoginOptions', true)
 		// store.showLoginOptions = true
 	}
@@ -659,7 +661,7 @@ export const logoutSuccess = (store, args) => {
 			feedback: {
 				message: 'Successfully logged out',
 				color: 'positive',
-				timeout: 4000,
+				timeout: 2000,
 			}
 		}
 	}

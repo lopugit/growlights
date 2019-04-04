@@ -1,7 +1,5 @@
 <template lang='pug'>
-  .templateO-container
-		.templateO-positioner
-			.templateO
+  .templateO
 </template>
 
 <script>
@@ -42,6 +40,7 @@ export default {
     // }
   },
   props: {
+    "siteTitle": {}
   },
   components: {
   },

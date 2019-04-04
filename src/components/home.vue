@@ -1,10 +1,12 @@
 <template lang='pug'>
 q-page
-	.home.home-positioner lel
+	.home.home-positioner
+		growlights-banner
 </template>
 
 <script>
 import smarts from 'smarts'
+import growlightsBanner from 'src/components/growlights/banner'
 export default {
 	name: 'home',
 	mixins: [
@@ -36,6 +38,7 @@ export default {
 	props: {
 	},
 	components: {
+		growlightsBanner
 	},
 	watch: {
 	},  

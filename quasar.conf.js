@@ -4,14 +4,16 @@ var fs = require('fs')
 // var utils = require('utils')
 
 module.exports = function (ctx) {
-	var apiDomain = '"bld"'
+	var apiDomain = 'bld'
 	if(process.env.api == 'dev'){
-		apiDomain = '"src"'
+		apiDomain = 'src'
 	} else if (process.env.api == 'build'){
-		apiDomain = '"bld"'
+		apiDomain = 'bld'
 	} else if (process.env.api == 'prod'){
-		apiDomain = '"com"'
+		apiDomain = 'com'
 	}
+	let apiUrl = `"https://api.alopu.${apiDomain}"`
+	apiDomain = `"${apiDomain}"`
   return {
     // app plugins (/src/plugins)
     plugins: [
@@ -37,6 +39,7 @@ module.exports = function (ctx) {
 			'smarts',
 			'ua-parser',
 			'webpackDev',
+			'grow.ai'
     ],
     css: [
       'app.styl'
@@ -55,7 +58,8 @@ module.exports = function (ctx) {
       gzip: true,
 			analyze: true,
 			env: {
-				apiDomain: apiDomain
+				apiUrl,
+				apiDomain,
 			},
       // extractCSS: false,
       // useNotifier: false,

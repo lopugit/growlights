@@ -15,9 +15,11 @@
 // to match your app's branding.
 
 $primary   = #42b983
+// $primary   = #B8FF3B
 // $secondary = #4dd798
-// $thirdiary = #ffdebd
 $secondary = #3374B1
+// $secondary = #C1FF00
+// $thirdiary = #ffdebd
 $tertiary  = #555
 $white     = #F2F2F2
 
@@ -121,6 +123,38 @@ keyframes(name)
 	padding-bottom 0px
 .q-pa-no,.q-pa-none
 	padding: 0px
+.q-pt-xxxxsm
+	padding-top 2px
+.q-pl-xxxxsm
+	padding-left 2px
+.q-pr-xxxxsm
+	padding-right 2px
+.q-pb-xxxxsm
+	padding-bottom 2px
+.q-pt-xxxsm
+	padding-top 4px
+.q-pl-xxxsm
+	padding-left 4px
+.q-pr-xxxsm
+	padding-right 4px
+.q-pb-xxxsm
+	padding-bottom 4px
+.q-pt-xxsm
+	padding-top 6px
+.q-pl-xxsm
+	padding-left 6px
+.q-pr-xxsm
+	padding-right 6px
+.q-pb-xxsm
+	padding-bottom 6px
+.q-pt-xsm
+	padding-top 8px
+.q-pl-xsm
+	padding-left 8px
+.q-pr-xsm
+	padding-right 8px
+.q-pb-xsm
+	padding-bottom 8px
 .q-pt-xsmd
 	padding-top 10px
 .q-pl-xsmd
@@ -224,12 +258,15 @@ img
 	&>img
 		border-radius: 0px
 
+.q-circle
+	border-radius: 50%
+
 .q-circle-image,
 .q-circle-img
 	border-radius: 50%
 	&>img
 		border-radius: 50%
-
+	
 .q-border-round-xs,
 .q-br-rd-xs
 	border-radius: 2px
@@ -388,3 +425,16 @@ img
 	border-radius: 10px
 	&>img
 		border-radius: 10px
+
+
+.text-cap,
+.cap,
+.text-capitalize,
+.text-capitilize,
+.capitalize,
+.capitilize
+	text-transform capitalize
+
+.uppercase,
+.text-uppercase
+	text-transform uppercase

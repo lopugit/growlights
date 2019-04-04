@@ -1,12 +1,19 @@
 <template lang='pug'>
-  .templateO-container
-		.templateO-positioner
-			.templateO
+  .products-container
+		.products-positioner
+			.products
+				template(
+					v-for="product in products"
+				)
 </template>
 
 <script>
+let components = {
+	product: require('src/components/product').default
+}
+
 export default {
-  name: 'templateO-comp',
+  name: 'products-comp',
   data () {
     return {
       // objects: null,
@@ -37,13 +44,26 @@ export default {
     // }
   },
   methods: {
-    // getObjects(opts){
-    //   this.$socket.emit('getObjects', opts)
-    // }
+		getProducts(args){
+			// this.$axios({
+			// 	method: 'get',
+			// 	url: `${this.$env.apiUrl}`,
+			// 	params: {
+			// 	}
+			// })
+			// .then(res=>{
+			// 	console.log(res.data)
+			// })
+			// .catch(err=>{
+			// 	console.error(err)
+			// })
+		}
   },
   props: {
+		names
   },
   components: {
+		...components
   },
   watch: {
     // '$store.state.entity': function(){
@@ -60,7 +80,7 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="sass" scoped>
 @import 'src/styles/vars'
-.templateO
+.products
   width: 100%
   max-width: 100%
   overflow: hidden

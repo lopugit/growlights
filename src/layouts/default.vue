@@ -1,33 +1,39 @@
 <template lang="pug">
 	q-layout(
-		view="HHH Lpr FFF"
+		view="HHH LpR FFF"
 		)
 		q-layout-drawer(
-			v-model="mainDrawer"
+			v-model="leftSidebar"
 			side="left"
 			:overlay="true"
 			).z-top.q-flex.q-flex-column
 			//- :noHideOnRouteChange="true"
-			app-drawer(
+			sidebar(
+			)
+		q-layout-drawer(
+			v-model="cartSidebar"
+			side="right"
+			:overlay="true"
+			).z-top.q-flex.q-flex-column
+			//- :noHideOnRouteChange="true"
+			cart-sidebar(
 			)
 			
 		q-page-container.q-pt-none
 			router-view.router-view
-		q-toolbar.fixed-top.q-nav-toolbar(
-			color="primary"
-			:overlay="true"
-			)
-			q-btn(
-				icon="menu"
-				@click="mainDrawer = !mainDrawer"
-				size="1.2rem"
-				).shadow-0.q-ml-auto.text-primary
+		navbar
 </template>
 
 <script>
 /** components */
-import appDrawer from 'src/components/app-drawer'
 import smarts from 'smarts'
+
+let components = {
+	navbar: require('src/components/navbar').default,
+	sidebar: require('src/components/sidebar').default,
+	'cart-sidebar': require('src/components/cart-sidebar').default,
+}
+
 export default {
 	mixins: [
 		smarts({
@@ -49,7 +55,7 @@ export default {
 			},
 			googleParams: {
 				client_id: '975800988436-0hoego0l4bvdv0du05jivj538tnk91vl.apps.googleusercontent.com'
-			}
+			},
 		}
 	},
 	sockets: {
@@ -59,6 +65,11 @@ export default {
 	},
 	created(){
 		// console.log(this)
+		setTimeout(()=>{
+			this.$store.state.app.leftSidebar = true
+			this.$store.state.app.cartSidebar = true
+		},2000)
+		this.$store.state.alopu.registerable = 'haventchecked'
 	},
 	methods: {
 		register(){
@@ -106,17 +117,30 @@ export default {
 		'$store.state.app.showLoginOptions'(){
 			this.showLoginOptions = this.$store.state.app.showLoginOptions
 		},
-		// '$store.state.app.mainDrawer'(){
-		// 	this.mainDrawer = this.$store.state.app.mainDrawer
-		// }
 	},
 	components: {
-		appDrawer
+		...components
 	},
 	computed: {
 		navigator: {
 			get(){
 				return navigator
+			}
+		},
+		leftSidebar: {
+			get(){
+				return this.$store.state.app.leftSidebar
+			},
+			set(val){
+				this.$store.commit('thing', {path: 'leftSidebar', val})
+			}
+		},
+		cartSidebar: {
+			get(){
+				return this.$store.state.app.cartSidebar
+			},
+			set(val){
+				this.$store.commit('thing', {path: 'cartSidebar', val})
 			}
 		},
 		showLoginOptions: {
@@ -129,14 +153,6 @@ export default {
 			},
 			set(val){
 				this.$store.commit('showLoginOptions', val)
-			}
-		},
-		mainDrawer: {
-			get(){
-				return this.$store.state.app.mainDrawer
-			},
-			set(val){
-				this.$store.commit('mainDrawer', val)
 			}
 		},
 		entity: {

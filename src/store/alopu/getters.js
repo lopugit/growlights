@@ -14,7 +14,7 @@ export const userAgentNormalised = (state) => {
 }
 // 
 export const username = (state, getters) => (which) => {
-	var ret = 'John'
+	var ret = 'Welcome'
 	var loggedIn = s.getsmart(state, 'entity.loggedIn', {})
 	if(loggedIn && loggedIn[getters.userAgentNormalised]){
 		if(s.getsmart(state, 'entity.alopu.username', false)){
@@ -42,7 +42,8 @@ export const ego = (state, getters) => (i) => {
 }
 
 export const cover = (state, getters) => (which) => {
-	var ret = 'statics/biologist-100-100.png'
+	// var ret = 'statics/biologist-100-100.png'
+	var ret = 'statics/circle.growlights.com.au.png'
 	var loggedIn = s.getsmart(state, 'entity.loggedIn', {})
 	if(loggedIn && loggedIn[getters.userAgentNormalised]){
 		if(s.getsmart(state, 'entity.profilePicture', false)){

@@ -9,7 +9,7 @@ export const getUsername = (state) => {
 }
 
 export const latestCached = (state) => {
-	if(state.cached.length){
+	if(smarts.getsmart(state, 'cached.length', false)){
 			let ret = state.cached[state.cached.length-1]
 			if(ret && ret.constructor == Array){
 					return ret
@@ -17,7 +17,8 @@ export const latestCached = (state) => {
 					return []
 			}
 	} else {
+			smarts.gosmart(state, 'cached', [])
 			state.cached.push([])
-			return state.cached[state.cached.length-1]
+			return state.cached[smarts.getsmart(state, 'cached.length', 1)-1]
 	}
 }

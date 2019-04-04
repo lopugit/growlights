@@ -10,6 +10,8 @@ window.CLEARVUEXLOCALSTORAGE = function(){
 	localStorage.removeItem('vuex')
 }
 
+window.CLEARVUEXLOCALSTORAGE()
+
 const Store = new Vuex.Store({
 	modules: {
 		app,
