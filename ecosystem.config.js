@@ -6,7 +6,7 @@ module.exports = {
     args: 'dev',
     instances: 1,
     autorestart: true,
-		watch: true,
+		watch: false,
     max_memory_restart: '1G',
     env: {
 			api: 'dev',

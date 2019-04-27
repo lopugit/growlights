@@ -78,12 +78,6 @@ export const passwordConfirmation = (state, val) => {
 	state.passwordConfirmation = val
 }
 
-export const leftSidebar = (state, val) => {
-	if(typeof val == 'boolean'){
-		state.leftSidebar = val
-	}
-}
-
 export const entity = (state, val) => {
 	state.entity = val
 }
@@ -93,7 +87,7 @@ export const pageHistory = (state, val) => {
 }
 
 export const thing = (state, args) => {
-	if(args.path && args.val){
+	if(args && args.path && typeof args.val !== undefined){
 		smarts.setsmart(state, args.path, args.val)
 	}
 }

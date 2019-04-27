@@ -2,11 +2,17 @@
 q-page
 	.home.home-positioner
 		growlights-banner
+		products(
+			:query=`{
+				type: 'LED Grow Light'
+			}`
+			:model=`'thing'`
+      :cards=`true`
+		)
 </template>
 
 <script>
 import smarts from 'smarts'
-import growlightsBanner from 'src/components/growlights/banner'
 export default {
 	name: 'home',
 	mixins: [
@@ -38,10 +44,11 @@ export default {
 	props: {
 	},
 	components: {
-		growlightsBanner
+		growlightsBanner: require('src/components/banner').default,
+		products: require('src/components/products').default
 	},
 	watch: {
-	},  
+	},
 	route: {
 		canActivate(){
 			return true
@@ -145,7 +152,7 @@ export default {
 								padding-bottom: 30px
 								.addresses-positioner
 									.addresses
-										.address-container  
+										.address-container
 											.address-positioner
 												padding-bottom: 20px
 												.address
@@ -259,7 +266,7 @@ export default {
 																align-items: center
 																justify-content: center
 																flex-direction: column
-																
+
 								.additional-actions-container
 									margin-top: 10px
 									.action
@@ -270,8 +277,8 @@ export default {
 										.q-btn-inner
 											&::before
 											// color: black !important
-								
-				
+
+
 	// background: $grey
 //quasar mods
 .q-chip-delete

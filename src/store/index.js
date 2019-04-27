@@ -5,12 +5,10 @@ import app from './app'
 import alopu from './alopu'
 
 Vue.use(Vuex)
+window.clear = function(){localStorage.removeItem('vuex');console.log('done')}
+// window.clear()
 
-window.CLEARVUEXLOCALSTORAGE = function(){
-	localStorage.removeItem('vuex')
-}
 
-window.CLEARVUEXLOCALSTORAGE()
 
 const Store = new Vuex.Store({
 	modules: {
@@ -24,5 +22,6 @@ const Store = new Vuex.Store({
 	]
 })
 // localStorage.removeItem('vuex')
-
+window.$Store = Store
+window.$store = Store
 export default Store

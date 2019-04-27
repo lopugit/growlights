@@ -1,14 +1,30 @@
 import smarts from 'smarts'
 
-window.smarts = smarts()
 
 export default ({app, router, Vue}) => {
+  window.smarts = smarts({
+    vue: {
+      reactiveSetter: true,
+      vm: Vue
+    }
+  }).methods
 	// var s = {}
 	// s.install = function(){
 	// 	Object.defineProperty(Vue.prototype, '$s', {
 	// 		get () { return smarts() }
 	// 	})
 	// }
-	// Vue.use(s);
-	Vue.prototype.$s = smarts()
+	Vue.mixin(
+    smarts({
+      vue: {
+        reactiveSetter: true
+      }
+    })
+  );
+	Vue.prototype.$s = smarts({
+    vue: {
+      reactiveSetter: true,
+      vm: Vue
+    }
+  }).methods
 }

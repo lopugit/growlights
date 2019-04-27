@@ -1,12 +1,16 @@
 <template lang='pug'>
-  .templateO-container
-    .templateO-positioner
-      .templateO
+  .growlights-banner(
+    :class=`{
+      size
+    }`
+  )
+    .growlights-banner-container
+      img.logo(src='statics/growlights.com.au.png')
 </template>
 
 <script>
 export default {
-  name: 'templateO-comp',
+  name: 'growlights-banner-comp',
   data () {
     return {
       // objects: null,
@@ -42,8 +46,10 @@ export default {
     // }
   },
   props: {
+    "size": {},
   },
   components: {
+
   },
   watch: {
     // '$store.state.entity': function(){
@@ -60,9 +66,32 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="sass" scoped>
 @import 'src/styles/vars'
-.templateO
+.growlights-banner
   width: 100%
   max-width: 100%
   overflow: hidden
+  -webkit-tap-highlight-color: green
+  display: flex
+  align-items: center
+  justify-content: center
+  padding: 30px 0px 50px 0px
+  .growlights-banner-container
+    display: flex
+    width: 100%
+    max-width: 100%
+    align-items: center
+    justify-content: center
+    -webkit-tap-highlight-color: green
+    display: flex
+    align-items: center
+    justify-content: center
+    .logo
+      -webkit-tap-highlight-color: green
+      max-width: 450px
   // background: $grey
+  &.size
+    // height: 180px
+    padding: 0px 0px 30px 0px
+    .logo
+      max-width: 150px
 </style>

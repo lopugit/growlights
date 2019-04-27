@@ -53,12 +53,12 @@ export default {
 	},
 	beforeCreated(){
 		},
-	created(){		
+	created(){
 		/** inits */
 			/** initiate unique client id */
 				this.$store.dispatch('manifestClientId', this.$uuid.v4())
 			/** entity state */
-				this.$store.dispatch('buildDefaultEntity')
+				// this.$store.dispatch('buildDefaultEntity')
 			/** userAgent */
 				this.$store.dispatch('userAgentSync', navigator.userAgent)
 			/** cursor */
@@ -98,9 +98,11 @@ export default {
 				count++
 				// console.lgog(count)
 			}
+
 			document.body.onmousedown = mouseClick
 			document.body.onmouseup = mouseUp
-			console.log("%s was created", this.siteTitle)
+
+			console.log("app was created")
 			this.$socket.emit('getRealms', {
 				id: this.uuid,
 				find: {},
@@ -215,16 +217,16 @@ a:-webkit-any-link,
 
 	+keyframes(hoverMaple)
 		0%
-			cursor: url(/statics/cursors/ms/aero_link2.cur) 2 2, pointer 
+			cursor: url(/statics/cursors/ms/aero_link2.cur) 2 2, pointer
 		49%
-			cursor: url(/statics/cursors/ms/aero_link2.cur) 2 2, pointer 
-		50% 
-			cursor: url(/statics/cursors/ms/aero_link1.cur) 2 2, auto 
-		99% 
-			cursor: url(/statics/cursors/ms/aero_link1.cur) 2 2, auto 
+			cursor: url(/statics/cursors/ms/aero_link2.cur) 2 2, pointer
+		50%
+			cursor: url(/statics/cursors/ms/aero_link1.cur) 2 2, auto
+		99%
+			cursor: url(/statics/cursors/ms/aero_link1.cur) 2 2, auto
 		100%
-			cursor: url(/statics/cursors/ms/aero_link2.cur) 2 2, pointer 
-	
+			cursor: url(/statics/cursors/ms/aero_link2.cur) 2 2, pointer
+
 .fa-icon
 	user-select: none
 button,

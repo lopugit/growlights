@@ -39,7 +39,10 @@ module.exports = function (ctx) {
 			'smarts',
 			'ua-parser',
 			'webpackDev',
-			'grow.ai'
+			'grow.ai',
+      'lopu3',
+      'flatted',
+      'vuelidate'
     ],
     css: [
       'app.styl'

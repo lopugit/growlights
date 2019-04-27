@@ -33,6 +33,7 @@ export const switchUser = (store, args) => {
 				]
 			},
 			registered: {
+        any: true,
 				facebook: true
 			}
 		}
@@ -45,7 +46,7 @@ export const switchUser = (store, args) => {
 						firebaseAuth(args)
 						.then(args=>{
 							/** create DocumentReference */
-								var ref = things.doc(fsid) 
+								var ref = things.doc(fsid)
 							/** set loggedIn status for this userAgent */
 								var loggedIn = s.gosmart(args, 'entity.loggedIn', {})
 								if(loggedIn){
@@ -60,10 +61,12 @@ export const switchUser = (store, args) => {
 							/** add facebook email to entity and some other facebook data */
 								var facebookEmailLink = new Promise((resolve, reject)=>{
 									FB.api('/me?locale=en_US&fields=name,email,picture.type(normal)', user=>{
-										if(user.email){
-											args.entity.ids["email-facebook"] = user.email
-										}
-										if(user){
+                    if(user){
+                      if(user.email){
+                        // args.entity.ids["email-facebook"] = user.email
+                        s.setsmart(args, 'entity.ids.email-facebook', user.email)
+                        s.setsmart(args, 'entity.alopu.username', user.email)
+                      }
 											Object.assign(args.entity.facebook, user)
 											s.setsmart(args, 'entity.facebook.picture', user.picture)
 										}
@@ -111,7 +114,7 @@ export const switchUser = (store, args) => {
 							}
 							store.dispatch('switchUserFailure', args)
 						})
-						
+
 					} else {
 						console.error("there was an error processing a login attempt via Facebook because there's no firestore id assosciated with the entity, context @param args: ", args)
 						args.feedback = {
@@ -141,9 +144,9 @@ export const switchUser = (store, args) => {
 				store.dispatch('switchUserFailure', args)
 
 			})
-	
-		
-	} 
+
+
+	}
 	// AUTH SOURCE == GOOGLE
 	else if(args.provider == 'google'){
 		var userID = s.getsmart(args, 'token.El', undefined)
@@ -161,6 +164,7 @@ export const switchUser = (store, args) => {
 				]
 			},
 			registered: {
+        any: true,
 				google: true
 			}
 		}
@@ -173,7 +177,7 @@ export const switchUser = (store, args) => {
 						firebaseAuth(args)
 						.then(args=>{
 							/** create DocumentReference */
-								var ref = things.doc(fsid) 
+								var ref = things.doc(fsid)
 							/** set loggedIn status for this userAgent */
 								var loggedIn = s.gosmart(args, 'entity.loggedIn', {})
 								if(loggedIn){
@@ -206,7 +210,7 @@ export const switchUser = (store, args) => {
 									}
 									store.dispatch('switchUserFailure', args)
 								})
-								
+
 						})
 						.catch(err=>{
 							console.error('Something went wrong authenticating the user with firebase: ', err)
@@ -245,8 +249,8 @@ export const switchUser = (store, args) => {
 				}
 				store.dispatch('switchUserFailure', args)
 			})
-			
-	} 
+
+	}
 	// AUTH SOURCE == ALOPU
 	else if(args.provider == 'alopu' || !args.provider){
 		args.entity = {
@@ -255,6 +259,7 @@ export const switchUser = (store, args) => {
 				"username-alopu": s.getsmart(args, 'entity.alopu.username', s.getsmart(store, 'state.entity.alopu.username', undefined))
 			},
 			registered: {
+        any: true,
 				alopu: true
 			}
 		}
@@ -267,7 +272,7 @@ export const switchUser = (store, args) => {
 						firebaseAuth(args)
 						.then(args=>{
 							/** create DocumentReference */
-								var ref = things.doc(fsid) 
+								var ref = things.doc(fsid)
 							/** set loggedIn status for this userAgent */
 								var loggedIn = s.gosmart(args, 'entity.loggedIn', {})
 								if(loggedIn){
@@ -298,7 +303,7 @@ export const switchUser = (store, args) => {
 									}
 									store.dispatch('switchUserFailure', args)
 								})
-								
+
 						})
 						.catch(err=>{
 							console.error('Something went wrong authenticating the user with firebase: ', err)
@@ -342,7 +347,7 @@ export const switchUser = (store, args) => {
 	/** template auth code */
 		// var things = fs.collection('things')
 		// var username = s.getsmart(store, 'state.entity.alopu.username', undefined)
-		// things = things.where('username', "==", username) 
+		// things = things.where('username', "==", username)
 		// things.get()
 		// .then(res=>{
 		// 	// NO FACEBOOK LINKED NATIVE ACCOUNT
@@ -361,11 +366,12 @@ export const switchUser = (store, args) => {
 								// username: username,
 								// password: s.getsmart(store, 'state.entity.alopu.password', undefined)
 		// 					tokens: [ // PUSH JWT
-		// 						args.token 
+		// 						args.token
 		// 					]
 		// 				},
 		// 				registered: {
-		// 					alopu: true
+              // any: true,
+							// alopu: true
 		// 				}
 		// 			}
 		// 			// set loggedIn status for this userAgent
@@ -392,7 +398,7 @@ export const switchUser = (store, args) => {
 					// 	store.dispatch('switchUserFailure', args)
 					// })
 		// 		})
-		// 	} 
+		// 	}
 		// 	// FOUND ALOPU LINKED NATIVE ACCOUNT
 		// 	else if(res.size > 0){
 		// 		if(res.size > Infinity){
@@ -430,7 +436,7 @@ export const switchUser = (store, args) => {
 		// 					}
 		// 					store.dispatch('switchUserFailure', args)
 		// 				})
-		// 			}				
+		// 			}
 
 		// 		}
 		// 	}
@@ -447,11 +453,11 @@ export const switchUser = (store, args) => {
 		// })
 	/** HELPER FUNCTIONS */
 	function syncUser(args){
-		/** this function will make an api call to api.alopu.com 
+		/** this function will make an api call to api.alopu.com
 		 * @returns @type {Promise}
 		 * and do 1 or more of a few things, but always return the same thing
 		 * @param @var args @type {Object} is the arguments object with expected schema defined below
-		 * @param @var args.token @type {Object} is a provider token given by eg. google, facebook, twitter, github, etc.. 
+		 * @param @var args.token @type {Object} is a provider token given by eg. google, facebook, twitter, github, etc..
 		 * can be undefined if you're authenticating a native user
 		 * @param @var args.provider  @type {String} is the provider source, eg. google, facebook, twitter, github, etc..
 		 * @param @var args.entity @type {Object} is the entity object to be used with the authentication
@@ -472,7 +478,7 @@ export const switchUser = (store, args) => {
 				}
 				axios.post('https://api.alopu.'+s.getsmart(store, 'state.env.apiDomain', 'com')+'/auth', params, axiosConf)
 				.then(post=>{
-		
+
 					if(post.data.success && post.data.entity){
 						resolve(post.data)
 					} else {
@@ -525,7 +531,7 @@ export const switchUser = (store, args) => {
 			})
 		})
 	}
-} 
+}
 
 export const checkUsernameAvailability = (store, username) =>{
 	axios({
@@ -541,7 +547,7 @@ export const checkUsernameAvailability = (store, username) =>{
 			if(res.data.taken){
 				store.commit('registerable', false)
 			} else if(!res.data.taken){
-				store.commit('registerable', true)			
+				store.commit('registerable', true)
 			}
 		} else {
 			console.error('something went wrong checking if the username is registerable via the api: ', res.data.error)
@@ -586,7 +592,7 @@ export const login = (store, {...args}) => {
 				message: "Your passwords didn't match",
 				color: 'warning',
 				timeout: 4000
-			}			
+			}
 		} else if(s.getsmart(store, 'state.showLoginOptions', false)){
 			feedback = {
 				message: "Your credentials weren't valid, please try again",
@@ -620,7 +626,7 @@ export const logout = (store, args) =>{
 		// store.dispatch('logoutFail')
 	}, 5000)
 	var entity = CJSON.parse(CJSON.stringify(s.getsmart(store, 'state.entity', undefined)))
-	store.dispatch('resetEntity')  
+	store.dispatch('resetEntity')
 	// var entity
 	var things = fs.collection('things')
 	var id
@@ -654,7 +660,7 @@ export const logout = (store, args) =>{
 }
 
 export const logoutSuccess = (store, args) => {
-	store.dispatch('resetEntity') 
+	store.dispatch('resetEntity')
 	store.commit('registerable', 'haventchecked')
 	if(!args){
 		var args = {
