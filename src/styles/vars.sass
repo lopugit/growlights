@@ -1,0 +1,93 @@
+// global imports
+// @import node_modules/vue-animate/dist/vue-animate.min.css
+
+// Vars
+$primary: #42b983
+// $primary: #80bc18
+// $secondary: #4dd798
+$secondary: #3374B1
+// $secondary: #C1FF00
+// $thirdiary: #ffdebd
+$accent: #9C27B0
+
+$tertiary : #555
+$white: rgb(253, 253, 253)
+// $white: #F2F2F2
+
+$friendly: #535353
+$neutral: #E0E1E2
+$positive: #21BA45
+// $negative: #dc0000
+$negative: #D12A27
+$info: #31CCEC
+$warning: #F2C037
+$gentleGrey: #d5d5d6
+$strongGrey: #acacae
+$hardGrey: $strongGrey
+$gentleGrey2: #c6cbde
+$strongGrey2: #8189a9
+$hardGrey2: $strongGrey2
+$dark: #16161d
+
+$white: rgb(253, 253, 253)
+// $white: #F2F2F2
+$grey: rgb(239, 239, 239)
+// $grey: rgba(246, 246, 246, 1)
+$lightblack: rgba(33, 33, 33, 1)
+$friendly: #535353
+$family: 'Avenir', Helvetica, Arial, sans-serif
+$green: #42b983 //rgb(66,185,131)
+$red: #42b983 //rgb(66,185,131)
+// $green: #80bc18 //rgb(66,185,131)
+// $red: #80bc18 //rgb(66,185,131)
+$yellow: #FFD408
+$greenhover: darken($green, 5)
+$friendlyhover: darken($friendly, 5)
+$gentleGrey: #d5d5d6
+$lightGrey: lighten(#d5d5d6, 13)
+
+// map colours
+$mapLow: hsl(240, 20%, 80%)
+$mapModerate: rgba(66,207,121,1)
+$mapHeavy: rgba(66,185,131,1)
+$mapSevere: rgba(66,140,149,1)
+
+// font sizes
+$largeFont: 1.55rem
+$niceFont: 1.05rem
+$littleFont: .9rem
+$tinyFont: .7rem
+
+//Mixins
+=animate($who, $time, $ease-type)
+	-webkit-transition: $who $time $ease-type
+	-moz-transition: $who $time $ease-type
+	-ms-transition: $who $time $ease-type
+	transition: $who $time $ease-type
+@function animate($who, $time, $ease-type, $recursiveAnimation)
+	@return $who $time $ease-type, $recursiveAnimation
+=animations($who, $time, $ease-type, $recursiveAnimation)
+	-webkit-transition: $who $time $ease-type, $recursiveAnimation
+	-moz-transition: $who $time $ease-type, $recursiveAnimation
+	-ms-transition: $who $time $ease-type, $recursiveAnimation
+	transition: $who $time $ease-type, $recursiveAnimation
+=keyframes($name)
+	@-webkit-keyframes #{$name}
+		@content
+	@-moz-keyframes #{$name}
+		@content
+	@-ms-keyframes #{$name}
+		@content
+	@keyframes #{$name}
+		@content
+
+// prefixed classes
+.noselect
+	-webkit-touch-callout: none
+	-webkit-user-select: none
+	-khtml-user-select: none
+	-moz-user-select: none
+	-ms-user-select: none
+	user-select: none
+
+

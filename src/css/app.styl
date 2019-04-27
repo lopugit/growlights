@@ -1,0 +1,1032 @@
+// app global css
+//Mixins
+animate(who, time, ease-type)
+  -webkit-transition: who time ease-type
+  -moz-transition: who time ease-type
+  -ms-transition: who time ease-type
+  transition: who time ease-type
+
+animations(who, time, ease-type, recursiveAnimation)
+  -webkit-transition: who time ease-type, recursiveAnimation
+  -moz-transition: who time ease-type, recursiveAnimation
+  -ms-transition: who time ease-type, recursiveAnimation
+  transition: who time ease-type, recursiveAnimation
+keyframes(name)
+  @-webkit-keyframes #{name}
+    @content
+  @-moz-keyframes #{name}
+    @content
+  @-ms-keyframes #{name}
+    @content
+  @keyframes #{name}
+    @content
+
+.flex,
+.q-flex
+  display flex
+.q-align-start
+  display: flex
+  align-items: flex-start
+.q-align-center
+  display: flex
+  align-items: center
+.q-align-end
+  display: flex
+  align-items: flex-end
+.q-justify-start
+  display: flex
+  justify-content: flex-start
+.q-justify-center
+  display: flex
+  justify-content: center
+.q-justify-end
+  display: flex
+  justify-content: flex-end
+.q-flex-column
+  display: flex
+  flex-direction: column
+.q-flex-row
+  display: flex
+  flex-direction: row
+
+.q-mt-auto
+  margin-top auto !important
+.q-ml-auto
+  margin-left auto !important
+.q-mr-auto
+  margin-right auto !important
+.q-mb-auto
+  margin-bottom auto !important
+.q-mt-no,.q-mt-none
+  margin-top 0px !important
+.q-ml-no,.q-ml-none
+  margin-left 0px !important
+.q-mr-no,.q-mr-none
+  margin-right 0px !important
+.q-ma-no,.q-ma-none
+  margin: 0px !important
+.q-mb-no,.q-mb-none
+  margin-bottom 0px !important
+.q-mt-xxxxsm
+  margin-top 1px !important
+.q-ml-xxxxsm
+  margin-left 1px !important
+.q-mr-xxxxsm
+  margin-right 1px !important
+.q-mb-xxxxsm
+  margin-bottom 1px !important
+.q-ma-xxxxsm
+  margin: 1px !important
+.q-mt-xxxsm
+  margin-top 2px !important
+.q-ml-xxxsm
+  margin-left 2px !important
+.q-mr-xxxsm
+  margin-right 2px !important
+.q-mb-xxxsm
+  margin-bottom 2px !important
+.q-ma-xxxsm
+  margin: 2px !important
+.q-mt-xxsm
+  margin-top 4px !important
+.q-ml-xxsm
+  margin-left 4px !important
+.q-mr-xxsm
+  margin-right 4px !important
+.q-mb-xxsm
+  margin-bottom 4px !important
+.q-ma-xxsm
+  margin: 4px !important
+.q-mt-xsm
+  margin-top 6px !important
+.q-ml-xsm
+  margin-left 6px !important
+.q-mr-xsm
+  margin-right 6px !important
+.q-mb-xsm
+  margin-bottom 6px !important
+.q-ma-xsm
+  margin: 6px !important
+.q-mt-sm
+  margin-top 8px !important
+.q-ml-sm
+  margin-left 8px !important
+.q-mr-sm
+  margin-right 8px !important
+.q-mb-sm
+  margin-bottom 8px !important
+.q-ma-sm
+  margin: 8px !important
+.q-mt-xsmd
+  margin-top 10px !important
+.q-ml-xsmd
+  margin-left 10px !important
+.q-mr-xsmd
+  margin-right 10px !important
+.q-mb-xsmd
+  margin-bottom 10px !important
+.q-ma-xsmd
+  margin: 10px !important
+.q-mt-smd
+  margin-top 12px !important
+.q-ml-smd
+  margin-left 12px !important
+.q-mr-smd
+  margin-right 12px !important
+.q-mb-smd
+  margin-bottom 12px !important
+.q-ma-smd
+  margin: 12px !important
+.q-mt-md
+  margin-top 16px !important
+.q-ml-md
+  margin-left 16px !important
+.q-mr-md
+  margin-right 16px !important
+.q-mb-md
+  margin-bottom 16px !important
+.q-ma-md
+  margin: 16px !important
+.q-mt-lg
+  margin-top 20px !important
+.q-ml-lg
+  margin-left 20px !important
+.q-mr-lg
+  margin-right 20px !important
+.q-mb-lg
+  margin-bottom 20px !important
+.q-ma-lg
+  margin: 20px !important
+.q-mt-xlg
+  margin-top 24px !important
+.q-ml-xlg
+  margin-left 24px !important
+.q-mr-xlg
+  margin-right 24px !important
+.q-mb-xlg
+  margin-bottom 24px !important
+.q-ma-xlg
+  margin: 24px !important
+.q-mt-xxlg
+  margin-top 28px !important
+.q-ml-xxlg
+  margin-left 28px !important
+.q-mr-xxlg
+  margin-right 28px !important
+.q-mb-xxlg
+  margin-bottom 28px !important
+.q-ma-xxlg
+  margin: 28px !important
+.q-mt-xxxlg
+  margin-top 32px !important
+.q-ml-xxxlg
+  margin-left 32px !important
+.q-mr-xxxlg
+  margin-right 32px !important
+.q-mb-xxxlg
+  margin-bottom 32px !important
+.q-ma-xxxlg
+  margin: 32px !important
+.q-mt-xxxxlg
+  margin-top 36px !important
+.q-ml-xxxxlg
+  margin-left 36px !important
+.q-mr-xxxxlg
+  margin-right 36px !important
+.q-mb-xxxxlg
+  margin-bottom 36px !important
+.q-ma-xxxxlg
+  margin: 36px !important
+.q-mt-xl
+  margin-top 40px !important
+.q-ml-xl
+  margin-left 40px !important
+.q-mr-xl
+  margin-right 40px !important
+.q-mb-xl
+  margin-bottom 40px !important
+.q-ma-xl
+  margin: 40px !important
+.q-mt-xxl
+  margin-top 44px !important
+.q-ml-xxl
+  margin-left 44px !important
+.q-mr-xxl
+  margin-right 44px !important
+.q-mb-xxl
+  margin-bottom 44px !important
+.q-ma-xxl
+  margin: 44px !important
+.q-mt-xxxl
+  margin-top 48px !important
+.q-ml-xxxl
+  margin-left 48px !important
+.q-mr-xxxl
+  margin-right 48px !important
+.q-mb-xxxl
+  margin-bottom 48px !important
+.q-ma-xxxl
+  margin: 48px !important
+.q-mt-xxxxl
+  margin-top 52px !important
+.q-ml-xxxxl
+  margin-left 52px !important
+.q-mr-xxxxl
+  margin-right 52px !important
+.q-mb-xxxxl
+  margin-bottom 52px !important
+.q-ma-xxxxl
+  margin: 52px !important
+.q-mt-xxxxxl
+  margin-top 56px !important
+.q-ml-xxxxxl
+  margin-left 56px !important
+.q-mr-xxxxxl
+  margin-right 56px !important
+.q-mb-xxxxxl
+  margin-bottom 56px !important
+.q-ma-xxxxxl
+  margin: 56px !important
+
+
+.q-pt-no,.q-pt-none
+  padding-top 0px
+.q-pl-no,.q-pl-none
+  padding-left 0px
+.q-pr-no,.q-pr-none
+  padding-right 0px
+.q-pb-no,.q-pb-none
+  padding-bottom 0px
+.q-pa-no,.q-pa-none
+  padding: 0px
+.q-pt-xxxxxsm
+  padding-top 1px
+.q-pl-xxxxxsm
+  padding-left 1px
+.q-pr-xxxxxsm
+  padding-right 1px
+.q-pb-xxxxxsm
+  padding-bottom 1px
+.q-pa-xxxxxsm
+  padding: 1px
+.q-pt-xxxxsm
+  padding-top 2px
+.q-pl-xxxxsm
+  padding-left 2px
+.q-pr-xxxxsm
+  padding-right 2px
+.q-pb-xxxxsm
+  padding-bottom 2px
+.q-pa-xxxxsm
+  padding: 2px
+.q-pt-xxxsm
+  padding-top 4px
+.q-pl-xxxsm
+  padding-left 4px
+.q-pr-xxxsm
+  padding-right 4px
+.q-pb-xxxsm
+  padding-bottom 4px
+.q-pa-xxxsm
+  padding: 4px
+.q-pt-xxsm
+  padding-top 6px
+.q-pl-xxsm
+  padding-left 6px
+.q-pr-xxsm
+  padding-right 6px
+.q-pb-xxsm
+  padding-bottom 6px
+.q-pa-xxsm
+  padding: 6px
+.q-pt-xsm
+  padding-top 8px
+.q-pl-xsm
+  padding-left 8px
+.q-pr-xsm
+  padding-right 8px
+.q-pb-xsm
+  padding-bottom 8px
+.q-pa-xsm
+  padding: 8px
+.q-pt-xsmd
+  padding-top 10px
+.q-pl-xsmd
+  padding-left 10px
+.q-pr-xsmd
+  padding-right 10px
+.q-pb-xsmd
+  padding-bottom 10px
+.q-pa-xsmd
+  padding: 10px
+.q-pt-smd
+  padding-top 12px
+.q-pl-smd
+  padding-left 12px
+.q-pr-smd
+  padding-right 12px
+.q-pb-smd
+  padding-bottom 12px
+.q-pa-smd
+  padding: 12px
+.q-pt-md
+  padding-top 14px
+.q-pl-md
+  padding-left 14px
+.q-pr-md
+  padding-right 14px
+.q-pb-md
+  padding-bottom 14px
+.q-pa-md
+  padding: 14px
+.q-pt-xmd
+  padding-top 16px
+.q-pl-xmd
+  padding-left 16px
+.q-pr-xmd
+  padding-right 16px
+.q-pb-xmd
+  padding-bottom 16px
+.q-pa-xmd
+  padding: 16px
+.q-pt-xxmd
+  padding-top 20px
+.q-pl-xxmd
+  padding-left 20px
+.q-pr-xxmd
+  padding-right 20px
+.q-pb-xxmd
+  padding-bottom 20px
+.q-pa-xxmd
+  padding: 20px
+.q-pt-lg
+  padding-top 24px
+.q-pl-lg
+  padding-left 24px
+.q-pr-lg
+  padding-right 24px
+.q-pb-lg
+  padding-bottom 24px
+.q-pa-lg
+  padding: 24px
+.q-pt-xlg
+  padding-top 28px
+.q-pl-xlg
+  padding-left 28px
+.q-pr-xlg
+  padding-right 28px
+.q-pb-xlg
+  padding-bottom 28px
+.q-pa-xlg
+  padding: 28px
+.q-pt-xxlg
+  padding-top 32px
+.q-pl-xxlg
+  padding-left 32px
+.q-pr-xxlg
+  padding-right 32px
+.q-pb-xxlg
+  padding-bottom 32px
+.q-pa-xxlg
+  padding: 32px
+.q-pt-xxxlg
+  padding-top 36px
+.q-pl-xxxlg
+  padding-left 36px
+.q-pr-xxxlg
+  padding-right 36px
+.q-pb-xxxlg
+  padding-bottom 36px
+.q-pa-xxxlg
+  padding: 36px
+.q-pt-xxxxlg
+  padding-top 40px
+.q-pl-xxxxlg
+  padding-left 40px
+.q-pr-xxxxlg
+  padding-right 40px
+.q-pb-xxxxlg
+  padding-bottom 40px
+.q-pa-xxxxlg
+  padding: 40px
+.q-pt-xl
+  padding-top 48px
+.q-pl-xl
+  padding-left 48px
+.q-pr-xl
+  padding-right 48px
+.q-pb-xl
+  padding-bottom 48px
+.q-pa-xl
+  padding: 48px
+.q-pt-xxl
+  padding-top 56px
+.q-pl-xxl
+  padding-left 56px
+.q-pr-xxl
+  padding-right 56px
+.q-pb-xxl
+  padding-bottom 56px
+.q-pa-xxl
+  padding: 56px
+.q-pt-xxxl
+  padding-top 64px
+.q-pl-xxxl
+  padding-left 64px
+.q-pr-xxxl
+  padding-right 64px
+.q-pb-xxxl
+  padding-bottom 64px
+.q-pa-xxxl
+  padding: 64px
+.q-pt-xxxxl
+  padding-top 72px
+.q-pl-xxxxl
+  padding-left 72px
+.q-pr-xxxxl
+  padding-right 72px
+.q-pb-xxxxl
+  padding-bottom 72px
+.q-pa-xxxxl
+  padding: 72px
+
+.max-h-100
+  max-height: 100%
+
+.no-border,
+.bd-no,
+.no-bd,
+.border-no,
+.border-none
+  border: none
+.br-none,
+.br-no
+  border-radius 0px !important
+$nums = 100
+for $num in (0...$nums+1)
+  .border-{$num},
+  .br-{$num},
+  .b-{$num},
+  .q-border-{$num},
+  .q-b-{$num}
+    border ($num)px solid lighten($gentleGrey2, 8)
+$nums = 100
+for $num in (0...$nums+1)
+  .bordert-{$num},
+  .brt-{$num},
+  .bt-{$num},
+  .q-bordert-{$num},
+  .q-bt-{$num}
+    border-top ($num)px solid lighten($gentleGrey2, 8)
+$nums = 100
+for $num in (0...$nums+1)
+  .borderb-{$num},
+  .brb-{$num},
+  .bb-{$num},
+  .q-borderb-{$num},
+  .q-bb-{$num}
+    border-bottom ($num)px solid lighten($gentleGrey2, 8)
+$nums = 100
+for $num in (0...$nums+1)
+  .borderl-{$num},
+  .brl-{$num},
+  .bl-{$num},
+  .q-borderl-{$num},
+  .q-bl-{$num}
+    border-left ($num)px solid lighten($gentleGrey2, 8)
+$nums = 100
+for $num in (0...$nums+1)
+  .borderr-{$num},
+  .brr-{$num},
+  .br-{$num},
+  .q-borderr-{$num},
+  .q-br-{$num}
+    border-right ($num)px solid lighten($gentleGrey2, 8)
+
+.icon-avatar
+  & img
+    width: 24px
+    height auto
+.bg-none,
+.q-bg-none
+  background rgba(0,0,0,0) !important
+
+.bg-white,
+.q-bg-white
+  background rgba($white,1)
+
+.bg-primary,
+.q-bg-primary
+  background rgba($primary,1)
+
+.bg-none,
+.q-bg-none
+  background rgba(0,0,0,1)
+
+img
+  &.q-img-xs
+    width 24px
+    height auto
+  &.q-img-sm
+    width 30px
+    height auto
+  &.q-img-md
+    width 36px
+    height auto
+  &.q-img-lg
+    width 42px
+    height auto
+  &.q-img-xl
+    width 48px
+    height auto
+
+
+.q-if
+  display: flex
+  align-items: center
+  flex-direction: row
+  justify-content: center
+  &.q-search
+    padding-top: 14px !important
+
+.q-if-focused
+  .q-if-label
+    .q-if-label-inner
+      color $strongGrey2 !important
+.q-if-inner
+  padding-top: 0px !important
+  margin-top: 0px !important
+  margin-bottom: 0px !important
+
+.q-input-target
+  margin-top: 13px !important
+
+.q-if-label,
+.q-search .q-if-label
+  top: 50% !important
+  transform scale(1) translate(0, -55%) !important
+  .q-if-label-inner
+    color $gentleGrey2 !important
+    font-size: 16px !important
+
+.q-if-label-above,
+.q-search .q-if-label-above
+  top: 50% !important
+  transform scale(.7) translate(0, -150%) !important
+.q-if-control
+  font-size: 18px
+  margin-top: auto
+  margin-bottom: auto
+  // margin: auto
+.q-if-inverted
+  padding-top: 6px
+  padding-bottom: 6px
+
+.q-square-image,
+.q-square-img
+  border-radius: 0px
+  &>img
+    border-radius: 0px
+
+.q-circle
+  border-radius: 50%
+
+.q-circle-image,
+.q-circle-img
+  border-radius: 50%
+  &>img
+    border-radius: 50%
+
+.q-border-round,
+.q-round-border
+.q-br-rd
+  border-radius: 2px
+  &>img
+    border-radius: 2px
+.q-border-round-xs,
+.q-round-border-xs
+.q-br-rd-xs
+  border-radius: 2px
+  &>img
+    border-radius: 2px
+.q-border-round-sm,
+.q-round-border-sm
+.q-br-rd-sm
+  border-radius: 4px
+  &>img
+    border-radius: 4px
+.q-border-round-smd,
+.q-round-border-smd
+.q-br-rd-smd
+  border-radius: 6px
+  &>img
+    border-radius: 6px
+.q-border-round-md,
+.q-round-border-md,
+.q-br-rd-md-md
+  border-radius: 8px
+  &>img
+    border-radius: 8px
+.q-border-round-lg,
+.q-round-border-lg,
+.q-br-rd-lg-lg
+  border-radius: 10px
+  &>img
+    border-radius: 10px
+
+.q-bordera-round-xs,
+.q-bra-rd-xs
+  border-radius: 2px
+  &>img
+    border-radius: 2px
+.q-bordera-round-sm,
+.q-bra-rd-sm
+  border-radius: 4px
+  &>img
+    border-radius: 4px
+.q-bordera-round-smd,
+.q-bra-rd-smd
+  border-radius: 6px
+  &>img
+    border-radius: 6px
+.q-bordera-round-md,
+.q-bra-rd-md
+  border-radius: 8px
+  &>img
+    border-radius: 8px
+.q-bordera-round-lg,
+.q-bra-rd-lg
+  border-radius: 10px
+  &>img
+    border-radius: 10px
+
+.q-borderl-round-no,
+.q-brl-rd-no
+  border-top-left-radius: 0px
+  border-bottom-left-radius: 0px
+  &>img
+    border-top-left-radius: 0px
+    border-bottom-left-radius: 0px
+.q-borderl-round-xs,
+.q-brl-rd-xs
+  border-top-left-radius: 2px
+  border-bottom-left-radius: 2px
+  &>img
+    border-top-left-radius: 2px
+    border-bottom-left-radius: 2px
+.q-borderl-round-sm,
+.q-brl-rd-sm
+  border-top-left-radius: 4px
+  border-bottom-left-radius: 4px
+  &>img
+    border-top-left-radius: 4px
+    border-bottom-left-radius: 4px
+.q-borderl-round-smd,
+.q-brl-rd-smd
+  border-top-left-radius: 6px
+  border-bottom-left-radius: 6px
+  &>img
+    border-top-left-radius: 6px
+    border-bottom-left-radius: 6px
+.q-borderl-round-md,
+.q-brl-rd-md
+  border-top-left-radius: 8px
+  border-bottom-left-radius: 8px
+  &>img
+    border-top-left-radius: 8px
+    border-bottom-left-radius: 8px
+.q-borderl-round-lg,
+.q-brl-rd-lg
+  border-top-left-radius: 10px
+  border-bottom-left-radius: 10px
+  &>img
+    border-top-left-radius: 10px
+    border-bottom-left-radius: 10px
+
+.q-borderr-round-no,
+.q-brr-rd-no
+  border-top-right-radius: 0px
+  border-bottom-right-radius: 0px
+  &>img
+    border-top-right-radius: 0px
+    border-bottom-right-radius: 0px
+.q-borderr-round-xs,
+.q-brr-rd-xs
+  border-top-right-radius: 2px
+  border-bottom-right-radius: 2px
+  &>img
+    border-top-right-radius: 2px
+    border-bottom-right-radius: 2px
+.q-borderr-round-sm,
+.q-brr-rd-sm
+  border-top-right-radius: 4px
+  border-bottom-right-radius: 4px
+  &>img
+    border-top-right-radius: 4px
+    border-bottom-right-radius: 4px
+.q-borderr-round-smd,
+.q-brr-rd-smd
+  border-top-right-radius: 6px
+  border-bottom-right-radius: 6px
+  &>img
+    border-top-right-radius: 6px
+    border-bottom-right-radius: 6px
+.q-borderr-round-md,
+.q-brr-rd-md
+  border-top-right-radius: 8px
+  border-bottom-right-radius: 8px
+  &>img
+    border-top-right-radius: 8px
+    border-bottom-right-radius: 8px
+.q-borderr-round-lg,
+.q-brr-rd-lg
+  border-top-right-radius: 10px
+  border-bottom-right-radius: 10px
+  &>img
+    border-top-right-radius: 10px
+    border-bottom-right-radius: 10px
+
+.q-bordert-round-no,
+.q-brt-rd-no
+  border-top-right-radius: 0px
+  border-top-left-radius: 0px
+  &>img
+    border-top-right-radius: 0px
+    border-top-left-radius: 0px
+.q-bordert-round-xs,
+.q-brt-rd-xs
+  border-top-right-radius: 2px
+  border-top-left-radius: 2px
+  &>img
+    border-top-right-radius: 2px
+    border-top-left-radius: 2px
+.q-bordert-round-sm,
+.q-brt-rd-sm
+  border-top-right-radius: 4px
+  border-top-left-radius: 4px
+  &>img
+    border-top-right-radius: 4px
+    border-top-left-radius: 4px
+.q-bordert-round-smd,
+.q-brt-rd-smd
+  border-top-right-radius: 6px
+  border-top-left-radius: 6px
+  &>img
+    border-top-right-radius: 6px
+    border-top-left-radius: 6px
+.q-bordert-round-md,
+.q-brt-rd-md
+  border-top-right-radius: 8px
+  border-top-left-radius: 8px
+  &>img
+    border-top-right-radius: 8px
+    border-top-left-radius: 8px
+.q-bordert-round-lg,
+.q-brt-rd-lg
+  border-top-right-radius: 10px
+  border-top-left-radius: 10px
+  &>img
+    border-top-right-radius: 10px
+    border-top-left-radius: 10px
+
+
+
+
+.q-borderb-round-no,
+.q-brb-rd-no
+  border-bottom-left-radius: 0px
+  border-bottom-right-radius: 0px
+  &>img
+    border-bottom-left-radius: 0px
+    border-bottom-right-radius: 0px
+.q-borderb-round-xs,
+.q-brb-rd-xs
+  border-bottom-left-radius: 2px
+  border-bottom-right-radius: 2px
+  &>img
+    border-bottom-left-radius: 2px
+    border-bottom-right-radius: 2px
+.q-borderb-round-sm,
+.q-brb-rd-sm
+  border-bottom-left-radius: 4px
+  border-bottom-right-radius: 4px
+  &>img
+    border-bottom-left-radius: 4px
+    border-bottom-right-radius: 4px
+.q-borderb-round-smd,
+.q-brb-rd-smd
+  border-bottom-left-radius: 6px
+  border-bottom-right-radius: 6px
+  &>img
+    border-bottom-left-radius: 6px
+    border-bottom-right-radius: 6px
+.q-borderb-round-md,
+.q-brb-rd-md
+  border-bottom-left-radius: 8px
+  border-bottom-right-radius: 8px
+  &>img
+    border-bottom-left-radius: 8px
+    border-bottom-right-radius: 8px
+.q-borderb-round-lg,
+.q-brb-rd-lg
+  border-bottom-left-radius: 10px
+  border-bottom-right-radius: 10px
+  &>img
+    border-bottom-left-radius: 10px
+    border-bottom-right-radius: 10px
+
+
+.text-cap,
+.cap,
+.text-capitalize,
+.text-capitilize,
+.capitalize,
+.capitilize
+  text-transform capitalize
+.text-no,
+.text-normal,
+.normal-text
+  text-transform: initial
+
+.uppercase,
+.text-uppercase
+  text-transform uppercase
+
+.color-lg,
+.lg,
+.lg-color,
+.lg-text
+  color $gentleGrey2
+
+.full-width
+  width: 100%
+  max-width: 100%
+
+// typography
+.q-title-thin
+  font-size: 17px;
+  font-weight: 400;
+  line-height: 1.19;
+  letter-spacing: 0.01em;
+
+.no-bg-btn,
+.no-bg-button
+  >.q-focus-helper
+    background: rgba(white, 0) !important
+    &:hover,
+    &:selected,
+    &:active
+      background: rgba(white, 0) !important
+.link-button
+  >.q-focus-helper
+    background: rgba(white, 0) !important
+    &:hover,
+    &:selected,
+    &:active
+      background: rgba(white, 0) !important
+
+
+.text-xxxxxsm
+  font-size: 9px
+.text-xxxxsm
+  font-size: 10px
+.text-xxxsm
+  font-size: 11px
+.text-xxsm
+  font-size: 12px
+.text-xsm
+  font-size: 13px
+.text-sm,
+.text-small
+  font-size: 14px
+.text-smd
+  font-size: 15px
+.text-md
+  font-size: 16px
+.text-smlg
+  font-size: 17px
+.text-lg
+  font-size: 18px
+.text-xlg
+  font-size: 19px
+.text-xxlg
+  font-size: 20px
+.text-sml
+  font-size: 21px
+.text-l
+  font-size: 22px
+
+.text-initial
+  text-transform initial
+.text-thin
+  font-weight: 300
+.text-normal
+  font-weight: 400
+.text-thick
+  font-weight: 500
+// form spacing
+$cols = 12
+for $col in (1...$cols+1)
+  .q-input-{$col}
+    width (($col/$cols)*100)%
+$nums = 1000
+for $num in (0...$nums+1)
+  .q-min-height-{$num},
+  .q-height-min-{$num}
+    min-height ($num)px
+$nums = 1000
+for $num in (0...$nums+1)
+  .q-min-width-{$num},
+  .q-width-min-{$num}
+    min-width ($num)px
+$nums = 1000
+for $num in (0...$nums+1)
+  .q-max-height-{$num},
+  .q-height-max-{$num}
+    max-height ($num)px
+$nums = 1000
+for $num in (0...$nums+1)
+  .q-max-width-{$num},
+  .q-width-max-{$num}
+    max-width ($num)px
+
+.input-row
+  display: flex
+  align-items: flex-start
+  justify-content: flex-start
+
+.text-friendly,
+a.text-friendly
+  color: $friendly
+  &:hover,
+  &:active,
+  &:selected
+    color: darken($friendly, 20) !important
+
+.text-dark,
+a.text-dark
+  color: $dark !important
+  &:hover,
+  &:active,
+  &:selected
+    color: darken($dark, 20) !important
+
+.card-icon
+  max-width: 38px
+  height: auto
+
+.q-floating,
+.floating
+  right: 0
+  position: absolute
+
+.q-field__control
+  background: rgba(255,255,255,255.01) !important
+  &:before
+    background: rgba(255,255,255,255.005) !important
+// input:-internal-autofill-previewed,
+// input:-internal-autofill-selected,
+// input:-webkit-autofill-on,
+// input:-webkit-autofill,
+// textarea:-internal-autofill-previewed,
+// textarea:-internal-autofill-selected,
+// textarea:-webkit-autofill-on,
+// textarea:-webkit-autofill,
+// select:-internal-autofill-previewed,
+// select:-internal-autofill-selected,
+// select:-webkit-autofill-on,
+// select:-webkit-autofill,
+
+@keyframes webkit-autofill-on
+  to
+    background transparent
+    color $primary
+@keyframes webkit-autofill-off
+  to
+    background transparent
+
+.q-field
+  // box-sizing: border-box
+  .q-field__inner
+    // flex-grow: 1
+    // flex-basis: 100%
+.q-field__bottom
+  // position: relative !important
+  // bottom: 0px
+  // top: -12px
+.q-field--with-bottom
+  padding-bottom: 0px !important
+  animate(margin-bottom, 300ms, ease-in)
+  &.q-field--error
+    animate(margin-bottom, 300ms, ease-out)
+    margin-bottom: 28px !important
+
+.no-pointer,
+.pointer-no,
+.no-point,
+.point-no,
+.q-no-pointer,
+.q-pointer-no,
+.q-no-point,
+.q-point-no
+  pointer-events: none
