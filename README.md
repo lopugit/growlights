@@ -1,3 +1,2 @@
-# Quasar App
-
-> WIP
+# Grow Lights Australia
+### Source code
