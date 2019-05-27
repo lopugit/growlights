@@ -87,6 +87,7 @@ export const pageHistory = (state, val) => {
 }
 
 export const thing = (state, args) => {
+  // console.log('committed: ', Date.now())
 	if(args && args.path && typeof args.val !== undefined){
 		smarts.setsmart(state, args.path, args.val)
 	}
@@ -137,12 +138,6 @@ export const removedialog = (state, payload) => {
 
 }
 
-export const registerable = (state, payload) => {
-	if(typeof payload == 'boolean' || payload == 'haventchecked'){
-		state.registerable = payload
-	}
-}
-
 export const entity = (state, payload) => {
 	if(payload.entity){
 		if(payload.merge){
@@ -153,15 +148,11 @@ export const entity = (state, payload) => {
 	}
 }
 
-export const userAgent = (state, payload) => {
-	state.userAgent = payload
-}
-
 export const updateEntityUserAgent = (state, payload) => {
 	var id = s.gosmart(state, 'entity.firestore.id', s.getsmart(state, 'entity.ids.id-firestore', undefined))
 	if(id){
 		s.setsmart(state, 'entity.loggedIn.'+payload, true)
-		var things = fs.collection('things')
+		var things = fs.collection(`${s.getsmart(window, 'env.level', 'dev')}/things/users`)
 		let ref = things.doc(id)
 		ref.set(state.entity)
 		.then(()=>{
@@ -184,15 +175,30 @@ export const clientId = (state, payload) => {
 }
 /** HELPER FUNCTIONS */
 	function initFirestore(){
-		const config = {
-			apiKey: "AIzaSyATXH6vwwHRsd3amszUgFW3DEplHr7dIgQ",
-			authDomain: "alopu-cms.firebaseapp.com",
-			databaseURL: "https://alopu-cms.firebaseio.com",
-			projectId: "alopu-cms",
-			storageBucket: "alopu-cms.appspot.com",
-			messagingSenderId: "278663639558"
-		}
-		const settings = {
+    let smarts = require('smarts')()
+    const config = smarts.getsmart(window, 'env.level', 'dev') == 'prod' ? {
+      apiKey: "AIzaSyCEk1mYB5aXFjYZUzwhyTF-blYDrIDqTRk",
+      authDomain: "lopu-f3969.firebaseapp.com",
+      databaseURL: "https://lopu-f3969.firebaseio.com",
+      projectId: "lopu-f3969",
+      storageBucket: "lopu-f3969.appspot.com",
+      messagingSenderId: "278663639558"
+    } : smarts.getsmart(window, 'env.level', 'dev') == 'dev' ? {
+      apiKey: "AIzaSyABsQrdpY9lNkyBW0me5xHmbCxSUPIjGgU",
+      authDomain: "lopudev-b405a.firebaseapp.com",
+      databaseURL: "https://lopudev-b405a.firebaseio.com",
+      projectId: "lopudev-b405a",
+      storageBucket: "lopudev-b405a.appspot.com",
+      messagingSenderId: "278663639558"
+    } : {
+      apiKey: "AIzaSyABsQrdpY9lNkyBW0me5xHmbCxSUPIjGgU",
+      authDomain: "lopudev-b405a.firebaseapp.com",
+      databaseURL: "https://lopudev-b405a.firebaseio.com",
+      projectId: "lopudev-b405a",
+      storageBucket: "lopudev-b405a.appspot.com",
+      messagingSenderId: "278663639558"
+    }
+    const settings = {
 			// timestampsInSnapshots: true
 		}
 

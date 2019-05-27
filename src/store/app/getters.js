@@ -42,6 +42,32 @@ export const cartCount = (state, getters, rootState, rootGetters) => (args) => {
   return count
 }
 
+export const cartTotal = (state, getters, rootState, rootGetters) => (args) => {
+  if(args.cart){
+    let list = smarts.gosmart(args.cart, 'products', [])
+    let total = 0
+    for(var product of list){
+      total += smarts.getThing({option: {'name': 'growlights.com.au marked up price'}, list: product.prices, keys: ['name']}).values['AUD']*product.count
+    }
+    return total
+  } else {
+    return 0
+  }
+}
+
+export const cartSubtotal = (state, getters, rootState, rootGetters) => (args) => {
+  if(args.cart){
+    let list = smarts.gosmart(args.cart, 'products', [])
+    let subtotal = 0
+    for(var product of list){
+      subtotal += smarts.getThing({option: {'name': 'growlights.com.au marked up price'}, list: product.prices, keys: ['name']}).values['AUD']*product.count
+    }
+    return subtotal
+  } else {
+    return 0
+  }
+}
+
 /*
 export const someGetter = (state) => {
 }
@@ -52,15 +78,10 @@ export const entity = (state) => {
 	return state.entity
 }
 
-export const userAgentNormalised = (state) => {
-	return state.userAgent
-	// return state.userAgent.replace(/(\~)|(\*)|(\/)|(\[)|(\])/g, '')
-}
 //
 export const username = (state, getters) => (which) => {
 	var ret = 'Welcome'
-	var loggedIn = s.getsmart(state, 'entity.loggedIn', {})
-	if(loggedIn && loggedIn[getters.userAgentNormalised]){
+	if(s.getsmart(state, 'entity.loggedIn.'+s.getsmart(state, 'userAgent', ''), false)){
 		if(s.getsmart(state, 'entity.alopu.username', false)){
 			ret = s.getsmart(state, 'entity.alopu.username', ret)
 		}
@@ -76,8 +97,7 @@ export const username = (state, getters) => (which) => {
 
 export const ego = (state, getters) => (i) => {
 	var ret = 'Green Thumb'
-	var loggedIn = s.getsmart(state, 'entity.loggedIn', {})
-	if(loggedIn && loggedIn[getters.userAgentNormalised]){
+	if(s.getsmart(state, 'entity.loggedIn.'+s.getsmart(state, 'userAgent', ''), false)){
 		if(entity.egos){
 
 		}
@@ -88,8 +108,7 @@ export const ego = (state, getters) => (i) => {
 export const cover = (state, getters) => (which) => {
 	// var ret = 'statics/biologist-100-100.png'
 	var ret = 'statics/circle.growlights.com.au.png'
-	var loggedIn = s.getsmart(state, 'entity.loggedIn', {})
-	if(loggedIn && loggedIn[getters.userAgentNormalised]){
+	if(s.getsmart(state, 'entity.loggedIn.'+s.getsmart(state, 'userAgent', ''), false)){
 		if(s.getsmart(state, 'entity.profilePicture', false)){
 
 		}
@@ -105,8 +124,7 @@ export const cover = (state, getters) => (which) => {
 }
 
 export const loggedIn = (state, getters) => {
-	var loggedIn = s.getsmart(state.entity, 'loggedIn', false)
-	var loggedInHere = loggedIn[getters.userAgentNormalised]
+	var loggedInHere = s.getsmart(state, 'entity.loggedIn.'+s.getsmart(state, 'userAgent', ''), false)
 	return loggedInHere || false
 }
 

@@ -1,37 +1,35 @@
 <template lang='pug'>
 //- .sidebar
-q-list.sidebar
-  q-item(
-    ).q-user-item.full-width
-    q-item-section(
-      avatar
-      @click="$store.commit('thing', {path: 'cartSidebar', val: !$store.state.app.cartSidebar})"
-      ).q-item-label-profile-picture
-      img.q-circle-img(
-        :src=`$store.getters.cover()`
-        )
-    q-item-section(
-    )
-      q-item-label(
-        :style={
-          'text-transform': 'capitalize'
-        }
-      ) {{ $store.getters.username() }}
-      q-item-label(
-        size=".5rem"
-        ).q-mt-xxxsm.text-grey.text-xsm {{ $store.getters.ego(0) }}
-    q-item-section(
-      )
-      q-btn(
-        icon="close"
-        @click="$store.commit('thing', {path: 'cartSidebar', val: !$store.state.app.cartSidebar})"
-      ).shadow-0
-  q-list.no-border.main-list.q-pa-sm.q-pt-xxxxsm.q-mt-auto.q-mb-sm.q-pr-xxxxsm.full-width
-    cart(
-      :theme=`{
-        simple: true
-      }`
-    )
+.sidebar
+	q-item(
+		).q-user-item.full-width
+		q-item-section(
+			avatar
+			@click="$store.commit('thing', {path: 'cartSidebar', val: !$store.state.app.cartSidebar})"
+			).q-item-label-profile-picture
+			img.q-circle-img(
+				:src=`$store.getters.cover()`
+				)
+		q-item-section(
+		)
+			q-item-label(
+			) {{ $store.getters.username() }}
+			q-item-label(
+				size=".5rem"
+				).q-mt-xxxsm.text-grey.text-xsm {{ $store.getters.ego(0) }}
+		q-item-section.q-ml-auto.w-auto(
+			:side='true'
+			)
+			q-btn.w-auto(
+				icon="close"
+				@click="$store.commit('thing', { path: 'cartSidebar', val: !$store.state.app.cartSidebar})"
+			).shadow-0.q-pa-no
+	q-list.no-border.main-list.q-pa-sm.q-pt-xxxxsm.q-mt-auto.q-mb-sm.q-pr-xxxxsm.q-pl-no.full-width
+		cart(
+			:theme=`{
+				simple: true
+			}`
+		)
 
 </template>
 
@@ -88,29 +86,11 @@ export default {
         this.$store.commit('entity', {entity: val})
       }
     },
-    showLoginOptions: {
-      get(){
-        if(this.$store.getters.loggedIn){
-          return false
-        } else {
-          return this.$store.state.app.showLoginOptions
-        }
-      },
-      set(val){
-        this.$store.commit('showLoginOptions', val)
-      }
-    },
   },
   components: {
     cart: require('src/components/cart').default
   },
   watch: {
-    '$store.state.app.showLoginOptions'(){
-      this.showLoginOptions = this.$store.state.app.showLoginOptions
-    },
-    // '$store.state.entity': function(){
-    //   this.entity = this.$store.state.entity
-    // },
   },
   route: {
     canActivate(){
@@ -129,7 +109,8 @@ export default {
   display: flex
   align-items: flex-start
   flex-direction: column
-  max-height: 100vh
+  max-height: 100%
+  height: 100vh
   // display: flex
   // align-items: flex-start
   // justify-content: flex-start
@@ -139,8 +120,8 @@ export default {
     align-items: center
     min-height: auto
   .main-list
-    min-height: 100%
-    max-height: 100%
+    // min-height: 100%
+    // max-height: 100%
     overflow: hidden
     display: flex
     align-items: flex-start

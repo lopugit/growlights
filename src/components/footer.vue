@@ -1,10 +1,10 @@
 <template lang='pug'>
-  .templateO-container
+  .footer-container
 </template>
 
 <script>
 export default {
-  name: 'templateO-comp',
+  name: 'navbar-comp',
   data () {
     return {
       // objects: null,
@@ -40,7 +40,6 @@ export default {
     // }
   },
   props: {
-    "siteTitle": {}
   },
   components: {
   },
@@ -48,7 +47,7 @@ export default {
     // '$store.state.entity': function(){
     //   this.entity = this.$store.state.entity
     // },
-  },  
+  },
   route: {
     canActivate(){
       return true
@@ -57,11 +56,10 @@ export default {
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style lang="sass" scoped>
+<style lang="sass">
 @import 'src/styles/vars'
-.templateO-container
-  width: 100%
+.footer-container
+  padding-bottom: 20px
+  width: 100vw
   max-width: 100%
-  overflow: hidden
-  // background: $grey
 </style>

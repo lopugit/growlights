@@ -30,22 +30,51 @@ const routes = [
         }
       },
 			{
+				path: '/(login|register)',
+				component: () => import('components/manifest'),
+			},
+			{
 				path: '/logout',
 				component: () => import('components/logout'),
-
+			},
+			{
+				path: '/profile(|/):x(.*)',
+        component: () => import('components/profile'),
+        props: (route)=>({
+          props: {
+            ...route.params
+          }
+        })
 			},
       {
-        path: '/products/:productType',
+        path: '/products/:productType(.*)',
         component: () => import('components/products'),
         props: (route)=>({
-          ...route.params,
-          cards: true
+          props: {
+            cards: true,
+            theme: {
+              search: true,
+            },
+            query: {
+              types: {
+                $in: [route.params.productType || 'product']
+              }
+            },
+            ...route.params,
+          }
         }),
       },
       {
-        path: '/products/product/:productTitle',
+        path: '/product/:productTitle(.*)',
         component: () => import('components/product'),
-        props: true,
+        props: (route)=>({
+          props: {
+            showcase: true,
+            product: {
+              title: route.params.productTitle
+            }
+          },
+        }),
       },
     ]
     // props: true

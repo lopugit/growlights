@@ -1,6 +1,6 @@
 module.exports = {
   apps : [{
-    name: 'growlightsdev',
+    name: 'growlights',
 		script: 'quasar',
     // Options reference: https://pm2.io/doc/en/runtime/reference/ecosystem-file/
     args: 'dev',
@@ -9,7 +9,10 @@ module.exports = {
 		watch: false,
     max_memory_restart: '1G',
     env: {
-			api: 'dev',
+      level: 'dev',
+      apiSubdomain: 'api',
+      apiDomain: 'growlights',
+      apiTLD: 'src',
       NODE_ENV: 'development'
     },
     env_production: {

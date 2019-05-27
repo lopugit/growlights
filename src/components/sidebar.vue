@@ -1,42 +1,37 @@
 <template lang='pug'>
-//- .sidebar
-q-list.q-flex.q-flex-column.sidebar
+.sidebar
   q-item(
     )
     q-item-section(
       avatar
-      @click="$store.commit('thing', { path: 'leftSidebar', val: !$store.state.app.leftSidebar})"
-    )
-      q-item-label(
-        sparse
-        ).q-item-label-profile-picture
-        //- :style=`{
-        //-   height: '50px',
-        //-   width: 'auto'
-        //- }`
-        img.q-circle-img(
-          :src=`$store.getters.cover()`
-          )
+      @click=`
+        $router.push('/profile')
+        $store.commit('thing', { path: 'leftSidebar', val: !$store.state.app.leftSidebar})
+      `
+      )
+      img.q-circle-img.q-max-height-60.q-max-width-60(
+        :src=`$store.getters.cover()`
+        )
     q-item-section(
     )
-      q-item-label(
-        :style={
-          'text-transform': 'capitalize'
-        }
+      q-item-label.text-elip.text-wrap(
       ) {{ $store.getters.username() }}
       q-item-label(
         size=".5rem"
         ).q-mt-xxxsm.text-grey.text-xsm {{ $store.getters.ego(0) }}
-    q-item-section(
+    q-item-section.q-ml-auto.w-auto(
+      :side='true'
       )
-      q-btn(
+      q-btn.w-auto(
         icon="close"
-        @click="$store.commit('thing', { path: 'leftSidebar', val: !$store.state.app.leftSidebar})"
-      ).shadow-0
-  q-list.no-border.main-list.q-pa-sm.q-pt-lg.q-mt-auto.q-mb-auto.full-width.q-pb-no(
+        @click="setsmart($store, 'state.app.leftSidebar', !getsmart($store, 'state.app.leftSidebar', true))"
+      ).shadow-0.q-pa-no
+  // q-list.q-flex.q-flex-column.sidebar
+  q-list.no-border.main-list.q-pl-no-important.q-pa-sm.q-pt-sm.q-pr-no.full-width.q-pb-no(
     )
     template(
-      v-for="nav in $store.state.app.navigation"
+      v-if="getsmart($store, 'state.app.navigation.general', []) instanceof Array"
+      v-for="nav in getsmart($store, 'state.app.navigation.general', [])"
     )
       q-separator
       router-link(
@@ -71,48 +66,16 @@ export default {
   },
   sockets: {
     connect: function(){
-      // console.log("socket connect vue side")
     },
-    // giveObjects(data){
-    //   // console.log(data)
-    //   if(this.uuid == data.id){
-    //     this.objects = data.objects
-    //   }
-    // }
   },
   created () {
-    // if(this.count !== 0){
-    //   this.getObjects({
-    //     count: this.count,
-    //     sort: 'alphabetical',
-    //     sortDirection: 'ascending',
-    //     id: this.uuid
-    //   })
-    // } else {
-    //   this.objects = null
-    // }
   },
   methods: {
-    // getObjects(opts){
-    //   this.$socket.emit('getObjects', opts)
-    // }
   },
   props: {
     "siteTitle": {}
   },
   computed: {
-    showLoginOptions: {
-      get(){
-        if(this.$store.getters.loggedIn){
-          return false
-        } else {
-          return this.$store.state.app.showLoginOptions
-        }
-      },
-      set(val){
-        this.$store.commit('showLoginOptions', val)
-      }
-    },
   },
   components: {
     manifest: require('src/components/manifest').default
@@ -125,8 +88,6 @@ export default {
     }
   }}
 </script>
-
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="sass" scoped>
 @import 'src/styles/vars'
 .sidebar
@@ -138,8 +99,11 @@ export default {
   // justify-content: flex-start
   // padding: 0
   // margin: 0
+  height: 100vh
+  max-height: 100vh
   .main-list
-    min-height: 100%
+    // min-height: 100%
+    // max-height: 100%
   // background: $grey
   .nav-link
     display: flex

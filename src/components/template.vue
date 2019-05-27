@@ -37,7 +37,7 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="sass" scoped>
 @import 'src/styles/vars'
-.templateO
+.templateO-container
   width: 100%
   max-width: 100%
   overflow: hidden

@@ -74,7 +74,7 @@ export default {
   display: flex
   align-items: center
   justify-content: center
-  padding: 30px 0px 50px 0px
+  padding: 30px 0px 0px 0px
   .growlights-banner-container
     display: flex
     width: 100%
@@ -92,7 +92,7 @@ export default {
   // background: $grey
   &.size
     // height: 180px
-    padding: 0px 0px 30px 0px
+    padding: 0px 0px 0px 0px
     .logo
       max-width: 150px
 </style>

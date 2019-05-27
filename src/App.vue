@@ -12,61 +12,52 @@ export default {
   },
   sockets: {
     connect: function(){
-      // console.log("socket connect vue side")
     },
-    giveAuthenticate(data) {
-      console.log(data)
-      // console.log("this.$store")
-      // console.log(this.$store)
-      if(data.entity && data.auth){
-        // console.log("setting store user state to user")
-        data.entity.auth = true
-        this.$store.commit('entitySet', data.entity)
-        // this.$store.commit('entityMessageUpdate', "welcome, <a href='/self'>" + (this.entity ? this.entity.username : 'anonymous') + "</a>")
-        // console.log(this.entity)
-        // console.log(this.pageHistory)
-        // console.log('this')
-        // console.log(this)
-        // console.log("mystery string for this.$router.go")
-        // console.log('/' + (this.pageHistory.length > 0 ? this.pageHistory[this.pageHistory.length-1] : ''))
-        // this.$router.go('/')
-        // this.$router.go('/' + (this.pageHistory.length > 0 ? this.pageHistory[this.pageHistory.length-1] : ''))
-        // this.$router.go('/' + (this.pageHistory.length > 0 ? this.pageHistory[this.pageHistory.length-1] : ''))
-      } else {
-        this.$store.commit('entitySet',  {
-          type: 'temporary',
-          identity: 'anonymous',
-          auth: false,
-          username: undefined
-        })
-        if(data.err){
-          this.$store.commit('newAuthLog', {
-            err: data.err,
-            msg: 'something went wrong authorizing the user'
-            })
-        }
-      }
-    },
-  },
-  beforeCreated(){
   },
   created(){
     this.setsmart(this, '$store.state.app.$env', this.$env)
     /** inits */
       /** initiate unique client id */
         this.$store.dispatch('manifestClientId', this.$uuid.v4())
-      /** entity state */
-        // this.$store.dispatch('buildDefaultEntity')
       /** userAgent */
-        this.$store.dispatch('userAgentSync', navigator.userAgent)
+        this.setsmart(this.$store, 'state.app.userAgent', navigator.userAgent)
       /** cursor */
         this.initCursor()
       /** env */
         this.$store.commit('env', this.$env)
       /** sync this device with entity devices */
         this.$store.dispatch('syncDevice', 'this')
+      /** get any entity updates */
+      this.syncEntity()
   },
   methods: {
+    syncEntity(){
+      // configure watcher for this entity's firestore id listener
+        let FSid = this.getsmart(this.$store, 'state.app.entity.firestore.id', false)
+        if(FSid){
+          this.setsmart(this, 'things.entityWriteLock', true)
+          this.$fs.collection(`${this.getsmart(this, '$env.level', 'dev')}/things/users}`).doc(FSid).get()
+          .then((snapshot)=>{
+            // push to local store when firestore indicates a change
+              let entity = snapshot.data()
+              if(entity){
+                if(this.getsmart(this.$store, 'state.app.entity.firestore.lastUpdated', false) !== this.getsmart(entity, 'firestore.lastUpdated', false)){
+                  this.setsmart(this.$store, 'state.app.justFirestore', Date.now())
+                  this.setsmart(this.$store, 'state.app.entity', entity)
+                  let pwd = this.getsmart(this.$store, 'state.app.entity.alopu.password', false)
+                  if(pwd){
+                    delete this.$store.state.app.entity.alopu.password
+                  }
+                }
+              }
+              this.setsmart(this, 'things.entityWriteLock', false)
+          })
+          .catch(err=>{
+            console.error(err)
+            this.setsmart(this, 'things.entityWriteLock', false)
+          })
+        }
+    },
     initCursor(){
       let that = this
       var down
@@ -139,23 +130,122 @@ export default {
     }
   },
   watch: {
+    '$store.state.app.showLoginOptions'(){
+      let username = this.gosmart(this.$store, 'state.app.entity.alopu.username', '')
+      this.$store.dispatch('checkUsernameAvailability', username)
+    },
+    '$store.state.app.entity.alopu.username'(){
+      let username = this.gosmart(this.$store, 'state.app.entity.alopu.username', '')
+      if(this.showLoginOptions && (username || username == 0)){
+        clearTimeout(this.checkusername)
+        this.checkusername = setTimeout(()=>{
+          this.$store.dispatch('checkUsernameAvailability', username)
+        }, 200)
+      }
+    },
+    '$store.state.app.feedback'(){
+      // let index = this.thingIn({option: { type: 'login' } , list: this.$store.state.app.feedback, keys: ['type'], retIndex: true})
+      for(var i=0; i<this.getsmart(this, '$store.state.app.feedback.length', 0); i++){
+        let feedback = this.$store.state.app.feedback[0]
+        this.$q.notify(Object.assign({ position: 'top' }, feedback))
+        this.$store.commit('removefeedback', 0)
+      }
+    },
+    '$store.state.app.dialog'(){
+      // let index = this.thingIn({option: { type: 'login' } , list: this.$store.state.app.dialog, keys: ['type'], retIndex: true})
+      for(var i=0; i<this.getsmart(this, '$store.state.app.dialog.length', 0); i++){
+        let dialog = this.$store.state.app.dialog[0]
+        this.$q.dialog(dialog)
+        this.$store.commit('removedialog', 0)
+      }
+    },
+    '$store.state.app.entity': {
+      handler: async function (){
+        let username = this.gosmart(this.$store, 'state.app.entity.alopu.username', '')
+        this.$store.dispatch('checkUsernameAvailability', username)
+        /** smarts.equal code */
+          // let cached = this.gosmart(this.things, 'cachedEntity', {})
+          // let entity = this.gosmart(this.$store, 'state.app.entity', {})
+          // let equal = this.equal(cached, entity)
+        let that = this
+        // push to firestore on new change
+          if(!this.gosmart(this, 'things.entityWriteLock', false) && !this.getsmart(this.$store, 'state.app.justFirestore', false)){
+            clearTimeout(this.things.entityWriteTimeout)
+            this.setsmart(
+              this.things,
+              'entityWriteTimeout',
+              setTimeout(async ()=>{
+                if(!this.gosmart(this, 'things.entityWriteLock', false)){
+                  this.setsmart(this, 'things.entityWriteLock', true)
+                  let fsid = this.getsmart(this.$store, 'state.app.entity.firestore.id', false)
+                  if(fsid){
+                    let things = this.$fs.collection(`${this.getsmart(this, '$env.level', 'dev')}/things/users}`)
+                    let entityRef = things.doc(fsid)
+                    if(entityRef){
+                      let entity = this.getsmart(this.$store, 'state.app.entity', false)
+                      this.setsmart(entity, 'firestore.lastUpdated', Date.now())
+                      if(entity){
+                        await entityRef.set(this.$f.parse(this.$f.stringify(entity)), { merge: true })
+                        .catch(err=>{
+                          console.error('There was an error setting the updated entity: ', err)
+                        })
+                        this.setsmart(this.$store, 'state.app.justFirestore', false)
+                        this.setsmart(this, 'things.entityWriteLock', false)
+                      } else {
+                        this.setsmart(this.$store, 'state.app.justFirestore', false)
+                        this.setsmart(this, 'things.entityWriteLock', false)
+                      }
+                    } else {
+                      this.setsmart(this.$store, 'state.app.justFirestore', false)
+                      this.setsmart(this, 'things.entityWriteLock', false)
+                    }
+                  } else {
+                    this.setsmart(this.$store, 'state.app.justFirestore', false)
+                    this.setsmart(this, 'things.entityWriteLock', false)
+                  }
+                }
+              }, 500)
+            )
+          }
+          // fallback entity lock mechanism
+            clearTimeout(this.things.entityWriteFallbackTimeout)
+            this.setsmart(
+              this.things,
+              'entityWriteFallbackTimeout',
+              setTimeout(
+                async ()=>{
+                  this.setsmart(this.$store, 'state.app.justFirestore', false)
+                  this.setsmart(this, 'things.entityWriteLock', false)
+                }, 2000
+              )
+            )
+        // configure watcher for this entity's firestore id listener
+          let FSid = this.getsmart(this.$store, 'state.app.entity.firestore.id', false)
+          let kill = this.getsmart(this, 'things.entityFirestoreListener', ()=>{})
+          typeof kill == 'function' && kill()
+          if(FSid){
+            this.setsmart(this, 'things.entityFirestoreListener', this.$fs.collection(`${this.getsmart(this, '$env.level', 'dev')}/things/users}`).doc(FSid).onSnapshot((snapshot)=>{
+              // push to local store when firestore indicates a change
+                let entity = snapshot.data()
+                if(entity){
+                  if(that.getsmart(that.$store, 'state.app.entity.firestore.lastUpdated', false) !== that.getsmart(entity, 'firestore.lastUpdated', false)){
+                    that.setsmart(that.$store, 'state.app.justFirestore', Date.now())
+                    that.setsmart(that.$store, 'state.app.entity', entity)
+                    let pwd = that.getsmart(that.$store, 'state.app.entity.alopu.password', false)
+                    if(pwd){
+                      delete that.$store.state.app.entity.alopu.password
+                    }
+                  }
+                }
+            }))
+          }
+      },
+      deep: true
+    }
   },
   components: {
   },
   computed: {
-    navigator: {
-      get(){
-        return navigator
-      }
-    },
-    entity: {
-      get(){
-        return this.$store.state.app.entity
-      },
-      set(val){
-        this.$store.commit('entity', {entity: val})
-      }
-    },
     pageHistory: {
       get(){
         return this.$store.state.app.pageHistory
@@ -364,13 +454,6 @@ body
   img
     width: 20px
     height: auto
-.q-item-label-profile-picture
-  img
-    width: 60px
-    height: auto
-    border-radius: 50%
-  width: auto
-  height: auto
 </style>
 
 <style lang="stylus">

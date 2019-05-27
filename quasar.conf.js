@@ -1,19 +1,27 @@
 // Configuration for your app
 var path = require('path')
 var fs = require('fs')
+var smarts = require('smarts')()
 // var utils = require('utils')
 
 module.exports = function (ctx) {
-	var apiDomain = 'bld'
-	if(process.env.api == 'dev'){
-		apiDomain = 'src'
-	} else if (process.env.api == 'build'){
-		apiDomain = 'bld'
-	} else if (process.env.api == 'prod'){
-		apiDomain = 'com'
-	}
-	let apiUrl = `"https://api.alopu.${apiDomain}"`
-	apiDomain = `"${apiDomain}"`
+  var apiDomain = 'src'
+  let env = {}
+  smarts.gosmart(env, 'level', smarts.getsmart(process, 'env.level', 'dev'))
+  smarts.gosmart(env, 'apiProtocol', smarts.getsmart(process, 'env.apiProtocol', smarts.getsmart(env, 'level', 'dev') == 'dev' ? 'https://' : 'https://'))
+  smarts.gosmart(env, 'apiSubdomain', smarts.getsmart(process, 'env.apiSubdomain', smarts.getsmart(env, 'level', 'dev') == 'dev' ? 'api' : 'api'))
+  smarts.gosmart(env, 'apiDomain', smarts.getsmart(process, 'env.apiDomain', smarts.getsmart(env, 'level', 'dev') == 'dev' ? 'growlights' : 'growlights'))
+  smarts.gosmart(env, 'apiTLD', smarts.getsmart(process, 'env.apiTLD', smarts.getsmart(env, 'level', 'dev') == 'dev' ? 'src' : 'com.au'))
+
+  smarts.setsmart(env, 'apiUrl', `"${env.apiProtocol}${env.apiSubdomain}.${env.apiDomain}.${env.apiTLD}"`)
+  // escape for some retarded reason
+  smarts.setsmart(env, 'level', `"${smarts.getsmart(env, 'level', 'dev')}"`)
+  smarts.setsmart(env, 'apiProtocol', `"${smarts.getsmart(env, 'apiProtocol', smarts.getsmart(env, 'level', 'dev') == 'dev' ? 'https://' : 'https://')}"`)
+  smarts.setsmart(env, 'apiSubdomain', `"${smarts.getsmart(env, 'apiSubdomain', smarts.getsmart(env, 'level', 'dev') == 'dev' ? 'api' : 'api')}"`)
+  smarts.setsmart(env, 'apiDomain', `"${smarts.getsmart(env, 'apiDomain', smarts.getsmart(env, 'level', 'dev') == 'dev' ? 'growlights' : 'growlights')}"`)
+  smarts.setsmart(env, 'apiTLD', `"${smarts.getsmart(env, 'apiTLD', smarts.getsmart(env, 'level', 'dev') == 'dev' ? 'src' : 'com.au')}"`)
+
+  console.log(env)
   return {
     // app boot file (/src/boot)
     // --> boot files are part of "main.js"
@@ -35,11 +43,12 @@ module.exports = function (ctx) {
 			'google-login',
 			'firebase',
 			'firebaseui',
-			'firestore',
 			'env',
 			'smarts',
+			'firestore',
 			'ua-parser',
-			'webpackDev',
+      'webpackDev',
+      'propThings',
       // 'uuid',
 			'grow.ai',
       'lopu3',
@@ -100,10 +109,7 @@ module.exports = function (ctx) {
       gzip: true,
       analyze: true,
       // extractCSS: false,
-      env: {
-				apiUrl,
-				apiDomain,
-			},
+      env,
       extendWebpack (cfg) {
         cfg.resolve.alias['@'] = path.join(__dirname, 'src')
         cfg.module.rules.push(

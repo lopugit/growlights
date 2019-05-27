@@ -1,13 +1,13 @@
 <template lang='pug'>
 .product-container(
   :class=`{
-    card,
-    display: !card
+    card: getsmart(things, 'card', undefined),
+    showcase: getsmart(things, 'showcase', undefined),
   }`
 )
-  .product-positioner.full-width
+  .product-positioner
     q-item.product(
-      v-if=`productD`
+      v-if=`getsmart(things, 'product', false)`
     )
       q-item-section
         q-item-label
@@ -15,25 +15,25 @@
             .product-image-positioner
               .product-image
                 router-link(
-                  :to='"/products/product/"+productD.title'
+                  :to=`"/product/"+getsmart(things, 'product.title', undefined)`
                 ).full-width
                   img(
-                    :src=`productD.thumbnail`
+                    :src=`getsmart(things, 'product.thumbnail', undefined)`
                   )
 
         q-item-label.product-title
           router-link(
-            :to='"/products/product/"+productD.title'
-          ) {{ productD.title }}
+            :to=`"/product/"+getsmart(things, 'product.title', undefined)`
+          ) {{ getsmart(things, 'product.title', undefined) }}
         q-item-label.product-price-container.text-right
           q-item-section.product-price-positioner(
-          ).text-primary ${{ Math.ceil($s.getThing({option: {'name': 'growlights.com.au marked up price'}, list: productD.prices, keys: ['name']}).values['AUD']*100)/100 }}
+          ).text-primary ${{ Math.ceil(getsmart(getThing({option: {'name': 'growlights.com.au marked up price'}, list: getsmart(things, 'product.prices', undefined), keys: ['name']}), 'values.AUD', 0)*100)/100 }}
             .currency {{ false || 'AUD' }}
         q-item-label(
-          v-if="!card"
+          v-if="!getsmart(things, 'card', undefined)"
         )
           .description.text-primary(
-            v-html=`$s.getsmart(productD, 'short description', undefined)`
+            v-html=`getsmart(things, 'product.short description', undefined)`
           )
         q-item-label.add-to-cart-btn
           q-btn.full-width(
@@ -42,10 +42,16 @@
             @click="addToCart"
           ) add to cart
     .product-message.text-center(
-      v-if=`!productD`
+      v-if=`!getsmart(things, 'product', undefined)`
     ).full-width.text-center
-      .message.color-lg There's no product here
-      four
+      four.relative-important(
+        :style=`{
+          'top': 'initial',
+          'left': 'initial',
+          'transform': 'none',
+        }`
+      )
+      .message.color-lg.q-mt-sm There's no product here
 </template>
 
 <script>
@@ -54,8 +60,7 @@ export default {
   data () {
     return {
       // objects: null,
-      productD: this.product,
-      uuid: this._uid
+      uuid: this._uid,
     }
   },
   sockets: {
@@ -70,6 +75,9 @@ export default {
     // }
   },
   created () {
+    this.setsmart(this, 'things.updateTimeout', setInterval(()=>{
+      this.getProduct()
+    }, 10000))
     // if(this.count !== 0){
     //   this.getObjects({
     //     count: this.count,
@@ -80,45 +88,119 @@ export default {
     // } else {
     //   this.objects = null
     // }
-    this.getProduct(this)
+    this.getProduct()
   },
   methods: {
     getProduct(args){
-      if(!args.productD && args.productTitle){
-        let product = this.getThing({
-          option: { title: args.productTitle },
-          list: this.$store.state.app.products,
-          keys: ['title']
-        })
-        if(product){
-          this.setsmart(this, 'productD', product)
+      new Promise((resolve, reject)=>{
+        if(this.getsmart(this.things, 'product.title', undefined) && !this.setsmart(this.things, 'productLoading', false)){
+          this.setsmart(this.things, 'productLoading', true)
+          setTimeout(()=>{
+            this.setsmart(this.things, 'productLoading', false)
+          }, 2000)
+          new Promise((resolve, reject)=>{
+            let prod = this.getThing({
+                option: {
+                  title: this.getsmart(this.things, 'product.title', undefined)
+                },
+                list: this.gosmart($store, 'state.app.products', []),
+                keys: ['title']
+              })
+            if(prod && prod.types && !this.equal(this.getsmart(this.things, 'product', undefined), prod)){
+              this.setsmart(this.things, 'product',
+                prod
+              )
+            }
+            this.setsmart(this.things, 'productLoading', false)
+          })
+          this.gosmart(this, 'things.model', `growlights/${this.getsmart(this, '$env.level', 'dev')}/products`)
+          this.gosmart(this, 'things.options', {
+            limit: 1
+          })
+          this.gosmart(this, 'things.options.limit', 1)
+          this.setsmart(this, 'things.query', {
+            title: this.getsmart(this.things, 'product.title', undefined)
+          })
+          if(this.getsmart(this.things, 'query.title', false)){
+            new Promise(async()=>{
+              let res = await this.$axios({
+                method: 'POST',
+                url: `${this.$env.apiUrl}/monk/get`,
+                data: {
+                  query: this.getsmart(this.things, 'query', undefined),
+                  options: this.getsmart(this.things, 'options', undefined),
+                  model: this.getsmart(this.things, 'model', undefined),
+                }
+              })
+              .catch(err=>{
+                console.error(err)
+                console.error(this.getsmart(err, 'response.data', undefined))
+                this.setsmart(this.things, 'productLoading', false)
+              })
+              if(
+                this.getsmart(res, 'data', undefined) instanceof Array &&
+                this.getsmart(res, 'data.length', false)){
+                if(!this.equal(this.getsmart(this.things, 'product', undefined), this.getsmart(res, 'data.0', undefined))){
+                  this.setsmart(this.things, 'product', res.data[0])
+                  new Promise(()=>{
+                    this.setThing({
+                      option: {
+                        title: this.getsmart(this.things, 'product.title', '')
+                      },
+                      list: this.gosmart($store, 'state.app.products', []),
+                      keys: ['title']
+                    })
+                    this.setsmart(this.things, 'productLoading', false)
+                  })
+                }
+              } else if (this.getsmart(res, 'data.length', false) == 0){
+                this.setsmart(this.things, 'productLoading', false)
+              }
+            })
+          } else {
+            this.setsmart(this.things, 'productLoading', false)
+          }
         }
-      }
+      })
     },
     // getObjects(opts){
     //   this.$socket.emit('getObjects', opts)
     // }
     addToCart(args){
+      this.setsmart(this.$store, 'state.app.entity.alopu.carts.0.lastUpdated', Date.now())
       this.setsmart(this, '$store.state.app.cartSidebar', true)
-      this.setsmart(this.productD, 'count', this.gosmart(this.productD, 'count', 0) + 1)
-      this.setThing({
-        option: this.productD,
+      let product = this.getThing({
+        option: {
+          title: this.getsmart(this.things, 'product.title')
+        },
         list: this.gosmart(this, '$store.state.app.entity.alopu.carts.0.products', []),
-        keys: ['title'],
-        push: true
-      })
+        keys: ['title']
+      }) || this.getsmart(this.things, 'product', undefined)
+      if(product){
+        this.setsmart(product, 'count', this.gosmart(product, 'count', 0) + 1)
+        this.setThing({
+          option: product,
+          list: this.gosmart(this, '$store.state.app.entity.alopu.carts.0.products', []),
+          keys: ['title'],
+          push: true
+        })
+      } else {
+        console.error('there was no product to add to cart!')
+      }
 
     }
   },
   props: {
-    productTitle: {},
-    product: {},
-    card: {},
   },
   components: {
     'four': require('src/pages/Error404.vue').default
   },
   watch: {
+    'things.product.title': {
+      handler: function(n,o){
+        this.getProduct(this)
+      }
+    }
     // '$store.state.entity': function(){
     //   this.entity = this.$store.state.entity
     // },
@@ -137,10 +219,12 @@ export default {
   padding: 5px
   display: flex
   height: 100%
+  width: auto
   justify-content: center
-  &.display
+  &.showcase
+    width: 100%
     .product-positioner
-      width: 700px !important
+      // width: 700px !important
       max-width: 100%
     .product-price-container
       padding-bottom: 0px

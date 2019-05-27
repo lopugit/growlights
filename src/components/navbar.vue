@@ -10,7 +10,8 @@
       ).shadow-0.text-primary
     div.q-ml-auto
     template(
-      v-for="nav in $store.state.app.navigation"
+      v-if="getsmart($store, 'state.app.navigation.general', []) instanceof Array"
+      v-for="nav in getsmart($store, 'state.app.navigation.general', [])"
     )
       q-btn.nav-button.shadow-0.q-mr-xsmd(
         color="white"
@@ -22,7 +23,7 @@
       color="primary"
       @click="setsmart($store, 'state.app.leftSidebar', true)"
       v-if="$store.state.app.entity == $store.state.app.entityDefault"
-    ).shadow-0.q-mr-xsmd {{ $store.state.app.registerable == 'haventchecked' ? 'members' : $store.state.app.registerable ? 'register' : 'login' }}
+    ).shadow-0.q-mr-xsmd {{ !getsmart($store, 'state.app.showLoginOptions', false) ? 'members' : gosmart($store, 'state.app.entity.registered.any', false) ? 'register' : 'login' }}
     q-btn(
       icon="shopping_basket"
       @click="setsmart($store, 'state.app.cartSidebar', !getsmart($store, 'state.app.cartSidebar', false))"
@@ -95,10 +96,12 @@ export default {
 .navbar
   width: 100%
   max-width: 100%
-  flex-wrap: wrap
+  flex-wrap: nowrap
   overflow: hidden
   background: rgba($white, 1) !important
   // z-index: 10000
+  @media(max-width: $breakpoint-sm)
+    padding: 0 0px
   img
     width: 60px
     height: auto
@@ -107,9 +110,12 @@ export default {
     margin-left: auto
 
   .nav-button
-    margin-left: 1%
-    margin-right: 1%
-    @media screen and (max-width: 920px)
+    padding-left: 1%
+    padding-right: 1%
+    margin-left: .8%
+    margin-right: .8%
+    white-space: nowrap
+    @media (max-width: $breakpoint-sm)
       display: none
   .cart-chip
     min-height: 0px !important

@@ -7,7 +7,7 @@
 	//-   .msg.thanks {{ feedbackMsg }}
 	.logout
 		.logout-sizer
-			.feedbackMsg {{ $s.getsmart($store, 'state.app.entity.registered', false) ? 'Logging out' : "You aren't logged in :O" }}
+			.feedbackMsg {{ getsmart($store, 'state.app.entity.registered', false) ? 'Logging out' : "You aren't logged in :O" }}
 </template>
 
 <script>
@@ -27,7 +27,6 @@ export default {
 		}
 	},
 	created () {
-		console.log(this.$s)
 		if(this.$store.state.app.entity.registered){
 			this.$store.dispatch('logout')
 		}

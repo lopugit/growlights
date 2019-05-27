@@ -2,12 +2,27 @@
 // import flamelink from 'flamelink'
 import firebase from 'firebase'
 
-const config = {
-	apiKey: "AIzaSyATXH6vwwHRsd3amszUgFW3DEplHr7dIgQ",
-	authDomain: "alopu-cms.firebaseapp.com",
-	databaseURL: "https://alopu-cms.firebaseio.com",
-	projectId: "alopu-cms",
-	storageBucket: "alopu-cms.appspot.com",
+let smarts = require('smarts')()
+const config = smarts.getsmart(window, 'env.level', 'dev') == 'prod' ? {
+	apiKey: "AIzaSyCEk1mYB5aXFjYZUzwhyTF-blYDrIDqTRk",
+	authDomain: "lopu-f3969.firebaseapp.com",
+	databaseURL: "https://lopu-f3969.firebaseio.com",
+	projectId: "lopu-f3969",
+	storageBucket: "lopu-f3969.appspot.com",
+	messagingSenderId: "278663639558"
+} : smarts.getsmart(window, 'env.level', 'dev') == 'dev' ? {
+	apiKey: "AIzaSyABsQrdpY9lNkyBW0me5xHmbCxSUPIjGgU",
+	authDomain: "lopudev-b405a.firebaseapp.com",
+	databaseURL: "https://lopudev-b405a.firebaseio.com",
+	projectId: "lopudev-b405a",
+	storageBucket: "lopudev-b405a.appspot.com",
+	messagingSenderId: "278663639558"
+} : {
+	apiKey: "AIzaSyABsQrdpY9lNkyBW0me5xHmbCxSUPIjGgU",
+	authDomain: "lopudev-b405a.firebaseapp.com",
+	databaseURL: "https://lopudev-b405a.firebaseio.com",
+	projectId: "lopudev-b405a",
+	storageBucket: "lopudev-b405a.appspot.com",
 	messagingSenderId: "278663639558"
 }
 // leave the export, even if you don't use it

@@ -20,8 +20,16 @@
               ) Your cart
           q-separator
         q-list.product-list.no-border.q-pa-no
+          q-item.full-width(
+            v-if=`
+             getsmart(cartD, 'products.length', 0) < 1
+            `
+            )
+            q-item-section.text-grey(
+              )
+              | Your cart is empty, add some products to check out
           template(
-            v-for="product in (getsmart(cart, 'products', undefined) || gosmart($store, 'state.app.entity.alopu.carts.0.products', []))"
+            v-for="product in (gosmart(cartD, 'products', []) || [])"
           )
             q-item.cart-product(
               )
@@ -35,14 +43,14 @@
                   color="primary"
                   text-color="white"
                 ) {{ product.count }}
-              q-item-section(
+              q-item-section.informations(
                 ).text-cap
                 .information-positioner.one
                   .information-container
                     .title-positioner
                       .title-container
                         router-link(
-                          :to='"/products/product/"+product.title'
+                          :to='"/product/"+product.title'
                         ).title {{ product.title }}
                 .information-positioner.two
                   .information-container
@@ -51,14 +59,23 @@
                         q-btn.count-minus.count-btn(
                           color="primary"
                           size="xs"
-                          @click="setsmart(product, 'count', product.count - ((product.count > 1) ? 1 : 0))"
+                          @click=`
+                            // increment product count
+                            setsmart(product, 'count', product.count - ((product.count > 1) ? 1 : 0)) ;
+                            // set cart update time
+                            setsmart(cartD, 'lastUpdated', Date.now())
+                          `
                           flat
                         ) -
                         .count {{ gosmart(product, 'count', 1) }}
                         q-btn.count-minus.count-btn(
                           color="primary"
                           size="xs"
-                          @click="setsmart(product, 'count', product.count+1)"
+                          @click=`
+                            // increment product count
+                            setsmart(product, 'count', product.count+1)
+                            setsmart(cartD, 'lastUpdated', Date.now())
+                          `
                           flat
                         ) +
                     .delete-positioner.q-ml-xsm
@@ -74,19 +91,19 @@
                         .price ${{ Math.ceil((getThing({option: {'name': 'growlights.com.au marked up price'}, list: product.prices, keys: ['name']}).values['AUD']*product.count)*100)/100 }}
                           .currency {{ false || 'AUD' }}
             q-separator
-        .bottom-section
+        .bottom-section.q-pl-xxsm.q-pr-xxxxsm
           q-list.no-border.full-width.bottom-section-list
             q-item.bottom-info.subtotal.q-pl-xxxxsm.q-pr-xxxxsm
               q-item-section.uppercase Subtotal
               q-item-section(
                 side
-              ).bottom-value.cart-subtotal ${{ Math.ceil(cartSubtotal*100)/100 }}
+              ).bottom-value.cart-subtotal ${{ Math.ceil(getsmart($store, 'getters.cartSubtotal', ()=>{return 0})({cart: cartD})*100)/100 }}
                 .currency {{ false || 'AUD' }}
             q-item.bottom-info.shipping.q-pl-xxxxsm.q-pr-xxxxsm
               q-item-section.uppercase Shipping
               q-item-section(
                 side
-              ).bottom-value.cart-shipping {{ getsmart(cart || $store, cart ? 'shippingMethod.cost' : 'state.app.entity.alopu.carts.0.shippingMethod.cost', 'Calculated at next step') }}
+              ).bottom-value.cart-shipping {{ getsmart(cartD, 'shippingMethod.cost', 'Calculated at next step') }}
                 // .currency {{ false || 'AUD' }}
             .shipping-and-discount.message.q-pa-sm.q-pt-no.q-pb-smd.text-center Shipping and discount codes are added at checkout
             q-btn.checkout-button.shadow-0.q-mr-no.q-ml-auto(
@@ -94,8 +111,8 @@
               @click=`
                 $router.push(
                   gosmart(
-                    cart || $store,
-                    cart ? 'currentStage' : 'state.app.entity.alopu.carts.0.currentStage',
+                    cartD,
+                    'currentStage',
                     '/checkout/customer_information'
                   )
                 )
@@ -106,7 +123,7 @@
               q-item-section.uppercase total
               q-item-section(
                 side
-              ).bottom-value.cart-total ${{ Math.ceil(cartTotal*100)/100 }}
+              ).bottom-value.cart-total ${{ Math.ceil(getsmart($store, 'getters.cartTotal', ()=>{return 0})({cart: cartD})*100)/100 }}
                 .currency {{ false || 'AUD' }}
 
 </template>
@@ -116,39 +133,24 @@ export default {
   name: 'cart-comp',
   data () {
     return {
-      // objects: null,
-      uuid: this._uid
+      uuid: this._uid,
+      cartD: this.cart || this.gosmart(this.$store, 'state.app.entity.alopu.carts.0', {})
     }
   },
   sockets: {
     connect: function(){
-      // console.log("socket connect vue side")
     },
-    // giveObjects(data){
-    //   // console.log(data)
-    //   if(this.uuid == data.id){
-    //     this.objects = data.objects
-    //   }
-    // }
   },
   created () {
-    // if(this.count !== 0){
-    //   this.getObjects({
-    //     count: this.count,
-    //     sort: 'alphabetical',
-    //     sortDirection: 'ascending',
-    //     id: this.uuid
-    //   })
-    // } else {
-    //   this.objects = null
-    // }
   },
   methods: {
     removeProduct(args){
       if(args.product){
+        this.setsmart(this.cartD, 'lastUpdated', Date.now())
+        this.setsmart(args, 'product.count', 0)
         this.popThing({
           option: args.product,
-          list: this.gosmart(this.cart || this.$store, this.cart ? 'products' : 'state.app.entity.alopu.carts.0.products', []),
+          list: this.gosmart(this.cartD, 'products', []),
           keys: ['title']
         })
       }
@@ -159,55 +161,23 @@ export default {
       default: args => {}
     },
     banner: {},
-    cart: {}
+    cart: {},
   },
   computed: {
-    cartShipping: {
-      get(){
-        return false
-      },
-      set(val){
-
-      }
-    },
-    cartTotal: {
-      get(){
-        let list = this.gosmart(this.cart || this.$store, this.cart ? 'products' : 'state.app.entity.alopu.carts.0.products', [])
-        let total = 0
-        for(var product of list){
-          total += this.getThing({option: {'name': 'growlights.com.au marked up price'}, list: product.prices, keys: ['name']}).values['AUD']*product.count
-        }
-        return total
-      }
-    },
-    cartSubtotal: {
-      get(){
-        let list = this.gosmart(this.cart || this.$store, this.cart ? 'products' : 'state.app.entity.alopu.carts.0.products', [])
-        let subtotal = 0
-        for(var product of list){
-          subtotal += this.getThing({option: {'name': 'growlights.com.au marked up price'}, list: product.prices, keys: ['name']}).values['AUD']*product.count
-        }
-        return subtotal
-      }
-    },
-    cartItems: {
-      get(){
-        let list = this.gosmart(this.cart || this.$store, cart ? 'products' : 'state.app.entity.alopu.carts.0.products', [])
-        let count = 0
-        for(var product of list){
-          count += this.gosmart(product, 'count', 0)
-        }
-        return count
-      }
-    },
   },
   components: {
     banner: require('src/components/banner').default,
   },
   watch: {
-    // '$store.state.entity': function(){
-    //   this.entity = this.$store.state.entity
-    // },
+    '$store.state.app.entity.alopu.carts.0'(){
+      this.$set(this, 'cartD', this.cart || this.gosmart(this.$store, 'state.app.entity.alopu.carts.0', {}))
+    },
+    'cart'(){
+      this.$set(this, 'cartD', this.cart || this.gosmart(this.$store, 'state.app.entity.alopu.carts.0', {}))
+    },
+    'cartD'(){
+      this.$set(this, 'cartD', this.cart || this.gosmart(this.$store, 'state.app.entity.alopu.carts.0', {}))
+    },
   },
   route: {
     canActivate(){
@@ -221,16 +191,18 @@ export default {
 @import 'src/styles/vars'
 .cart-container
   width: 100%
+  max-width: 100%
   display: flex
-  flex-shrink: 1
+  // flex-shrink: 1
   height: auto
   // max-height: 90vh
   overflow: auto
-  max-width: 100%
   justify-content: center
   .cart-positioner
-    width: 100%
-    max-width: 80vw
+    width: 95vw
+    @media(min-width: $breakpoint-sm)
+      width: 85vw
+    max-width: 100%
     display: flex
     flex-shrink: 1
     height: auto
@@ -445,29 +417,34 @@ export default {
         .product-count-chip
           display: flex
           border-radius: 50%
-
-    .information-positioner
-      .information-container
-        margin-top: 0px
-        .title-positioner
-          .title-container
-            max-width: 220px
-            .title
-        .count-positioner
-          display: none
-          .count-container
-            .count
-        .price-positioner
-          display: none
-          .price-container
-            .price
-              .currency
-        .delete-positioner
-          display: none
-          .q-btn
-      &.one
+    .informations
+      display: flex
+      flex-direction: row
+      justify-content: flex-start
+      .information-positioner
         .information-container
-          .remove-btn
+          margin-top: 0px
+          .title-positioner
+            .title-container
+              max-width: 220px
+              .title
+          .count-positioner
+            display: none
+            .count-container
+              .count
+          .price-positioner
+            // display: none
+            .price-container
+              .price
+                .currency
+          .delete-positioner
+            display: none
+            .q-btn
+        &.one
+          .information-container
+            .remove-btn
+        &.two
+          margin-left: auto
     .checkout-button
       display: none
     .bottom-section
@@ -488,6 +465,3 @@ export default {
     .bottom-section
       display: none
 </style>
-
-  .checkout-button
-    width: auto

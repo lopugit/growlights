@@ -13,13 +13,6 @@ export default ({app, router, Vue}) => {
 	// 		get () { return smarts() }
 	// 	})
   // }
-  Vue.mixin({
-    data(){
-      return {
-        things: {}
-      }
-    }
-  })
 	Vue.mixin(
     smarts({
       vue: {
@@ -35,5 +28,6 @@ export default ({app, router, Vue}) => {
   Vue.prototype.$native = {
   }
   Vue.prototype.$native.setTimeout = (fn, timeout) => setTimeout(fn, timeout)
+  Vue.prototype.$native.clearTimeout = (fn) => clearTimeout(fn)
   // Object.assign(Vue.prototype.$native, window)
 }

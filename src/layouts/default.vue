@@ -8,7 +8,7 @@ q-layout(
     :overlay="true"
     ).z-top.q-flex.q-flex-column
     //- :noHideOnRouteChange="true"
-    sidebar(
+    sidebar.q-br-1(
     )
   q-drawer(
     v-model="$store.state.app.cartSidebar"
@@ -16,12 +16,15 @@ q-layout(
     :overlay="true"
     ).z-top.q-flex.q-flex-column
     //- :noHideOnRouteChange="true"
-    cart-sidebar(
+    cart-sidebar.q-bl-1(
     )
 
   q-page-container.q-pt-xxxl
-    router-view.router-view
+    router-view(
+    ).router-view
+    // :key="$route.fullPath"
   navbar
+  footer-thing
   q-dialog(
     :value=`gosmart($store, 'state.app.showLoginDialog', false)`
     @input=`setsmart($store, 'state.app.showLoginDialog', $event)`
@@ -31,6 +34,7 @@ q-layout(
     manifest
   q-dialog(
     :value=`gosmart($store, 'state.app.showCartCacheDialog', false)`
+    v-if=`gosmart($store, 'state.app.showCartCacheDialog', false)`
     @input=`setsmart($store, 'state.app.showCartCacheDialog', $event)`
     transition-show="fade"
     transition-hide="fade"
@@ -39,41 +43,78 @@ q-layout(
       q-card-section.text-center
         .text-normal.text-smlg We found an old shopping cart
         .text-thin.text-grey.text-smd You can merge or choose the cart you want
-      q-card-section.text-center
-        .text-normal.text-xlg Merged
+      q-separator
+      q-card-section.text-center.q-mt-xxsm
+        .text-normal.text-xlg Merge
+      // q-card-section.text-center.q-mb-no.q-pb-md
+      //   q-btn.full-width(
+      //     color="primary"
+      //     size="sm"
+      //   ) Choose
       q-card-section
         cart(
           :theme=`{
-            summary: true,
-            'items-only': true
+            summary: true
           }`
           v-if=`getsmart($store, 'state.app.entity.alopu.carts.1', false)`
-          :cart=`getsmart($store, 'state.app.entity.alopu.carts.1', undefined)`
+          :cart=`{
+            products: setThings({
+              options: setThings({
+                options: getsmart($store, 'state.app.entity.alopu.carts.1.products', []),
+                list: [],
+                keys: ['title'],
+                push: true
+              }),
+              list: setThings({
+                options: getsmart($store, 'state.app.entity.alopu.carts.0.products', []),
+                list: [],
+                keys: ['title'],
+                push: true
+              }),
+              keys: ['title'],
+              push: true
+            })
+          }
+          `
         )
       q-card-section.text-center.q-mb-md
         q-btn.full-width(
           color="primary"
+          size="md"
+          @click=`
+            setThings({
+              options: getsmart($store, 'state.app.entity.alopu.carts.1.products', []),
+              list: getsmart($store, 'state.app.entity.alopu.carts.0.products', []),
+              keys: ['title'],
+              push: true
+            })
+            setsmart($store, 'state.app.showCartCacheDialog', false)
+          `
         ) Merge Carts
-      q-card-section.text-center
+      q-separator
+      q-card-section.text-center.q-mt-xxsm
         .text-normal.text-xlg Current Cart
       q-card-section
         cart.q-mb-md(
           :theme=`{
-            summary: true,
-            'items-only': true
+            summary: true
           }`
         )
       q-card-section.text-center.q-mb-md
         q-btn.full-width(
           color="primary"
-        ) Choose Current Cart
-      q-card-section.text-center
+          size="md"
+          @click=`
+            setsmart($store, 'state.app.showCartCacheDialog', false)
+          `
+        ) Keep Current Cart
+      q-separator
+      q-card-section.text-center.q-mt-xxsm
         .text-normal.text-xlg Old Cart
       q-card-section
         cart(
           :theme=`{
-            summary: true,
-            'items-only': true
+            summary: true
           }`
           v-if=`getsmart($store, 'state.app.entity.alopu.carts.1', false)`
           :cart=`getsmart($store, 'state.app.entity.alopu.carts.1', undefined)`
@@ -81,22 +122,56 @@ q-layout(
       q-card-section.text-center.q-mb-md
         q-btn.full-width.q-mb-sm(
           color="primary"
-        ) Choose Old Cart
+          size="md"
+          @click=`
+            let localCart = getsmart($store, 'state.app.entity.alopu.carts.0', undefined)
+            setsmart($store, 'state.app.entity.alopu.carts.0.products',
+              getsmart($store, 'state.app.entity.alopu.carts.1.products', [])
+            )
+            delete $store.state.app.entity.alopu.carts['1']
+            // setsmart($store, 'state.app.entity.alopu.carts.1',
+            //   undefined
+            // )
+            let list = gosmart($store, 'state.app.entity.alopu.carts.history', [])
+            if(list instanceof Array && localCart){
+              list.push(localCart)
+            }
+            setsmart($store, 'state.app.showCartCacheDialog', false)
+          `
+        ) Use Old Cart
         // q-btn.full-width(
         //   color="primary"
         // ) Merge
-</template>
+  q-dialog(
+    persistent
+    :value=`gosmart($store, 'state.app.paymentDialog', false)`
+    v-if=`gosmart($store, 'state.app.paymentDialog', false)`
+    )
+    // @input=`setsmart($store, 'state.app.paymentDialog', false)`
+    q-card.q-flex-column.q-justify-center.q-pt-xxsm.q-pb-xxsm.q-pl-smd.q-pr-smd
+      q-card-section.q-pb-xxxxsm(
+        v-if=`!gosmart($store, 'state.app.paymentProcessing', false)`
+      ).text-center.q-pb-xmd
+        .text-md Thanks for your order.
+      q-card-section.q-pb-xxxxsm(
+        v-if=`!gosmart($store, 'state.app.paymentProcessing', false)`
+      )
+        .text-sm Payment Successful
+      q-card-section.q-pt-xxxsm(
+        v-if=`gosmart($store, 'state.app.paymentReceipt', $uuid.v4())`
+      )
+        .text-xxsm.text-grey Order number:
+        .text-xxxsm.text-grey.text-uppercase {{ gosmart($store, 'state.app.paymentReceipt', $uuid.v4()) }}
+      q-card-section.q-justify-end(
+        v-if=`!gosmart($store, 'state.app.paymentProcessing', false) || true`
+      ).q-mt-sm
+        q-btn(
+          @click="setsmart($store, 'state.app.paymentDialog', false) ; setsmart($store, 'state.app.paymentProcessing', false)"
+          color="primary"
+        ) Close</template>
 
 <script>
-import smarts from 'smarts'
 export default {
-  mixins: [
-    smarts({
-      vue: {
-        reactiveSetter: true
-      }
-    })
-  ],
   name: 'default',
   data(){
     return {
@@ -117,46 +192,10 @@ export default {
     //   this.$store.commit('thing', {
     //   })
     // },
-    'entity.alopu.username'(){
-      if(this.showLoginOptions && (this.entity.alopu.username || this.entity.alopu.username == 0)){
-        clearTimeout(this.checkusername)
-        var that = this
-        this.checkusername = setTimeout(function(){
-          that.$store.dispatch('checkUsernameAvailability', that.entity.alopu.username)
-        }, 200)
-      }
-    },
-    '$store.state.app.pageHistory': function(){
-      this.pageHistory = this.$store.state.app.pageHistory
-    },
-    '$store.state.app.feedback'(){
-      // let index = this.thingIn({option: { type: 'login' } , list: this.$store.state.app.feedback, keys: ['type'], retIndex: true})
-      for(var i=0; i<this.getsmart(this, '$store.state.app.feedback.length', 0); i++){
-        let feedback = this.$store.state.app.feedback[0]
-        this.$q.notify(Object.assign({ position: 'top-left' }, feedback))
-        this.$store.commit('removefeedback', 0)
-      }
-    },
-    '$store.state.app.dialog'(){
-      // let index = this.thingIn({option: { type: 'login' } , list: this.$store.state.app.dialog, keys: ['type'], retIndex: true})
-      for(var i=0; i<this.getsmart(this, '$store.state.app.dialog.length', 0); i++){
-        let dialog = this.$store.state.app.dialog[0]
-        this.$q.dialog(dialog)
-        this.$store.commit('removedialog', 0)
-      }
-    },
-    '$store.state.app.entity'(){
-      this.entity = this.$store.state.app.entity
-      if(this.$store.getters.loggedIn){
-        this.$store.commit('showLoginOptions', false)
-      }
-    },
-    '$store.state.app.showLoginOptions'(){
-      this.showLoginOptions = this.$store.state.app.showLoginOptions
-    },
   },
   components: {
     navbar: require('src/components/navbar').default,
+    'footer-thing': require('src/components/footer').default,
     sidebar: require('src/components/sidebar').default,
     'cart-sidebar': require('src/components/cart-sidebar').default,
     'manifest': require('src/components/manifest').default,
@@ -166,26 +205,6 @@ export default {
     navigator: {
       get(){
         return navigator
-      }
-    },
-    showLoginOptions: {
-      get(){
-        if(this.$store.getters.loggedIn){
-          return false
-        } else {
-          return this.$store.state.app.showLoginOptions
-        }
-      },
-      set(val){
-        this.$store.commit('showLoginOptions', val)
-      }
-    },
-    entity: {
-      get(){
-        return this.$store.state.app.entity
-      },
-      set(val){
-        this.$store.commit('entity', {entity: val})
       }
     },
     pageHistory: {
@@ -204,8 +223,6 @@ export default {
         this.$store.commit('feedback', val)
       }
     }
-
-
   }
 }
 </script>
