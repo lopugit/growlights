@@ -8,18 +8,19 @@ module.exports = function (ctx) {
   var apiDomain = 'src'
   let env = {}
   smarts.gosmart(env, 'level', smarts.getsmart(process, 'env.level', 'dev'))
-  smarts.gosmart(env, 'apiProtocol', smarts.getsmart(process, 'env.apiProtocol', smarts.getsmart(env, 'level', 'dev') == 'dev' ? 'https://' : 'https://'))
-  smarts.gosmart(env, 'apiSubdomain', smarts.getsmart(process, 'env.apiSubdomain', smarts.getsmart(env, 'level', 'dev') == 'dev' ? 'api' : 'api'))
-  smarts.gosmart(env, 'apiDomain', smarts.getsmart(process, 'env.apiDomain', smarts.getsmart(env, 'level', 'dev') == 'dev' ? 'growlights' : 'growlights'))
-  smarts.gosmart(env, 'apiTLD', smarts.getsmart(process, 'env.apiTLD', smarts.getsmart(env, 'level', 'dev') == 'dev' ? 'src' : 'com.au'))
+  smarts.gosmart(env, 'apiProtocol', smarts.getsmart(process, 'env.apiProtocol', smarts.getsmart(env, 'level', 'dev') == 'prod' ? 'https://' : 'https://'))
+  smarts.gosmart(env, 'apiSubdomain', smarts.getsmart(process, 'env.apiSubdomain', smarts.getsmart(env, 'level', 'dev') == 'prod' ? 'api' : 'api'))
+  smarts.gosmart(env, 'apiDomain', smarts.getsmart(process, 'env.apiDomain', smarts.getsmart(env, 'level', 'dev') == 'prod' ? 'growlights' : 'growlights'))
+  smarts.gosmart(env, 'apiTLD', smarts.getsmart(process, 'env.apiTLD', smarts.getsmart(env, 'level', 'dev') == 'prod' ? 'com.au' : 'src'))
 
+  // add helper for apiUrl built path
   smarts.setsmart(env, 'apiUrl', `"${env.apiProtocol}${env.apiSubdomain}.${env.apiDomain}.${env.apiTLD}"`)
   // escape for some retarded reason
   smarts.setsmart(env, 'level', `"${smarts.getsmart(env, 'level', 'dev')}"`)
-  smarts.setsmart(env, 'apiProtocol', `"${smarts.getsmart(env, 'apiProtocol', smarts.getsmart(env, 'level', 'dev') == 'dev' ? 'https://' : 'https://')}"`)
-  smarts.setsmart(env, 'apiSubdomain', `"${smarts.getsmart(env, 'apiSubdomain', smarts.getsmart(env, 'level', 'dev') == 'dev' ? 'api' : 'api')}"`)
-  smarts.setsmart(env, 'apiDomain', `"${smarts.getsmart(env, 'apiDomain', smarts.getsmart(env, 'level', 'dev') == 'dev' ? 'growlights' : 'growlights')}"`)
-  smarts.setsmart(env, 'apiTLD', `"${smarts.getsmart(env, 'apiTLD', smarts.getsmart(env, 'level', 'dev') == 'dev' ? 'src' : 'com.au')}"`)
+  smarts.setsmart(env, 'apiProtocol', `"${smarts.getsmart(env, 'apiProtocol', smarts.getsmart(env, 'level', 'dev') == 'prod' ? 'https://' : 'https://')}"`)
+  smarts.setsmart(env, 'apiSubdomain', `"${smarts.getsmart(env, 'apiSubdomain', smarts.getsmart(env, 'level', 'dev') == 'prod' ? 'api' : 'api')}"`)
+  smarts.setsmart(env, 'apiDomain', `"${smarts.getsmart(env, 'apiDomain', smarts.getsmart(env, 'level', 'dev') == 'prod' ? 'growlights' : 'growlights')}"`)
+  smarts.setsmart(env, 'apiTLD', `"${smarts.getsmart(env, 'apiTLD', smarts.getsmart(env, 'level', 'dev') == 'prod' ? 'com.au' : 'src')}"`)
 
   console.log(env)
   return {
