@@ -65,7 +65,9 @@
         )
           q-item-section.full-width
             g-signin-button(
-              :params="gosmart($store, 'state.app.googleParams', {})"
+              :params=`{
+                client_id: gosmart($env, 'googleClientId', undefined)
+              }`
               @success="res => $store.dispatch('login', {token: Object.assign({provider: 'google'}, res), provider: 'google', success: true})"
               @error="res => $store.dispatch('login', {token: Object.assign({provider: 'google'}, res), provider: 'google', success: false})"
               )

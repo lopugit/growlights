@@ -522,23 +522,23 @@ export const logout = async (store, args) =>{
   s.setsmart(store, 'state.passwordConfirmation', '')
   s.pushThing({
     option: {
-      message: 'Logging out',
+      message: 'Logged out',
       color: 'positive',
       timeout: 2000
     },
     list: s.gosmart(store, 'state.feedback', []),
     keys: ['message']
   })
-  setTimeout(()=>{
-    s.pushThing({
-      option: {
-        message: 'Successfully logged out',
-        color: 'positive',
-        timeout: 2000,
-      },
-      list: s.gosmart(store, 'state.feedback', [])
-    })
-  }, 2200)
+  // setTimeout(()=>{
+  //   s.pushThing({
+  //     option: {
+  //       message: 'Successfully logged out',
+  //       color: 'positive',
+  //       timeout: 2000,
+  //     },
+  //     list: s.gosmart(store, 'state.feedback', [])
+  //   })
+  // }, 2200)
   // var entity
   var things = fs.collection(`${s.getsmart(window, 'env.level', 'dev')}/things/users`)
   var id

@@ -7,7 +7,7 @@
 			avatar
 			@click="$store.commit('thing', {path: 'cartSidebar', val: !$store.state.app.cartSidebar})"
 			).q-item-label-profile-picture
-			img.q-circle-img(
+			img.q-circle-img.q-max-height-60.q-max-width-60(
 				:src=`$store.getters.cover()`
 				)
 		q-item-section(
@@ -40,13 +40,6 @@ export default {
     return {
       // objects: null,
       uuid: this._uid,
-      fbParams: {
-        scope: 'email,public_profile',
-        return_scopes: true
-      },
-      googleParams: {
-        client_id: '278663639558-du8pit378au8cvkm22s1vv02be65dmru.apps.googleusercontent.com'
-      }
     }
   },
   sockets: {

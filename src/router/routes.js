@@ -38,6 +38,14 @@ const routes = [
 				component: () => import('components/logout'),
 			},
 			{
+				path: '/privacy',
+				component: () => import('components/privacy'),
+			},
+			{
+				path: '/TOS',
+				component: () => import('components/TOS'),
+			},
+			{
 				path: '/profile(|/):x(.*)',
         component: () => import('components/profile'),
         props: (route)=>({

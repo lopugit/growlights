@@ -3,7 +3,11 @@ module.exports = {
     name: 'growlights',
 		script: 'quasar',
     // Options reference: https://pm2.io/doc/en/runtime/reference/ecosystem-file/
-    args: 'dev',
+    args: [
+      'dev',
+      '-m',
+      'pwa',
+    ],
     instances: 1,
     autorestart: true,
 		watch: false,

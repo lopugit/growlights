@@ -7,7 +7,7 @@
 	//-   .msg.thanks {{ feedbackMsg }}
 	.logout
 		.logout-sizer
-			.feedbackMsg {{ getsmart($store, 'state.app.entity.registered', false) ? 'Logging out' : "You aren't logged in :O" }}
+			.feedbackMsg {{ getsmart($store, 'state.app.entity.registered', false) ? 'Logged out' : "You aren't logged in :O" }}
 </template>
 
 <script>
@@ -16,8 +16,8 @@ export default {
 	data () {
 		return {
 			entity: this.$store.state.entity,
-			errMsg: "thanks for logging out",
-			feedbackMsg: "thanks for logging out",
+			errMsg: "thanks for Logged out",
+			feedbackMsg: "thanks for Logged out",
 			uuid: this._uid
 		}
 	},

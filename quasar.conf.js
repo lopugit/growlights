@@ -12,21 +12,41 @@ module.exports = function (ctx) {
   smarts.gosmart(env, 'apiSubdomain', smarts.getsmart(process, 'env.apiSubdomain', smarts.getsmart(env, 'level', 'dev') == 'prod' ? 'api' : 'api'))
   smarts.gosmart(env, 'apiDomain', smarts.getsmart(process, 'env.apiDomain', smarts.getsmart(env, 'level', 'dev') == 'prod' ? 'growlights' : 'growlights'))
   smarts.gosmart(env, 'apiTLD', smarts.getsmart(process, 'env.apiTLD', smarts.getsmart(env, 'level', 'dev') == 'prod' ? 'com.au' : 'src'))
+  smarts.gosmart(env, 'apiUrl', `${env.apiProtocol}${env.apiSubdomain}.${env.apiDomain}.${env.apiTLD}`)
 
-  // add helper for apiUrl built path
-  smarts.setsmart(env, 'apiUrl', `"${env.apiProtocol}${env.apiSubdomain}.${env.apiDomain}.${env.apiTLD}"`)
+  // if env level dev
+  if(smarts.getsmart(env, 'level', 'dev') == 'dev'){
+    // set facebook config
+    smarts.setsmart(env, 'fbAppId', '636153636865826')
+    // set google client id
+    smarts.setsmart(env, 'googleClientId', '211744308643-jhehqcp4ei6vd7gel2n308i9ooeer9sl.apps.googleusercontent.com')
+  }
+
+  // if env level prod
+  else if(smarts.getsmart(env, 'level', 'dev') == 'prod'){
+    // set facebook config
+    smarts.setsmart(env, 'fbAppId', '1510678942401771')
+    // set google client id
+    smarts.setsmart(env, 'googleClientId', '299513605828-3q815bnemucsak0r8b202lkji6snkgqn.apps.googleusercontent.com')
+  }
+
   // escape for some retarded reason
-  smarts.setsmart(env, 'level', `"${smarts.getsmart(env, 'level', 'dev')}"`)
-  smarts.setsmart(env, 'apiProtocol', `"${smarts.getsmart(env, 'apiProtocol', smarts.getsmart(env, 'level', 'dev') == 'prod' ? 'https://' : 'https://')}"`)
-  smarts.setsmart(env, 'apiSubdomain', `"${smarts.getsmart(env, 'apiSubdomain', smarts.getsmart(env, 'level', 'dev') == 'prod' ? 'api' : 'api')}"`)
-  smarts.setsmart(env, 'apiDomain', `"${smarts.getsmart(env, 'apiDomain', smarts.getsmart(env, 'level', 'dev') == 'prod' ? 'growlights' : 'growlights')}"`)
-  smarts.setsmart(env, 'apiTLD', `"${smarts.getsmart(env, 'apiTLD', smarts.getsmart(env, 'level', 'dev') == 'prod' ? 'com.au' : 'src')}"`)
+  for(var key of Object.keys(env)){
+    smarts.setsmart(env, key, `"${smarts.getsmart(env, key, undefined)}"`)
+  }
+
+  // smarts.setsmart(env, 'level', `"${smarts.getsmart(env, 'level', 'dev')}"`)
+  // smarts.setsmart(env, 'apiProtocol', `"${smarts.getsmart(env, 'apiProtocol', smarts.getsmart(env, 'level', 'dev') == 'prod' ? 'https://' : 'https://')}"`)
+  // smarts.setsmart(env, 'apiSubdomain', `"${smarts.getsmart(env, 'apiSubdomain', smarts.getsmart(env, 'level', 'dev') == 'prod' ? 'api' : 'api')}"`)
+  // smarts.setsmart(env, 'apiDomain', `"${smarts.getsmart(env, 'apiDomain', smarts.getsmart(env, 'level', 'dev') == 'prod' ? 'growlights' : 'growlights')}"`)
+  // smarts.setsmart(env, 'apiTLD', `"${smarts.getsmart(env, 'apiTLD', smarts.getsmart(env, 'level', 'dev') == 'prod' ? 'com.au' : 'src')}"`)
 
   console.log(env)
   return {
     // app boot file (/src/boot)
     // --> boot files are part of "main.js"
     boot: [
+			'env',
       'i18n',
       'axios',
       'circular-json',
@@ -44,7 +64,6 @@ module.exports = function (ctx) {
 			'google-login',
 			'firebase',
 			'firebaseui',
-			'env',
 			'smarts',
 			'firestore',
 			'ua-parser',

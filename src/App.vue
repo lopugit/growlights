@@ -284,7 +284,7 @@ ul
   padding: 0
 
 li
-  display: inline-block
+  // display: inline-block
   margin: 0 10px
 
 a,
@@ -458,6 +458,64 @@ body
 
 <style lang="stylus">
 @import '~src/css/quasar.variables.styl'
+
+.fb-signin-button
+  /* This is where you control how the button looks. Be creative! */
+  display flex
+  flex-direction row
+  align-items center
+  padding: 0px 5px 0px 15px
+  background: #4460a0
+  border-radius: 4px
+  width: 100%
+  height: 45px
+  cursor: pointer
+  padding-top: 1px
+  transition: .2s
+  -webkit-user-select: none
+  -moz-user-select: none
+  -ms-user-select: none
+  user-select: none
+  position: relative
+  &:hover
+    background #4a68ae
+  .text
+    width: 100%
+    text-align: center
+  img
+    position: absolute
+    left: 15px
+    width: 16px
+    height: 16px
+
+.g-signin-button
+  /* This is where you control how the button looks. Be creative! */
+  display flex
+  flex-direction row
+  align-items center
+  padding: 0px 5px 0px 15px
+  border-radius: 4px
+  width: 100%
+  height: 45px
+  cursor: pointer
+  padding-top: 1px
+  transition: .2s
+  -webkit-user-select: none
+  -moz-user-select: none
+  -ms-user-select: none
+  user-select: none
+  position: relative
+  background-color #3f82f8
+  &:hover
+    background-color #4c8bf8
+  .text
+    width: 100%
+    text-align: center
+  img
+    position: absolute
+    left: 15px
+    width: 16px
+    height: 16px
 
 .q-nav-footer
   max-width: 100%
