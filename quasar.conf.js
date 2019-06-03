@@ -20,6 +20,15 @@ module.exports = function (ctx) {
     smarts.setsmart(env, 'fbAppId', '636153636865826')
     // set google client id
     smarts.setsmart(env, 'googleClientId', '211744308643-jhehqcp4ei6vd7gel2n308i9ooeer9sl.apps.googleusercontent.com')
+    // set firebase credentials
+    smarts.setsmart(env, 'firebaseConf', {
+      apiKey: "AIzaSyABsQrdpY9lNkyBW0me5xHmbCxSUPIjGgU",
+      authDomain: "lopudev-b405a.firebaseapp.com",
+      databaseURL: "https://lopudev-b405a.firebaseio.com",
+      projectId: "lopudev-b405a",
+      storageBucket: "lopudev-b405a.appspot.com",
+      messagingSenderId: "278663639558"
+    })
   }
 
   // if env level prod
@@ -28,11 +37,20 @@ module.exports = function (ctx) {
     smarts.setsmart(env, 'fbAppId', '1510678942401771')
     // set google client id
     smarts.setsmart(env, 'googleClientId', '299513605828-3q815bnemucsak0r8b202lkji6snkgqn.apps.googleusercontent.com')
+    // set firebase credentials
+    smarts.setsmart(env, 'firebaseConf', {
+      apiKey: "AIzaSyCEk1mYB5aXFjYZUzwhyTF-blYDrIDqTRk",
+      authDomain: "lopu-f3969.firebaseapp.com",
+      databaseURL: "https://lopu-f3969.firebaseio.com",
+      projectId: "lopu-f3969",
+      storageBucket: "lopu-f3969.appspot.com",
+      messagingSenderId: "278663639558"
+    })
   }
 
   // escape for some retarded reason
   for(var key of Object.keys(env)){
-    smarts.setsmart(env, key, `"${smarts.getsmart(env, key, undefined)}"`)
+    smarts.setsmart(env, key, JSON.stringify(smarts.getsmart(env, key, undefined)))
   }
 
   // smarts.setsmart(env, 'level', `"${smarts.getsmart(env, 'level', 'dev')}"`)
@@ -63,7 +81,7 @@ module.exports = function (ctx) {
 			'facebook-login',
 			'google-login',
 			'firebase',
-			'firebaseui',
+			// 'firebaseui',
 			'smarts',
 			'firestore',
 			'ua-parser',

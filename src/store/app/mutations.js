@@ -1,9 +1,6 @@
-import firebase from 'firebase'
-import '@firebase/firestore'
-var fs = initFirestore()
-var s = require('smarts')()
-import circularJSON from 'circular-json'
 let smarts = require('smarts')()
+let s = smarts
+import circularJSON from 'circular-json'
 export const interactionStarted = (state, payload) => {
 	state.interactionStarted = payload
 }
@@ -151,16 +148,21 @@ export const entity = (state, payload) => {
 export const updateEntityUserAgent = (state, payload) => {
 	var id = s.gosmart(state, 'entity.firestore.id', s.getsmart(state, 'entity.ids.id-firestore', undefined))
 	if(id){
-		s.setsmart(state, 'entity.loggedIn.'+payload, true)
-		var things = fs.collection(`${s.getsmart(window, 'env.level', 'dev')}/things/users`)
-		let ref = things.doc(id)
-		ref.set(state.entity)
-		.then(()=>{
+    s.setsmart(state, 'entity.loggedIn.'+payload, true)
+    let fs = s.getsmart(window, '$fs', undefined)
+    if(fs){
+      var things = fs.collection(`${s.getsmart(window, 'env.level', 'dev')}/things/users`)
+      let ref = things.doc(id)
+      ref.set(state.entity)
+      .then(()=>{
 
-		})
-		.catch(err=>{
-			console.error('something went wrong updating the loggedIn userAgent: ', err)
-		})
+      })
+      .catch(err=>{
+        console.error('something went wrong updating the loggedIn userAgent: ', err)
+      })
+    } else {
+      console.error('no firestore')
+    }
 	} else {
 		// s.setsmart(state, 'entity.loggedIn.'+payload, false)
 	}
@@ -173,44 +175,4 @@ export const env = (state, payload) => {
 export const clientId = (state, payload) => {
 	state.clientId = payload
 }
-/** HELPER FUNCTIONS */
-	function initFirestore(){
-    let smarts = require('smarts')()
-    const config = smarts.getsmart(window, 'env.level', 'dev') == 'prod' ? {
-      apiKey: "AIzaSyCEk1mYB5aXFjYZUzwhyTF-blYDrIDqTRk",
-      authDomain: "lopu-f3969.firebaseapp.com",
-      databaseURL: "https://lopu-f3969.firebaseio.com",
-      projectId: "lopu-f3969",
-      storageBucket: "lopu-f3969.appspot.com",
-      messagingSenderId: "278663639558"
-    } : smarts.getsmart(window, 'env.level', 'dev') == 'dev' ? {
-      apiKey: "AIzaSyABsQrdpY9lNkyBW0me5xHmbCxSUPIjGgU",
-      authDomain: "lopudev-b405a.firebaseapp.com",
-      databaseURL: "https://lopudev-b405a.firebaseio.com",
-      projectId: "lopudev-b405a",
-      storageBucket: "lopudev-b405a.appspot.com",
-      messagingSenderId: "278663639558"
-    } : {
-      apiKey: "AIzaSyABsQrdpY9lNkyBW0me5xHmbCxSUPIjGgU",
-      authDomain: "lopudev-b405a.firebaseapp.com",
-      databaseURL: "https://lopudev-b405a.firebaseio.com",
-      projectId: "lopudev-b405a",
-      storageBucket: "lopudev-b405a.appspot.com",
-      messagingSenderId: "278663639558"
-    }
-    const settings = {
-			// timestampsInSnapshots: true
-		}
-
-		if(!firebase.apps.length){
-			firebase.initializeApp(config)
-		} else {
-			// F = firebase.app()
-		}
-		var fs = firebase.firestore() // firestore
-		fs.settings(settings)
-		// fs.SetOptions = {merge: true}
-		return fs
-
-	}
 

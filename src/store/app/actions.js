@@ -3,25 +3,23 @@ export const someAction = (store) => {
 }
 */
 import smarts from 'smarts'
-import firebase from 'firebase'
 import axios from 'axios'
-import '@firebase/firestore'
 import CJSON from 'circular-json'
 import UAParser from 'ua-parser-js'
 import { Notify } from 'quasar'
 import Vue from 'vue'
 var notify = Notify
 var uap = new UAParser()
-var fs = initFirestore()
 var s = smarts({
   vue: {
     reactiveSetter: true
   }
 }).methods
 var $s = s
-var things = fs.collection(`${s.getsmart(window, 'env.level', 'dev')}/things/users`) // global things collection reference
 
 export const checkUsernameAvailability = (store, username) =>{
+  let fs = s.getsmart(window, '$fs', undefined)
+  let things = fs.collection(`${s.getsmart(window, 'env.level', 'dev')}/things/users`) // global things collection reference
   if(username){
     let url = s.getsmart(store, 'state.env.apiUrl', 'https://api.growlights.src')+'/usernamecheck'
     axios({
@@ -151,7 +149,8 @@ export const login = async (store, args) => {
     }
     let firebaseAuth = (args) => {
       return new Promise((resolve, reject)=>{
-        firebase.auth().signInWithCustomToken(args.entity.firebase.customToken)
+        let fb = s.getsmart(window, '$fb', undefined)
+        fb.auth().signInWithCustomToken(args.entity.firebase.customToken)
         .then(()=>{
           resolve(args)
         })
@@ -166,8 +165,8 @@ export const login = async (store, args) => {
     }
   // if the login button was pressed with no login options showing, toggle login options
   s.setsmart(store, 'state.showLoginOptions', true)
-
-  var things = fs.collection(`${s.getsmart(window, 'env.level', 'dev')}/things/users`)
+  let fs = s.getsmart(window, '$fs', undefined)
+  let things = fs.collection(`${s.getsmart(window, 'env.level', 'dev')}/things/users`)
   args.clientId = store.state.clientId
   if(args['provider'] == 'alopu' || !args['provider']){
     var feedback = undefined
@@ -540,6 +539,7 @@ export const logout = async (store, args) =>{
   //   })
   // }, 2200)
   // var entity
+  let fs = s.getsmart(window, '$fs', undefined)
   var things = fs.collection(`${s.getsmart(window, 'env.level', 'dev')}/things/users`)
   var id
   if(entity){
@@ -622,45 +622,6 @@ export const mergeCarts = (store, args) => {
 
 }
 
-function initFirestore(){
-  let smarts = require('smarts')()
-  const config = smarts.getsmart(window, 'env.level', 'dev') == 'prod' ? {
-    apiKey: "AIzaSyCEk1mYB5aXFjYZUzwhyTF-blYDrIDqTRk",
-    authDomain: "lopu-f3969.firebaseapp.com",
-    databaseURL: "https://lopu-f3969.firebaseio.com",
-    projectId: "lopu-f3969",
-    storageBucket: "lopu-f3969.appspot.com",
-    messagingSenderId: "278663639558"
-  } : smarts.getsmart(window, 'env.level', 'dev') == 'dev' ? {
-    apiKey: "AIzaSyABsQrdpY9lNkyBW0me5xHmbCxSUPIjGgU",
-    authDomain: "lopudev-b405a.firebaseapp.com",
-    databaseURL: "https://lopudev-b405a.firebaseio.com",
-    projectId: "lopudev-b405a",
-    storageBucket: "lopudev-b405a.appspot.com",
-    messagingSenderId: "278663639558"
-  } : {
-    apiKey: "AIzaSyABsQrdpY9lNkyBW0me5xHmbCxSUPIjGgU",
-    authDomain: "lopudev-b405a.firebaseapp.com",
-    databaseURL: "https://lopudev-b405a.firebaseio.com",
-    projectId: "lopudev-b405a",
-    storageBucket: "lopudev-b405a.appspot.com",
-    messagingSenderId: "278663639558"
-  }
-  const settings = {
-    // timestampsInSnapshots: true
-  }
-
-  if(!firebase.apps.length){
-    firebase.initializeApp(config)
-  } else {
-    // F = firebase.app()
-  }
-  var fs = firebase.firestore() // firestore
-  fs.settings(settings)
-  fs.SetOptions = {merge: true}
-  return fs
-
-}
 const axiosConf = {
   headers: {
       'Content-Type': 'application/json;charset=UTF-8',
