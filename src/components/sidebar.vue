@@ -47,7 +47,7 @@
             )
           q-item-section(
             label
-            ).text-cap {{ nav.name }}
+            ).text-cap.q-pl-md {{ nav.name }}
 
   q-separator
   manifest
