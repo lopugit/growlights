@@ -181,7 +181,7 @@ module.exports = function (ctx) {
 
     pwa: {
       // cacheExt: 'js,html,css,ttf,eot,otf,woff,woff2,json,svg,gif,jpg,jpeg,png,wav,ogg,webm,flac,aac,mp4,mp3',
-      // workboxPluginMode: 'InjectManifest',
+      workboxPluginMode: 'InjectManifest',
       // workboxOptions: {}, // only for NON InjectManifest
       manifest: {
         name: smarts.gosmart(env, 'name', 'Grow Lights Australia'),
