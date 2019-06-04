@@ -1,5 +1,8 @@
+import firebase from 'firebase'
+import '@firebase/firestore'
 let smarts = require('smarts')()
 let s = smarts
+var fs = initFirestore()
 import circularJSON from 'circular-json'
 export const interactionStarted = (state, payload) => {
 	state.interactionStarted = payload
@@ -148,21 +151,16 @@ export const entity = (state, payload) => {
 export const updateEntityUserAgent = (state, payload) => {
 	var id = s.gosmart(state, 'entity.firestore.id', s.getsmart(state, 'entity.ids.id-firestore', undefined))
 	if(id){
-    s.setsmart(state, 'entity.loggedIn.'+payload, true)
-    let fs = s.getsmart(window, '$fs', undefined)
-    if(fs){
-      var things = fs.collection(`${s.getsmart(window, 'env.level', 'dev')}/things/users`)
-      let ref = things.doc(id)
-      ref.set(state.entity)
-      .then(()=>{
+		s.setsmart(state, 'entity.loggedIn.'+payload, true)
+		var things = fs.collection(`${s.getsmart(window, 'env.level', 'dev')}/things/users`)
+		let ref = things.doc(id)
+		ref.set(state.entity)
+		.then(()=>{
 
-      })
-      .catch(err=>{
-        console.error('something went wrong updating the loggedIn userAgent: ', err)
-      })
-    } else {
-      console.error('no firestore')
-    }
+		})
+		.catch(err=>{
+			console.error('something went wrong updating the loggedIn userAgent: ', err)
+		})
 	} else {
 		// s.setsmart(state, 'entity.loggedIn.'+payload, false)
 	}
@@ -175,4 +173,22 @@ export const env = (state, payload) => {
 export const clientId = (state, payload) => {
 	state.clientId = payload
 }
+/** HELPER FUNCTIONS */
+	function initFirestore(){
+    let smarts = require('smarts')()
+    const settings = {
+			// timestampsInSnapshots: true
+		}
+    let env = process.env
+		if(!smarts.getsmart(firebase, 'apps.length', 0)){
+			firebase.initializeApp(smarts.getsmart(env, 'firebaseConf', undefined))
+		} else {
+			// F = firebase.app()
+		}
+		var fs = firebase.firestore() // firestore
+		fs.settings(settings)
+		// fs.SetOptions = {merge: true}
+		return fs
+
+	}
 

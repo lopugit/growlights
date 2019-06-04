@@ -3,23 +3,26 @@ export const someAction = (store) => {
 }
 */
 import smarts from 'smarts'
+import firebase from 'firebase'
 import axios from 'axios'
+import '@firebase/firestore'
 import CJSON from 'circular-json'
 import UAParser from 'ua-parser-js'
 import { Notify } from 'quasar'
 import Vue from 'vue'
+let env = process.env
 var notify = Notify
 var uap = new UAParser()
+var fs = initFirestore()
 var s = smarts({
   vue: {
     reactiveSetter: true
   }
 }).methods
 var $s = s
+var things = fs.collection(`${s.getsmart(env, 'level', 'dev')}/things/users`) // global things collection reference
 
 export const checkUsernameAvailability = (store, username) =>{
-  let fs = s.getsmart(window, '$fs', undefined)
-  let things = fs.collection(`${s.getsmart(window, 'env.level', 'dev')}/things/users`) // global things collection reference
   if(username){
     let url = s.getsmart(store, 'state.env.apiUrl', 'https://api.growlights.src')+'/usernamecheck'
     axios({
@@ -107,7 +110,7 @@ export const login = async (store, args) => {
             provider: args.provider,
             clientId: args.clientId
           }
-          axios.post(s.getsmart(store, 'state.env.apiUrl', 'https://api.alopu.com')+'/auth', params, axiosConf)
+          axios.post(s.getsmart(store, 'state.env.apiUrl', undefined)+'/auth', params, axiosConf)
           .then(post=>{
             if(post.data.success && post.data.entity){
               Object.assign(args, post.data)
@@ -149,8 +152,7 @@ export const login = async (store, args) => {
     }
     let firebaseAuth = (args) => {
       return new Promise((resolve, reject)=>{
-        let fb = s.getsmart(window, '$fb', undefined)
-        fb.auth().signInWithCustomToken(args.entity.firebase.customToken)
+        firebase.auth().signInWithCustomToken(args.entity.firebase.customToken)
         .then(()=>{
           resolve(args)
         })
@@ -165,8 +167,8 @@ export const login = async (store, args) => {
     }
   // if the login button was pressed with no login options showing, toggle login options
   s.setsmart(store, 'state.showLoginOptions', true)
-  let fs = s.getsmart(window, '$fs', undefined)
-  let things = fs.collection(`${s.getsmart(window, 'env.level', 'dev')}/things/users`)
+
+  var things = fs.collection(`${s.getsmart(env, 'level', 'dev')}/things/users`)
   args.clientId = store.state.clientId
   if(args['provider'] == 'alopu' || !args['provider']){
     var feedback = undefined
@@ -539,8 +541,7 @@ export const logout = async (store, args) =>{
   //   })
   // }, 2200)
   // var entity
-  let fs = s.getsmart(window, '$fs', undefined)
-  var things = fs.collection(`${s.getsmart(window, 'env.level', 'dev')}/things/users`)
+  var things = fs.collection(`${s.getsmart(env, 'level', 'dev')}/things/users`)
   var id
   if(entity){
     id = s.getsmart(entity, 'firestore.id', s.getsmart(entity, 'ids.id-firestore', undefined))
@@ -622,6 +623,24 @@ export const mergeCarts = (store, args) => {
 
 }
 
+function initFirestore(){
+  let smarts = require('smarts')()
+  const settings = {
+    // timestampsInSnapshots: true
+  }
+  let env = process.env
+
+  if(!smarts.getsmart(firebase, 'apps.length', 0)){
+    firebase.initializeApp(smarts.getsmart(env, 'firebaseConf', undefined))
+  } else {
+    // F = firebase.app()
+  }
+  var fs = firebase.firestore() // firestore
+  fs.settings(settings)
+  fs.SetOptions = {merge: true}
+  return fs
+
+}
 const axiosConf = {
   headers: {
       'Content-Type': 'application/json;charset=UTF-8',
@@ -630,7 +649,7 @@ const axiosConf = {
 }
 
 /** template auth code */
-  // var things = fs.collection(`${s.getsmart(window, 'env.level', 'dev')}/things/users`)
+  // var things = fs.collection(`${s.getsmart(env, 'level', 'dev')}/things/users`)
   // var username = s.getsmart(store, 'state.entity.alopu.username', undefined)
   // things = things.where('username', "==", username)
   // things.get()
