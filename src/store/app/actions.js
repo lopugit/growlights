@@ -24,7 +24,7 @@ var things = fs.collection(`${s.getsmart(env, 'level', 'dev')}/things/users`) //
 
 export const checkUsernameAvailability = (store, username) =>{
   if(username){
-    let url = s.getsmart(store, 'state.env.apiUrl', 'https://api.growlights.src')+'/usernamecheck'
+    let url = s.getsmart(window, 'env.apiUrl', undefined)+'/usernamecheck'
     axios({
       method: 'POST',
       url: url,
@@ -110,7 +110,7 @@ export const login = async (store, args) => {
             provider: args.provider,
             clientId: args.clientId
           }
-          axios.post(s.getsmart(store, 'state.env.apiUrl', undefined)+'/auth', params, axiosConf)
+          axios.post(s.getsmart(window, 'env.apiUrl', undefined)+'/auth', params, axiosConf)
           .then(post=>{
             if(post.data.success && post.data.entity){
               Object.assign(args, post.data)
