@@ -10,6 +10,7 @@
     "test": "echo \"No test specified\" && exit 0",
     "dev": "npm run start",
     "start": "cross-env level=dev apiTLD=src domain=growlights pm2 start ecosystem.config.js ; pm2 logs growlights",
+    "prod": "cross-env level=prod apiSubdomain='beta.api' quasar build -m pwa",
     "start-papi": "cross-env level=prod quasar start",
     "start-bapi": "cross-env level=build quasar start",
     "start-dapi": "cross-env level=dev apiTLD=src domain=growlights quasar start",
