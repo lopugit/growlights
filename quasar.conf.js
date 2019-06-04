@@ -48,11 +48,6 @@ module.exports = function (ctx) {
     })
   }
 
-  // escape for some retarded reason
-  for(var key of Object.keys(env)){
-    smarts.setsmart(env, key, JSON.stringify(smarts.getsmart(env, key, undefined)))
-  }
-
   // smarts.setsmart(env, 'level', `"${smarts.getsmart(env, 'level', 'dev')}"`)
   // smarts.setsmart(env, 'apiProtocol', `"${smarts.getsmart(env, 'apiProtocol', smarts.getsmart(env, 'level', 'dev') == 'prod' ? 'https://' : 'https://')}"`)
   // smarts.setsmart(env, 'apiSubdomain', `"${smarts.getsmart(env, 'apiSubdomain', smarts.getsmart(env, 'level', 'dev') == 'prod' ? 'api' : 'api')}"`)
@@ -60,7 +55,7 @@ module.exports = function (ctx) {
   // smarts.setsmart(env, 'apiTLD', `"${smarts.getsmart(env, 'apiTLD', smarts.getsmart(env, 'level', 'dev') == 'prod' ? 'com.au' : 'src')}"`)
 
   console.log(env)
-  return {
+  let ret = {
     // app boot file (/src/boot)
     // --> boot files are part of "main.js"
     boot: [
@@ -147,7 +142,6 @@ module.exports = function (ctx) {
       gzip: true,
       analyze: true,
       // extractCSS: false,
-      env,
       extendWebpack (cfg) {
         cfg.resolve.alias['@'] = path.join(__dirname, 'src')
         cfg.module.rules.push(
@@ -190,36 +184,38 @@ module.exports = function (ctx) {
       // workboxPluginMode: 'InjectManifest',
       // workboxOptions: {}, // only for NON InjectManifest
       manifest: {
-        // name: 'Quasar App',
+        name: s.getsmart(env, 'name', 'Grow Lights Australia'),
+        short_name: s.getsmart(env, 'short_name', 'Grow Lights'),
+        description: s.getsmart(env, 'description', 'The #1 place for plant growing products'),
         // short_name: 'Quasar-PWA',
         // description: 'Best PWA App in town!',
         display: 'standalone',
         orientation: 'portrait',
         background_color: '#ffffff',
-        theme_color: '#027be3',
+        theme_color: '#42b983',
         icons: [
           {
-            'src': 'statics/icons/icon-128x128.png',
+            'src': 'statics/icons/GrowLightsWhiteCircle128.png',
             'sizes': '128x128',
             'type': 'image/png'
           },
           {
-            'src': 'statics/icons/icon-192x192.png',
+            'src': 'statics/icons/GrowLightsWhiteCircle192.png',
             'sizes': '192x192',
             'type': 'image/png'
           },
           {
-            'src': 'statics/icons/icon-256x256.png',
+            'src': 'statics/icons/GrowLightsWhiteCircle256.png',
             'sizes': '256x256',
             'type': 'image/png'
           },
           {
-            'src': 'statics/icons/icon-384x384.png',
+            'src': 'statics/icons/GrowLightsWhiteCircle384.png',
             'sizes': '384x384',
             'type': 'image/png'
           },
           {
-            'src': 'statics/icons/icon-512x512.png',
+            'src': 'statics/icons/GrowLightsWhiteCircle512.png',
             'sizes': '512x512',
             'type': 'image/png'
           }
@@ -260,4 +256,13 @@ module.exports = function (ctx) {
       }
     }
   }
+
+  // escape env for some retarded reason
+  for(var key of Object.keys(env)){
+    smarts.setsmart(env, key, JSON.stringify(smarts.getsmart(env, key, undefined)))
+  }
+
+  ret.build.env = env
+
+  return ret
 }
