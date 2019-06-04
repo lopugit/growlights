@@ -184,9 +184,9 @@ module.exports = function (ctx) {
       // workboxPluginMode: 'InjectManifest',
       // workboxOptions: {}, // only for NON InjectManifest
       manifest: {
-        name: smarts.getsmart(env, 'name', 'Grow Lights Australia'),
-        short_name: smarts.getsmart(env, 'short_name', 'Grow Lights'),
-        description: smarts.getsmart(env, 'description', 'The #1 place for plant growing products'),
+        name: smarts.gosmart(env, 'name', 'Grow Lights Australia'),
+        short_name: smarts.gosmart(env, 'short_name', 'Grow Lights'),
+        description: smarts.gosmart(env, 'description', 'The #1 place for plant growing products'),
         // short_name: 'Quasar-PWA',
         // description: 'Best PWA App in town!',
         display: 'standalone',

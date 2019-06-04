@@ -15,6 +15,7 @@ export default {
     },
   },
   created(){
+    console.log(`Welcome to ${this.getsmart(window, 'env.name', 'unknown')}`)
     this.setsmart(this, '$store.state.app.$env', this.$env)
     /** inits */
       /** initiate unique client id */
