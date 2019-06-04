@@ -21,7 +21,7 @@
                     //-   height: '50px',
                     //-   width: 'auto'
                     //- }`
-                    img.q-circle-img(
+                    img.q-circle-img.q-max-height-60.q-max-width-60(
                       :src=`$store.getters.cover()`
                       )
                 q-item-section(

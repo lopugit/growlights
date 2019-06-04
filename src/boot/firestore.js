@@ -3,7 +3,6 @@
 import firebase from 'firebase'
 import '@firebase/firestore'
 let smarts = require('smarts')()
-console.log(smarts.getsmart(window, 'env.level', 'dev'))
 
 if(!smarts.getsmart(firebase, 'apps.length', 0) && smarts.getsmart(window, 'env.firebaseConf', undefined)){
   firebase.initializeApp(smarts.getsmart(window, 'env.firebaseConf', undefined))

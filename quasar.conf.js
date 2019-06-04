@@ -13,7 +13,7 @@ module.exports = function (ctx) {
   smarts.gosmart(env, 'apiDomain', smarts.getsmart(process, 'env.apiDomain', smarts.getsmart(env, 'level', 'dev') == 'prod' ? 'growlights' : 'growlights'))
   smarts.gosmart(env, 'apiTLD', smarts.getsmart(process, 'env.apiTLD', smarts.getsmart(env, 'level', 'dev') == 'prod' ? 'com.au' : 'src'))
   smarts.gosmart(env, 'apiUrl', `${env.apiProtocol}${env.apiSubdomain}.${env.apiDomain}.${env.apiTLD}`)
-
+  smarts.gosmart(env, 'version', '0.0.1')
   // if env level dev
   if(smarts.getsmart(env, 'level', 'dev') == 'dev'){
     // set facebook config
