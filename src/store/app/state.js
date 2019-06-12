@@ -2,10 +2,6 @@ let uuid = require('uuid/v4')
 let $f = require('flatted')
 let smarts = require('smarts')()
 let state = {
-  fbParams: {
-    scope: 'email,public_profile',
-    return_scopes: true
-  },
   schemas: {},
 	feedback: [],
 	dialog: [],
@@ -16,10 +12,9 @@ let state = {
     },
     registered: {
       any: false
-    }
+    },
+    uid: uuid()
 	},
-	userAgent: navigator.userAgent,
-	env: window.env,
 	clientId: undefined,
 	passwordConfirmation: '',
 	authLogs: [],

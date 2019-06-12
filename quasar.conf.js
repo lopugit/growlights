@@ -27,7 +27,8 @@ module.exports = function (ctx) {
       databaseURL: "https://lopudev-b405a.firebaseio.com",
       projectId: "lopudev-b405a",
       storageBucket: "lopudev-b405a.appspot.com",
-      messagingSenderId: "278663639558"
+      messagingSenderId: "211744308643",
+      appId: "1:211744308643:web:dca54880cb46d04c"
     })
   }
 
@@ -44,7 +45,8 @@ module.exports = function (ctx) {
       databaseURL: "https://lopu-f3969.firebaseio.com",
       projectId: "lopu-f3969",
       storageBucket: "lopu-f3969.appspot.com",
-      messagingSenderId: "278663639558"
+      messagingSenderId: "299513605828",
+      appId: "1:299513605828:web:1f42487525d73e00"
     })
   }
 
@@ -75,9 +77,11 @@ module.exports = function (ctx) {
       'globalCss',
 			'facebook-login',
 			'google-login',
-			'firebase',
+      'firebase',
+      // 'vue',
 			// 'firebaseui',
 			'smarts',
+			'lodash',
 			'firestore',
 			'ua-parser',
       'webpackDev',

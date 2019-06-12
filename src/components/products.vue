@@ -4,24 +4,6 @@
   )
   .products-positioner.align-center.flex-column
     .section.search-section.q-justify-center.q-ml-xxl-bp-min-sm.q-pt-lg.q-mt-xxxxl
-      q-input.no-underline.o-hidden.q-border-1.font-17.q-border-round-md.full-width.q-max-width-450(
-        hide-selected
-        filled
-        placeholder="Search eg. 400W, Black Dog, LED, HPS"
-        text-color="black"
-        :value="gosmart($store, 'state.app.test', '')"
-        @input=`
-          setsmart(things, 'searching', true)
-          setsmart($store, 'state.app.test', $event)
-          $native.setTimeout(()=>{
-            setsmart(things, 'searching', false)
-          }, 2000)
-          `
-      )
-        template(v-slot:append)
-          q-spinner(
-            v-if="getsmart(things, 'searching', false)"
-          )
       q-select.bg-none.border-no.no-underline(
         :hide-selected=`true`
         :value=`gosmart(things, 'searchSelected', 'All Categories')`
@@ -37,13 +19,37 @@
         hide-dropdown-icon
       )
         template(v-slot:prepend)
-          q-icon.q-ma-sm.q-mr-no-important.font-28(
+          q-icon.q-ma-smd.q-ml-no-important.font-28(
             name="tune"
           )
+        // template(v-slot:append)
+        //   q-icon.q-ml-no-important.q-mr-no-important.q-ma-sm.font-28(
+        //     name="arrow_drop_down"
+        //   )
+      q-input.no-underline.o-hidden.q-border-1.font-17.q-border-round-md.full-width.q-max-width-450(
+        hide-selected
+        autofocus
+        filled
+        :placeholder="gosmart(things, 'searchPlaceholder', 'Search eg. 400W, LED, Tents, Nutrients')"
+        text-color="black"
+        :value="gosmart(things, 'searchInput', '')"
+        @input=`
+          setsmart(things, 'searchInput', $event)
+          setsmart(things, 'searching', true)
+          searchDebounce($event)`
+      )
         template(v-slot:append)
-          q-icon.q-ml-no-important.q-mr-no-important.q-ma-sm.font-28(
-            name="arrow_drop_down"
+          q-spinner(
+            v-if="getsmart(things, 'searching', false)"
           )
+      .align-center.q-mr-no-important.q-ma-xsmd.font-28.icon-grey(
+        @click=`
+          searchDebounce(gosmart(things, 'searchInput', ''))
+        `
+      )
+        q-icon(
+          name="search"
+        )
     q-infinite-scroll.no-border.q-pa-no(
       @load=`getMoreProducts`
     )
@@ -89,7 +95,11 @@
         | )
         | }}
     .no-products-message(
-      v-if=`!getsmart(things, 'products.length', 1) && !getsmart(things, 'productsLoading', false)`
+      v-if=`
+        !getsmart(things, 'products.length', 1) &&
+        !getsmart(things, 'productsLoading', false) &&
+        !getsmart(things, 'no more products', false)
+      `
     ).text-center
       // .message.color-lg.q-mb-xl There's no products here
       four.relative-important(
@@ -103,12 +113,12 @@
 </template>
 
 <script>
-import { Promise } from 'q';
+// import { Promise } from 'q';
 export default {
   name: 'products-comp',
   data () {
     return {
-      uuid: this._uid
+      uuid: this._uid,
     }
   },
   sockets: {
@@ -123,28 +133,61 @@ export default {
     // }
   },
   created() {
+    this.getProductsDebounce = this.$l.debounce(this.getProducts, 1200)
+    this.searchDebounce = this.$l.debounce(this.search, 400)
     setTimeout(()=>{
       this.setsmart(this.things, 'productsLoading', false)
     },5000)
     this.getProducts()
   },
   methods: {
+    search: function(args){
+      // let or = this.gosmart(this.things, 'query.$or', [])
+      // let old
+      let query = {
+        $and: [
+          this.getsmart(this.backup, 'query'),
+          {
+            $or: [
+              {
+                types: {
+                  $in: [ args ]
+                }
+              },
+              {
+                title: new RegExp(args, "gi")
+              }
+            ]
+          }
+        ]
+      }
+      this.setsmart(this.things, 'query', query)
+      this.setsmart(this.things, 'options.skip', 0)
+      this.getProducts({clear: true})
+      // this.setsmart(this.things, 'searchTimeout',
+      //   setTimeout()
+      // )
+
+      setTimeout(()=>{
+        this.setsmart(this.things, 'searching', false)
+      }, 2000)
+    },
     getMoreProducts: function(args, done){
       if(!this.getsmart(this.things, 'productsLoading', false) && !this.getsmart(this.things, 'no more products', false)){
         new Promise((resolve, reject)=>{
           this.setsmart(this.things, 'keepProducts', true)
-          this.setsmart(this.things, 'options.limit', 12)
+          // this.setsmart(this.things, 'options.limit', this.getsmart())
           this.setsmart(this.things, 'options.skip',
-            this.getsmart(this.things, 'options.skip', 0) + this.gosmart(this.things, 'options.limit', 12)
+            this.gosmart(this.things, 'options.skip', 0) + this.gosmart(this.things, 'options.limit', 12)
           )
-          this.getProducts(done)
+          this.getProducts({done})
           this.setsmart(this.things, 'keepProducts', false)
         })
       } else {
         typeof done == 'function' && done()
       }
     },
-    getProducts: async function (done){
+    getProducts: async function (args={}){
       if(!this.getsmart(this, 'things.productsLoading', false)){
         this.setsmart(this, 'things.productsLoading', true)
         new Promise((resolve, reject)=>{
@@ -157,9 +200,8 @@ export default {
           }
           this.gosmart(this, 'things.model', `growlights/${this.getsmart(this.$env, 'level', 'dev')}/products`)
           this.gosmart(this, 'things.options', {
-            limit: 12
+            limit: this.gosmart(this, 'things.options.limit', 12)
           })
-          this.gosmart(this, 'things.options.limit', 12)
           this.gosmart(this, 'things.query', {
             types: {
               $in: ['product']
@@ -185,6 +227,9 @@ export default {
                 })
               })
               new Promise((resolve, reject)=>{
+                if(args.clear){
+                  this.setsmart(this.things, 'products', [])
+                }
                 this.setThings({
                   options: resCached.data,
                   list: this.getsmart(this, 'things.products', []),
@@ -193,6 +238,7 @@ export default {
                   async: true
                 })
                 setTimeout(()=>{
+                  this.setsmart(this.things, 'searching', false)
                   this.setsmart(this, 'things.productsLoading', false)
                 }, 300)
               })
@@ -210,9 +256,9 @@ export default {
                 }
               })
               .catch(err=>{
-                console.error(err)
+                console.error('error posting products query: ', err)
                 this.setsmart(this, 'things.productsLoading', false)
-                typeof done == 'function' && done()
+                typeof args.done == 'function' && args.done()
               })
               this.setsmart(this.things, 'promises.productQuerySet.' + this.stringify({
                   query: this.getsmart(this, 'things.query', false),
@@ -262,19 +308,26 @@ export default {
                 }), true)
                 new Promise(async ()=>{
                   await prom
+                  if(args.clear){
+                    this.setsmart(this.things, 'products', [])
+                  }
                   this.setThings({
                     options: res.data,
                     list: this.getsmart(this, 'things.products', []),
                     keys: ['title'],
                     push: true
                   })
+                  this.setsmart(this.things, 'searching', false)
                   this.setsmart(this, 'things.productsLoading', false)
-                  typeof done == 'function' && done()
+                  if(this.getsmart(res, 'data.length', false) < this.getsmart(this.things, 'options.limit', 1)){
+                    this.setsmart(this, 'things.no more products', true)
+                  }
+                  typeof args.done == 'function' && args.done()
                 })
               } else if (this.getsmart(res, 'data.length', false) == 0){
                 this.setsmart(this, 'things.productsLoading', false)
                 this.setsmart(this, 'things.no more products', true)
-                typeof done == 'function' && done()
+                typeof args.done == 'function' && args.done()
               }
               // we wait for the server query to finish before updating the server query local cached result so we can check what changed
               let prom = this.getsmart(this.things, 'promises.productQuerySet.' + this.stringify({
@@ -298,11 +351,11 @@ export default {
               })
             })
           } else {
-            typeof done == 'function' && done()
+            typeof args.done == 'function' && args.done()
           }
         })
       } else {
-        typeof done == 'function' && done()
+        typeof args.done == 'function' && args.done()
       }
     }
   },
@@ -315,7 +368,7 @@ export default {
       handler: function(n, o){
         if(!this.equal(n,o)){
           this.setsmart(this.things, 'keepProducts', false)
-          this.setsmart(this.things, 'options', { limit: 12 })
+          // this.setsmart(this.things, 'options', { limit: 12 })
           this.setsmart(this.things, 'no more products', false)
           this.getProducts(this)
         }
@@ -325,6 +378,23 @@ export default {
     // '$store.state.entity': function(){
     //   this.entity = this.$store.state.entity
     // },
+  },
+  schema: {
+    options: {
+      limit: 12,
+      skip: 0,
+    },
+    query: {
+      $or: [
+        {
+          types: {
+            $in: ['product']
+          }
+        }
+      ]
+    }
+  },
+  props: {
   },
   route: {
     canActivate(){

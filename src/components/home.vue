@@ -1,19 +1,24 @@
 <template lang='pug'>
 q-page
-  .home.home-positioner.align-center.justify-center.flex-column
+  .home.home-positioner.align-center.justify-start.flex-column
     growlights-banner
     products(
       :props=`{
         query: {
-          types: {
-            $in: ['led grow light', ]
-          }
+          $or: [
+            {
+              types: {
+                $in: ['led grow light', 'product']
+              }
+            }
+          ]
         },
         model: 'growlights/'+getsmart($env, 'level', 'dev')+'/products',
         cards: true,
         theme: {
           'search': true
         },
+        searchPlaceholder: 'Search eg. 400W, LED, Tents, Nutrients'
       }`
     )
 </template>

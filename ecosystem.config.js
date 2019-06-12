@@ -5,8 +5,8 @@ module.exports = {
     // Options reference: https://pm2.io/doc/en/runtime/reference/ecosystem-file/
     args: [
       'dev',
-      '-m',
-      'pwa',
+      // '-m',
+      // 'pwa',
     ],
     instances: 1,
     autorestart: true,

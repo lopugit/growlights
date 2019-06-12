@@ -19,7 +19,8 @@ export default ({ app, router, Vue }) => {
 		firebaseApp = firebase.app()
 	}
 	var ui = new firebaseui.auth.AuthUI(firebase.auth());
-	Vue.$ui = ui
+  Vue.prototype.$ui = ui
+
 	var uiConfig = {
 		callbacks: {
 			signInSuccessWithAuthResult: function(authResult, redirectUrl) {

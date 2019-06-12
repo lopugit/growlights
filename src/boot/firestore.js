@@ -4,8 +4,10 @@ import firebase from 'firebase'
 import '@firebase/firestore'
 let smarts = require('smarts')()
 
-if(!smarts.getsmart(firebase, 'apps.length', 0) && smarts.getsmart(window, 'env.firebaseConf', undefined)){
-  firebase.initializeApp(smarts.getsmart(window, 'env.firebaseConf', undefined))
+let fbApps = smarts.getsmart(firebase, 'apps.length', 0)
+let conf = smarts.getsmart(window, 'env.firebaseConf', undefined)
+if(!fbApps && conf){
+  firebase.initializeApp(conf)
 } else {
   // F = firebase.app()
 }
@@ -17,6 +19,7 @@ const settings = {
 fs.settings(settings)
 fs.SetOptions = {merge: true}
 
+window.$things = fs.collection(`${smarts.getsmart(window, '$env.level', 'dev')}/things/users`)
 window.$fs = fs
 
 // leave the export, even if you don't use it

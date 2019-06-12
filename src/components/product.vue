@@ -106,7 +106,7 @@ export default {
                 list: this.gosmart($store, 'state.app.products', []),
                 keys: ['title']
               })
-            if(prod && prod.types && !this.equal(this.getsmart(this.things, 'product', undefined), prod)){
+            if(prod && prod.types && this.getsmart(this.things, 'product.title', undefined) == prod.title && !this.equal(this.getsmart(this.things, 'product', undefined), prod)){
               this.setsmart(this.things, 'product',
                 prod
               )
@@ -133,14 +133,14 @@ export default {
                 }
               })
               .catch(err=>{
-                console.error(err)
+                console.error('error posting monk/get product query', err)
                 console.error(this.getsmart(err, 'response.data', undefined))
                 this.setsmart(this.things, 'productLoading', false)
               })
               if(
                 this.getsmart(res, 'data', undefined) instanceof Array &&
                 this.getsmart(res, 'data.length', false)){
-                if(!this.equal(this.getsmart(this.things, 'product', undefined), this.getsmart(res, 'data.0', undefined))){
+                if(this.getsmart(this.things, 'product.title', undefined) == this.getsmart(res, 'data.0.title', undefined) && !this.equal(this.getsmart(this.things, 'product', undefined), this.getsmart(res, 'data.0', undefined))){
                   this.setsmart(this.things, 'product', res.data[0])
                   new Promise(()=>{
                     this.setThing({

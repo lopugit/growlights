@@ -8,8 +8,8 @@
             gosmart($store, 'state.app.showLoginOptions', false)
           `
           v-if=`
-            !gosmart($store, 'state.app.entity.loggedIn.'+
-              getsmart($store, 'state.app.userAgent', ''),
+            !getsmart($store, 'state.app.entity.loggedIn.'+
+              getsmart($native, 'window.navigator.userAgent', 'unknown'),
               false
             )
           `
@@ -57,8 +57,8 @@
             gosmart($store, 'state.app.showLoginOptions', false)
           `
           v-if=`
-            !gosmart($store, 'state.app.entity.loggedIn.'+
-              getsmart($store, 'state.app.userAgent', ''),
+            !getsmart($store, 'state.app.entity.loggedIn.'+
+              getsmart($native, 'window.navigator.userAgent', 'unknown'),
               false
             )
           `
@@ -80,8 +80,8 @@
             gosmart($store, 'state.app.showLoginOptions', false)
           `
           v-if=`
-            !gosmart($store, 'state.app.entity.loggedIn.'+
-              getsmart($store, 'state.app.userAgent', ''),
+            !getsmart($store, 'state.app.entity.loggedIn.'+
+              getsmart($native, 'window.navigator.userAgent', 'unknown'),
               false
             )
           `
@@ -94,8 +94,8 @@
             if(
               getsmart($store, 'state.app.showLoginOptions', false)
               &&
-              !gosmart($store, 'state.app.entity.loggedIn.'+
-                getsmart($store, 'state.app.userAgent', ''),
+              !getsmart($store, 'state.app.entity.loggedIn.'+
+                getsmart($native, 'window.navigator.userAgent', 'unknown'),
                 false
               )
             ){
@@ -117,8 +117,8 @@
                 }
               }
             } else if (
-              gosmart($store, 'state.app.entity.loggedIn.'+
-                getsmart($store, 'state.app.userAgent', ''),
+              getsmart($store, 'state.app.entity.loggedIn.'+
+                getsmart($native, 'window.navigator.userAgent', 'unknown'),
                 false
               )
             ) {
@@ -132,8 +132,8 @@
               gosmart($store, 'state.app.showLoginOptions', false)
             `
             v-if=`
-              !gosmart($store, 'state.app.entity.loggedIn.'+
-                getsmart($store, 'state.app.userAgent', ''),
+              !getsmart($store, 'state.app.entity.loggedIn.'+
+                getsmart($native, 'window.navigator.userAgent', 'unknown'),
                 false
               )
             `
@@ -164,8 +164,8 @@
               gosmart($store, 'state.app.showLoginOptions', false)
             `
             v-if=`
-              !gosmart($store, 'state.app.entity.loggedIn.'+
-                getsmart($store, 'state.app.userAgent', ''),
+              !getsmart($store, 'state.app.entity.loggedIn.'+
+                getsmart($native, 'window.navigator.userAgent', 'unknown'),
                 false
               )
             `
@@ -200,8 +200,11 @@
                   )
           q-item.full-width.q-pa-no.q-mb-xs(
             v-show=`
-              !gosmart($store, 'state.app.entity.loggedIn.'+
-                getsmart($store, 'state.app.userAgent', ''),
+              gosmart($store, 'state.app.showLoginOptions', false)
+            `
+            v-if=`
+              !getsmart($store, 'state.app.entity.loggedIn.'+
+                getsmart($native, 'window.navigator.userAgent', 'unknown'),
                 false
               ) &&
               !getsmart($store, 'state.app.entity.registered.any', false)
@@ -247,8 +250,8 @@
                 if(
                   getsmart($store, 'state.app.showLoginOptions', false)
                   &&
-                  !gosmart($store, 'state.app.entity.loggedIn.'+
-                    getsmart($store, 'state.app.userAgent', ''),
+                  !getsmart($store, 'state.app.entity.loggedIn.'+
+                    getsmart($native, 'window.navigator.userAgent', 'unknown'),
                     false
                   )
                 ){
@@ -270,8 +273,8 @@
                     }
                   }
                 } else if (
-                  gosmart($store, 'state.app.entity.loggedIn.'+
-                    getsmart($store, 'state.app.userAgent', ''),
+                  getsmart($store, 'state.app.entity.loggedIn.'+
+                    getsmart($native, 'window.navigator.userAgent', 'unknown'),
                     false
                   )
                 ) {
@@ -280,8 +283,8 @@
                 setsmart($store, 'state.app.showLoginOptions', true)
               `
             ) {{
-              | gosmart($store, 'state.app.entity.loggedIn.'+
-              |   getsmart($store, 'state.app.userAgent', ''),
+              | getsmart($store, 'state.app.entity.loggedIn.'+
+              |   getsmart($native, 'window.navigator.userAgent', 'unknown'),
               |   false
               | ) ?
               |   'logout' :

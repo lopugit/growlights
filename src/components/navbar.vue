@@ -19,11 +19,11 @@
         @click="$router.push(nav.link)"
       ) {{ nav.name }}
     div.q-mr-auto
-    q-btn(
-      color="primary"
-      @click="setsmart($store, 'state.app.leftSidebar', true)"
-      v-if="$store.state.app.entity == $store.state.app.entityDefault"
-    ).shadow-0.q-mr-xsmd {{ !getsmart($store, 'state.app.showLoginOptions', false) ? 'members' : gosmart($store, 'state.app.entity.registered.any', false) ? 'register' : 'login' }}
+    // q-btn(
+    //   color="primary"
+    //   @click="setsmart($store, 'state.app.leftSidebar', true)"
+    //   v-if="$store.state.app.entity == $store.state.app.entityDefault"
+    // ).shadow-0.q-mr-xsmd {{ !getsmart($store, 'state.app.showLoginOptions', false) ? 'members' : gosmart($store, 'state.app.entity.registered.any', false) ? 'register' : 'login' }}
     q-btn(
       icon="shopping_basket"
       @click="setsmart($store, 'state.app.cartSidebar', !getsmart($store, 'state.app.cartSidebar', false))"

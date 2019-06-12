@@ -154,7 +154,7 @@
               v-if="$route.path == '/checkout/customer_information'"
               )
               q-list.q-border-1.q-round-border-smd.q-mt-md.q-pt-xxxxsm.q-pb-xxxxsm(
-                v-show="getsmart($store, 'state.app.entity.loggedIn.'+getsmart($store, 'state.app.userAgent', ''), false)"
+                v-show="getsmart($store, 'state.app.entity.loggedIn.'+getsmart($native, 'window.navigator.userAgent', 'unknown'), false)"
                 )
                 q-item.q-pl-md.q-pr-xmd.q-align-start.q-pb-xxsm.q-min-height-0
                   q-item-section.q-min-width-50.q-pr-no(
@@ -165,14 +165,14 @@
                     ) {{ getsmart($store, 'state.app.entity.alopu.username', undefined) }}
                   q-item-section(
                     side
-                    v-if="!getsmart($store, 'state.app.entity.loggedIn.'+getsmart($store, 'state.app.userAgent', ''), false)"
+                    v-if="!getsmart($store, 'state.app.entity.loggedIn.'+getsmart($native, 'window.navigator.userAgent', 'unknown'), false)"
                     )
                     router-link(
                       to="/checkout/customer_information"
                     ).text-friendly Change
 
               .header.q-flex-row.q-pt-xxxxlg(
-                v-show="!getsmart($store, 'state.app.entity.loggedIn.'+getsmart($store, 'state.app.userAgent', ''), false)"
+                v-show="!getsmart($store, 'state.app.entity.loggedIn.'+getsmart($native, 'window.navigator.userAgent', 'unknown'), false)"
                 )
                 .q-title-thin Contact Information
                 .account-message(
@@ -183,7 +183,7 @@
                   ) Log in
               form.q-pt-smd
                 q-input.border-1.q-br-rd-sm.no-shadow(
-                  v-show="!getsmart($store, 'state.app.entity.loggedIn.'+getsmart($store, 'state.app.userAgent', ''), false)"
+                  v-show="!getsmart($store, 'state.app.entity.loggedIn.'+getsmart($native, 'window.navigator.userAgent', 'unknown'), false)"
                   label="Email"
                   filled
                   square
@@ -402,7 +402,7 @@
                     ) {{ getsmart($store, 'state.app.entity.alopu.username', undefined) }}
                   q-item-section(
                     side
-                    v-if="!getsmart($store, 'state.app.entity.loggedIn.'+getsmart($store, 'state.app.userAgent', ''), false)"
+                    v-if="!getsmart($store, 'state.app.entity.loggedIn.'+getsmart($native, 'window.navigator.userAgent', 'unknown'), false)"
                     )
                     router-link(
                       to="/checkout/customer_information"
@@ -498,7 +498,7 @@
                     ) {{ getsmart($store, 'state.app.entity.alopu.username', undefined) }}
                   q-item-section(
                     side
-                    v-if="!getsmart($store, 'state.app.entity.loggedIn.'+getsmart($store, 'state.app.userAgent', ''), false)"
+                    v-if="!getsmart($store, 'state.app.entity.loggedIn.'+getsmart($native, 'window.navigator.userAgent', 'unknown'), false)"
                     )
                     router-link(
                       to="/checkout/customer_information"

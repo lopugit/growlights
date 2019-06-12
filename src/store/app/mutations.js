@@ -7,7 +7,7 @@ import circularJSON from 'circular-json'
 export const interactionStarted = (state, payload) => {
 	state.interactionStarted = payload
 }
-
+let uuid = require('uuid/v4')
 export const addCachedState = (state, payload) => {
 	console.log('caching payload')
 	console.log(payload)
@@ -88,6 +88,11 @@ export const pageHistory = (state, val) => {
 
 export const thing = (state, args) => {
   // console.log('committed: ', Date.now())
+  // window.$store.state.version = uuid()
+  // state.version = uuid()
+  // if(!localStorage.getItem('vuexWriteLock')){
+  //   state.version = Date.now()
+  // }
 	if(args && args.path && typeof args.val !== undefined){
 		smarts.setsmart(state, args.path, args.val)
 	}

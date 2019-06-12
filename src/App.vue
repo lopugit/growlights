@@ -21,8 +21,8 @@ export default {
     /** inits */
       /** initiate unique client id */
         this.$store.dispatch('manifestClientId', this.$uuid.v4())
-      /** userAgent */
-        this.setsmart(this.$store, 'state.app.userAgent', navigator.userAgent)
+      // /** userAgent */
+      //   this.setsmart(this.$native, 'window.navigator.userAgent', navigator.userAgent)
       /** cursor */
         this.initCursor()
       /** env */
@@ -31,6 +31,14 @@ export default {
         this.$store.dispatch('syncDevice', 'this')
       /** get any entity updates */
       this.syncEntity()
+      /** create server-side session entity */
+      if(!this.gosmart(this.$store, 'state.app.entity.registered.any', false) && !this.gosmart(this.$store, 'state.app.entity.registered.tmp', false)){
+        this.$store.dispatch('login', {
+          nofeedback: true,
+          provider: 'tmp',
+          success: true
+        })
+      }
   },
   methods: {
     syncEntity(){
@@ -38,12 +46,14 @@ export default {
         let FSid = this.getsmart(this.$store, 'state.app.entity.firestore.id', false)
         if(FSid){
           this.setsmart(this, 'things.entityWriteLock', true)
-          this.$fs.collection(`${this.getsmart(this, '$env.level', 'dev')}/things/users}`).doc(FSid).get()
+          this.$fs.collection(`${this.getsmart(this, '$env.level', 'dev')}/things/users`)
+          .doc(FSid)
+          .get()
           .then((snapshot)=>{
             // push to local store when firestore indicates a change
               let entity = snapshot.data()
               if(entity){
-                if(this.getsmart(this.$store, 'state.app.entity.firestore.lastUpdated', false) !== this.getsmart(entity, 'firestore.lastUpdated', false)){
+                if(this.getsmart(this.$store, 'state.app.entity.firestore.lastUpdated', false) < this.getsmart(entity, 'firestore.lastUpdated', false)){
                   this.setsmart(this.$store, 'state.app.justFirestore', Date.now())
                   this.setsmart(this.$store, 'state.app.entity', entity)
                   let pwd = this.getsmart(this.$store, 'state.app.entity.alopu.password', false)
@@ -55,7 +65,7 @@ export default {
               this.setsmart(this, 'things.entityWriteLock', false)
           })
           .catch(err=>{
-            console.error(err)
+            console.error('there was an error getting entity when syncing: ', err)
             this.setsmart(this, 'things.entityWriteLock', false)
           })
         }
@@ -93,12 +103,11 @@ export default {
       document.body.onmousedown = mouseClick
       document.body.onmouseup = mouseUp
 
-      console.log("app was created")
-      this.$socket.emit('getRealms', {
-        id: this.uuid,
-        find: {},
-        count: Infinity
-      })
+      // this.$socket.emit('getRealms', {
+      //   id: this.uuid,
+      //   find: {},
+      //   count: Infinity
+      // })
       function timer(callback, delay) {
         var id, started, remaining = delay, running
 
@@ -165,11 +174,21 @@ export default {
       handler: async function (){
         let username = this.gosmart(this.$store, 'state.app.entity.alopu.username', '')
         this.$store.dispatch('checkUsernameAvailability', username)
+
+        // auth entity
+        // let entityToken = this.getsmart(this.$store, 'state.app.entity.firebase.customToken', undefined)
+        // if(entityToken){
+        //   await this.$fb.auth().signInWithCustomToken(entityToken)
+        //   .catch(err=>{
+        //     console.error('there was an error authenticating firebase with entityToken: ', err)
+        //   })
+        // }
+
         /** smarts.equal code */
           // let cached = this.gosmart(this.things, 'cachedEntity', {})
           // let entity = this.gosmart(this.$store, 'state.app.entity', {})
           // let equal = this.equal(cached, entity)
-        let that = this
+        // let that = this
         // push to firestore on new change
           if(!this.gosmart(this, 'things.entityWriteLock', false) && !this.getsmart(this.$store, 'state.app.justFirestore', false)){
             clearTimeout(this.things.entityWriteTimeout)
@@ -181,7 +200,7 @@ export default {
                   this.setsmart(this, 'things.entityWriteLock', true)
                   let fsid = this.getsmart(this.$store, 'state.app.entity.firestore.id', false)
                   if(fsid){
-                    let things = this.$fs.collection(`${this.getsmart(this, '$env.level', 'dev')}/things/users}`)
+                    let things = this.$fs.collection(`${this.getsmart(this, '$env.level', 'dev')}/things/users`)
                     let entityRef = things.doc(fsid)
                     if(entityRef){
                       let entity = this.getsmart(this.$store, 'state.app.entity', false)
@@ -226,20 +245,30 @@ export default {
           let kill = this.getsmart(this, 'things.entityFirestoreListener', ()=>{})
           typeof kill == 'function' && kill()
           if(FSid){
-            this.setsmart(this, 'things.entityFirestoreListener', this.$fs.collection(`${this.getsmart(this, '$env.level', 'dev')}/things/users}`).doc(FSid).onSnapshot((snapshot)=>{
-              // push to local store when firestore indicates a change
-                let entity = snapshot.data()
-                if(entity){
-                  if(that.getsmart(that.$store, 'state.app.entity.firestore.lastUpdated', false) !== that.getsmart(entity, 'firestore.lastUpdated', false)){
-                    that.setsmart(that.$store, 'state.app.justFirestore', Date.now())
-                    that.setsmart(that.$store, 'state.app.entity', entity)
-                    let pwd = that.getsmart(that.$store, 'state.app.entity.alopu.password', false)
-                    if(pwd){
-                      delete that.$store.state.app.entity.alopu.password
+            try {
+              this.setsmart(
+                this,
+                'things.entityFirestoreListener',
+                this.$fs.collection(`${this.getsmart(this, '$env.level', 'dev')}/things/users`)
+                .doc(FSid)
+                .onSnapshot((snapshot)=>{
+                // push to local store when firestore indicates a change
+                  let entity = snapshot.data()
+                  if(entity){
+                    if(this.getsmart(this.$store, 'state.app.entity.firestore.lastUpdated', false) < this.getsmart(entity, 'firestore.lastUpdated', false)){
+                      this.setsmart(this.$store, 'state.app.justFirestore', Date.now())
+                      this.setsmart(this.$store, 'state.app.entity', entity)
+                      let pwd = this.getsmart(this.$store, 'state.app.entity.alopu.password', false)
+                      if(pwd){
+                        delete this.$store.state.app.entity.alopu.password
+                      }
                     }
                   }
-                }
-            }))
+              })
+              )
+            } catch (err){
+              console.error('There was an error subscribing to entity updates via onSnapshot: ', err)
+            }
           }
       },
       deep: true

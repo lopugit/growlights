@@ -26,6 +26,7 @@ export default ({app, router, Vue}) => {
     }
   }).methods
   Vue.prototype.$native = {
+    window
   }
   Vue.prototype.$native.setTimeout = (fn, timeout) => setTimeout(fn, timeout)
   Vue.prototype.$native.clearTimeout = (fn) => clearTimeout(fn)

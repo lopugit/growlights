@@ -1,7 +1,7 @@
 // window
 let vue = require('vue')
+// window.$vue = vue.default
 export default ({ app, router, Vue }) => {
-	window.$vue = vue.default
 	// Vue.prototype.$vue = vue
   // Vue.use(template)
 }

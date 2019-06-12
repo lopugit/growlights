@@ -18,6 +18,7 @@
               router-link.text-smd.full-width.text-dark(
                 to="/cart"
               ) Your cart
+          .clear-cart.text-primary(@click="setsmart(cartD, 'products', [])") Clear Cart
           q-separator
         q-list.product-list.no-border.q-pa-no
           q-item.full-width(
@@ -219,6 +220,15 @@ export default {
       max-width: 100%
       .your-cart
         text-align: center
+        position: relative
+        .clear-cart
+          text-align: right
+          font-size: 10px
+          padding-right: 2px
+          padding-bottom: 2px
+          position: absolute
+          right: 0
+          bottom: 0px
   .product-list
     height: auto
     // max-height: 80vh
@@ -334,6 +344,8 @@ export default {
     .cart
       .your-cart
         text-align: left
+        .clear-cart
+          display: none
       .product-list
         // max-height: 50vh
     .cart-product
@@ -462,6 +474,8 @@ export default {
       .total-separator
         display: block
   &.items-only
+    .clear-cart
+      display: none
     .bottom-section
       display: none
 </style>

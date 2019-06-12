@@ -81,7 +81,7 @@ export const entity = (state) => {
 //
 export const username = (state, getters) => (which) => {
 	var ret = 'Welcome'
-	if(s.getsmart(state, 'entity.loggedIn.'+s.getsmart(state, 'userAgent', ''), false)){
+	if(s.getsmart(state, 'entity.loggedIn.'+s.getsmart(navigator, 'userAgent', ''), false)){
 		if(s.getsmart(state, 'entity.alopu.username', false)){
 			ret = s.getsmart(state, 'entity.alopu.username', ret)
 		}
@@ -97,7 +97,7 @@ export const username = (state, getters) => (which) => {
 
 export const ego = (state, getters) => (i) => {
 	var ret = 'Green Thumb'
-	if(s.getsmart(state, 'entity.loggedIn.'+s.getsmart(state, 'userAgent', ''), false)){
+	if(s.getsmart(state, 'entity.loggedIn.'+s.getsmart(navigator, 'userAgent', ''), false)){
 		if(entity.egos){
 
 		}
@@ -108,7 +108,7 @@ export const ego = (state, getters) => (i) => {
 export const cover = (state, getters) => (which) => {
 	// var ret = 'statics/biologist-100-100.png'
 	var ret = 'statics/circle.growlights.com.au.png'
-	if(s.getsmart(state, 'entity.loggedIn.'+s.getsmart(state, 'userAgent', ''), false)){
+	if(s.getsmart(state, 'entity.loggedIn.'+s.getsmart(navigator, 'userAgent', ''), false)){
 		if(s.getsmart(state, 'entity.profilePicture', false)){
 
 		}
@@ -124,7 +124,7 @@ export const cover = (state, getters) => (which) => {
 }
 
 export const loggedIn = (state, getters) => {
-	var loggedInHere = s.getsmart(state, 'entity.loggedIn.'+s.getsmart(state, 'userAgent', ''), false)
+	var loggedInHere = s.getsmart(state, 'entity.loggedIn.'+s.getsmart(navigator, 'userAgent', ''), false)
 	return loggedInHere || false
 }
 

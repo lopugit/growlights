@@ -2,6 +2,7 @@
 export const someAction = (store) => {
 }
 */
+import uuid from 'uuid/v4'
 import smarts from 'smarts'
 import firebase from 'firebase'
 import axios from 'axios'
@@ -47,41 +48,6 @@ export const checkUsernameAvailability = (store, username) =>{
       console.error('something went wrong checking if the username is registerable via the api: ', err)
     })
   }
-}
-
-export const switchUserSuccess = (store, args) => {
-  if(args.success && args.entity){
-    if(
-      (s.getsmart(args, 'entity.alopu.carts.0.products.length', false) &&
-      s.getsmart(store, 'state.entity.alopu.carts.0.products.length', false)) &&
-      (s.getsmart(args, 'entity.alopu.carts.0.lastUpdated', false) !==
-      s.getsmart(store, 'state.entity.alopu.carts.0.lastUpdated', false))
-    ){
-      s.setsmart(args, 'entity.alopu.carts.1', s.getsmart(args, 'entity.alopu.carts.0', {}))
-      s.setsmart(args, 'entity.alopu.carts.0', s.getsmart(store, 'state.entity.alopu.carts.0', {}))
-      s.setsmart(store, 'state.showCartCacheDialog', true)
-    } else if(s.getsmart(store, 'state.entity.alopu.carts.0.products.length', false)){
-      s.setsmart(args, 'entity.alopu.carts.0', s.getsmart(store, 'state.entity.alopu.carts.0', {}))
-    } else if(s.getsmart(args, 'entity.alopu.carts.0.products.length', false)){
-      s.setsmart(store, 'state.entity.alopu.carts.0', s.getsmart(args, 'entity.alopu.carts.0', {}))
-    }
-    s.setsmart(store, 'state.entity', args.entity)
-    if(s.getsmart(store, 'state.entity.alopu.password', false)){
-      delete store.state.entity.alopu.password
-    }
-    args.type = 'login'
-    store.commit('feedback', args)
-    s.setsmart(store, 'state.showLoginDialog', false)
-    s.setsmart(store, 'state.passwordConfirmation', '')
-  }
-  s.setsmart(store, 'state.showLoginOptions', false)
-}
-
-export const switchUserFailure = (store, args) => {
-  s.setsmart(store, 'state.showLoginOptions', true)
-  // var entityDefault = CJSON.parse(CJSON.stringify(s.gosmart(store, 'state.entityDefault', {})))
-  // store.dispatch('resetEntity')
-  store.commit('feedback', args)
 }
 
 export const login = async (store, args) => {
@@ -182,19 +148,18 @@ export const login = async (store, args) => {
       color: 'positive',
       timeout: 4000
     }
-    s.pushThing({
-      option: feedback,
-      list: s.gosmart(store, 'state.feedback', [])
-    })
+    if(!args.nofeedback){
+      s.pushThing({
+        option: feedback,
+        list: s.gosmart(store, 'state.feedback', [])
+      })
+    }
     args.entity = {
       ...store.state.entity,
       ids: {
         "username-alopu": s.getsmart(args, 'entity.alopu.username', s.getsmart(store, 'state.entity.alopu.username', undefined))
       },
-      registered: {
-        any: true,
-        alopu: true
-      }
+      uid: uuid()
     }
     /** AUTHENTICATE THE PROVIDER TOKEN & SYNC THE USER WITH THE GLOBAL STATE */
       await syncUser(args)
@@ -215,7 +180,109 @@ export const login = async (store, args) => {
             /** create DocumentReference */
               var ref = things.doc(fsid)
             /** set loggedIn status for this userAgent */
-              s.setsmart(args, 'entity.loggedIn.'+s.getsmart(store, 'state.userAgent', ''), true)
+              s.setsmart(args, 'entity.loggedIn.'+s.getsmart(navigator, 'userAgent', 'unknown'), true)
+            /** add alopu token to alopu tokens list */
+              if(args.entity.alopu && args.token){
+                if(args.entity.alopu.tokens){
+                  args.entity.alopu.tokens.push(args.token)
+                }
+              }
+            /** save changes and notify user */
+              ref.set(CJSON.parse(CJSON.stringify(args.entity)), {merge: true})
+              .then(()=>{
+                args.feedback = {
+                  message: `Welcome ${args.entity.alopu.username}. You have successfully ${args.newEntity ? 'signed up with a' : 'logged in with your'} Growlights.com.au acccount`,
+                  color: 'positive',
+                  timeout: 2000,
+                }
+                store.dispatch('switchUserSuccess', args)
+              })
+              .catch(err=>{
+                console.error('there was an error processing a login attempt via Growlights.com.au because of Firebase', err)
+                args.feedback = {
+                  message: `There was an error logging in with your Growlights.com.au account`,
+                  color: 'negative',
+                  timeout: 4000,
+                }
+                store.dispatch('switchUserFailure', args)
+              })
+
+          })
+          .catch(err=>{
+            console.error('Something went wrong authenticating the user with firebase: ', err)
+            args.feedback = {
+              message: `There was an error logging in with your Growlights.com.au account`,
+              color: 'negative',
+              timeout: 4000,
+            }
+            store.dispatch('switchUserFailure', args)
+          })
+        } else {
+          console.error("there was an error processing a login attempt via Growlights.com.au because there's no firestore id assosciated with the entity, context @param args: ", args)
+          args.feedback = {
+            message: `There was an error logging in with your Growlights.com.au account`,
+            color: 'negative',
+            timeout: 4000,
+          }
+          store.dispatch('switchUserFailure', args)
+        }
+      } else {
+        // catch all error
+        console.error('Something went wrong syncing the user with the database: ', err)
+        args.feedback = {
+          message: `There was an error logging in with your Growlights.com.au account`,
+          color: 'negative',
+          timeout: 4000,
+        }
+        store.dispatch('switchUserFailure', args)
+      }
+  }
+  // if tmp session account
+  else if(args['provider'] == 'tmp'){
+    var feedback = undefined
+    args['success'] = true
+    var message = 'Logging in'
+    if(!s.getsmart(store, 'state.entity.registered.any', true)){
+      message = 'Signing up'
+    }
+    feedback = {
+      message,
+      color: 'positive',
+      timeout: 4000
+    }
+    if(!args.nofeedback){
+      s.pushThing({
+        option: feedback,
+        list: s.gosmart(store, 'state.feedback', [])
+      })
+    }
+    args.entity = {
+      ...s.getsmart(store, 'state.entity', {}),
+      ids: {
+        "username-alopu": s.getsmart(args, 'entity.alopu.username', s.getsmart(store, 'state.entity.alopu.username', undefined))
+      },
+      tmp: {
+        uid: s.getsmart(store, 'state.entity.uid', uuid())
+      }
+    }
+    /** AUTHENTICATE THE PROVIDER TOKEN & SYNC THE USER WITH THE GLOBAL STATE */
+      await syncUser(args)
+      .catch(err=>{
+        console.error('Something went wrong syncing the user with the database: ', err)
+        args.feedback = {
+          message: `There was an error logging in with your Growlights.com.au account`,
+          color: 'negative',
+          timeout: 4000,
+        }
+        store.dispatch('switchUserFailure', args)
+      })
+      if(args.success){
+        var fsid = s.getsmart(args, 'entity.firestore.id', false)
+        if(fsid){
+          firebaseAuth(args)
+          .then(args=>{
+            /** create DocumentReference */
+              var ref = things.doc(fsid)
             /** add alopu token to alopu tokens list */
               if(args.entity.alopu && args.token){
                 if(args.entity.alopu.tokens){
@@ -285,10 +352,7 @@ export const login = async (store, args) => {
           args.token
         ]
       },
-      registered: {
-        any: true,
-        facebook: true
-      }
+      uid: uuid()
     }
     /** AUTHENTICATE THE PROVIDER TOKEN & SYNC THE USER WITH THE GLOBAL STATE */
       await syncUser(args)
@@ -310,7 +374,7 @@ export const login = async (store, args) => {
             /** create DocumentReference */
               var ref = things.doc(fsid)
             /** set loggedIn status for this userAgent */
-              s.setsmart(args, 'entity.loggedIn.'+s.getsmart(store, 'state.userAgent', ''), true)
+              s.setsmart(args, 'entity.loggedIn.'+s.getsmart(navigator, 'userAgent', 'unknown'), true)
             /** add facebook token to facebook tokens list */
               if(args.entity.facebook){
                 if(args.entity.facebook.tokens){
@@ -422,10 +486,7 @@ export const login = async (store, args) => {
           args.token
         ]
       },
-      registered: {
-        any: true,
-        google: true
-      }
+      uid: uuid()
     }
     /** AUTHENTICATE THE PROVIDER TOKEN & SYNC THE USER WITH THE GLOBAL STATE */
       await syncUser(args).catch(err=>{
@@ -440,7 +501,7 @@ export const login = async (store, args) => {
             /** create DocumentReference */
               var ref = things.doc(fsid)
             /** set loggedIn status for this userAgent */
-              s.setsmart(args, 'entity.loggedIn.'+s.getsmart(store, 'state.userAgent', ''), true)
+              s.setsmart(args, 'entity.loggedIn.'+s.getsmart(navigator, 'userAgent', 'unknown'), true)
             /** add google token to google tokens list */
               if(args.entity.google){
                 if(args.entity.google.tokens){
@@ -510,6 +571,45 @@ export const login = async (store, args) => {
 
 }
 
+export const switchUserSuccess = (store, args) => {
+  if(args.success && args.entity){
+    if(
+      (s.getsmart(args, 'entity.alopu.carts.0.products.length', false) &&
+      s.getsmart(store, 'state.entity.alopu.carts.0.products.length', false)) &&
+      (s.getsmart(args, 'entity.alopu.carts.0.lastUpdated', false) !==
+      s.getsmart(store, 'state.entity.alopu.carts.0.lastUpdated', false))
+    ){
+      s.setsmart(args, 'entity.alopu.carts.1', s.getsmart(args, 'entity.alopu.carts.0', {}))
+      s.setsmart(args, 'entity.alopu.carts.0', s.getsmart(store, 'state.entity.alopu.carts.0', {}))
+      s.setsmart(store, 'state.showCartCacheDialog', true)
+    } else if(s.getsmart(store, 'state.entity.alopu.carts.0.products.length', false)){
+      s.setsmart(args, 'entity.alopu.carts.0', s.getsmart(store, 'state.entity.alopu.carts.0', {}))
+    } else if(s.getsmart(args, 'entity.alopu.carts.0.products.length', false)){
+      s.setsmart(store, 'state.entity.alopu.carts.0', s.getsmart(args, 'entity.alopu.carts.0', {}))
+    }
+    s.setsmart(store, 'state.entity', args.entity)
+    if(s.getsmart(store, 'state.entity.alopu.password', false)){
+      delete store.state.entity.alopu.password
+    }
+    args.type = 'login'
+    if(!args.nofeedback){
+      store.commit('feedback', args)
+    }
+    s.setsmart(store, 'state.showLoginDialog', false)
+    s.setsmart(store, 'state.passwordConfirmation', '')
+  }
+  s.setsmart(store, 'state.showLoginOptions', false)
+}
+
+export const switchUserFailure = (store, args) => {
+  s.setsmart(store, 'state.showLoginOptions', true)
+  // var entityDefault = CJSON.parse(CJSON.stringify(s.gosmart(store, 'state.entityDefault', {})))
+  // store.dispatch('resetEntity')
+  if(!args.nofeedback){
+    store.commit('feedback', args)
+  }
+}
+
 export const logout = async (store, args) =>{
   var entity = CJSON.parse(CJSON.stringify(s.getsmart(store, 'state.entity', undefined)))
   var entityDefault = CJSON.parse(CJSON.stringify(s.gosmart(store, 'state.entityDefault', {})))
@@ -549,7 +649,7 @@ export const logout = async (store, args) =>{
   if(id){
     let ref = things.doc(id)
     // set loggedIn status for this userAgent to false
-    s.setsmart(entity, 'loggedIn.'+s.getsmart(store, 'state.userAgent', ''), false)
+    s.setsmart(entity, 'loggedIn.'+s.getsmart(navigator, 'userAgent', 'unknown'), false)
     s.popThing({
       option: {
         clientId: store.state.clientId
@@ -578,7 +678,7 @@ export const resetEntity = (store, args) => {
 
 export const syncDevice = (store, device) => {
   var entityDevices = s.gosmart(store, 'state.entity.inventory.devices', [])
-  var userAgent = s.getsmart(store, 'state.userAgent', '')
+  var userAgent = s.getsmart(navigator, 'userAgent', 'unknown')
   if(entityDevices){
     var entityDevice = s.getThing({
       option: {
@@ -680,7 +780,7 @@ const axiosConf = {
   // 			}
   // 			// set loggedIn status for this userAgent
   // 			if(loggedIn){
-  // 				s.getsmart(store, 'state.entity.loggedIn.'+s.getsmart(store, 'state.userAgent', ''), false)
+  // 				s.getsmart(store, 'state.entity.loggedIn.'+s.getsmart(navigator, 'userAgent', 'unknown'), false)
   // 			}
         // res.set(CJSON.parse(CJSON.stringify(args.entity)), {merge: true})
         // .then(()=>{
@@ -715,7 +815,7 @@ const axiosConf = {
   // 			}
   // 			// set loggedIn status for this userAgent
   // 			if(loggedIn){
-  // 				s.getsmart(store, 'state.entity.loggedIn.'+s.getsmart(store, 'state.userAgent', ''), false)
+  // 				s.getsmart(store, 'state.entity.loggedIn.'+s.getsmart(navigator, 'userAgent', 'unknown'), false)
   // 			}
   // 			var id = s.gosmart(args, 'entity.firestore.id', s.getsmart(args, 'entity.ids.id-firestore', undefined))
   // 			if(id){
