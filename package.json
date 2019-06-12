@@ -19,8 +19,8 @@
     "build-bapi": "cross-env level=build quasar build",
     "build-dapi": "cross-env level=dev apiTLD=src domain=growlights quasar build",
     "commit": "git add . ; git commit -m 'ready'",
-    "push": "npm run commit ; git push origin dev",
-    "pull": "git pull origin dev"
+    "push": "npm run commit ; git push origin HEAD",
+    "pull": "git pull origin HEAD"
   },
   "dependencies": {
     "@quasar/extras": "^1.0.0",
