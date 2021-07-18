@@ -149,20 +149,37 @@ export default {
           this.getsmart(this.backup, 'query'),
           {
             $or: [
-              {
-                types: {
-                  $in: [ args ]
-                }
-              },
-              {
-                title: new RegExp(args, "gi")
-              }
+
             ]
           }
         ]
       }
-      this.setsmart(this.things, 'query', query)
-      this.setsmart(this.things, 'options.skip', 0)
+      let words = args.split(' ')
+      let permutations = []
+      this.$p({
+        array: words,
+        permutations
+      })
+      let ors = this.gosmart(query, '$and.1.$or', [])
+      for(var i in permutations){
+        if(permutations[i]){
+          let or1 = {
+            types: {
+              $in: [ permutations[i] ]
+            }
+          }
+          let or2 = {
+            title: new RegExp(permutations[i], "gi")
+          }
+          ors.push(or1)
+          ors.push(or2)
+          console.log(permutations[i])
+          console.log(i)
+          this.setsmart(this.things, 'query', query)
+          this.setsmart(this.things, 'options.skip', 0)
+          // ;(i == 0 ) ?  : this.getProducts()
+        }
+      }
       this.getProducts({clear: true})
       // this.setsmart(this.things, 'searchTimeout',
       //   setTimeout()

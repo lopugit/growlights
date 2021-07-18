@@ -6,7 +6,6 @@ import _throttle from 'lodash/throttle';
 import _debounce from 'lodash/throttle';
 import merge from 'deepmerge'
 let smarts = require('smarts')({})
-let uuid = require('uuid/v4')
 let stateSmarts = require('smarts')({
   vue: {
     store: true

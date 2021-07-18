@@ -1,0 +1,4 @@
+@firebase/firestore
+firebase
+firebaseui
+node-sass
