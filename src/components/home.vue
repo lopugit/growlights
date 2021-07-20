@@ -1,7 +1,7 @@
 <template lang='pug'>
 q-page
   .home.home-positioner.align-center.justify-start.flex-column
-    growlights-banner
+    growtime-banner
     products(
       :props=`{
         query: {
@@ -13,7 +13,7 @@ q-page
             }
           ]
         },
-        model: 'growlights/'+getsmart($env, 'level', 'dev')+'/products',
+        model: 'growtime/'+getsmart($env, 'level', 'dev')+'/products',
         cards: true,
         theme: {
           'search': true
@@ -29,7 +29,7 @@ export default {
   data () {
     return {
       // objects: null,
-      uuid: this.$uuid.v4(),
+      uid: this.$uuid.v4(),
       mapboxglAccessToken: "pk.eyJ1IjoibG9wdSIsImEiOiJjamFydTVhc3QxNjRtMzNwaHEzNmJ1bW0zIn0.Wm7f-1eyd7K5AT3WN7fRDw",
       funCounter: 1
     }
@@ -47,7 +47,7 @@ export default {
   props: {
   },
   components: {
-    growlightsBanner: require('src/components/banner').default,
+    growtimeBanner: require('src/components/banner').default,
     products: require('src/components/products').default
   },
   watch: {

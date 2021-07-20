@@ -4,7 +4,7 @@ export default ({app, router, Vue}) => {
   Vue.mixin({
     data: function(){
       return {
-        schema: this.dupe(
+        schemarize: this.dupe(
           this.merge(
             this.dupe(this.getsmart(this.$options, 'schema', {})),
             this.dupe(this.getsmart(this.props, 'schema', {})),
@@ -32,7 +32,7 @@ export default ({app, router, Vue}) => {
           if(!this.equal(n,o)){
             this.setsmart(this, 'things', { ...this.things, ...this.dupe(this.props) })
             this.setsmart(this, 'backup', { ...this.things, ...this.dupe(this.props) })
-            this.setsmart(this, 'schema', { ...this.schema, ...this.dupe(this.props.schema) })
+            this.setsmart(this, 'schema', { ...this.schemarize, ...this.dupe(this.props.schema) })
           }
         },
         deep: true

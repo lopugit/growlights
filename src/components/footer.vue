@@ -8,7 +8,7 @@ export default {
   data () {
     return {
       // objects: null,
-      uuid: this._uid
+      uid: this._uid
     }
   },
   sockets: {

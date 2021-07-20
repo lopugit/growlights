@@ -1,2 +1,2 @@
-# Grow Lights Australia
+# Grow Time Australia
 ### Source code

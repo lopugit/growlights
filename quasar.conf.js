@@ -2,17 +2,16 @@
 var path = require('path')
 var fs = require('fs')
 var smarts = require('smarts')()
-// var utils = require('utils')
 
 module.exports = function (ctx) {
   var apiDomain = 'src'
   let env = {}
   smarts.gosmart(env, 'level', smarts.getsmart(process, 'env.level', 'dev'))
-  smarts.gosmart(env, 'apiProtocol', smarts.getsmart(process, 'env.apiProtocol', smarts.getsmart(env, 'level', 'dev') == 'prod' ? 'https://' : 'https://'))
-  smarts.gosmart(env, 'apiSubdomain', smarts.getsmart(process, 'env.apiSubdomain', smarts.getsmart(env, 'level', 'dev') == 'prod' ? 'api' : 'api'))
-  smarts.gosmart(env, 'apiDomain', smarts.getsmart(process, 'env.apiDomain', smarts.getsmart(env, 'level', 'dev') == 'prod' ? 'growlights' : 'growlights'))
-  smarts.gosmart(env, 'apiTLD', smarts.getsmart(process, 'env.apiTLD', smarts.getsmart(env, 'level', 'dev') == 'prod' ? 'com.au' : 'src'))
-  smarts.gosmart(env, 'apiUrl', `${env.apiProtocol}${env.apiSubdomain}.${env.apiDomain}.${env.apiTLD}`)
+  smarts.gosmart(env, 'apiProtocol', smarts.getsmart(process, 'env.apiProtocol', smarts.getsmart(env, 'level', 'dev') == 'prod' ? 'https://' : 'http://'))
+  smarts.gosmart(env, 'apiSubdomain', smarts.getsmart(process, 'env.apiSubdomain', smarts.getsmart(env, 'level', 'dev') == 'prod' ? 'api.' : ''))
+  smarts.gosmart(env, 'apiDomain', smarts.getsmart(process, 'env.apiDomain', smarts.getsmart(env, 'level', 'dev') == 'prod' ? 'growtime.' : 'localhost'))
+  smarts.gosmart(env, 'apiTLD', smarts.getsmart(process, 'env.apiTLD', smarts.getsmart(env, 'level', 'dev') == 'prod' ? 'com.au' : ':9999'))
+  smarts.gosmart(env, 'apiUrl', `${env.apiProtocol}${env.apiSubdomain}${env.apiDomain}${env.apiTLD}`)
   smarts.gosmart(env, 'version', '0.0.1')
   // if env level dev
   if(smarts.getsmart(env, 'level', 'dev') == 'dev'){
@@ -21,15 +20,6 @@ module.exports = function (ctx) {
     // set google client id
     smarts.setsmart(env, 'googleClientId', '211744308643-jhehqcp4ei6vd7gel2n308i9ooeer9sl.apps.googleusercontent.com')
     // set firebase credentials
-    smarts.setsmart(env, 'firebaseConf', {
-      apiKey: "AIzaSyABsQrdpY9lNkyBW0me5xHmbCxSUPIjGgU",
-      authDomain: "lopudev-b405a.firebaseapp.com",
-      databaseURL: "https://lopudev-b405a.firebaseio.com",
-      projectId: "lopudev-b405a",
-      storageBucket: "lopudev-b405a.appspot.com",
-      messagingSenderId: "211744308643",
-      appId: "1:211744308643:web:dca54880cb46d04c"
-    })
   }
 
   // if env level prod
@@ -53,7 +43,7 @@ module.exports = function (ctx) {
   // smarts.setsmart(env, 'level', `"${smarts.getsmart(env, 'level', 'dev')}"`)
   // smarts.setsmart(env, 'apiProtocol', `"${smarts.getsmart(env, 'apiProtocol', smarts.getsmart(env, 'level', 'dev') == 'prod' ? 'https://' : 'https://')}"`)
   // smarts.setsmart(env, 'apiSubdomain', `"${smarts.getsmart(env, 'apiSubdomain', smarts.getsmart(env, 'level', 'dev') == 'prod' ? 'api' : 'api')}"`)
-  // smarts.setsmart(env, 'apiDomain', `"${smarts.getsmart(env, 'apiDomain', smarts.getsmart(env, 'level', 'dev') == 'prod' ? 'growlights' : 'growlights')}"`)
+  // smarts.setsmart(env, 'apiDomain', `"${smarts.getsmart(env, 'apiDomain', smarts.getsmart(env, 'level', 'dev') == 'prod' ? 'growtime' : 'growtime')}"`)
   // smarts.setsmart(env, 'apiTLD', `"${smarts.getsmart(env, 'apiTLD', smarts.getsmart(env, 'level', 'dev') == 'prod' ? 'com.au' : 'src')}"`)
 
   console.log(env)
@@ -94,11 +84,9 @@ module.exports = function (ctx) {
       'flatted',
       'vuelidate',
     ],
-
     css: [
       'app.styl'
     ],
-
     extras: [
       'roboto-font',
       'material-icons' // optional, you are not bound to it
@@ -107,7 +95,6 @@ module.exports = function (ctx) {
       // 'fontawesome-v5',
       // 'eva-icons'
     ],
-
     framework: {
       all: true, // --- includes everything; for dev only!
       // components: [
@@ -138,13 +125,13 @@ module.exports = function (ctx) {
       // iconSet: 'ionicons-v4'
       // lang: 'de' // Quasar language
     },
-
     supportIE: true,
-
     build: {
       scopeHoisting: true,
       vueRouterMode: 'history',
       // vueCompiler: true,
+      env: {
+      },
       gzip: true,
       analyze: true,
       // extractCSS: false,
@@ -155,7 +142,7 @@ module.exports = function (ctx) {
             test: /\.(cur|ani)$/,
             loader: 'file-loader',
             options: {
-                name:  path.join(__dirname, 'src', 'statics/cursors/[name].[hash:7].[ext]'),
+                name:  path.join(__dirname, 'src', 'cursors/[name].[hash:7].[ext]'),
             }
           },
 				)
@@ -171,27 +158,27 @@ module.exports = function (ctx) {
 
       }
     },
-
     devServer: {
       // https: true,
       port: 1337,
       open: false // opens browser window automatically
     },
-
     // animations: 'all', // --- includes all animations
     animations: [],
-
     ssr: {
-      pwa: true
+      pwa: true,
+      middlewares: [
+        ctx.prod ? 'compression' : '',
+        'render' // keep this as last one
+      ]
     },
-
     pwa: {
       // cacheExt: 'js,html,css,ttf,eot,otf,woff,woff2,json,svg,gif,jpg,jpeg,png,wav,ogg,webm,flac,aac,mp4,mp3',
       workboxPluginMode: 'InjectManifest',
       // workboxOptions: {}, // only for NON InjectManifest
       manifest: {
-        name: smarts.gosmart(env, 'name', 'Grow Lights Australia'),
-        short_name: smarts.gosmart(env, 'short_name', 'Grow Lights'),
+        name: smarts.gosmart(env, 'name', 'Grow Time Australia'),
+        short_name: smarts.gosmart(env, 'short_name', 'Grow Time'),
         description: smarts.gosmart(env, 'description', 'The #1 place for plant growing products'),
         // short_name: 'Quasar-PWA',
         // description: 'Best PWA App in town!',
@@ -201,47 +188,43 @@ module.exports = function (ctx) {
         theme_color: '#42b983',
         icons: [
           {
-            'src': 'statics/icons/GrowLightsWhiteCircle128.png',
+            'src': 'icons/GrowTimeWhiteCircle128.png',
             'sizes': '128x128',
             'type': 'image/png'
           },
           {
-            'src': 'statics/icons/GrowLightsWhiteCircle192.png',
+            'src': 'icons/GrowTimeWhiteCircle192.png',
             'sizes': '192x192',
             'type': 'image/png'
           },
           {
-            'src': 'statics/icons/GrowLightsWhiteCircle256.png',
+            'src': 'icons/GrowTimeWhiteCircle256.png',
             'sizes': '256x256',
             'type': 'image/png'
           },
           {
-            'src': 'statics/icons/GrowLightsWhiteCircle384.png',
+            'src': 'icons/GrowTimeWhiteCircle384.png',
             'sizes': '384x384',
             'type': 'image/png'
           },
           {
-            'src': 'statics/icons/GrowLightsWhiteCircle512.png',
+            'src': 'icons/GrowTimeWhiteCircle512.png',
             'sizes': '512x512',
             'type': 'image/png'
           }
         ]
       }
     },
-
     cordova: {
       // id: 'org.cordova.quasar.app'
       // noIosLegacyBuildFlag: true // uncomment only if you know what you are doing
     },
-
     electron: {
       // bundler: 'builder', // or 'packager'
-
       extendWebpack (cfg) {
         // do something with Electron main process Webpack cfg
         // chainWebpack also available besides this extendWebpack
       },
-
       packager: {
         // https://github.com/electron-userland/electron-packager/blob/master/docs/api.md#options
 
@@ -254,21 +237,16 @@ module.exports = function (ctx) {
         // Window only
         // win32metadata: { ... }
       },
-
       builder: {
         // https://www.electron.build/configuration/configuration
 
         // appId: 'quasar-app'
-      }
+      },
     }
   }
 
-  // escape env for some retarded reason
-  for(var key of Object.keys(env)){
-    smarts.setsmart(env, key, JSON.stringify(smarts.getsmart(env, key, undefined)))
-  }
-
-  ret.build.env = env
+  ret.build.env.env = env
 
   return ret
+
 }

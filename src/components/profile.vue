@@ -11,7 +11,7 @@
                   avatar
                   @click=`
                     $router.push('/profile')
-                    $store.commit('thing', { path: 'leftSidebar', val: !$store.state.app.leftSidebar})
+                    $store.commit('graph/thing', { path: 'leftSidebar', val: !$store.state.graph.leftSidebar})
                   `
                 )
                   q-item-label(
@@ -22,18 +22,18 @@
                     //-   width: 'auto'
                     //- }`
                     img.q-circle-img.q-max-height-60.q-max-width-60(
-                      :src=`$store.getters.cover()`
+                      :src=`$store.getters['graph/cover']()`
                       )
                 q-item-section(
                 )
                   q-item-label.text-elip.text-wrap(
-                  ) {{ $store.getters.username() }}
+                  ) {{ $store.getters['graph/username']() }}
                   q-item-label(
                     size=".5rem"
-                    ).q-mt-xxxsm.text-grey.text-xsm {{ $store.getters.ego(0) }}
+                    ).q-mt-xxxsm.text-grey.text-xsm {{ $store.getters['graph/ego'](0) }}
         q-list.q-pa-no
           template(
-            v-for="nav in getsmart($store, 'state.app.navigation.user', [])"
+            v-for="nav in getsmart($store, 'state.graph.navigation.user', [])"
           )
             q-card.hover-change.q-pl-lg-important.q-pa-md.shadow-8.q-mt-md(
               @click=`$router.push('/profile'+nav.link)`
@@ -47,7 +47,7 @@
                     avatar
                   )
                     img.q-ml-xxsm.q-mr-xxsm.q-max-width-20(
-                      :src="`statics/${nav.icon}`"
+                      :src="`${nav.icon}`"
                     )
                 q-item.q-pl-no(
                   )
@@ -61,7 +61,7 @@ export default {
   name: 'profile-comp',
   data () {
     return {
-      uuid: this._uid,
+      uid: this._uid,
       things: {},
     }
   },

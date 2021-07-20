@@ -14,7 +14,7 @@ export default {
   name: 'templateO-comp',
   data () {
     return {
-      uuid: this._uid,
+      uid: this._uid,
       things: {},
     }
   },

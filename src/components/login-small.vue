@@ -21,7 +21,7 @@ export default {
         username: null,
         password: null,
       },
-      uuid: this._uid,
+      uid: this._uid,
       errMsg: null,
       feedbackMsg: null
     }

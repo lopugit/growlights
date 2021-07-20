@@ -47,7 +47,7 @@ export const cartTotal = (state, getters, rootState, rootGetters) => (args) => {
     let list = smarts.gosmart(args.cart, 'products', [])
     let total = 0
     for(var product of list){
-      total += smarts.getThing({option: {'name': 'growlights.com.au marked up price'}, list: product.prices, keys: ['name']}).values['AUD']*product.count
+      total += smarts.getThing({option: {'name': 'growtime.com.au marked up price'}, list: product.prices, keys: ['name']}).values['AUD']*product.count
     }
     return total
   } else {
@@ -60,7 +60,7 @@ export const cartSubtotal = (state, getters, rootState, rootGetters) => (args) =
     let list = smarts.gosmart(args.cart, 'products', [])
     let subtotal = 0
     for(var product of list){
-      subtotal += smarts.getThing({option: {'name': 'growlights.com.au marked up price'}, list: product.prices, keys: ['name']}).values['AUD']*product.count
+      subtotal += smarts.getThing({option: {'name': 'growtime.com.au marked up price'}, list: product.prices, keys: ['name']}).values['AUD']*product.count
     }
     return subtotal
   } else {
@@ -106,8 +106,8 @@ export const ego = (state, getters) => (i) => {
 }
 
 export const cover = (state, getters) => (which) => {
-	// var ret = 'statics/biologist-100-100.png'
-	var ret = 'statics/circle.growlights.com.au.png'
+	// var ret = 'biologist-100-100.png'
+	var ret = 'circle.growtime.com.au.png'
 	if(s.getsmart(state, 'entity.loggedIn.'+s.getsmart(navigator, 'userAgent', ''), false)){
 		if(s.getsmart(state, 'entity.profilePicture', false)){
 

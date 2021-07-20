@@ -17,23 +17,23 @@ export default {
   created(){
     console.log(`Welcome to ${this.getsmart(window, 'env.name', 'unknown')}`)
     console.log(`Version ${this.getsmart(window, 'env.version', 'unknown')}`)
-    this.setsmart(this, '$store.state.app.$env', this.$env)
+    this.setsmart(this, '$store.state.graph.$env', this.$env)
     /** inits */
       /** initiate unique client id */
-        this.$store.dispatch('manifestClientId', this.$uuid.v4())
+        this.$store.dispatch('graph/manifestClientId', this.$uuid.v4())
       // /** userAgent */
       //   this.setsmart(this.$native, 'window.navigator.userAgent', navigator.userAgent)
       /** cursor */
         this.initCursor()
       /** env */
-        this.$store.commit('env', this.$env)
+        this.$store.commit('graph/env', this.$env)
       /** sync this device with entity devices */
-        this.$store.dispatch('syncDevice', 'this')
+        this.$store.dispatch('graph/syncDevice', 'this')
       /** get any entity updates */
       this.syncEntity()
       /** create server-side session entity */
-      if(!this.gosmart(this.$store, 'state.app.entity.registered.any', false) && !this.gosmart(this.$store, 'state.app.entity.registered.tmp', false)){
-        this.$store.dispatch('login', {
+      if(!this.gosmart(this.$store, 'state.graph.entity.registered.any', false) && !this.gosmart(this.$store, 'state.graph.entity.registered.tmp', false)){
+        this.$store.dispatch('graph/login', {
           nofeedback: true,
           provider: 'tmp',
           success: true
@@ -43,7 +43,7 @@ export default {
   methods: {
     syncEntity(){
       // configure watcher for this entity's firestore id listener
-        let FSid = this.getsmart(this.$store, 'state.app.entity.firestore.id', false)
+        let FSid = this.getsmart(this.$store, 'state.graph.entity.firestore.id', false)
         if(FSid){
           this.setsmart(this, 'things.entityWriteLock', true)
           this.$fs.collection(`${this.getsmart(this, '$env.level', 'dev')}/things/users`)
@@ -53,12 +53,12 @@ export default {
             // push to local store when firestore indicates a change
               let entity = snapshot.data()
               if(entity){
-                if(this.getsmart(this.$store, 'state.app.entity.firestore.lastUpdated', false) < this.getsmart(entity, 'firestore.lastUpdated', false)){
-                  this.setsmart(this.$store, 'state.app.justFirestore', Date.now())
-                  this.setsmart(this.$store, 'state.app.entity', entity)
-                  let pwd = this.getsmart(this.$store, 'state.app.entity.alopu.password', false)
+                if(this.getsmart(this.$store, 'state.graph.entity.firestore.lastUpdated', false) < this.getsmart(entity, 'firestore.lastUpdated', false)){
+                  this.setsmart(this.$store, 'state.graph.justFirestore', Date.now())
+                  this.setsmart(this.$store, 'state.graph.entity', entity)
+                  let pwd = this.getsmart(this.$store, 'state.graph.entity.alopu.password', false)
                   if(pwd){
-                    delete this.$store.state.app.entity.alopu.password
+                    delete this.$store.state.graph.entity.alopu.password
                   }
                 }
               }
@@ -141,42 +141,42 @@ export default {
     }
   },
   watch: {
-    '$store.state.app.showLoginOptions'(){
-      let username = this.gosmart(this.$store, 'state.app.entity.alopu.username', '')
-      this.$store.dispatch('checkUsernameAvailability', username)
+    '$store.state.graph.showLoginOptions'(){
+      let username = this.gosmart(this.$store, 'state.graph.entity.alopu.username', '')
+      this.$store.dispatch('graph/checkUsernameAvailability', username)
     },
-    '$store.state.app.entity.alopu.username'(){
-      let username = this.gosmart(this.$store, 'state.app.entity.alopu.username', '')
+    '$store.state.graph.entity.alopu.username'(){
+      let username = this.gosmart(this.$store, 'state.graph.entity.alopu.username', '')
       if(this.showLoginOptions && (username || username == 0)){
         clearTimeout(this.checkusername)
         this.checkusername = setTimeout(()=>{
-          this.$store.dispatch('checkUsernameAvailability', username)
+          this.$store.dispatch('graph/checkUsernameAvailability', username)
         }, 200)
       }
     },
-    '$store.state.app.feedback'(){
-      // let index = this.thingIn({option: { type: 'login' } , list: this.$store.state.app.feedback, keys: ['type'], retIndex: true})
-      for(var i=0; i<this.getsmart(this, '$store.state.app.feedback.length', 0); i++){
-        let feedback = this.$store.state.app.feedback[0]
+    '$store.state.graph.feedback'(){
+      // let index = this.thingIn({option: { type: 'login' } , list: this.$store.state.graph.feedback, keys: ['type'], retIndex: true})
+      for(var i=0; i<this.getsmart(this, '$store.state.graph.feedback.length', 0); i++){
+        let feedback = this.$store.state.graph.feedback[0]
         this.$q.notify(Object.assign({ position: 'top' }, feedback))
-        this.$store.commit('removefeedback', 0)
+        this.$store.commit('graph/removefeedback', 0)
       }
     },
-    '$store.state.app.dialog'(){
-      // let index = this.thingIn({option: { type: 'login' } , list: this.$store.state.app.dialog, keys: ['type'], retIndex: true})
-      for(var i=0; i<this.getsmart(this, '$store.state.app.dialog.length', 0); i++){
-        let dialog = this.$store.state.app.dialog[0]
+    '$store.state.graph.dialog'(){
+      // let index = this.thingIn({option: { type: 'login' } , list: this.$store.state.graph.dialog, keys: ['type'], retIndex: true})
+      for(var i=0; i<this.getsmart(this, '$store.state.graph.dialog.length', 0); i++){
+        let dialog = this.$store.state.graph.dialog[0]
         this.$q.dialog(dialog)
-        this.$store.commit('removedialog', 0)
+        this.$store.commit('graph/removedialog', 0)
       }
     },
-    '$store.state.app.entity': {
+    '$store.state.graph.entity': {
       handler: async function (){
-        let username = this.gosmart(this.$store, 'state.app.entity.alopu.username', '')
-        this.$store.dispatch('checkUsernameAvailability', username)
+        let username = this.gosmart(this.$store, 'state.graph.entity.alopu.username', '')
+        this.$store.dispatch('graph/checkUsernameAvailability', username)
 
         // auth entity
-        // let entityToken = this.getsmart(this.$store, 'state.app.entity.firebase.customToken', undefined)
+        // let entityToken = this.getsmart(this.$store, 'state.graph.entity.firebase.customToken', undefined)
         // if(entityToken){
         //   await this.$fb.auth().signInWithCustomToken(entityToken)
         //   .catch(err=>{
@@ -186,11 +186,11 @@ export default {
 
         /** smarts.equal code */
           // let cached = this.gosmart(this.things, 'cachedEntity', {})
-          // let entity = this.gosmart(this.$store, 'state.app.entity', {})
+          // let entity = this.gosmart(this.$store, 'state.graph.entity', {})
           // let equal = this.equal(cached, entity)
         // let that = this
         // push to firestore on new change
-          if(!this.gosmart(this, 'things.entityWriteLock', false) && !this.getsmart(this.$store, 'state.app.justFirestore', false)){
+          if(!this.gosmart(this, 'things.entityWriteLock', false) && !this.getsmart(this.$store, 'state.graph.justFirestore', false)){
             clearTimeout(this.things.entityWriteTimeout)
             this.setsmart(
               this.things,
@@ -198,30 +198,30 @@ export default {
               setTimeout(async ()=>{
                 if(!this.gosmart(this, 'things.entityWriteLock', false)){
                   this.setsmart(this, 'things.entityWriteLock', true)
-                  let fsid = this.getsmart(this.$store, 'state.app.entity.firestore.id', false)
+                  let fsid = this.getsmart(this.$store, 'state.graph.entity.firestore.id', false)
                   if(fsid){
                     let things = this.$fs.collection(`${this.getsmart(this, '$env.level', 'dev')}/things/users`)
                     let entityRef = things.doc(fsid)
                     if(entityRef){
-                      let entity = this.getsmart(this.$store, 'state.app.entity', false)
+                      let entity = this.getsmart(this.$store, 'state.graph.entity', false)
                       this.setsmart(entity, 'firestore.lastUpdated', Date.now())
                       if(entity){
                         await entityRef.set(this.$f.parse(this.$f.stringify(entity)), { merge: true })
                         .catch(err=>{
                           console.error('There was an error setting the updated entity: ', err)
                         })
-                        this.setsmart(this.$store, 'state.app.justFirestore', false)
+                        this.setsmart(this.$store, 'state.graph.justFirestore', false)
                         this.setsmart(this, 'things.entityWriteLock', false)
                       } else {
-                        this.setsmart(this.$store, 'state.app.justFirestore', false)
+                        this.setsmart(this.$store, 'state.graph.justFirestore', false)
                         this.setsmart(this, 'things.entityWriteLock', false)
                       }
                     } else {
-                      this.setsmart(this.$store, 'state.app.justFirestore', false)
+                      this.setsmart(this.$store, 'state.graph.justFirestore', false)
                       this.setsmart(this, 'things.entityWriteLock', false)
                     }
                   } else {
-                    this.setsmart(this.$store, 'state.app.justFirestore', false)
+                    this.setsmart(this.$store, 'state.graph.justFirestore', false)
                     this.setsmart(this, 'things.entityWriteLock', false)
                   }
                 }
@@ -235,13 +235,13 @@ export default {
               'entityWriteFallbackTimeout',
               setTimeout(
                 async ()=>{
-                  this.setsmart(this.$store, 'state.app.justFirestore', false)
+                  this.setsmart(this.$store, 'state.graph.justFirestore', false)
                   this.setsmart(this, 'things.entityWriteLock', false)
                 }, 2000
               )
             )
         // configure watcher for this entity's firestore id listener
-          let FSid = this.getsmart(this.$store, 'state.app.entity.firestore.id', false)
+          let FSid = this.getsmart(this.$store, 'state.graph.entity.firestore.id', false)
           let kill = this.getsmart(this, 'things.entityFirestoreListener', ()=>{})
           typeof kill == 'function' && kill()
           if(FSid){
@@ -255,12 +255,12 @@ export default {
                 // push to local store when firestore indicates a change
                   let entity = snapshot.data()
                   if(entity){
-                    if(this.getsmart(this.$store, 'state.app.entity.firestore.lastUpdated', false) < this.getsmart(entity, 'firestore.lastUpdated', false)){
-                      this.setsmart(this.$store, 'state.app.justFirestore', Date.now())
-                      this.setsmart(this.$store, 'state.app.entity', entity)
-                      let pwd = this.getsmart(this.$store, 'state.app.entity.alopu.password', false)
+                    if(this.getsmart(this.$store, 'state.graph.entity.firestore.lastUpdated', false) < this.getsmart(entity, 'firestore.lastUpdated', false)){
+                      this.setsmart(this.$store, 'state.graph.justFirestore', Date.now())
+                      this.setsmart(this.$store, 'state.graph.entity', entity)
+                      let pwd = this.getsmart(this.$store, 'state.graph.entity.alopu.password', false)
                       if(pwd){
-                        delete this.$store.state.app.entity.alopu.password
+                        delete this.$store.state.graph.entity.alopu.password
                       }
                     }
                   }
@@ -279,10 +279,10 @@ export default {
   computed: {
     pageHistory: {
       get(){
-        return this.$store.state.app.pageHistory
+        return this.$store.state.graph.pageHistory
       },
       set(val){
-        this.$store.commit('pageHistory', val)
+        this.$store.commit('graph/pageHistory', val)
       }
     },
   }
@@ -292,8 +292,8 @@ export default {
 <style lang="sass">
 @import 'src/styles/vars'
 html
-  // cursor: url(/statics/cursors/ms/aero_link2.cur), pointer
-  cursor: url(/statics/cursors/ms/aero_arrow.cur) 2 2, auto
+  // cursor: url(/cursors/ms/aero_link2.cur), pointer
+  cursor: url(/cursors/ms/aero_arrow.cur) 2 2, auto
 #app
   font-family: 'Avenir', Helvetica, Arial, sans-serif
   -webkit-font-smoothing: antialiased
@@ -306,7 +306,7 @@ body
   margin: 0px
   &.cursor-pointer,
   &.cursor-pointer *
-    cursor: url(/statics/cursors/ms/aero_link2.cur) 2 2, auto !important
+    cursor: url(/cursors/ms/aero_link2.cur) 2 2, auto !important
 h1,h2
   font-weight: normal
 
@@ -326,32 +326,32 @@ a:-webkit-any-link,
 .btn-container
   color: $green
   text-decoration: none
-  // cursor: url(/statics/cursors/ms/aero_link1.cur), pointer
+  // cursor: url(/cursors/ms/aero_link1.cur), pointer
   // border-bottom: 1px dotted rgba($green, .5)
   +animate(all, 300ms, ease)
-  cursor: url(/statics/cursors/ms/aero_arrow.cur) 2 2, auto
+  cursor: url(/cursors/ms/aero_arrow.cur) 2 2, auto
   animation: 400ms hoverMaple linear infinite
   &:hover
     color: $greenhover
 
   +keyframes(hoverMaple)
     0%
-      cursor: url(/statics/cursors/ms/aero_link2.cur) 2 2, pointer
+      cursor: url(/cursors/ms/aero_link2.cur) 2 2, pointer
     49%
-      cursor: url(/statics/cursors/ms/aero_link2.cur) 2 2, pointer
+      cursor: url(/cursors/ms/aero_link2.cur) 2 2, pointer
     50%
-      cursor: url(/statics/cursors/ms/aero_link1.cur) 2 2, auto
+      cursor: url(/cursors/ms/aero_link1.cur) 2 2, auto
     99%
-      cursor: url(/statics/cursors/ms/aero_link1.cur) 2 2, auto
+      cursor: url(/cursors/ms/aero_link1.cur) 2 2, auto
     100%
-      cursor: url(/statics/cursors/ms/aero_link2.cur) 2 2, pointer
+      cursor: url(/cursors/ms/aero_link2.cur) 2 2, pointer
 
 .fa-icon
   user-select: none
 button,
 .btn
   color: $green
-  // cursor: url(/statics/cursors/ms/aero_link1.cur), pointer
+  // cursor: url(/cursors/ms/aero_link1.cur), pointer
 .content-editable
   outline: none
   padding: 5px
@@ -450,7 +450,7 @@ body
     text-transform: capitalize
     li
       margin-right: 4px
-    .active,
+    .active
       background-color: rgba($green, .5)
     .highlight
       background-color: $green

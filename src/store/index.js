@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import CPS from 'vuex-persistedstate'
-import app from './app'
+import graph from './graph'
 import _throttle from 'lodash/throttle';
 import _debounce from 'lodash/throttle';
 import merge from 'deepmerge'
@@ -12,23 +12,23 @@ let stateSmarts = require('smarts')({
   }
 }).methods
 Vue.use(Vuex)
-window.clear = function(){ localStorage.removeItem('vuex');console.log('done') ; smarts.setsmart(window, '$store.state.app', {})}
+window.clear = function(){ localStorage.removeItem('vuex');console.log('done') ; smarts.setsmart(window, '$store.state.graph', {})}
 
 // window.clear()
 
-// let stateVersion = smarts.gosmart(window, '$store.state.app.version', undefined)
+// let stateVersion = smarts.gosmart(window, '$store.state.graph.version', undefined)
 // let cachedVersion = localStorage.getItem('vuexVersion')
 
 // window.addEventListener('storage', event => {
 //   let key = 'vuex'
 //   if(event.key == key){
 //     cachedVersion = localStorage.getItem(key+'Version')
-//     stateVersion = smarts.gosmart(window, '$store.state.app.version', undefined)
+//     stateVersion = smarts.gosmart(window, '$store.state.graph.version', undefined)
 //     // if the stateVersion does not equal the cachedVersion, we are out of sync
 //     if(stateVersion < cachedVersion && !(typeof cachedVersion == 'undefined' || cachedVersion == null) || !cachedVersion){
 //       // // turn write lock on
 //       // localStorage.setItem(key+'writeLock', true)
-//       window.$store.state.app.version = cachedVersion
+//       window.$store.state.graph.version = cachedVersion
 //       stateVersion = cachedVersion
 //       let cachedState
 //       try {
@@ -52,13 +52,13 @@ window.clear = function(){ localStorage.removeItem('vuex');console.log('done') ;
 
 const Store = new Vuex.Store({
 	modules: {
-		app,
+		graph
 	},
 	plugins: [
 		CPS({
-      paths: ['app'],
+      paths: ['graph'],
       // setState: _throttle((key,state,storage)=>{
-      //   let stateVersion = state.app.version
+      //   let stateVersion = state.graph.version
       //   // if our localVersion doesn't equal the state version we need to commit changes to localStorage
       //   if(!storage.getItem(key+'writeLock') && cachedVersion < stateVersion && !(typeof stateVersion == 'undefined' || stateVersion == null) || !cachedVersion){
 

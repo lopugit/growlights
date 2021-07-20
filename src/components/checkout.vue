@@ -29,25 +29,25 @@
               .separator.q-pl-xxsm.q-pr-xxsm >
               router-link.breadcrumb(
                 :to=`
-                  !getsmart($v, 'state.app.entity.alopu.carts.0.addresses.shipping.$error', false)
+                  !getsmart($v, 'state.graph.entity.alopu.carts.0.addresses.shipping.$error', false)
                   &&
-                  !getsmart($v, 'state.app.entity.alopu.username.$error', false)
+                  !getsmart($v, 'state.graph.entity.alopu.username.$error', false)
                     ? '/checkout/shipping_method'
                     : ''
                 `
                 @click.native=`
-                  let touch1 = getsmart($v, 'state.app.entity.alopu.carts.0.addresses.shipping.$touch', false)
-                  let touch2 = getsmart($v, 'state.app.entity.alopu.username.$touch', false)
+                  let touch1 = getsmart($v, 'state.graph.entity.alopu.carts.0.addresses.shipping.$touch', false)
+                  let touch2 = getsmart($v, 'state.graph.entity.alopu.username.$touch', false)
                   if(typeof touch1 == 'function' && typeof touch2 == 'function') {
                     touch1()
                     touch2()
-                    if(!getsmart($v, 'state.app.entity.alopu.carts.0.addresses.shipping.$error', false) && !getsmart($v, 'state.app.entity.alopu.username.$error', false)){
-                      setsmart($store, 'state.app.entity.alopu.carts.0.stages.shipping', 'valid')
+                    if(!getsmart($v, 'state.graph.entity.alopu.carts.0.addresses.shipping.$error', false) && !getsmart($v, 'state.graph.entity.alopu.username.$error', false)){
+                      setsmart($store, 'state.graph.entity.alopu.carts.0.stages.shipping', 'valid')
                     } else {
-                      setsmart($store, 'state.app.entity.alopu.carts.0.stages.shipping', 'invalid')
+                      setsmart($store, 'state.graph.entity.alopu.carts.0.stages.shipping', 'invalid')
                     }
                   } else {
-                    setsmart($store, 'state.app.entity.alopu.carts.0.stages.shipping', 'invalid')
+                    setsmart($store, 'state.graph.entity.alopu.carts.0.stages.shipping', 'invalid')
                   }
                 `
                 :class=`{
@@ -58,15 +58,15 @@
               .separator.q-pl-xxsm-bp-min-sm.q-pr-xxsm >
               router-link.breadcrumb(
                 :to=`
-                  !getsmart($v, 'state.app.entity.alopu.carts.0.addresses.shipping.$error', false)
+                  !getsmart($v, 'state.graph.entity.alopu.carts.0.addresses.shipping.$error', false)
                   &&
-                  !getsmart($v, 'state.app.entity.alopu.username.$error', false)
+                  !getsmart($v, 'state.graph.entity.alopu.username.$error', false)
                     ? '/checkout/payment_method'
                     : ''
                 `
                 @click.native=`
-                  let touch1 = getsmart($v, 'state.app.entity.alopu.carts.0.addresses.shipping.$touch', false)
-                  let touch2 = getsmart($v, 'state.app.entity.alopu.username.$touch', false)
+                  let touch1 = getsmart($v, 'state.graph.entity.alopu.carts.0.addresses.shipping.$touch', false)
+                  let touch2 = getsmart($v, 'state.graph.entity.alopu.username.$touch', false)
                   if(typeof touch1 == 'function' && typeof touch2 == 'function') {
                     touch1()
                     touch2()
@@ -100,25 +100,25 @@
                 .separator.q-pl-xxsm.q-pr-xxsm >
                 router-link.breadcrumb(
                   :to=`
-                    !getsmart($v, 'state.app.entity.alopu.carts.0.addresses.shipping.$error', false)
+                    !getsmart($v, 'state.graph.entity.alopu.carts.0.addresses.shipping.$error', false)
                     &&
-                    !getsmart($v, 'state.app.entity.alopu.username.$error', false)
+                    !getsmart($v, 'state.graph.entity.alopu.username.$error', false)
                       ? '/checkout/shipping_method'
                       : ''
                   `
                   @click.native=`
-                    let touch1 = getsmart($v, 'state.app.entity.alopu.carts.0.addresses.shipping.$touch', false)
-                    let touch2 = getsmart($v, 'state.app.entity.alopu.username.$touch', false)
+                    let touch1 = getsmart($v, 'state.graph.entity.alopu.carts.0.addresses.shipping.$touch', false)
+                    let touch2 = getsmart($v, 'state.graph.entity.alopu.username.$touch', false)
                     if(typeof touch1 == 'function' && typeof touch2 == 'function') {
                       touch1()
                       touch2()
-                      if(!getsmart($v, 'state.app.entity.alopu.carts.0.addresses.shipping.$error', false) && !getsmart($v, 'state.app.entity.alopu.username.$error', false)){
-                        setsmart($store, 'state.app.entity.alopu.carts.0.stages.shipping', 'valid')
+                      if(!getsmart($v, 'state.graph.entity.alopu.carts.0.addresses.shipping.$error', false) && !getsmart($v, 'state.graph.entity.alopu.username.$error', false)){
+                        setsmart($store, 'state.graph.entity.alopu.carts.0.stages.shipping', 'valid')
                       } else {
-                        setsmart($store, 'state.app.entity.alopu.carts.0.stages.shipping', 'invalid')
+                        setsmart($store, 'state.graph.entity.alopu.carts.0.stages.shipping', 'invalid')
                       }
                     } else {
-                      setsmart($store, 'state.app.entity.alopu.carts.0.stages.shipping', 'invalid')
+                      setsmart($store, 'state.graph.entity.alopu.carts.0.stages.shipping', 'invalid')
                     }
                   `
                   :class=`{
@@ -129,15 +129,15 @@
                 .separator.q-pl-xxsm-bp-min-sm.q-pr-xxsm >
                 router-link.breadcrumb(
                   :to=`
-                    !getsmart($v, 'state.app.entity.alopu.carts.0.addresses.shipping.$error', false)
+                    !getsmart($v, 'state.graph.entity.alopu.carts.0.addresses.shipping.$error', false)
                     &&
-                    !getsmart($v, 'state.app.entity.alopu.username.$error', false)
+                    !getsmart($v, 'state.graph.entity.alopu.username.$error', false)
                       ? '/checkout/payment_method'
                       : ''
                   `
                   @click.native=`
-                    let touch1 = getsmart($v, 'state.app.entity.alopu.carts.0.addresses.shipping.$touch', false)
-                    let touch2 = getsmart($v, 'state.app.entity.alopu.username.$touch', false)
+                    let touch1 = getsmart($v, 'state.graph.entity.alopu.carts.0.addresses.shipping.$touch', false)
+                    let touch2 = getsmart($v, 'state.graph.entity.alopu.username.$touch', false)
                     if(typeof touch1 == 'function' && typeof touch2 == 'function') {
                       touch1()
                       touch2()
@@ -154,7 +154,7 @@
               v-if="$route.path == '/checkout/customer_information'"
               )
               q-list.q-border-1.q-round-border-smd.q-mt-md.q-pt-xxxxsm.q-pb-xxxxsm(
-                v-show="getsmart($store, 'state.app.entity.loggedIn.'+getsmart($native, 'window.navigator.userAgent', 'unknown'), false)"
+                v-show="getsmart($store, 'state.graph.entity.loggedIn.'+getsmart($native, 'window.navigator.userAgent', 'unknown'), false)"
                 )
                 q-item.q-pl-md.q-pr-xmd.q-align-start.q-pb-xxsm.q-min-height-0
                   q-item-section.q-min-width-50.q-pr-no(
@@ -162,41 +162,41 @@
                     ) Contact
                   q-item-section.q-pl-lg(
 
-                    ) {{ getsmart($store, 'state.app.entity.alopu.username', undefined) }}
+                    ) {{ getsmart($store, 'state.graph.entity.alopu.username', undefined) }}
                   q-item-section(
                     side
-                    v-if="!getsmart($store, 'state.app.entity.loggedIn.'+getsmart($native, 'window.navigator.userAgent', 'unknown'), false)"
+                    v-if="!getsmart($store, 'state.graph.entity.loggedIn.'+getsmart($native, 'window.navigator.userAgent', 'unknown'), false)"
                     )
                     router-link(
                       to="/checkout/customer_information"
                     ).text-friendly Change
 
               .header.q-flex-row.q-pt-xxxxlg(
-                v-show="!getsmart($store, 'state.app.entity.loggedIn.'+getsmart($native, 'window.navigator.userAgent', 'unknown'), false)"
+                v-show="!getsmart($store, 'state.graph.entity.loggedIn.'+getsmart($native, 'window.navigator.userAgent', 'unknown'), false)"
                 )
                 .q-title-thin Contact Information
                 .account-message(
-                  v-if="!getsmart($store, 'state.app.entity.registered.any', false)"
+                  v-if="!getsmart($store, 'state.graph.entity.registered.any', false)"
                   ) Already have an account?
                   a.login-btn.text-black(
-                    @click="setsmart($store, 'state.app.showLoginDialog', true)"
+                    @click="setsmart($store, 'state.graph.showLoginDialog', true)"
                   ) Log in
               form.q-pt-smd
                 q-input.border-1.q-br-rd-sm.no-shadow(
-                  v-show="!getsmart($store, 'state.app.entity.loggedIn.'+getsmart($native, 'window.navigator.userAgent', 'unknown'), false)"
+                  v-show="!getsmart($store, 'state.graph.entity.loggedIn.'+getsmart($native, 'window.navigator.userAgent', 'unknown'), false)"
                   label="Email"
                   filled
                   square
-                  :value="getsmart($store, 'state.app.entity.alopu.username', undefined)"
-                  @input="setsmart($store, 'state.app.entity.alopu.username', $event)"
+                  :value="getsmart($store, 'state.graph.entity.alopu.username', undefined)"
+                  @input="setsmart($store, 'state.graph.entity.alopu.username', $event)"
                   bottom-slots
                   :error=`
-                    ( (getsmart($v, 'state.app.entity.alopu.username.$error', false) && !getsmart($v, 'state.app.entity.alopu.username.required', false)) ) ||
-                    ( (getsmart($v, 'state.app.entity.alopu.username.$error', false) && !getsmart($v, 'state.app.entity.alopu.username.email', false)) ) ||
-                    ( (getsmart($v, 'state.app.entity.alopu.username.$error', true) && getsmart($v, 'state.app.entity.alopu.username.$anyError', true)) )
+                    ( (getsmart($v, 'state.graph.entity.alopu.username.$error', false) && !getsmart($v, 'state.graph.entity.alopu.username.required', false)) ) ||
+                    ( (getsmart($v, 'state.graph.entity.alopu.username.$error', false) && !getsmart($v, 'state.graph.entity.alopu.username.email', false)) ) ||
+                    ( (getsmart($v, 'state.graph.entity.alopu.username.$error', true) && getsmart($v, 'state.graph.entity.alopu.username.$anyError', true)) )
                   `
                 )
-                  template(v-slot:error) {{ ( (getsmart($v, 'state.app.entity.alopu.username.$error', false) && !getsmart($v, 'state.app.entity.alopu.username.required', false)) ? 'This value is required' : undefined ) || ( (getsmart($v, 'state.app.entity.alopu.username.$error', false) && !getsmart($v, 'state.app.entity.alopu.username.email', false)) ? 'This is not a valid email' : undefined ) || ( (getsmart($v, 'state.app.entity.alopu.username.$error', true) && getsmart($v, 'state.app.entity.alopu.username.$anyError', true)) ? "There's something wrong with this value" : undefined ) }}
+                  template(v-slot:error) {{ ( (getsmart($v, 'state.graph.entity.alopu.username.$error', false) && !getsmart($v, 'state.graph.entity.alopu.username.required', false)) ? 'This value is required' : undefined ) || ( (getsmart($v, 'state.graph.entity.alopu.username.$error', false) && !getsmart($v, 'state.graph.entity.alopu.username.email', false)) ? 'This is not a valid email' : undefined ) || ( (getsmart($v, 'state.graph.entity.alopu.username.$error', true) && getsmart($v, 'state.graph.entity.alopu.username.$anyError', true)) ? "There's something wrong with this value" : undefined ) }}
 
                 .header.q-mt-xxxxl
                   .q-title-thin Shipping address
@@ -205,83 +205,83 @@
                     label="First name"
                     filled
                     square
-                    :value="getsmart($store, 'state.app.entity.alopu.carts.0.addresses.shipping.first name', undefined)"
-                    @input="setsmart($store, 'state.app.entity.alopu.carts.0.addresses.shipping.first name', $event)"
+                    :value="getsmart($store, 'state.graph.entity.alopu.carts.0.addresses.shipping.first name', undefined)"
+                    @input="setsmart($store, 'state.graph.entity.alopu.carts.0.addresses.shipping.first name', $event)"
                     bottom-slots
                     :error=`
-                      (getsmart($v, 'state.app.entity.alopu.carts.0.addresses.shipping.$error', false) && getsmart($v, 'state.app.entity.alopu.carts.0.addresses.shipping.first name.$anyError', false))
+                      (getsmart($v, 'state.graph.entity.alopu.carts.0.addresses.shipping.$error', false) && getsmart($v, 'state.graph.entity.alopu.carts.0.addresses.shipping.first name.$anyError', false))
                     `
                   )
-                    template(v-slot:error) {{ (getsmart($v, 'state.app.entity.alopu.carts.0.addresses.shipping.$error', false) && getsmart($v, 'state.app.entity.alopu.carts.0.addresses.shipping.first name.$anyError', false)) ? 'This value is required' : '' }}
+                    template(v-slot:error) {{ (getsmart($v, 'state.graph.entity.alopu.carts.0.addresses.shipping.$error', false) && getsmart($v, 'state.graph.entity.alopu.carts.0.addresses.shipping.first name.$anyError', false)) ? 'This value is required' : '' }}
                   q-input.q-mb-smd.border-1.q-br-rd-sm.no-shadow.q-input-6.q-ml-xsm(
                     label="Last name"
                     filled
                     square
-                    :value="getsmart($store, 'state.app.entity.alopu.carts.0.addresses.shipping.last name', undefined)"
-                    @input="setsmart($store, 'state.app.entity.alopu.carts.0.addresses.shipping.last name', $event)"
+                    :value="getsmart($store, 'state.graph.entity.alopu.carts.0.addresses.shipping.last name', undefined)"
+                    @input="setsmart($store, 'state.graph.entity.alopu.carts.0.addresses.shipping.last name', $event)"
                     bottom-slots
                     :error=`
-                      (getsmart($v, 'state.app.entity.alopu.carts.0.addresses.shipping.$error', false) && getsmart($v, 'state.app.entity.alopu.carts.0.addresses.shipping.last name.$anyError', false))
+                      (getsmart($v, 'state.graph.entity.alopu.carts.0.addresses.shipping.$error', false) && getsmart($v, 'state.graph.entity.alopu.carts.0.addresses.shipping.last name.$anyError', false))
                     `
                   )
-                    template(v-slot:error) {{ (getsmart($v, 'state.app.entity.alopu.carts.0.addresses.shipping.$error', false) && getsmart($v, 'state.app.entity.alopu.carts.0.addresses.shipping.last name.$anyError', false)) ? 'This value is required' : '' }}
+                    template(v-slot:error) {{ (getsmart($v, 'state.graph.entity.alopu.carts.0.addresses.shipping.$error', false) && getsmart($v, 'state.graph.entity.alopu.carts.0.addresses.shipping.last name.$anyError', false)) ? 'This value is required' : '' }}
                 q-input.border-1.q-br-rd-sm.no-shadow.q-mb-smd(
                   label="Company (optional)"
                   filled
                   square
-                  :value="getsmart($store, 'state.app.entity.alopu.carts.0.addresses.shipping.company', undefined)"
-                  @input="setsmart($store, 'state.app.entity.alopu.carts.0.addresses.shipping.company', $event)"
+                  :value="getsmart($store, 'state.graph.entity.alopu.carts.0.addresses.shipping.company', undefined)"
+                  @input="setsmart($store, 'state.graph.entity.alopu.carts.0.addresses.shipping.company', $event)"
                 )
                 q-input.border-1.q-br-rd-sm.no-shadow.q-mb-smd(
                   label="Address"
                   filled
                   square
-                  :value="getsmart($store, 'state.app.entity.alopu.carts.0.addresses.shipping.line1', undefined)"
-                  @input="setsmart($store, 'state.app.entity.alopu.carts.0.addresses.shipping.line1', $event)"
+                  :value="getsmart($store, 'state.graph.entity.alopu.carts.0.addresses.shipping.line1', undefined)"
+                  @input="setsmart($store, 'state.graph.entity.alopu.carts.0.addresses.shipping.line1', $event)"
                   bottom-slots
                   :error=`
-                    (getsmart($v, 'state.app.entity.alopu.carts.0.addresses.shipping.$error', false) && getsmart($v, 'state.app.entity.alopu.carts.0.addresses.shipping.line1.$anyError', false))
+                    (getsmart($v, 'state.graph.entity.alopu.carts.0.addresses.shipping.$error', false) && getsmart($v, 'state.graph.entity.alopu.carts.0.addresses.shipping.line1.$anyError', false))
                   `
                 )
-                  template(v-slot:error) {{ (getsmart($v, 'state.app.entity.alopu.carts.0.addresses.shipping.$error', false) && getsmart($v, 'state.app.entity.alopu.carts.0.addresses.shipping.line1.$anyError', false)) ? 'This value is required' : true }}
+                  template(v-slot:error) {{ (getsmart($v, 'state.graph.entity.alopu.carts.0.addresses.shipping.$error', false) && getsmart($v, 'state.graph.entity.alopu.carts.0.addresses.shipping.line1.$anyError', false)) ? 'This value is required' : true }}
                 q-input.border-1.q-br-rd-sm.no-shadow.q-mb-smd(
                   label="Apartment, suite, etc. (optional)"
                   filled
                   square
-                  :value="getsmart($store, 'state.app.entity.alopu.carts.0.addresses.shipping.Apartment, suite, etc', undefined)"
-                  @input="setsmart($store, 'state.app.entity.alopu.carts.0.addresses.shipping.Apartment, suite, etc', $event)"
+                  :value="getsmart($store, 'state.graph.entity.alopu.carts.0.addresses.shipping.Apartment, suite, etc', undefined)"
+                  @input="setsmart($store, 'state.graph.entity.alopu.carts.0.addresses.shipping.Apartment, suite, etc', $event)"
                 )
                 q-input.border-1.q-br-rd-sm.no-shadow.q-mb-smd(
                   label="City"
                   filled
                   square
-                  :value="getsmart($store, 'state.app.entity.alopu.carts.0.addresses.shipping.city', undefined)"
-                  @input="setsmart($store, 'state.app.entity.alopu.carts.0.addresses.shipping.city', $event)"
+                  :value="getsmart($store, 'state.graph.entity.alopu.carts.0.addresses.shipping.city', undefined)"
+                  @input="setsmart($store, 'state.graph.entity.alopu.carts.0.addresses.shipping.city', $event)"
                   bottom-slots
                   :error=`
-                    (getsmart($v, 'state.app.entity.alopu.carts.0.addresses.shipping.$error', false) && getsmart($v, 'state.app.entity.alopu.carts.0.addresses.shipping.city.$anyError', false))
+                    (getsmart($v, 'state.graph.entity.alopu.carts.0.addresses.shipping.$error', false) && getsmart($v, 'state.graph.entity.alopu.carts.0.addresses.shipping.city.$anyError', false))
                   `
                 )
-                  template(v-slot:error) {{ (getsmart($v, 'state.app.entity.alopu.carts.0.addresses.shipping.$error', false) && getsmart($v, 'state.app.entity.alopu.carts.0.addresses.shipping.city.$anyError', false)) ? 'This value is required' : true }}
+                  template(v-slot:error) {{ (getsmart($v, 'state.graph.entity.alopu.carts.0.addresses.shipping.$error', false) && getsmart($v, 'state.graph.entity.alopu.carts.0.addresses.shipping.city.$anyError', false)) ? 'This value is required' : true }}
                 .input-row
                   q-select.border-1.q-br-rd-sm.no-shadow.q-input-4.q-mr-xsm(
                     label="Country"
                     filled
                     square
                     :value=`
-                        getsmart($store, 'state.app.entity.alopu.carts.0.addresses.shipping.country', undefined)
+                        getsmart($store, 'state.graph.entity.alopu.carts.0.addresses.shipping.country', undefined)
                       `
                     @input=`
-                      setsmart($store, 'state.app.entity.alopu.carts.0.addresses.shipping.country', $event)
+                      setsmart($store, 'state.graph.entity.alopu.carts.0.addresses.shipping.country', $event)
                       setsmart($refs, 'stateappentityalopucarts0addressesshippingcountry.inputValue', $event)
                     `
                     @input.native=`
-                      setsmart($store, 'state.app.entity.alopu.carts.0.addresses.shipping.country', $event.target.value)
+                      setsmart($store, 'state.graph.entity.alopu.carts.0.addresses.shipping.country', $event.target.value)
                       setsmart($refs, 'stateappentityalopucarts0addressesshippingcountry.inputValue', $event.target.value)
                     `
                     bottom-slots
                     :error=`
-                      (getsmart($v, 'state.app.entity.alopu.carts.0.addresses.shipping.$error', false) && getsmart($v, 'state.app.entity.alopu.carts.0.addresses.shipping.country.$anyError', false))
+                      (getsmart($v, 'state.graph.entity.alopu.carts.0.addresses.shipping.$error', false) && getsmart($v, 'state.graph.entity.alopu.carts.0.addresses.shipping.country.$anyError', false))
                     `
                     hide-selected
                     use-input
@@ -290,37 +290,37 @@
                     ref="stateappentityalopucarts0addressesshippingcountry"
                     @filter=`(val, update)=>{
                       this.setsmart(this.$refs, 'stateappentityalopucarts0addressesshippingcountry.innerLoading', false)
-                      this.setsmart(this.$store, 'state.app.entity.alopu.carts.0.addresses.shipping.country', val)
+                      this.setsmart(this.$store, 'state.graph.entity.alopu.carts.0.addresses.shipping.country', val)
                       this.setsmart(this.$refs, 'stateappentityalopucarts0addressesshippingcountry.inputValue', val)
                       update(()=>{
 
                       })
                     }`
-                    :options=`getsmart($store, 'state.app.geos.countries.strings',
+                    :options=`getsmart($store, 'state.graph.geos.countries.strings',
                       [
                         "Australia"
                       ]
                     )`
                   )
-                    template(v-slot:error) {{ (getsmart($v, 'state.app.entity.alopu.carts.0.addresses.shipping.$error', false) && getsmart($v, 'state.app.entity.alopu.carts.0.addresses.shipping.country.$anyError', false)) ? 'This value is required' : true }}
+                    template(v-slot:error) {{ (getsmart($v, 'state.graph.entity.alopu.carts.0.addresses.shipping.$error', false) && getsmart($v, 'state.graph.entity.alopu.carts.0.addresses.shipping.country.$anyError', false)) ? 'This value is required' : true }}
                   q-select.border-1.q-br-rd-sm.no-shadow.q-input-4.q-ml-xsm.q-mr-xsm(
                     label="State"
                     filled
                     square
                     :value=`
-                        getsmart($store, 'state.app.entity.alopu.carts.0.addresses.shipping.state', undefined)
+                        getsmart($store, 'state.graph.entity.alopu.carts.0.addresses.shipping.state', undefined)
                       `
                     @input=`
-                      setsmart($store, 'state.app.entity.alopu.carts.0.addresses.shipping.state', $event)
+                      setsmart($store, 'state.graph.entity.alopu.carts.0.addresses.shipping.state', $event)
                       setsmart($refs, 'stateappentityalopucarts0addressesshippingstate.inputValue', $event)
                     `
                     @input.native=`
-                      setsmart($store, 'state.app.entity.alopu.carts.0.addresses.shipping.state', $event.target.value)
+                      setsmart($store, 'state.graph.entity.alopu.carts.0.addresses.shipping.state', $event.target.value)
                       setsmart($refs, 'stateappentityalopucarts0addressesshippingstate.inputValue', $event.target.value)
                     `
                     bottom-slots
                     :error=`
-                      (getsmart($v, 'state.app.entity.alopu.carts.0.addresses.shipping.$error', false) && getsmart($v, 'state.app.entity.alopu.carts.0.addresses.shipping.state.$anyError', false))
+                      (getsmart($v, 'state.graph.entity.alopu.carts.0.addresses.shipping.$error', false) && getsmart($v, 'state.graph.entity.alopu.carts.0.addresses.shipping.state.$anyError', false))
                     `
                     use-input
                     keep-input
@@ -329,13 +329,13 @@
                     ref="stateappentityalopucarts0addressesshippingstate"
                     @filter=`(val, update)=>{
                       this.setsmart(this.$refs, 'stateappentityalopucarts0addressesshippingstate.innerLoading', false)
-                      this.setsmart(this.$store, 'state.app.entity.alopu.carts.0.addresses.shipping.state', val)
+                      this.setsmart(this.$store, 'state.graph.entity.alopu.carts.0.addresses.shipping.state', val)
                       this.setsmart(this.$refs, 'stateappentityalopucarts0addressesshippingstate.inputValue', val)
                       update(()=>{
 
                       })
                     }`
-                    :options=`getsmart($store, 'state.app.geos.countries.Australia.states',
+                    :options=`getsmart($store, 'state.graph.geos.countries.Australia.states',
                       [
                         "ACT",
                         "JBT",
@@ -349,20 +349,20 @@
                       ]
                     )`
                   )
-                    template(v-slot:error) {{ (getsmart($v, 'state.app.entity.alopu.carts.0.addresses.shipping.$error', false) && getsmart($v, 'state.app.entity.alopu.carts.0.addresses.shipping.state.$anyError', false)) ? 'This value is required' : true }}
+                    template(v-slot:error) {{ (getsmart($v, 'state.graph.entity.alopu.carts.0.addresses.shipping.$error', false) && getsmart($v, 'state.graph.entity.alopu.carts.0.addresses.shipping.state.$anyError', false)) ? 'This value is required' : true }}
                   q-input.border-1.q-br-rd-sm.no-shadow.q-input-4.q-ml-xsm(
                     label="Postcode"
                     filled
                     square
-                    :value="getsmart($store, 'state.app.entity.alopu.carts.0.addresses.shipping.postcode', undefined)"
-                    @input="setsmart($store, 'state.app.entity.alopu.carts.0.addresses.shipping.postcode', $event)"
+                    :value="getsmart($store, 'state.graph.entity.alopu.carts.0.addresses.shipping.postcode', undefined)"
+                    @input="setsmart($store, 'state.graph.entity.alopu.carts.0.addresses.shipping.postcode', $event)"
                     bottom-slots
                     :error=`
-                      (getsmart($v, 'state.app.entity.alopu.carts.0.addresses.shipping.$error', false) && getsmart($v, 'state.app.entity.alopu.carts.0.addresses.shipping.postcode.$anyError', false))
+                      (getsmart($v, 'state.graph.entity.alopu.carts.0.addresses.shipping.$error', false) && getsmart($v, 'state.graph.entity.alopu.carts.0.addresses.shipping.postcode.$anyError', false))
                     `
                     mask="####"
                   )
-                    template(v-slot:error) {{ (getsmart($v, 'state.app.entity.alopu.carts.0.addresses.shipping.$error', false) && getsmart($v, 'state.app.entity.alopu.carts.0.addresses.shipping.postcode.$anyError', false)) ? 'This value is required' : true }}
+                    template(v-slot:error) {{ (getsmart($v, 'state.graph.entity.alopu.carts.0.addresses.shipping.$error', false) && getsmart($v, 'state.graph.entity.alopu.carts.0.addresses.shipping.postcode.$anyError', false)) ? 'This value is required' : true }}
               .q-flex-column-bp-max-sm.q-align-start-bp-max-sm.q-flex-row.flex-wrap.q-align-center.full-width.bottom-section.q-mt-xl-bp-min-sm.q-mt-smd-bp-max-sm
                 router-link.text-nowrap.q-order-1-bp-max-sm.q-mt-xsmd-bp-max-sm(
                   to="/cart"
@@ -373,19 +373,19 @@
                   size="lg"
                   color="primary"
                   @click=`
-                    let touch1 = getsmart($v, 'state.app.entity.alopu.carts.0.addresses.shipping.$touch', false)
-                    let touch2 = getsmart($v, 'state.app.entity.alopu.username.$touch', false)
+                    let touch1 = getsmart($v, 'state.graph.entity.alopu.carts.0.addresses.shipping.$touch', false)
+                    let touch2 = getsmart($v, 'state.graph.entity.alopu.username.$touch', false)
                     if(typeof touch1 == 'function' && typeof touch2 == 'function') {
                       touch1()
                       touch2()
-                      if(!getsmart($v, 'state.app.entity.alopu.carts.0.addresses.shipping.$error', false) && !getsmart($v, 'state.app.entity.alopu.username.$error', false)){
+                      if(!getsmart($v, 'state.graph.entity.alopu.carts.0.addresses.shipping.$error', false) && !getsmart($v, 'state.graph.entity.alopu.username.$error', false)){
                         $router.push('/checkout/shipping_method');
-                        setsmart($store, 'state.app.entity.alopu.carts.0.stages.shipping', 'valid')
+                        setsmart($store, 'state.graph.entity.alopu.carts.0.stages.shipping', 'valid')
                       } else {
-                        setsmart($store, 'state.app.entity.alopu.carts.0.stages.shipping', 'invalid')
+                        setsmart($store, 'state.graph.entity.alopu.carts.0.stages.shipping', 'invalid')
                       }
                     } else {
-                      setsmart($store, 'state.app.entity.alopu.carts.0.stages.shipping', 'invalid')
+                      setsmart($store, 'state.graph.entity.alopu.carts.0.stages.shipping', 'invalid')
                     }
                   `
                 ) Continue to shipping method
@@ -399,10 +399,10 @@
                     ) Contact
                   q-item-section.q-pl-lg(
 
-                    ) {{ getsmart($store, 'state.app.entity.alopu.username', undefined) }}
+                    ) {{ getsmart($store, 'state.graph.entity.alopu.username', undefined) }}
                   q-item-section(
                     side
-                    v-if="!getsmart($store, 'state.app.entity.loggedIn.'+getsmart($native, 'window.navigator.userAgent', 'unknown'), false)"
+                    v-if="!getsmart($store, 'state.graph.entity.loggedIn.'+getsmart($native, 'window.navigator.userAgent', 'unknown'), false)"
                     )
                     router-link(
                       to="/checkout/customer_information"
@@ -427,14 +427,14 @@
                 .q-title-thin Shipping method
                 .text-xxsm.text-negative.q-ml-xsm.q-mt-sm(
                   :class=`{
-                    'negative-visible': getsmart($v, 'state.app.entity.alopu.carts.0.shippingMethod.cost.$error', false),
-                    'negative-hidden': !getsmart($v, 'state.app.entity.alopu.carts.0.shippingMethod.cost.$error', false),
+                    'negative-visible': getsmart($v, 'state.graph.entity.alopu.carts.0.shippingMethod.cost.$error', false),
+                    'negative-hidden': !getsmart($v, 'state.graph.entity.alopu.carts.0.shippingMethod.cost.$error', false),
                   }`
                 )
                   | Please choose a shipping method
               q-btn.full-width.q-pa-no.text-normal.text-no.q-border-1.q-round-border-md.q-flex-row.full-width(
                 flat
-                @click="setsmart($store, 'state.app.entity.alopu.carts.0.shippingMethod', { type: 'Free shipping', cost: 'Free'})"
+                @click="setsmart($store, 'state.graph.entity.alopu.carts.0.shippingMethod', { type: 'Free shipping', cost: 'Free'})"
                 :ripple='false'
               )
                 q-item.full-width.no-point.q-flex.q-justify-center.q-pa-no.q-pl-xxxxsm.q-pt-xxxsm.q-pb-xxxsm
@@ -442,16 +442,16 @@
                     side
                   )
                     q-radio.full-width(
-                      :value="getsmart($store, 'state.app.entity.alopu.carts.0.shippingMethod.cost', undefined)"
+                      :value="getsmart($store, 'state.graph.entity.alopu.carts.0.shippingMethod.cost', undefined)"
                       :val="'Free'"
                       label="Free Shipping"
                     )
                   q-item-section.q-ml-auto(
                     side
-                  ) {{ getsmart($store, 'state.app.shippingMethods.Free shipping.cost', 'Free') }}
+                  ) {{ getsmart($store, 'state.graph.shippingMethods.Free shipping.cost', 'Free') }}
               // q-btn.full-width.q-pa-no.text-normal.text-no.q-border-1.q-round-border-md.q-flex-row.full-width(
                 flat
-                @click="setsmart($store, 'state.app.entity.alopu.carts.0.shippingMethod', { type: 'Express shipping', cost: '$20.00'})"
+                @click="setsmart($store, 'state.graph.entity.alopu.carts.0.shippingMethod', { type: 'Express shipping', cost: '$20.00'})"
                 :ripple='false'
                 )
                 q-item.full-width.no-point.q-flex.q-justify-center.q-pa-no.q-pl-xxxxsm.q-pt-xxxsm.q-pb-xxxsm
@@ -459,13 +459,13 @@
                     side
                   )
                     q-radio.full-width(
-                      :value="getsmart($store, 'state.app.entity.alopu.carts.0.shippingMethod.type', 'Express shipping')"
+                      :value="getsmart($store, 'state.graph.entity.alopu.carts.0.shippingMethod.type', 'Express shipping')"
                       :val="'Express shipping'"
                       label="Express shipping"
                     )
                   q-item-section.q-ml-auto(
                     side
-                  ) {{ getsmart($store, 'state.app.shippingMethods.Express shipping.cost', '$20.00') }}
+                  ) {{ getsmart($store, 'state.graph.shippingMethods.Express shipping.cost', '$20.00') }}
               .q-flex-column-bp-max-sm.q-align-start-bp-max-sm.q-flex-row.flex-wrap.q-align-center.full-width.bottom-section.q-mt-xl-bp-min-sm.q-mt-smd-bp-max-sm
                 router-link.text-nowrap.q-order-1-bp-max-sm.q-mt-xsmd-bp-max-sm(
                   to="/checkout/customer_information"
@@ -476,10 +476,10 @@
                   size="lg"
                   color="primary"
                   @click=`
-                    let touch1 = getsmart($v, 'state.app.entity.alopu.carts.0.shippingMethod.cost.$touch', false)
+                    let touch1 = getsmart($v, 'state.graph.entity.alopu.carts.0.shippingMethod.cost.$touch', false)
                     if(typeof touch1 == 'function') {
                       touch1()
-                      if(!getsmart($v, 'state.app.entity.alopu.carts.0.shippingMethod.cost.$error', false)){
+                      if(!getsmart($v, 'state.graph.entity.alopu.carts.0.shippingMethod.cost.$error', false)){
                         $router.push('/checkout/payment_method')
                       }
                     }
@@ -495,10 +495,10 @@
                     ) Contact
                   q-item-section.q-pl-lg(
 
-                    ) {{ getsmart($store, 'state.app.entity.alopu.username', undefined) }}
+                    ) {{ getsmart($store, 'state.graph.entity.alopu.username', undefined) }}
                   q-item-section(
                     side
-                    v-if="!getsmart($store, 'state.app.entity.loggedIn.'+getsmart($native, 'window.navigator.userAgent', 'unknown'), false)"
+                    v-if="!getsmart($store, 'state.graph.entity.loggedIn.'+getsmart($native, 'window.navigator.userAgent', 'unknown'), false)"
                     )
                     router-link(
                       to="/checkout/customer_information"
@@ -524,10 +524,10 @@
                     side
                     ) Method
                   q-item-section.q-pl-lg.address-parsed(
-                    ) {{ getsmart($store, 'state.app.entity.alopu.carts.0.shippingMethod.type', 'Shipping')}}
+                    ) {{ getsmart($store, 'state.graph.entity.alopu.carts.0.shippingMethod.type', 'Shipping')}}
                   q-item-section.q-pl-lg.address-parsed(
                     side
-                    ) {{ getsmart($store, 'state.app.entity.alopu.carts.0.shippingMethod.cost', 'Calculated at next step') }}
+                    ) {{ getsmart($store, 'state.graph.entity.alopu.carts.0.shippingMethod.cost', 'Calculated at next step') }}
                   q-item-section(
                     side
                     )
@@ -540,15 +540,15 @@
               .payment-methods-section.q-mt-md
                 q-item.q-border-1.q-round-border-md.q-flex-row.full-width.q-flex.q-justify-center.q-pa-no.q-pl-xxxxsm.q-pt-xxxsm.q-pb-xxxsm(
                   :class=`{
-                    'q-brb-rd-no': getsmart($store, 'state.app.entity.alopu.carts.0.paymentMethod', undefined) == 'card payment tab'
+                    'q-brb-rd-no': getsmart($store, 'state.graph.entity.alopu.carts.0.paymentMethod', undefined) == 'card payment tab'
                   }`
                 )
                   q-item-section.full-width(
                     side
                   )
                     q-radio.full-width.text-dark(
-                      :value="gosmart($store, 'state.app.entity.alopu.carts.0.paymentMethod', 'card payment tab')"
-                      @input="setsmart($store, 'state.app.entity.alopu.carts.0.paymentMethod', 'card payment tab')"
+                      :value="gosmart($store, 'state.graph.entity.alopu.carts.0.paymentMethod', 'card payment tab')"
+                      @input="setsmart($store, 'state.graph.entity.alopu.carts.0.paymentMethod', 'card payment tab')"
                       :val="'card payment tab'"
                       label="Credit card"
                     ).text-normal.text-sm
@@ -557,49 +557,49 @@
                   )
                     img.card-icon.q-mr-xxsm(
                       :class=`{
-                        grayscale: (typeof getsmart($store, 'state.app.entity.secrets.creditCards.mainCard.number.toString', false) == 'function') ?
-                          (getsmart($store, 'state.app.entity.secrets.creditCards.mainCard.number', 0).toString().slice(0,1) == '5') :
+                        grayscale: (typeof getsmart($store, 'state.graph.entity.secrets.creditCards.mainCard.number.toString', false) == 'function') ?
+                          (getsmart($store, 'state.graph.entity.secrets.creditCards.mainCard.number', 0).toString().slice(0,1) == '5') :
                           false,
-                        op50: (typeof getsmart($store, 'state.app.entity.secrets.creditCards.mainCard.number.toString', false) == 'function') ?
-                          (getsmart($store, 'state.app.entity.secrets.creditCards.mainCard.number', 0).toString().slice(0,1) == '5') :
+                        op50: (typeof getsmart($store, 'state.graph.entity.secrets.creditCards.mainCard.number.toString', false) == 'function') ?
+                          (getsmart($store, 'state.graph.entity.secrets.creditCards.mainCard.number', 0).toString().slice(0,1) == '5') :
                           false,
                       }`
-                      src="/statics/visa-card-shopify-50.png"
+                      src="visa-card-shopify-50.png"
                       )
                     img.card-icon(
                       :class=`{
-                        grayscale: (typeof getsmart($store, 'state.app.entity.secrets.creditCards.mainCard.number.toString', false) == 'function') ?
-                          (getsmart($store, 'state.app.entity.secrets.creditCards.mainCard.number', 0).toString().slice(0,1) == '4') :
+                        grayscale: (typeof getsmart($store, 'state.graph.entity.secrets.creditCards.mainCard.number.toString', false) == 'function') ?
+                          (getsmart($store, 'state.graph.entity.secrets.creditCards.mainCard.number', 0).toString().slice(0,1) == '4') :
                           false,
-                        op50: (typeof getsmart($store, 'state.app.entity.secrets.creditCards.mainCard.number.toString', false) == 'function') ?
-                          (getsmart($store, 'state.app.entity.secrets.creditCards.mainCard.number', 0).toString().slice(0,1) == '4') :
+                        op50: (typeof getsmart($store, 'state.graph.entity.secrets.creditCards.mainCard.number.toString', false) == 'function') ?
+                          (getsmart($store, 'state.graph.entity.secrets.creditCards.mainCard.number', 0).toString().slice(0,1) == '4') :
                           false
                       }`
-                      src="/statics/master-card-shopify-50.png"
+                      src="master-card-shopify-50.png"
                       )
                 form.credit-card-form.q-pa-xmd.q-borderb-round-sm.q-border-1.q-bordert-0(
-                  v-if="getsmart($store, 'state.app.entity.alopu.carts.0.paymentMethod', undefined) == 'card payment tab'"
+                  v-if="getsmart($store, 'state.graph.entity.alopu.carts.0.paymentMethod', undefined) == 'card payment tab'"
                 )
                   q-input.border-1.q-br-rd-sm.no-shadow(
                     label="Card number"
                     filled
                     square
                     autocomplete="cc-number"
-                    :value="getsmart($store, 'state.app.entity.secrets.creditCards.mainCard.number', undefined)"
+                    :value="getsmart($store, 'state.graph.entity.secrets.creditCards.mainCard.number', undefined)"
                     @input=`
-                      setsmart($store, 'state.app.entity.secrets.creditCards.mainCard.number', $event)
+                      setsmart($store, 'state.graph.entity.secrets.creditCards.mainCard.number', $event)
                     `
                     @input.native=`
-                      setsmart($store, 'state.app.entity.secrets.creditCards.mainCard.number', getsmart($event, 'target.value', $event))
+                      setsmart($store, 'state.graph.entity.secrets.creditCards.mainCard.number', getsmart($event, 'target.value', $event))
                     `
                     bottom-slots
                     :error=`
-                      (getsmart($v, 'state.app.entity.secrets.creditCards.mainCard.$error', false) && !getsmart($v, 'state.app.entity.secrets.creditCards.mainCard.number.required', false)) ||
-                      (getsmart($v, 'state.app.entity.secrets.creditCards.mainCard.$error', false) && !getsmart($v, 'state.app.entity.secrets.creditCards.mainCard.number.numeric', false)) ||
-                      (getsmart($v, 'state.app.entity.secrets.creditCards.mainCard.$error', false) && !getsmart($v, 'state.app.entity.secrets.creditCards.mainCard.number.minLength', false)) ||
-                      (getsmart($v, 'state.app.entity.secrets.creditCards.mainCard.$error', false) && !getsmart($v, 'state.app.entity.secrets.creditCards.mainCard.number.maxLength', false)) ||
-                      (getsmart($v, 'state.app.entity.secrets.creditCards.mainCard.$error', false) && !getsmart($v, 'state.app.entity.secrets.creditCards.mainCard.number.visamaster', false)) ||
-                      (getsmart($v, 'state.app.entity.secrets.creditCards.mainCard.$error', false) && getsmart($v, 'state.app.entity.secrets.creditCards.mainCard.number.$anyError', false))
+                      (getsmart($v, 'state.graph.entity.secrets.creditCards.mainCard.$error', false) && !getsmart($v, 'state.graph.entity.secrets.creditCards.mainCard.number.required', false)) ||
+                      (getsmart($v, 'state.graph.entity.secrets.creditCards.mainCard.$error', false) && !getsmart($v, 'state.graph.entity.secrets.creditCards.mainCard.number.numeric', false)) ||
+                      (getsmart($v, 'state.graph.entity.secrets.creditCards.mainCard.$error', false) && !getsmart($v, 'state.graph.entity.secrets.creditCards.mainCard.number.minLength', false)) ||
+                      (getsmart($v, 'state.graph.entity.secrets.creditCards.mainCard.$error', false) && !getsmart($v, 'state.graph.entity.secrets.creditCards.mainCard.number.maxLength', false)) ||
+                      (getsmart($v, 'state.graph.entity.secrets.creditCards.mainCard.$error', false) && !getsmart($v, 'state.graph.entity.secrets.creditCards.mainCard.number.visamaster', false)) ||
+                      (getsmart($v, 'state.graph.entity.secrets.creditCards.mainCard.$error', false) && getsmart($v, 'state.graph.entity.secrets.creditCards.mainCard.number.$anyError', false))
                     `
                     mask="#### #### #### ####"
                     fill-mask
@@ -619,32 +619,32 @@
                     template(
                       v-slot:error
                     ) {{
-                      | ( (getsmart($v, 'state.app.entity.secrets.creditCards.mainCard.$error', false) && !getsmart($v, 'state.app.entity.secrets.creditCards.mainCard.number.required', '')) ? 'This value is required' : '' ) ||
-                      | ( (getsmart($v, 'state.app.entity.secrets.creditCards.mainCard.$error', false) && !getsmart($v, 'state.app.entity.secrets.creditCards.mainCard.number.numeric', '')) ? 'Please only use numbers' : '' ) ||
-                      | ( (getsmart($v, 'state.app.entity.secrets.creditCards.mainCard.$error', false) && !getsmart($v, 'state.app.entity.secrets.creditCards.mainCard.number.minLength', '')) ? 'Credit card number must be 16 digits' : '' ) ||
-                      | ( (getsmart($v, 'state.app.entity.secrets.creditCards.mainCard.$error', false) && !getsmart($v, 'state.app.entity.secrets.creditCards.mainCard.number.maxLength', '')) ? 'Credit card number must be 16 digits' : '' ) ||
-                      | ( (getsmart($v, 'state.app.entity.secrets.creditCards.mainCard.$error', false) && !getsmart($v, 'state.app.entity.secrets.creditCards.mainCard.number.visamaster', false)) ? 'Credit card must be a valid Visa or Master Card' : '') ||
-                      | ( (getsmart($v, 'state.app.entity.secrets.creditCards.mainCard.$error', false) && getsmart($v, 'state.app.entity.secrets.creditCards.mainCard.number.$anyError', '')) ? "There's something wrong with this value" : '' )
+                      | ( (getsmart($v, 'state.graph.entity.secrets.creditCards.mainCard.$error', false) && !getsmart($v, 'state.graph.entity.secrets.creditCards.mainCard.number.required', '')) ? 'This value is required' : '' ) ||
+                      | ( (getsmart($v, 'state.graph.entity.secrets.creditCards.mainCard.$error', false) && !getsmart($v, 'state.graph.entity.secrets.creditCards.mainCard.number.numeric', '')) ? 'Please only use numbers' : '' ) ||
+                      | ( (getsmart($v, 'state.graph.entity.secrets.creditCards.mainCard.$error', false) && !getsmart($v, 'state.graph.entity.secrets.creditCards.mainCard.number.minLength', '')) ? 'Credit card number must be 16 digits' : '' ) ||
+                      | ( (getsmart($v, 'state.graph.entity.secrets.creditCards.mainCard.$error', false) && !getsmart($v, 'state.graph.entity.secrets.creditCards.mainCard.number.maxLength', '')) ? 'Credit card number must be 16 digits' : '' ) ||
+                      | ( (getsmart($v, 'state.graph.entity.secrets.creditCards.mainCard.$error', false) && !getsmart($v, 'state.graph.entity.secrets.creditCards.mainCard.number.visamaster', false)) ? 'Credit card must be a valid Visa or Master Card' : '') ||
+                      | ( (getsmart($v, 'state.graph.entity.secrets.creditCards.mainCard.$error', false) && getsmart($v, 'state.graph.entity.secrets.creditCards.mainCard.number.$anyError', '')) ? "There's something wrong with this value" : '' )
                       | }}
                   q-input.border-1.q-br-rd-sm.no-shadow.q-mt-smd(
                     label="Name on card"
                     filled
                     square
                     autocomplete="cc-name"
-                    :value="getsmart($store, 'state.app.entity.secrets.creditCards.mainCard.Name on card', undefined)"
-                    @input="setsmart($store, 'state.app.entity.secrets.creditCards.mainCard.Name on card', $event)"
+                    :value="getsmart($store, 'state.graph.entity.secrets.creditCards.mainCard.Name on card', undefined)"
+                    @input="setsmart($store, 'state.graph.entity.secrets.creditCards.mainCard.Name on card', $event)"
                     @input.native=`
-                      setsmart($store, 'state.app.entity.secrets.creditCards.mainCard.Name on card', getsmart($event, 'target.value', $event))
+                      setsmart($store, 'state.graph.entity.secrets.creditCards.mainCard.Name on card', getsmart($event, 'target.value', $event))
                     `
                     bottom-slots
                     :error=`
-                      ( getsmart($v, 'state.app.entity.secrets.creditCards.mainCard.$error', false) && !getsmart($v, 'state.app.entity.secrets.creditCards.mainCard.Name on card.required', false)) ||
-                      ( getsmart($v, 'state.app.entity.secrets.creditCards.mainCard.$error', false) && getsmart($v, 'state.app.entity.secrets.creditCards.mainCard.Name on card.$anyError', false))
+                      ( getsmart($v, 'state.graph.entity.secrets.creditCards.mainCard.$error', false) && !getsmart($v, 'state.graph.entity.secrets.creditCards.mainCard.Name on card.required', false)) ||
+                      ( getsmart($v, 'state.graph.entity.secrets.creditCards.mainCard.$error', false) && getsmart($v, 'state.graph.entity.secrets.creditCards.mainCard.Name on card.$anyError', false))
                     `
                   )
                     template(v-slot:error) {{
-                      | ((getsmart($v, 'state.app.entity.secrets.creditCards.mainCard.$error', false) && !getsmart($v, 'state.app.entity.secrets.creditCards.mainCard.Name on card.required', false)) ? 'This value is required' : '') ||
-                      | ((getsmart($v, 'state.app.entity.secrets.creditCards.mainCard.$error', false) && getsmart($v, 'state.app.entity.secrets.creditCards.mainCard.Name on card.$anyError', false)) ? "There's something wrong with this value" : '')
+                      | ((getsmart($v, 'state.graph.entity.secrets.creditCards.mainCard.$error', false) && !getsmart($v, 'state.graph.entity.secrets.creditCards.mainCard.Name on card.required', false)) ? 'This value is required' : '') ||
+                      | ((getsmart($v, 'state.graph.entity.secrets.creditCards.mainCard.$error', false) && getsmart($v, 'state.graph.entity.secrets.creditCards.mainCard.Name on card.$anyError', false)) ? "There's something wrong with this value" : '')
                       | }}
                   .input-row.q-mt-smd
                     q-input.border-1.q-br-rd-sm.no-shadow.q-input-6.q-mr-xsm(
@@ -652,34 +652,34 @@
                       filled
                       square
                       autocomplete="cc-exp"
-                      :value=`getsmart($store, 'state.app.entity.secrets.creditCards.mainCard.Expiration date MM YYYY', undefined)`
+                      :value=`getsmart($store, 'state.graph.entity.secrets.creditCards.mainCard.Expiration date MM YYYY', undefined)`
                       @input=`
-                        setsmart($store, 'state.app.entity.secrets.creditCards.mainCard.Expiration date MM YYYY', $event)
+                        setsmart($store, 'state.graph.entity.secrets.creditCards.mainCard.Expiration date MM YYYY', $event)
                       `
                       @input.native=`
-                        setsmart($store, 'state.app.entity.secrets.creditCards.mainCard.Expiration date MM YYYY', getsmart($event, 'target.value', $event))
+                        setsmart($store, 'state.graph.entity.secrets.creditCards.mainCard.Expiration date MM YYYY', getsmart($event, 'target.value', $event))
                       `
                       ref="stateappentitysecretscreditCardsmainCardExpiration date MM YYYY"
                       bottom-slots
                       :error=`
-                        (getsmart($v, 'state.app.entity.secrets.creditCards.mainCard.$error', false) && !getsmart($v, 'state.app.entity.secrets.creditCards.mainCard.Expiration date MM YYYY.required', false)) ||
-                        (getsmart($v, 'state.app.entity.secrets.creditCards.mainCard.$error', false) && !getsmart($v, 'state.app.entity.secrets.creditCards.mainCard.Expiration date MM YYYY.minLength', false)) ||
-                        (getsmart($v, 'state.app.entity.secrets.creditCards.mainCard.$error', false) && !getsmart($v, 'state.app.entity.secrets.creditCards.mainCard.Expiration date MM YYYY.maxLength', false)) ||
-                        (getsmart($v, 'state.app.entity.secrets.creditCards.mainCard.$error', false) && !getsmart($v, 'state.app.entity.secrets.creditCards.mainCard.Expiration date MM YYYY.validDate', false)) ||
-                        (getsmart($v, 'state.app.entity.secrets.creditCards.mainCard.$error', false) && !getsmart($v, 'state.app.entity.secrets.creditCards.mainCard.Expiration date MM YYYY.validMonth', false)) ||
-                        (getsmart($v, 'state.app.entity.secrets.creditCards.mainCard.$error', false) && getsmart($v, 'state.app.entity.secrets.creditCards.mainCard.Expiration date MM YYYY.$anyError',  false))
+                        (getsmart($v, 'state.graph.entity.secrets.creditCards.mainCard.$error', false) && !getsmart($v, 'state.graph.entity.secrets.creditCards.mainCard.Expiration date MM YYYY.required', false)) ||
+                        (getsmart($v, 'state.graph.entity.secrets.creditCards.mainCard.$error', false) && !getsmart($v, 'state.graph.entity.secrets.creditCards.mainCard.Expiration date MM YYYY.minLength', false)) ||
+                        (getsmart($v, 'state.graph.entity.secrets.creditCards.mainCard.$error', false) && !getsmart($v, 'state.graph.entity.secrets.creditCards.mainCard.Expiration date MM YYYY.maxLength', false)) ||
+                        (getsmart($v, 'state.graph.entity.secrets.creditCards.mainCard.$error', false) && !getsmart($v, 'state.graph.entity.secrets.creditCards.mainCard.Expiration date MM YYYY.validDate', false)) ||
+                        (getsmart($v, 'state.graph.entity.secrets.creditCards.mainCard.$error', false) && !getsmart($v, 'state.graph.entity.secrets.creditCards.mainCard.Expiration date MM YYYY.validMonth', false)) ||
+                        (getsmart($v, 'state.graph.entity.secrets.creditCards.mainCard.$error', false) && getsmart($v, 'state.graph.entity.secrets.creditCards.mainCard.Expiration date MM YYYY.$anyError',  false))
                       `
                       mask="##/####"
                       unmasked-value
                       fill-mask
                     )
                       template(v-slot:error) {{
-                        | ((getsmart($v, 'state.app.entity.secrets.creditCards.mainCard.$error', false) && !getsmart($v, 'state.app.entity.secrets.creditCards.mainCard.Expiration date MM YYYY.required', false)) ? 'This value is required' : '' ) ||
-                        | ((getsmart($v, 'state.app.entity.secrets.creditCards.mainCard.$error', false) && !getsmart($v, 'state.app.entity.secrets.creditCards.mainCard.Expiration date MM YYYY.minLength', false)) ? 'Expiry date must be in the format MM/YYYY' : '' ) ||
-                        | ((getsmart($v, 'state.app.entity.secrets.creditCards.mainCard.$error', false) && !getsmart($v, 'state.app.entity.secrets.creditCards.mainCard.Expiration date MM YYYY.maxLength', false)) ? 'Expiry date must be in the format MM/YYYY' : '' ) ||
-                        | ((getsmart($v, 'state.app.entity.secrets.creditCards.mainCard.$error', false) && !getsmart($v, 'state.app.entity.secrets.creditCards.mainCard.Expiration date MM YYYY.validMonth', false)) ? 'This is not a valid Month, must be between 1 and 12' : '' ) ||
-                        | ((getsmart($v, 'state.app.entity.secrets.creditCards.mainCard.$error', false) && !getsmart($v, 'state.app.entity.secrets.creditCards.mainCard.Expiration date MM YYYY.validDate', false)) ? 'This is not a valid date' : '' ) ||
-                        | ((getsmart($v, 'state.app.entity.secrets.creditCards.mainCard.$error', false) && getsmart($v, 'state.app.entity.secrets.creditCards.mainCard.Expiration date MM YYYY.$anyError', false)) ? "There's something wrong with this value" : '' )
+                        | ((getsmart($v, 'state.graph.entity.secrets.creditCards.mainCard.$error', false) && !getsmart($v, 'state.graph.entity.secrets.creditCards.mainCard.Expiration date MM YYYY.required', false)) ? 'This value is required' : '' ) ||
+                        | ((getsmart($v, 'state.graph.entity.secrets.creditCards.mainCard.$error', false) && !getsmart($v, 'state.graph.entity.secrets.creditCards.mainCard.Expiration date MM YYYY.minLength', false)) ? 'Expiry date must be in the format MM/YYYY' : '' ) ||
+                        | ((getsmart($v, 'state.graph.entity.secrets.creditCards.mainCard.$error', false) && !getsmart($v, 'state.graph.entity.secrets.creditCards.mainCard.Expiration date MM YYYY.maxLength', false)) ? 'Expiry date must be in the format MM/YYYY' : '' ) ||
+                        | ((getsmart($v, 'state.graph.entity.secrets.creditCards.mainCard.$error', false) && !getsmart($v, 'state.graph.entity.secrets.creditCards.mainCard.Expiration date MM YYYY.validMonth', false)) ? 'This is not a valid Month, must be between 1 and 12' : '' ) ||
+                        | ((getsmart($v, 'state.graph.entity.secrets.creditCards.mainCard.$error', false) && !getsmart($v, 'state.graph.entity.secrets.creditCards.mainCard.Expiration date MM YYYY.validDate', false)) ? 'This is not a valid date' : '' ) ||
+                        | ((getsmart($v, 'state.graph.entity.secrets.creditCards.mainCard.$error', false) && getsmart($v, 'state.graph.entity.secrets.creditCards.mainCard.Expiration date MM YYYY.$anyError', false)) ? "There's something wrong with this value" : '' )
                         | }}
                     q-item.q-align-center.q-input-6.q-pa-no.q-border-1.q-border-round-sm
                       q-item-section
@@ -687,17 +687,17 @@
                           label="Security code"
                           filled
                           square
-                          :value="getsmart($store, `state.app.entity.secrets.creditCards.mainCard.Security code`, undefined)"
-                          @input="setsmart($store, `state.app.entity.secrets.creditCards.mainCard.Security code`, $event)"
+                          :value="getsmart($store, `state.graph.entity.secrets.creditCards.mainCard.Security code`, undefined)"
+                          @input="setsmart($store, `state.graph.entity.secrets.creditCards.mainCard.Security code`, $event)"
                           @input.native=`
-                            setsmart($store, 'state.app.entity.secrets.creditCards.mainCard.Security code', getsmart($event, 'target.value', $event))
+                            setsmart($store, 'state.graph.entity.secrets.creditCards.mainCard.Security code', getsmart($event, 'target.value', $event))
                           `
                           bottom-slots
                           :error=`
-                            (getsmart($v, 'state.app.entity.secrets.creditCards.mainCard.$error', false) && !getsmart($v, 'state.app.entity.secrets.creditCards.mainCard.Security code.required', false)) ||
-                            (getsmart($v, 'state.app.entity.secrets.creditCards.mainCard.$error', false) && !getsmart($v, 'state.app.entity.secrets.creditCards.mainCard.Security code.minLength', false)) ||
-                            (getsmart($v, 'state.app.entity.secrets.creditCards.mainCard.$error', false) && !getsmart($v, 'state.app.entity.secrets.creditCards.mainCard.Security code.maxLength', false)) ||
-                            (getsmart($v, 'state.app.entity.secrets.creditCards.mainCard.$error', false) && getsmart($v, 'state.app.entity.secrets.creditCards.mainCard.Security code.$anyError', false))
+                            (getsmart($v, 'state.graph.entity.secrets.creditCards.mainCard.$error', false) && !getsmart($v, 'state.graph.entity.secrets.creditCards.mainCard.Security code.required', false)) ||
+                            (getsmart($v, 'state.graph.entity.secrets.creditCards.mainCard.$error', false) && !getsmart($v, 'state.graph.entity.secrets.creditCards.mainCard.Security code.minLength', false)) ||
+                            (getsmart($v, 'state.graph.entity.secrets.creditCards.mainCard.$error', false) && !getsmart($v, 'state.graph.entity.secrets.creditCards.mainCard.Security code.maxLength', false)) ||
+                            (getsmart($v, 'state.graph.entity.secrets.creditCards.mainCard.$error', false) && getsmart($v, 'state.graph.entity.secrets.creditCards.mainCard.Security code.$anyError', false))
                           `
                           mask="###"
                           autocomplete="cc-csc"
@@ -716,7 +716,7 @@
                                 anchor="top middle"
 
                               ) 3-digit security code usually found on the back of your card. American Express cards have a 4-digit code located on the front.
-                          template(v-slot:error) {{ ( (getsmart($v, 'state.app.entity.secrets.creditCards.mainCard.$error', false) && !getsmart($v, 'state.app.entity.secrets.creditCards.mainCard.Security code.required', false)) ? 'This value is required' : '' ) || ( (getsmart($v, 'state.app.entity.secrets.creditCards.mainCard.$error', false) && !getsmart($v, 'state.app.entity.secrets.creditCards.mainCard.Security code.minLength', false)) ? 'Security code must be 3 digits' : '' ) || ( (getsmart($v, 'state.app.entity.secrets.creditCards.mainCard.$error', false) && !getsmart($v, 'state.app.entity.secrets.creditCards.mainCard.Security code.maxLength', false)) ? 'Security code must be 3 digits' : '' ) || ( (getsmart($v, 'state.app.entity.secrets.creditCards.mainCard.$error', false) && getsmart($v, 'state.app.entity.secrets.creditCards.mainCard.Security code.$anyError', false)) ? "There's something wrong with this value" : '' ) }}
+                          template(v-slot:error) {{ ( (getsmart($v, 'state.graph.entity.secrets.creditCards.mainCard.$error', false) && !getsmart($v, 'state.graph.entity.secrets.creditCards.mainCard.Security code.required', false)) ? 'This value is required' : '' ) || ( (getsmart($v, 'state.graph.entity.secrets.creditCards.mainCard.$error', false) && !getsmart($v, 'state.graph.entity.secrets.creditCards.mainCard.Security code.minLength', false)) ? 'Security code must be 3 digits' : '' ) || ( (getsmart($v, 'state.graph.entity.secrets.creditCards.mainCard.$error', false) && !getsmart($v, 'state.graph.entity.secrets.creditCards.mainCard.Security code.maxLength', false)) ? 'Security code must be 3 digits' : '' ) || ( (getsmart($v, 'state.graph.entity.secrets.creditCards.mainCard.$error', false) && getsmart($v, 'state.graph.entity.secrets.creditCards.mainCard.Security code.$anyError', false)) ? "There's something wrong with this value" : '' ) }}
               .header.q-pt-xxxxlg
                 .q-title-thin Billing address
               .billing-address-section.q-bordera-round-sm.q-pt-md
@@ -727,12 +727,12 @@
                     q-radio.full-width.text-dark(
                       :val="'Same as shipping address'"
                       label="Same as shipping address"
-                      @input="setsmart($store, 'state.app.entity.alopu.carts.0.addresses.billing.type', 'Same as shipping address')"
-                      :value="gosmart($store, 'state.app.entity.alopu.carts.0.addresses.billing.type', 'Same as shipping address')"
+                      @input="setsmart($store, 'state.graph.entity.alopu.carts.0.addresses.billing.type', 'Same as shipping address')"
+                      :value="gosmart($store, 'state.graph.entity.alopu.carts.0.addresses.billing.type', 'Same as shipping address')"
                     ).text-normal.text-sm
                 q-item.q-border-1.q-bordert-0.q-round-border-md.q-bordert-round-no.q-flex-row.full-width.q-pa-no.q-pl-xxxxsm.q-pt-xxxsm.q-pb-xxxsm(
                   :class=`{
-                    'q-brb-rd-no': getsmart($store, 'state.app.entity.alopu.carts.0.addresses.billing.type', undefined) == 'Use a different billing address'
+                    'q-brb-rd-no': getsmart($store, 'state.graph.entity.alopu.carts.0.addresses.billing.type', undefined) == 'Use a different billing address'
                   }`
                   )
                   q-item-section.full-width(
@@ -742,94 +742,94 @@
                     q-radio.full-width.text-dark(
                       :val="'Use a different billing address'"
                       label="Use a different billing address"
-                      @input="setsmart($store, 'state.app.entity.alopu.carts.0.addresses.billing.type', 'Use a different billing address')"
-                      :value="getsmart($store, 'state.app.entity.alopu.carts.0.addresses.billing.type', undefined)"
+                      @input="setsmart($store, 'state.graph.entity.alopu.carts.0.addresses.billing.type', 'Use a different billing address')"
+                      :value="getsmart($store, 'state.graph.entity.alopu.carts.0.addresses.billing.type', undefined)"
                     ).text-normal.text-sm
                 form.credit-card-form.q-pa-xmd.q-border-1.q-bt-0.q-borderb-round-sm(
-                  v-show="getsmart($store, 'state.app.entity.alopu.carts.0.addresses.billing.type', 'Same as shipping address') == 'Use a different billing address'"
+                  v-show="getsmart($store, 'state.graph.entity.alopu.carts.0.addresses.billing.type', 'Same as shipping address') == 'Use a different billing address'"
                 )
                   .input-row
                     q-input.q-mb-smd.border-1.q-br-rd-sm.no-shadow.q-input-6.q-mr-xsm(
                       label="First name"
                       filled
                       square
-                      :value="getsmart($store, 'state.app.entity.alopu.carts.0.addresses.billing.first name', undefined)"
-                      @input="setsmart($store, 'state.app.entity.alopu.carts.0.addresses.billing.first name', $event)"
+                      :value="getsmart($store, 'state.graph.entity.alopu.carts.0.addresses.billing.first name', undefined)"
+                      @input="setsmart($store, 'state.graph.entity.alopu.carts.0.addresses.billing.first name', $event)"
                       bottom-slots
                       :error=`
-                        (getsmart($v, 'state.app.entity.alopu.carts.0.addresses.billing.$error', false) && getsmart($v, 'state.app.entity.alopu.carts.0.addresses.billing.first name.$anyError', false))
+                        (getsmart($v, 'state.graph.entity.alopu.carts.0.addresses.billing.$error', false) && getsmart($v, 'state.graph.entity.alopu.carts.0.addresses.billing.first name.$anyError', false))
                       `
                     )
-                      template(v-slot:error) {{ (getsmart($v, 'state.app.entity.alopu.carts.0.addresses.billing.$error', false) && getsmart($v, 'state.app.entity.alopu.carts.0.addresses.billing.first name.$anyError', false)) ? 'This value is required' : '' }}
+                      template(v-slot:error) {{ (getsmart($v, 'state.graph.entity.alopu.carts.0.addresses.billing.$error', false) && getsmart($v, 'state.graph.entity.alopu.carts.0.addresses.billing.first name.$anyError', false)) ? 'This value is required' : '' }}
                     q-input.q-mb-smd.border-1.q-br-rd-sm.no-shadow.q-input-6.q-ml-xsm(
                       label="Last name"
                       filled
                       square
-                      :value="getsmart($store, 'state.app.entity.alopu.carts.0.addresses.billing.last name', undefined)"
-                      @input="setsmart($store, 'state.app.entity.alopu.carts.0.addresses.billing.last name', $event)"
+                      :value="getsmart($store, 'state.graph.entity.alopu.carts.0.addresses.billing.last name', undefined)"
+                      @input="setsmart($store, 'state.graph.entity.alopu.carts.0.addresses.billing.last name', $event)"
                       bottom-slots
                       :error=`
-                        (getsmart($v, 'state.app.entity.alopu.carts.0.addresses.billing.$error', false) && getsmart($v, 'state.app.entity.alopu.carts.0.addresses.billing.last name.$anyError', false))
+                        (getsmart($v, 'state.graph.entity.alopu.carts.0.addresses.billing.$error', false) && getsmart($v, 'state.graph.entity.alopu.carts.0.addresses.billing.last name.$anyError', false))
                       `
                     )
-                      template(v-slot:error) {{ (getsmart($v, 'state.app.entity.alopu.carts.0.addresses.billing.$error', false) && getsmart($v, 'state.app.entity.alopu.carts.0.addresses.billing.last name.$anyError', false)) ? 'This value is required' : '' }}
+                      template(v-slot:error) {{ (getsmart($v, 'state.graph.entity.alopu.carts.0.addresses.billing.$error', false) && getsmart($v, 'state.graph.entity.alopu.carts.0.addresses.billing.last name.$anyError', false)) ? 'This value is required' : '' }}
                   q-input.border-1.q-br-rd-sm.no-shadow.q-mb-smd(
                     label="Company (optional)"
                     filled
                     square
-                    :value="getsmart($store, 'state.app.entity.alopu.carts.0.addresses.billing.company', undefined)"
-                    @input="setsmart($store, 'state.app.entity.alopu.carts.0.addresses.billing.company', $event)"
+                    :value="getsmart($store, 'state.graph.entity.alopu.carts.0.addresses.billing.company', undefined)"
+                    @input="setsmart($store, 'state.graph.entity.alopu.carts.0.addresses.billing.company', $event)"
                   )
                   q-input.border-1.q-br-rd-sm.no-shadow.q-mb-smd(
                     label="Address"
                     filled
                     square
-                    :value="getsmart($store, 'state.app.entity.alopu.carts.0.addresses.billing.line1', undefined)"
-                    @input="setsmart($store, 'state.app.entity.alopu.carts.0.addresses.billing.line1', $event)"
+                    :value="getsmart($store, 'state.graph.entity.alopu.carts.0.addresses.billing.line1', undefined)"
+                    @input="setsmart($store, 'state.graph.entity.alopu.carts.0.addresses.billing.line1', $event)"
                     bottom-slots
                     :error=`
-                      (getsmart($v, 'state.app.entity.alopu.carts.0.addresses.billing.$error', false) && getsmart($v, 'state.app.entity.alopu.carts.0.addresses.billing.line1.$anyError', false))
+                      (getsmart($v, 'state.graph.entity.alopu.carts.0.addresses.billing.$error', false) && getsmart($v, 'state.graph.entity.alopu.carts.0.addresses.billing.line1.$anyError', false))
                     `
                   )
-                    template(v-slot:error) {{ (getsmart($v, 'state.app.entity.alopu.carts.0.addresses.billing.$error', false) && getsmart($v, 'state.app.entity.alopu.carts.0.addresses.billing.line1.$anyError', false)) ? 'This value is required' : true }}
+                    template(v-slot:error) {{ (getsmart($v, 'state.graph.entity.alopu.carts.0.addresses.billing.$error', false) && getsmart($v, 'state.graph.entity.alopu.carts.0.addresses.billing.line1.$anyError', false)) ? 'This value is required' : true }}
                   q-input.border-1.q-br-rd-sm.no-shadow.q-mb-smd(
                     label="Apartment, suite, etc. (optional)"
                     filled
                     square
-                    :value="getsmart($store, 'state.app.entity.alopu.carts.0.addresses.billing.Apartment, suite, etc', undefined)"
-                    @input="setsmart($store, 'state.app.entity.alopu.carts.0.addresses.billing.Apartment, suite, etc', $event)"
+                    :value="getsmart($store, 'state.graph.entity.alopu.carts.0.addresses.billing.Apartment, suite, etc', undefined)"
+                    @input="setsmart($store, 'state.graph.entity.alopu.carts.0.addresses.billing.Apartment, suite, etc', $event)"
                   )
                   q-input.border-1.q-br-rd-sm.no-shadow.q-mb-smd(
                     label="City"
                     filled
                     square
-                    :value="getsmart($store, 'state.app.entity.alopu.carts.0.addresses.billing.city', undefined)"
-                    @input="setsmart($store, 'state.app.entity.alopu.carts.0.addresses.billing.city', $event)"
+                    :value="getsmart($store, 'state.graph.entity.alopu.carts.0.addresses.billing.city', undefined)"
+                    @input="setsmart($store, 'state.graph.entity.alopu.carts.0.addresses.billing.city', $event)"
                     bottom-slots
                     :error=`
-                      (getsmart($v, 'state.app.entity.alopu.carts.0.addresses.billing.$error', false) && getsmart($v, 'state.app.entity.alopu.carts.0.addresses.billing.city.$anyError', false))
+                      (getsmart($v, 'state.graph.entity.alopu.carts.0.addresses.billing.$error', false) && getsmart($v, 'state.graph.entity.alopu.carts.0.addresses.billing.city.$anyError', false))
                     `
                   )
-                    template(v-slot:error) {{ (getsmart($v, 'state.app.entity.alopu.carts.0.addresses.billing.$error', false) && getsmart($v, 'state.app.entity.alopu.carts.0.addresses.billing.city.$anyError', false)) ? 'This value is required' : true }}
+                    template(v-slot:error) {{ (getsmart($v, 'state.graph.entity.alopu.carts.0.addresses.billing.$error', false) && getsmart($v, 'state.graph.entity.alopu.carts.0.addresses.billing.city.$anyError', false)) ? 'This value is required' : true }}
                   .input-row.q-mb-smd
                     q-select.border-1.q-br-rd-sm.no-shadow.q-input-4.q-mr-xsm(
                       label="Country"
                       filled
                       square
                       :value=`
-                        getsmart($store, 'state.app.entity.alopu.carts.0.addresses.billing.country', undefined)
+                        getsmart($store, 'state.graph.entity.alopu.carts.0.addresses.billing.country', undefined)
                       `
                       @input=`
-                        setsmart($store, 'state.app.entity.alopu.carts.0.addresses.billing.country', $event)
+                        setsmart($store, 'state.graph.entity.alopu.carts.0.addresses.billing.country', $event)
                         setsmart($refs, 'stateappentityalopucarts0addressesbillingcountry.inputValue', $event)
                       `
                       @input.native=`
-                        setsmart($store, 'state.app.entity.alopu.carts.0.addresses.billing.country', $event.target.value)
+                        setsmart($store, 'state.graph.entity.alopu.carts.0.addresses.billing.country', $event.target.value)
                         setsmart($refs, 'stateappentityalopucarts0addressesbillingcountry.inputValue', $event.target.value)
                       `
                       bottom-slots
                       :error=`
-                        (getsmart($v, 'state.app.entity.alopu.carts.0.addresses.billing.$error', false) && getsmart($v, 'state.app.entity.alopu.carts.0.addresses.billing.country.$anyError', false))
+                        (getsmart($v, 'state.graph.entity.alopu.carts.0.addresses.billing.$error', false) && getsmart($v, 'state.graph.entity.alopu.carts.0.addresses.billing.country.$anyError', false))
                       `
                       hide-selected
                       use-input
@@ -838,39 +838,39 @@
                       ref="stateappentityalopucarts0addressesbillingcountry"
                       @filter=`(val, update)=>{
                         this.setsmart(this.$refs, 'stateappentityalopucarts0addressesbillingcountry.innerLoading', false)
-                        this.setsmart(this.$store, 'state.app.entity.alopu.carts.0.addresses.billing.country', val)
+                        this.setsmart(this.$store, 'state.graph.entity.alopu.carts.0.addresses.billing.country', val)
                         this.setsmart(this.$refs, 'stateappentityalopucarts0addressesbillingcountry.inputValue', val)
                         update(()=>{
 
                         })
                       }`
-                      :options=`getsmart($store, 'state.app.geos.countries.strings',
+                      :options=`getsmart($store, 'state.graph.geos.countries.strings',
                         [
                           "Australia"
                         ]
                       )`
                     )
                       template(v-slot:error) {{
-                        | (getsmart($v, 'state.app.entity.alopu.carts.0.addresses.billing.$error', false) && getsmart($v, 'state.app.entity.alopu.carts.0.addresses.billing.country.$anyError', false)) ? 'This value is required' : true
+                        | (getsmart($v, 'state.graph.entity.alopu.carts.0.addresses.billing.$error', false) && getsmart($v, 'state.graph.entity.alopu.carts.0.addresses.billing.country.$anyError', false)) ? 'This value is required' : true
                         | }}
                     q-select.border-1.q-br-rd-sm.no-shadow.q-input-4.q-ml-xsm.q-mr-xsm(
                       label="State"
                       filled
                       square
                       :value=`
-                          getsmart($store, 'state.app.entity.alopu.carts.0.addresses.billing.state', undefined)
+                          getsmart($store, 'state.graph.entity.alopu.carts.0.addresses.billing.state', undefined)
                         `
                       @input=`
-                        setsmart($store, 'state.app.entity.alopu.carts.0.addresses.billing.state', $event)
+                        setsmart($store, 'state.graph.entity.alopu.carts.0.addresses.billing.state', $event)
                         setsmart($refs, 'stateappentityalopucarts0addressesbillingstate.inputValue', $event)
                       `
                       @input.native=`
-                        setsmart($store, 'state.app.entity.alopu.carts.0.addresses.billing.state', $event.target.value)
+                        setsmart($store, 'state.graph.entity.alopu.carts.0.addresses.billing.state', $event.target.value)
                         setsmart($refs, 'stateappentityalopucarts0addressesbillingstate.inputValue', $event.target.value)
                       `
                       bottom-slots
                       :error=`
-                        (getsmart($v, 'state.app.entity.alopu.carts.0.addresses.billing.$error', false) && getsmart($v, 'state.app.entity.alopu.carts.0.addresses.billing.state.$anyError', false))
+                        (getsmart($v, 'state.graph.entity.alopu.carts.0.addresses.billing.$error', false) && getsmart($v, 'state.graph.entity.alopu.carts.0.addresses.billing.state.$anyError', false))
                       `
                       use-input
                       keep-input
@@ -879,13 +879,13 @@
                       ref="stateappentityalopucarts0addressesbillingstate"
                       @filter=`(val, update)=>{
                         this.setsmart(this.$refs, 'stateappentityalopucarts0addressesbillingstate.innerLoading', false)
-                        this.setsmart(this.$store, 'state.app.entity.alopu.carts.0.addresses.billing.state', val)
+                        this.setsmart(this.$store, 'state.graph.entity.alopu.carts.0.addresses.billing.state', val)
                         this.setsmart(this.$refs, 'stateappentityalopucarts0addressesbillingstate.inputValue', val)
                         update(()=>{
 
                         })
                       }`
-                      :options=`getsmart($store, 'state.app.geos.countries.Australia.states',
+                      :options=`getsmart($store, 'state.graph.geos.countries.Australia.states',
                         [
                           "ACT",
                           "JBT",
@@ -899,20 +899,20 @@
                         ]
                       )`
                     )
-                      template(v-slot:error) {{ (getsmart($v, 'state.app.entity.alopu.carts.0.addresses.billing.$error', false) && getsmart($v, 'state.app.entity.alopu.carts.0.addresses.billing.state.$anyError', false)) ? 'This value is required' : true }}
+                      template(v-slot:error) {{ (getsmart($v, 'state.graph.entity.alopu.carts.0.addresses.billing.$error', false) && getsmart($v, 'state.graph.entity.alopu.carts.0.addresses.billing.state.$anyError', false)) ? 'This value is required' : true }}
                     q-input.border-1.q-br-rd-sm.no-shadow.q-input-4.q-ml-xsm(
                       label="Postcode"
                       filled
                       square
-                      :value="getsmart($store, 'state.app.entity.alopu.carts.0.addresses.billing.postcode', undefined)"
-                      @input="setsmart($store, 'state.app.entity.alopu.carts.0.addresses.billing.postcode', $event)"
+                      :value="getsmart($store, 'state.graph.entity.alopu.carts.0.addresses.billing.postcode', undefined)"
+                      @input="setsmart($store, 'state.graph.entity.alopu.carts.0.addresses.billing.postcode', $event)"
                       bottom-slots
                       :error=`
-                        (getsmart($v, 'state.app.entity.alopu.carts.0.addresses.billing.$error', false) && getsmart($v, 'state.app.entity.alopu.carts.0.addresses.billing.postcode.$anyError', false))
+                        (getsmart($v, 'state.graph.entity.alopu.carts.0.addresses.billing.$error', false) && getsmart($v, 'state.graph.entity.alopu.carts.0.addresses.billing.postcode.$anyError', false))
                       `
                       mask="####"
                     )
-                      template(v-slot:error) {{ (getsmart($v, 'state.app.entity.alopu.carts.0.addresses.billing.$error', false) && getsmart($v, 'state.app.entity.alopu.carts.0.addresses.billing.postcode.$anyError', false)) ? 'This value is required' : true }}
+                      template(v-slot:error) {{ (getsmart($v, 'state.graph.entity.alopu.carts.0.addresses.billing.$error', false) && getsmart($v, 'state.graph.entity.alopu.carts.0.addresses.billing.postcode.$anyError', false)) ? 'This value is required' : true }}
               .q-flex-column-bp-max-sm.q-align-start-bp-max-sm.q-flex-row.flex-wrap.q-align-center.full-width.bottom-section.q-mt-xl-bp-min-sm.q-mt-smd-bp-max-sm
                 router-link.text-nowrap.q-order-1-bp-max-sm.q-mt-xsmd-bp-max-sm(
                   to="/checkout/shipping_method"
@@ -925,7 +925,7 @@
                   @click=`checkout()`
                 ) Pay now
                   q-spinner.q-ml-md(
-                    v-if=`getsmart($store, 'state.app.paymentProcessing', false)`
+                    v-if=`getsmart($store, 'state.graph.paymentProcessing', false)`
                     size=".7em"
                     :thickness='4'
                   )
@@ -933,23 +933,23 @@
         .cart-section.q-pl-xxl-bp-min-md.q-pl-xl-bp-min-sm
           q-separator.q-display-no-bp-min-sm.q-mt-sm
           .show-order-summary-section.q-pt-sm.q-pb-sm.q-pl-md.q-display-no-bp-min-sm.q-width-100.q-bg-lightGrey(
-            @click=`setsmart($store, 'state.app.checkout.showCartSummary', !getsmart($store, 'state.app.checkout.showCartSummary', false))`
+            @click=`setsmart($store, 'state.graph.checkout.showCartSummary', !getsmart($store, 'state.graph.checkout.showCartSummary', false))`
           )
             q-item.align-center.q-pl-no.q-width-100(
             )
               q-item-section.flex-row.justify-start-important.align-center
-                .message.text-md {{ getsmart($store, 'state.app.checkout.showCartSummary', false) ? 'Hide' : 'Show'}} order summary
+                .message.text-md {{ getsmart($store, 'state.graph.checkout.showCartSummary', false) ? 'Hide' : 'Show'}} order summary
                 q-icon.q-pl-sm(
-                  :name=`getsmart($store, 'state.app.checkout.showCartSummary', false) ? 'expand_less' : 'expand_more'`
+                  :name=`getsmart($store, 'state.graph.checkout.showCartSummary', false) ? 'expand_less' : 'expand_more'`
                   size="large"
                 )
-              .cart-price.flex-row.q-ml-auto.text-lg ${{ Math.ceil(getsmart($store, 'getters.cartTotal', ()=>{return 0})({cart: getsmart($store, 'state.app.entity.alopu.carts.0', undefined)})*100)/100 }}
+              .cart-price.flex-row.q-ml-auto.text-lg ${{ Math.ceil(getsmart($store, 'getters.cartTotal', ()=>{return 0})({cart: getsmart($store, 'state.graph.entity.alopu.carts.0', undefined)})*100)/100 }}
                 .currency.q-pl-xxxsm {{ false || 'AUD' }}
           q-separator.q-display-no-bp-min-sm
           q-slide-transition(
           )
             .cart-transition-container.q-display-no-bp-min-sm(
-              v-show="getsmart($store, 'state.app.checkout.showCartSummary', false)"
+              v-show="getsmart($store, 'state.graph.checkout.showCartSummary', false)"
             )
               cart(
                 :theme=`{
@@ -971,7 +971,7 @@ export default {
     return {
       // objects: null,
       // thing: this.$jsmart.stringify(this.$route),
-      uuid: this._uid,
+      uid: this._uid,
       state: {
         ...this.gosmart(this.$store, 'state', {})
       },
@@ -994,10 +994,10 @@ export default {
                     minLength: v.minLength(16),
                     maxLength: v.maxLength(16),
                     visamaster(val, vm){
-                      return (typeof this.getsmart(this.$store, 'state.app.entity.secrets.creditCards.mainCard.number.toString', false) == 'function') ?
+                      return (typeof this.getsmart(this.$store, 'state.graph.entity.secrets.creditCards.mainCard.number.toString', false) == 'function') ?
                           (
-                            this.getsmart(this.$store, 'state.app.entity.secrets.creditCards.mainCard.number', 0).toString().slice(0,1) == '5' ||
-                            this.getsmart(this.$store, 'state.app.entity.secrets.creditCards.mainCard.number', 0).toString().slice(0,1) == '4'
+                            this.getsmart(this.$store, 'state.graph.entity.secrets.creditCards.mainCard.number', 0).toString().slice(0,1) == '5' ||
+                            this.getsmart(this.$store, 'state.graph.entity.secrets.creditCards.mainCard.number', 0).toString().slice(0,1) == '4'
                           ) :
                           false
                     }
@@ -1012,15 +1012,15 @@ export default {
                     validDate(val, vm){
                           return (
                             // if the month starts with a number greater than 1 it is wrong and the 1 is preceeded by a 0
-                            (this.gosmart(this.$store, 'state.app.entity.secrets.creditCards.mainCard.Expiration date MM YYYY', '')[0] > 1) ?
+                            (this.gosmart(this.$store, 'state.graph.entity.secrets.creditCards.mainCard.Expiration date MM YYYY', '')[0] > 1) ?
                               // if the month starts with a 1 but ends with a number greater than 2 then it's wrong and the inputted number is not registered
                               false :
                               // if the month starts with a 0 but ends with a 0 then it's wrong and the inputted number is not registered
                               (
-                                (this.gosmart(this.$store, 'state.app.entity.secrets.creditCards.mainCard.Expiration date MM YYYY', '')[0] == 0 && this.gosmart(this.$store, 'state.app.entity.secrets.creditCards.mainCard.Expiration date MM YYYY', '')[1] == 0) ?
+                                (this.gosmart(this.$store, 'state.graph.entity.secrets.creditCards.mainCard.Expiration date MM YYYY', '')[0] == 0 && this.gosmart(this.$store, 'state.graph.entity.secrets.creditCards.mainCard.Expiration date MM YYYY', '')[1] == 0) ?
                                   false :
                                 // if the month starts with a 1 but ends with a number greater than 2 then it's wrong and the inputted number is not registered
-                                (this.gosmart(this.$store, 'state.app.entity.secrets.creditCards.mainCard.Expiration date MM YYYY', '')[0] == 1 && this.gosmart(this.$store, 'state.app.entity.secrets.creditCards.mainCard.Expiration date MM YYYY', '')[1] > 2) ?
+                                (this.gosmart(this.$store, 'state.graph.entity.secrets.creditCards.mainCard.Expiration date MM YYYY', '')[0] == 1 && this.gosmart(this.$store, 'state.graph.entity.secrets.creditCards.mainCard.Expiration date MM YYYY', '')[1] > 2) ?
                                   false :
                                   true
                               )
@@ -1029,15 +1029,15 @@ export default {
                     validMonth(val, vm){
                           return (
                             // if the month starts with a number greater than 1 it is wrong and the 1 is preceeded by a 0
-                            (this.gosmart(this.$store, 'state.app.entity.secrets.creditCards.mainCard.Expiration date MM YYYY', '')[0] > 1) ?
+                            (this.gosmart(this.$store, 'state.graph.entity.secrets.creditCards.mainCard.Expiration date MM YYYY', '')[0] > 1) ?
                               // if the month starts with a 1 but ends with a number greater than 2 then it's wrong and the inputted number is not registered
                               false :
                               // if the month starts with a 0 but ends with a 0 then it's wrong and the inputted number is not registered
                               (
-                                (this.gosmart(this.$store, 'state.app.entity.secrets.creditCards.mainCard.Expiration date MM YYYY', '')[0] == 0 && this.gosmart(this.$store, 'state.app.entity.secrets.creditCards.mainCard.Expiration date MM YYYY', '')[1] == 0) ?
+                                (this.gosmart(this.$store, 'state.graph.entity.secrets.creditCards.mainCard.Expiration date MM YYYY', '')[0] == 0 && this.gosmart(this.$store, 'state.graph.entity.secrets.creditCards.mainCard.Expiration date MM YYYY', '')[1] == 0) ?
                                   false :
                                 // if the month starts with a 1 but ends with a number greater than 2 then it's wrong and the inputted number is not registered
-                                (this.gosmart(this.$store, 'state.app.entity.secrets.creditCards.mainCard.Expiration date MM YYYY', '')[0] == 1 && this.gosmart(this.$store, 'state.app.entity.secrets.creditCards.mainCard.Expiration date MM YYYY', '')[1] > 2) ?
+                                (this.gosmart(this.$store, 'state.graph.entity.secrets.creditCards.mainCard.Expiration date MM YYYY', '')[0] == 1 && this.gosmart(this.$store, 'state.graph.entity.secrets.creditCards.mainCard.Expiration date MM YYYY', '')[1] > 2) ?
                                   false :
                                   true
                               )
@@ -1100,47 +1100,47 @@ export default {
                     billing: {
                       "first name": {
                         required: v.requiredIf(()=>{
-                          return this.gosmart(this, '$store.state.app.entity.alopu.carts.0.addresses.billing.type', undefined) == "Use a different billing address"
+                          return this.gosmart(this, '$store.state.graph.entity.alopu.carts.0.addresses.billing.type', undefined) == "Use a different billing address"
                         })
                       },
                       "last name": {
                         required: v.requiredIf(()=>{
-                          return this.gosmart(this, '$store.state.app.entity.alopu.carts.0.addresses.billing.type', undefined) == "Use a different billing address"
+                          return this.gosmart(this, '$store.state.graph.entity.alopu.carts.0.addresses.billing.type', undefined) == "Use a different billing address"
                         })
                       },
                       "company": {
                         // required: v.requiredIf(()=>{
-                        //   return this.gosmart(this, '$store.state.app.entity.alopu.carts.0.addresses.billing.type', undefined) == "Use a different billing address"
+                        //   return this.gosmart(this, '$store.state.graph.entity.alopu.carts.0.addresses.billing.type', undefined) == "Use a different billing address"
                         // })
                       },
                       "line1": {
                         required: v.requiredIf(()=>{
-                          return this.gosmart(this, '$store.state.app.entity.alopu.carts.0.addresses.billing.type', undefined) == "Use a different billing address"
+                          return this.gosmart(this, '$store.state.graph.entity.alopu.carts.0.addresses.billing.type', undefined) == "Use a different billing address"
                         })
                       },
                       "Apartment, suite, etc": {
                         // required: v.requiredIf(()=>{
-                        //   return this.gosmart(this, '$store.state.app.entity.alopu.carts.0.addresses.billing.type', undefined) == "Use a different billing address"
+                        //   return this.gosmart(this, '$store.state.graph.entity.alopu.carts.0.addresses.billing.type', undefined) == "Use a different billing address"
                         // })
                       },
                       "city": {
                         required: v.requiredIf(()=>{
-                          return this.gosmart(this, '$store.state.app.entity.alopu.carts.0.addresses.billing.type', undefined) == "Use a different billing address"
+                          return this.gosmart(this, '$store.state.graph.entity.alopu.carts.0.addresses.billing.type', undefined) == "Use a different billing address"
                         })
                       },
                       "country": {
                         required: v.requiredIf(()=>{
-                          return this.gosmart(this, '$store.state.app.entity.alopu.carts.0.addresses.billing.type', undefined) == "Use a different billing address"
+                          return this.gosmart(this, '$store.state.graph.entity.alopu.carts.0.addresses.billing.type', undefined) == "Use a different billing address"
                         })
                       },
                       "state": {
                         required: v.requiredIf(()=>{
-                          return this.gosmart(this, '$store.state.app.entity.alopu.carts.0.addresses.billing.type', undefined) == "Use a different billing address"
+                          return this.gosmart(this, '$store.state.graph.entity.alopu.carts.0.addresses.billing.type', undefined) == "Use a different billing address"
                         })
                       },
                       "postcode": {
                         required: v.requiredIf(()=>{
-                          return this.gosmart(this, '$store.state.app.entity.alopu.carts.0.addresses.billing.type', undefined) == "Use a different billing address"
+                          return this.gosmart(this, '$store.state.graph.entity.alopu.carts.0.addresses.billing.type', undefined) == "Use a different billing address"
                         })
                       },
                     },
@@ -1166,36 +1166,36 @@ export default {
   },
   created () {
     if(this.$route.path !== '/checkout/customer_information'){
-      let shippingAddressForm = this.getsmart(this.$v, 'state.app.entity.alopu.carts.0.addresses.shipping.$touch', false)
-      let usernameForm = this.getsmart(this.$v, 'state.app.entity.alopu.username.$touch', false)
+      let shippingAddressForm = this.getsmart(this.$v, 'state.graph.entity.alopu.carts.0.addresses.shipping.$touch', false)
+      let usernameForm = this.getsmart(this.$v, 'state.graph.entity.alopu.username.$touch', false)
       if(typeof shippingAddressForm == 'function' && typeof usernameForm == 'function') {
         shippingAddressForm()
         usernameForm()
-        if(!this.getsmart(this.$v, 'state.app.entity.alopu.carts.0.addresses.shipping.$error', false) && !this.getsmart(this.$v, 'state.app.entity.alopu.username.$error', false)){
-          this.setsmart(this.$store, 'state.app.entity.alopu.carts.0.stages.shipping', 'valid')
+        if(!this.getsmart(this.$v, 'state.graph.entity.alopu.carts.0.addresses.shipping.$error', false) && !this.getsmart(this.$v, 'state.graph.entity.alopu.username.$error', false)){
+          this.setsmart(this.$store, 'state.graph.entity.alopu.carts.0.stages.shipping', 'valid')
           // validate shippingMethod stage
           if(this.$route.path !== 'shipping_method'){
-            let shippingMethodForm = this.getsmart(this.$v, 'state.app.entity.alopu.carts.0.shippingMethod.cost.$touch', false)
+            let shippingMethodForm = this.getsmart(this.$v, 'state.graph.entity.alopu.carts.0.shippingMethod.cost.$touch', false)
             if(typeof shippingMethodForm == 'function') {
               shippingMethodForm()
-              if(this.getsmart(this.$v, 'state.app.entity.alopu.carts.0.shippingMethod.cost.$error', false)){
-                this.setsmart(this.$store, 'state.app.entity.alopu.carts.0.stages.shippingMethod', 'valid')
+              if(this.getsmart(this.$v, 'state.graph.entity.alopu.carts.0.shippingMethod.cost.$error', false)){
+                this.setsmart(this.$store, 'state.graph.entity.alopu.carts.0.stages.shippingMethod', 'valid')
                 this.$router.push('/checkout/shipping_method')
               } else {
-                this.setsmart(this.$store, 'state.app.entity.alopu.carts.0.stages.shippingMethod', 'invalid')
+                this.setsmart(this.$store, 'state.graph.entity.alopu.carts.0.stages.shippingMethod', 'invalid')
               }
             }
           }
         } else {
-          this.setsmart(this.$store, 'state.app.entity.alopu.carts.0.stages.shipping', 'invalid')
+          this.setsmart(this.$store, 'state.graph.entity.alopu.carts.0.stages.shipping', 'invalid')
           this.$router.push('/checkout/customer_information')
         }
       } else {
-        this.setsmart(this.$store, 'state.app.entity.alopu.carts.0.stages.shipping', 'invalid')
+        this.setsmart(this.$store, 'state.graph.entity.alopu.carts.0.stages.shipping', 'invalid')
         this.$router.push('/checkout/customer_information')
       }
     }
-    if(this.getsmart(this.$store, 'state.app.entity.alopu.carts.0.products.length', 0) < 1){
+    if(this.getsmart(this.$store, 'state.graph.entity.alopu.carts.0.products.length', 0) < 1){
       this.$router.push('/cart')
     }
     // date validation code
@@ -1207,50 +1207,50 @@ export default {
     //     // if the month starts with a 0 but ends with a 0 then it's wrong and the inputted number is not registered
     //     (
     //       ($event[0] == 0 && $event[1] == 0) ?
-    //         gosmart($store, 'state.app.entity.secrets.creditCards.mainCard.Expiration date MM YYYY', undefined) :
+    //         gosmart($store, 'state.graph.entity.secrets.creditCards.mainCard.Expiration date MM YYYY', undefined) :
     //       // if the month starts with a 1 but ends with a number greater than 2 then it's wrong and the inputted number is not registered
     //       ($event[0] == 1 && $event[1] > 2) ?
-    //         gosmart($store, 'state.app.entity.secrets.creditCards.mainCard.Expiration date MM YYYY', undefined) :
+    //         gosmart($store, 'state.graph.entity.secrets.creditCards.mainCard.Expiration date MM YYYY', undefined) :
     //         $event
     //     )
     // )
   },
   methods: {
     checkout: function(){
-      let touch1 = this.getsmart(this.$v, 'state.app.entity.secrets.creditCards.mainCard.$touch', false)
-      let touch2 = this.getsmart(this.$v, 'state.app.entity.alopu.carts.0.addresses.billing.$touch', false)
+      let touch1 = this.getsmart(this.$v, 'state.graph.entity.secrets.creditCards.mainCard.$touch', false)
+      let touch2 = this.getsmart(this.$v, 'state.graph.entity.alopu.carts.0.addresses.billing.$touch', false)
       if(typeof touch1 == 'function' &&
         typeof touch2 == 'function'
       ) {
         touch1()
         touch2()
-        if(!this.getsmart(this.$v, 'state.app.entity.alopu.carts.0.addresses.billing.$error', false) && !this.getsmart(this.$v, 'state.app.entity.secrets.creditCards.mainCard.$error', false)){
-          this.setsmart(this.$store, 'state.app.paymentProcessing', true)
+        if(!this.getsmart(this.$v, 'state.graph.entity.alopu.carts.0.addresses.billing.$error', false) && !this.getsmart(this.$v, 'state.graph.entity.secrets.creditCards.mainCard.$error', false)){
+          this.setsmart(this.$store, 'state.graph.paymentProcessing', true)
           let order = {
             uuid: this.$uuid.v4(),
             metadata: {
-              names: ['growlights.com.au customer payment event'],
-              session: this.getsmart(this.$store, 'state.app.uuid', this.$uuid.v4())
+              names: ['growtime.com.au customer payment event'],
+              session: this.getsmart(this.$store, 'state.graph.uuid', this.$uuid.v4())
             },
-            cart: this.getsmart(this.$store, 'state.app.entity.carts.0', undefined),
-            payment: this.getsmart(this.$store, 'state.app.entity.secrets', undefined),
+            cart: this.getsmart(this.$store, 'state.graph.entity.carts.0', undefined),
+            payment: this.getsmart(this.$store, 'state.graph.entity.secrets', undefined),
           }
           this.$native.setTimeout(()=>{
             this.$axios(
               {
                 method: 'POST',
-                url: this.getsmart(this.$store, 'state.app.$env.apiUrl', undefined)+'/monk/put',
+                url: this.getsmart(this.$store, 'state.graph.$env.apiUrl', undefined)+'/monk/put',
                 data: {
-                  model: 'growlights/orders',
+                  model: 'growtime/orders',
                   thing: order
                 }
               }
             ).then((res)=>{
-              this.setsmart(this.$store, 'state.app.paymentReceipt', order.uuid)
-              this.setsmart(this.$store, 'state.app.paymentProcessing', false)
-              this.setsmart(this.$store, 'state.app.paymentDialog', true)
-              this.setsmart(this.$store, 'state.app.entity.alopu.orders.'+order.uuid, this.dupe(order))
-              this.setsmart(this.$store, 'state.app.entity.alopu.carts.0.products', [])
+              this.setsmart(this.$store, 'state.graph.paymentReceipt', order.uuid)
+              this.setsmart(this.$store, 'state.graph.paymentProcessing', false)
+              this.setsmart(this.$store, 'state.graph.paymentDialog', true)
+              this.setsmart(this.$store, 'state.graph.entity.alopu.orders.'+order.uuid, this.dupe(order))
+              this.setsmart(this.$store, 'state.graph.entity.alopu.carts.0.products', [])
               this.$router.push('/home')
             })
             .catch(err=>{
@@ -1283,110 +1283,110 @@ export default {
   },
   watch: {
     '$route.path'(){
-      this.setsmart(this.$store, 'state.app.entity.alopu.carts.0.currentStage', this.$route.path)
+      this.setsmart(this.$store, 'state.graph.entity.alopu.carts.0.currentStage', this.$route.path)
       if(this.$route.path !== '/checkout/customer_information'){
-        let shippingAddressForm = this.getsmart(this.$v, 'state.app.entity.alopu.carts.0.addresses.shipping.$touch', false)
-        let usernameForm = this.getsmart(this.$v, 'state.app.entity.alopu.username.$touch', false)
+        let shippingAddressForm = this.getsmart(this.$v, 'state.graph.entity.alopu.carts.0.addresses.shipping.$touch', false)
+        let usernameForm = this.getsmart(this.$v, 'state.graph.entity.alopu.username.$touch', false)
         if(typeof shippingAddressForm == 'function' && typeof usernameForm == 'function') {
           shippingAddressForm()
           usernameForm()
-          if(!this.getsmart(this.$v, 'state.app.entity.alopu.carts.0.addresses.shipping.$error', false) && !this.getsmart(this.$v, 'state.app.entity.alopu.username.$error', false)){
-            this.setsmart(this.$store, 'state.app.entity.alopu.carts.0.stages.shipping', 'valid')
+          if(!this.getsmart(this.$v, 'state.graph.entity.alopu.carts.0.addresses.shipping.$error', false) && !this.getsmart(this.$v, 'state.graph.entity.alopu.username.$error', false)){
+            this.setsmart(this.$store, 'state.graph.entity.alopu.carts.0.stages.shipping', 'valid')
             // validate shippingMethod stage
             if(this.$route.path !== 'shipping_method'){
-              let shippingMethodForm = this.getsmart(this.$v, 'state.app.entity.alopu.carts.0.shippingMethod.cost.$touch', false)
+              let shippingMethodForm = this.getsmart(this.$v, 'state.graph.entity.alopu.carts.0.shippingMethod.cost.$touch', false)
               if(typeof shippingMethodForm == 'function') {
                 shippingMethodForm()
-                if(this.getsmart(this.$v, 'state.app.entity.alopu.carts.0.shippingMethod.cost.$error', false)){
-                  this.setsmart(this.$store, 'state.app.entity.alopu.carts.0.stages.shippingMethod', 'valid')
+                if(this.getsmart(this.$v, 'state.graph.entity.alopu.carts.0.shippingMethod.cost.$error', false)){
+                  this.setsmart(this.$store, 'state.graph.entity.alopu.carts.0.stages.shippingMethod', 'valid')
                   this.$router.push('/checkout/shipping_method')
                 } else {
-                  this.setsmart(this.$store, 'state.app.entity.alopu.carts.0.stages.shippingMethod', 'invalid')
+                  this.setsmart(this.$store, 'state.graph.entity.alopu.carts.0.stages.shippingMethod', 'invalid')
                 }
               }
             }
           } else {
-            this.setsmart(this.$store, 'state.app.entity.alopu.carts.0.stages.shipping', 'invalid')
+            this.setsmart(this.$store, 'state.graph.entity.alopu.carts.0.stages.shipping', 'invalid')
             this.$router.push('/checkout/customer_information')
           }
         } else {
-          this.setsmart(this.$store, 'state.app.entity.alopu.carts.0.stages.shipping', 'invalid')
+          this.setsmart(this.$store, 'state.graph.entity.alopu.carts.0.stages.shipping', 'invalid')
           this.$router.push('/checkout/customer_information')
         }
       }
     },
-    '$store.state.app.entity.alopu.carts.0.products'(){
-      if(this.getsmart(this.$store, 'state.app.entity.alopu.carts.0.products.length', 0) < 1){
+    '$store.state.graph.entity.alopu.carts.0.products'(){
+      if(this.getsmart(this.$store, 'state.graph.entity.alopu.carts.0.products.length', 0) < 1){
         this.$router.push('/cart')
       }
     },
-    '$store.state.app.entity.alopu.loggedIn': {
+    '$store.state.graph.entity.alopu.loggedIn': {
       handler: function(){
         if(this.$route.path !== '/checkout/customer_information'){
-          let shippingAddressForm = this.getsmart(this.$v, 'state.app.entity.alopu.carts.0.addresses.shipping.$touch', false)
-          let usernameForm = this.getsmart(this.$v, 'state.app.entity.alopu.username.$touch', false)
+          let shippingAddressForm = this.getsmart(this.$v, 'state.graph.entity.alopu.carts.0.addresses.shipping.$touch', false)
+          let usernameForm = this.getsmart(this.$v, 'state.graph.entity.alopu.username.$touch', false)
           if(typeof shippingAddressForm == 'function' && typeof usernameForm == 'function') {
             shippingAddressForm()
             usernameForm()
-            if(!this.getsmart(this.$v, 'state.app.entity.alopu.carts.0.addresses.shipping.$error', false) && !this.getsmart(this.$v, 'state.app.entity.alopu.username.$error', false)){
-              this.setsmart(this.$store, 'state.app.entity.alopu.carts.0.stages.shipping', 'valid')
+            if(!this.getsmart(this.$v, 'state.graph.entity.alopu.carts.0.addresses.shipping.$error', false) && !this.getsmart(this.$v, 'state.graph.entity.alopu.username.$error', false)){
+              this.setsmart(this.$store, 'state.graph.entity.alopu.carts.0.stages.shipping', 'valid')
               // validate shippingMethod stage
               if(this.$route.path !== 'shipping_method'){
-                let shippingMethodForm = this.getsmart(this.$v, 'state.app.entity.alopu.carts.0.shippingMethod.cost.$touch', false)
+                let shippingMethodForm = this.getsmart(this.$v, 'state.graph.entity.alopu.carts.0.shippingMethod.cost.$touch', false)
                 if(typeof shippingMethodForm == 'function') {
                   shippingMethodForm()
-                  if(this.getsmart(this.$v, 'state.app.entity.alopu.carts.0.shippingMethod.cost.$error', false)){
-                    this.setsmart(this.$store, 'state.app.entity.alopu.carts.0.stages.shippingMethod', 'valid')
+                  if(this.getsmart(this.$v, 'state.graph.entity.alopu.carts.0.shippingMethod.cost.$error', false)){
+                    this.setsmart(this.$store, 'state.graph.entity.alopu.carts.0.stages.shippingMethod', 'valid')
                     this.$router.push('/checkout/shipping_method')
                   } else {
-                    this.setsmart(this.$store, 'state.app.entity.alopu.carts.0.stages.shippingMethod', 'invalid')
+                    this.setsmart(this.$store, 'state.graph.entity.alopu.carts.0.stages.shippingMethod', 'invalid')
                   }
                 }
               }
             } else {
-              this.setsmart(this.$store, 'state.app.entity.alopu.carts.0.stages.shipping', 'invalid')
+              this.setsmart(this.$store, 'state.graph.entity.alopu.carts.0.stages.shipping', 'invalid')
               this.$router.push('/checkout/customer_information')
             }
           } else {
-            this.setsmart(this.$store, 'state.app.entity.alopu.carts.0.stages.shipping', 'invalid')
+            this.setsmart(this.$store, 'state.graph.entity.alopu.carts.0.stages.shipping', 'invalid')
             this.$router.push('/checkout/customer_information')
           }
         }
       },
       deep: true
     },
-    // '$store.state.app.entity.alopu.carts.0'(){
+    // '$store.state.graph.entity.alopu.carts.0'(){
     //   if(this.$route.path !== '/checkout/customer_information'){
-    //     let shippingAddressForm = this.getsmart(this.$v, 'state.app.entity.alopu.carts.0.addresses.shipping.$touch', false)
-    //     let usernameForm = this.getsmart(this.$v, 'state.app.entity.alopu.username.$touch', false)
+    //     let shippingAddressForm = this.getsmart(this.$v, 'state.graph.entity.alopu.carts.0.addresses.shipping.$touch', false)
+    //     let usernameForm = this.getsmart(this.$v, 'state.graph.entity.alopu.username.$touch', false)
     //     if(typeof shippingAddressForm == 'function' && typeof usernameForm == 'function') {
     //       shippingAddressForm()
     //       usernameForm()
-    //       if(!this.getsmart(this.$v, 'state.app.entity.alopu.carts.0.addresses.shipping.$error', false) && !this.getsmart(this.$v, 'state.app.entity.alopu.username.$error', false)){
-    //         this.setsmart(this.$store, 'state.app.entity.alopu.carts.0.stages.shipping', 'valid')
+    //       if(!this.getsmart(this.$v, 'state.graph.entity.alopu.carts.0.addresses.shipping.$error', false) && !this.getsmart(this.$v, 'state.graph.entity.alopu.username.$error', false)){
+    //         this.setsmart(this.$store, 'state.graph.entity.alopu.carts.0.stages.shipping', 'valid')
     //         // validate shippingMethod stage
     //         if(this.$route.path !== 'shipping_method'){
-    //           let shippingMethodForm = this.getsmart(this.$v, 'state.app.entity.alopu.carts.0.shippingMethod.cost.$touch', false)
+    //           let shippingMethodForm = this.getsmart(this.$v, 'state.graph.entity.alopu.carts.0.shippingMethod.cost.$touch', false)
     //           if(typeof shippingMethodForm == 'function') {
     //             shippingMethodForm()
-    //             if(this.getsmart(this.$v, 'state.app.entity.alopu.carts.0.shippingMethod.cost.$error', false)){
-    //               this.setsmart(this.$store, 'state.app.entity.alopu.carts.0.stages.shippingMethod', 'valid')
+    //             if(this.getsmart(this.$v, 'state.graph.entity.alopu.carts.0.shippingMethod.cost.$error', false)){
+    //               this.setsmart(this.$store, 'state.graph.entity.alopu.carts.0.stages.shippingMethod', 'valid')
     //               this.$router.push('/checkout/shipping_method')
     //             } else {
-    //               this.setsmart(this.$store, 'state.app.entity.alopu.carts.0.stages.shippingMethod', 'invalid')
+    //               this.setsmart(this.$store, 'state.graph.entity.alopu.carts.0.stages.shippingMethod', 'invalid')
     //             }
     //           }
     //         }
     //       } else {
-    //         this.setsmart(this.$store, 'state.app.entity.alopu.carts.0.stages.shipping', 'invalid')
+    //         this.setsmart(this.$store, 'state.graph.entity.alopu.carts.0.stages.shipping', 'invalid')
     //         this.$router.push('/checkout/customer_information')
     //       }
     //     } else {
-    //       this.setsmart(this.$store, 'state.app.entity.alopu.carts.0.stages.shipping', 'invalid')
+    //       this.setsmart(this.$store, 'state.graph.entity.alopu.carts.0.stages.shipping', 'invalid')
     //       this.$router.push('/checkout/customer_information')
     //     }
     //   }
-    //   if(this.getsmart(this.$store, 'state.app.entity.alopu.carts.0.products.length', 0) < 1){
+    //   if(this.getsmart(this.$store, 'state.graph.entity.alopu.carts.0.products.length', 0) < 1){
     //     this.$router.push('/cart')
     //   }
     // },

@@ -3,7 +3,7 @@ q-layout(
   view="HHH LpR FFF"
   )
   q-drawer(
-    v-model="$store.state.app.leftSidebar"
+    v-model="$store.state.graph.leftSidebar"
     side="left"
     :overlay="true"
     ).z-top.q-flex.q-flex-column
@@ -11,7 +11,7 @@ q-layout(
     sidebar.q-br-1(
     )
   q-drawer(
-    v-model="$store.state.app.cartSidebar"
+    v-model="$store.state.graph.cartSidebar"
     side="right"
     :overlay="true"
     ).z-top.q-flex.q-flex-column
@@ -26,16 +26,16 @@ q-layout(
   navbar
   footer-thing
   q-dialog(
-    :value=`gosmart($store, 'state.app.showLoginDialog', false)`
-    @input=`setsmart($store, 'state.app.showLoginDialog', $event)`
+    :value=`gosmart($store, 'state.graph.showLoginDialog', false)`
+    @input=`setsmart($store, 'state.graph.showLoginDialog', $event)`
     transition-show="fade"
     transition-hide="fade"
     )
     manifest
   q-dialog(
-    :value=`gosmart($store, 'state.app.showCartCacheDialog', false)`
-    v-if=`gosmart($store, 'state.app.showCartCacheDialog', false)`
-    @input=`setsmart($store, 'state.app.showCartCacheDialog', $event)`
+    :value=`gosmart($store, 'state.graph.showCartCacheDialog', false)`
+    v-if=`gosmart($store, 'state.graph.showCartCacheDialog', false)`
+    @input=`setsmart($store, 'state.graph.showCartCacheDialog', $event)`
     transition-show="fade"
     transition-hide="fade"
     )
@@ -56,17 +56,17 @@ q-layout(
           :theme=`{
             summary: true
           }`
-          v-if=`getsmart($store, 'state.app.entity.alopu.carts.1', false)`
+          v-if=`getsmart($store, 'state.graph.entity.alopu.carts.1', false)`
           :cart=`{
             products: setThings({
               options: setThings({
-                options: getsmart($store, 'state.app.entity.alopu.carts.1.products', []),
+                options: getsmart($store, 'state.graph.entity.alopu.carts.1.products', []),
                 list: [],
                 keys: ['title'],
                 push: true
               }),
               list: setThings({
-                options: getsmart($store, 'state.app.entity.alopu.carts.0.products', []),
+                options: getsmart($store, 'state.graph.entity.alopu.carts.0.products', []),
                 list: [],
                 keys: ['title'],
                 push: true
@@ -83,12 +83,12 @@ q-layout(
           size="md"
           @click=`
             setThings({
-              options: getsmart($store, 'state.app.entity.alopu.carts.1.products', []),
-              list: getsmart($store, 'state.app.entity.alopu.carts.0.products', []),
+              options: getsmart($store, 'state.graph.entity.alopu.carts.1.products', []),
+              list: getsmart($store, 'state.graph.entity.alopu.carts.0.products', []),
               keys: ['title'],
               push: true
             })
-            setsmart($store, 'state.app.showCartCacheDialog', false)
+            setsmart($store, 'state.graph.showCartCacheDialog', false)
           `
         ) Merge Carts
       q-separator
@@ -105,7 +105,7 @@ q-layout(
           color="primary"
           size="md"
           @click=`
-            setsmart($store, 'state.app.showCartCacheDialog', false)
+            setsmart($store, 'state.graph.showCartCacheDialog', false)
           `
         ) Keep Current Cart
       q-separator
@@ -116,27 +116,27 @@ q-layout(
           :theme=`{
             summary: true
           }`
-          v-if=`getsmart($store, 'state.app.entity.alopu.carts.1', false)`
-          :cart=`getsmart($store, 'state.app.entity.alopu.carts.1', undefined)`
+          v-if=`getsmart($store, 'state.graph.entity.alopu.carts.1', false)`
+          :cart=`getsmart($store, 'state.graph.entity.alopu.carts.1', undefined)`
         )
       q-card-section.text-center.q-mb-md
         q-btn.full-width.q-mb-sm(
           color="primary"
           size="md"
           @click=`
-            let localCart = getsmart($store, 'state.app.entity.alopu.carts.0', undefined)
-            setsmart($store, 'state.app.entity.alopu.carts.0.products',
-              getsmart($store, 'state.app.entity.alopu.carts.1.products', [])
+            let localCart = getsmart($store, 'state.graph.entity.alopu.carts.0', undefined)
+            setsmart($store, 'state.graph.entity.alopu.carts.0.products',
+              getsmart($store, 'state.graph.entity.alopu.carts.1.products', [])
             )
-            delete $store.state.app.entity.alopu.carts['1']
-            // setsmart($store, 'state.app.entity.alopu.carts.1',
+            delete $store.state.graph.entity.alopu.carts['1']
+            // setsmart($store, 'state.graph.entity.alopu.carts.1',
             //   undefined
             // )
-            let list = gosmart($store, 'state.app.entity.alopu.carts.history', [])
+            let list = gosmart($store, 'state.graph.entity.alopu.carts.history', [])
             if(list instanceof Array && localCart){
               list.push(localCart)
             }
-            setsmart($store, 'state.app.showCartCacheDialog', false)
+            setsmart($store, 'state.graph.showCartCacheDialog', false)
           `
         ) Use Old Cart
         // q-btn.full-width(
@@ -144,29 +144,29 @@ q-layout(
         // ) Merge
   q-dialog(
     persistent
-    :value=`gosmart($store, 'state.app.paymentDialog', false)`
-    v-if=`gosmart($store, 'state.app.paymentDialog', false)`
+    :value=`gosmart($store, 'state.graph.paymentDialog', false)`
+    v-if=`gosmart($store, 'state.graph.paymentDialog', false)`
     )
-    // @input=`setsmart($store, 'state.app.paymentDialog', false)`
+    // @input=`setsmart($store, 'state.graph.paymentDialog', false)`
     q-card.q-flex-column.q-justify-center.q-pt-xxsm.q-pb-xxsm.q-pl-smd.q-pr-smd
       q-card-section.q-pb-xxxxsm(
-        v-if=`!gosmart($store, 'state.app.paymentProcessing', false)`
+        v-if=`!gosmart($store, 'state.graph.paymentProcessing', false)`
       ).text-center.q-pb-xmd
         .text-md Thanks for your order.
       q-card-section.q-pb-xxxxsm(
-        v-if=`!gosmart($store, 'state.app.paymentProcessing', false)`
+        v-if=`!gosmart($store, 'state.graph.paymentProcessing', false)`
       )
         .text-sm Payment Successful
       q-card-section.q-pt-xxxsm(
-        v-if=`gosmart($store, 'state.app.paymentReceipt', $uuid.v4())`
+        v-if=`gosmart($store, 'state.graph.paymentReceipt', $uuid.v4())`
       )
         .text-xxsm.text-grey Order number:
-        .text-xxxsm.text-grey.text-uppercase {{ gosmart($store, 'state.app.paymentReceipt', $uuid.v4()) }}
+        .text-xxxsm.text-grey.text-uppercase {{ gosmart($store, 'state.graph.paymentReceipt', $uuid.v4()) }}
       q-card-section.q-justify-end(
-        v-if=`!gosmart($store, 'state.app.paymentProcessing', false) || true`
+        v-if=`!gosmart($store, 'state.graph.paymentProcessing', false) || true`
       ).q-mt-sm
         q-btn(
-          @click="setsmart($store, 'state.app.paymentDialog', false) ; setsmart($store, 'state.app.paymentProcessing', false)"
+          @click="setsmart($store, 'state.graph.paymentDialog', false) ; setsmart($store, 'state.graph.paymentProcessing', false)"
           color="primary"
         ) Close</template>
 
@@ -175,7 +175,7 @@ export default {
   name: 'default',
   data(){
     return {
-      uuid: this._uid,
+      uid: this._uid,
     }
   },
   sockets: {
@@ -189,7 +189,7 @@ export default {
   watch: {
     // '$store.state'(){
     //   console.log('run')
-    //   this.$store.commit('thing', {
+    //   this.$store.commit('graph/thing', {
     //   })
     // },
   },
@@ -209,18 +209,18 @@ export default {
     },
     pageHistory: {
       get(){
-        return this.$store.state.app.pageHistory
+        return this.$store.state.graph.pageHistory
       },
       set(val){
-        this.$store.commit('pageHistory', val)
+        this.$store.commit('graph/pageHistory', val)
       }
     },
     feedback: {
       get(){
-        return this.$store.state.app.feedback
+        return this.$store.state.graph.feedback
       },
       set(val){
-        this.$store.commit('feedback', val)
+        this.$store.commit('graph/feedback', val)
       }
     }
   }

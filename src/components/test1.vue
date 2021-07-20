@@ -9,7 +9,7 @@ export default {
   data () {
     return {
       // objects: null,
-      uuid: this._uid
+      uid: this._uid
     }
   },
   sockets: {
@@ -49,7 +49,7 @@ export default {
     // '$store.state.entity': function(){
     //   this.entity = this.$store.state.entity
     // },
-  },  
+  },
   route: {
     canActivate(){
       return true

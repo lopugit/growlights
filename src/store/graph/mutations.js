@@ -184,9 +184,16 @@ export const clientId = (state, payload) => {
     const settings = {
 			// timestampsInSnapshots: true
 		}
-    let env = process.env
 		if(!smarts.getsmart(firebase, 'apps.length', 0)){
-			firebase.initializeApp(smarts.getsmart(env, 'firebaseConf', undefined))
+			firebase.initializeApp({
+      apiKey: "AIzaSyABsQrdpY9lNkyBW0me5xHmbCxSUPIjGgU",
+      authDomain: "lopudev-b405a.firebaseapp.com",
+      databaseURL: "https://lopudev-b405a.firebaseio.com",
+      projectId: "lopudev-b405a",
+      storageBucket: "lopudev-b405a.appspot.com",
+      messagingSenderId: "211744308643",
+      appId: "1:211744308643:web:dca54880cb46d04c"
+    })
 		} else {
 			// F = firebase.app()
 		}

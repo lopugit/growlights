@@ -5,24 +5,24 @@
 		).q-user-item.full-width
 		q-item-section(
 			avatar
-			@click="$store.commit('thing', {path: 'cartSidebar', val: !$store.state.app.cartSidebar})"
+			@click="$store.commit('graph/thing', {path: 'cartSidebar', val: !$store.state.graph.cartSidebar})"
 			).q-item-label-profile-picture
 			img.q-circle-img.q-max-height-60.q-max-width-60(
-				:src=`$store.getters.cover()`
+				:src=`$store.getters['graph/cover']()`
 				)
 		q-item-section(
 		)
 			q-item-label(
-			) {{ $store.getters.username() }}
+			) {{ $store.getters['graph/username']() }}
 			q-item-label(
 				size=".5rem"
-				).q-mt-xxxsm.text-grey.text-xsm {{ $store.getters.ego(0) }}
+				).q-mt-xxxsm.text-grey.text-xsm {{ $store.getters['graph/ego'](0) }}
 		q-item-section.q-ml-auto.w-auto(
 			:side='true'
 			)
 			q-btn.w-auto(
 				icon="close"
-				@click="$store.commit('thing', { path: 'cartSidebar', val: !$store.state.app.cartSidebar})"
+				@click="$store.commit('graph/thing', { path: 'cartSidebar', val: !$store.state.graph.cartSidebar})"
 			).shadow-0.q-pa-no
 	q-list.no-border.main-list.q-pa-sm.q-pt-xxxxsm.q-mt-auto.q-mb-sm.q-pr-xxxxsm.q-pl-no.full-width
 		cart(
@@ -39,7 +39,7 @@ export default {
   data () {
     return {
       // objects: null,
-      uuid: this._uid,
+      uid: this._uid,
     }
   },
   sockets: {
@@ -73,10 +73,10 @@ export default {
   computed: {
     entity: {
       get(){
-        return this.$store.state.app.entity
+        return this.$store.state.graph.entity
       },
       set(val){
-        this.$store.commit('entity', {entity: val})
+        this.$store.commit('graph/entity', {entity: val})
       }
     },
   },

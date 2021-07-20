@@ -5,10 +5,10 @@
         )
         q-item.full-width.q-pa-no.q-mt-auto.q-mb-xsmd(
           v-show=`
-            gosmart($store, 'state.app.showLoginOptions', false)
+            gosmart($store, 'state.graph.showLoginOptions', false)
           `
           v-if=`
-            !getsmart($store, 'state.app.entity.loggedIn.'+
+            !getsmart($store, 'state.graph.entity.loggedIn.'+
               getsmart($native, 'window.navigator.userAgent', 'unknown'),
               false
             )
@@ -16,7 +16,7 @@
         )
           q-item-section.full-width
             fb-signin-button(
-              :params="gosmart($store, 'state.app.fbParams', {})"
+              :params="gosmart($store, 'state.graph.fbParams', {})"
               @success=`
                 res => $store.dispatch(
                   'login',
@@ -54,10 +54,10 @@
               .text.text-white() Continue with Facebook
         q-item.full-width.q-pa-no(
           v-show=`
-            gosmart($store, 'state.app.showLoginOptions', false)
+            gosmart($store, 'state.graph.showLoginOptions', false)
           `
           v-if=`
-            !getsmart($store, 'state.app.entity.loggedIn.'+
+            !getsmart($store, 'state.graph.entity.loggedIn.'+
               getsmart($native, 'window.navigator.userAgent', 'unknown'),
               false
             )
@@ -68,8 +68,8 @@
               :params=`{
                 client_id: gosmart($env, 'googleClientId', undefined)
               }`
-              @success="res => $store.dispatch('login', {token: Object.assign({provider: 'google'}, res), provider: 'google', success: true})"
-              @error="res => $store.dispatch('login', {token: Object.assign({provider: 'google'}, res), provider: 'google', success: false})"
+              @success="res => $store.dispatch('graph/login', {token: Object.assign({provider: 'google'}, res), provider: 'google', success: true})"
+              @error="res => $store.dispatch('graph/login', {token: Object.assign({provider: 'google'}, res), provider: 'google', success: false})"
               )
               img(
                 src="https://dy6j70a9vs3v1.cloudfront.net/funnel_wap/static/files/45eaf69cf1018aa240cea767e822dc96/google_white.svg"
@@ -77,10 +77,10 @@
               .text.text-white() Continue with Google
         .or.full-width(
           v-show=`
-            gosmart($store, 'state.app.showLoginOptions', false)
+            gosmart($store, 'state.graph.showLoginOptions', false)
           `
           v-if=`
-            !getsmart($store, 'state.app.entity.loggedIn.'+
+            !getsmart($store, 'state.graph.entity.loggedIn.'+
               getsmart($native, 'window.navigator.userAgent', 'unknown'),
               false
             )
@@ -92,47 +92,47 @@
         form.full-width.q-pa-no.q-ma-no(
           v-on:submit.prevent=`
             if(
-              getsmart($store, 'state.app.showLoginOptions', false)
+              getsmart($store, 'state.graph.showLoginOptions', false)
               &&
-              !getsmart($store, 'state.app.entity.loggedIn.'+
+              !getsmart($store, 'state.graph.entity.loggedIn.'+
                 getsmart($native, 'window.navigator.userAgent', 'unknown'),
                 false
               )
             ){
-              let usernamePasswordForm = getsmart($v, 'state.app.$touch', ()=>{})
-              if(getsmart($store, 'state.app.entity.registered.any', true)){
-                usernamePasswordForm = getsmart($v, 'state.app.entity.alopu.$touch', ()=>{})
+              let usernamePasswordForm = getsmart($v, 'state.graph.$touch', ()=>{})
+              if(getsmart($store, 'state.graph.entity.registered.any', true)){
+                usernamePasswordForm = getsmart($v, 'state.graph.entity.alopu.$touch', ()=>{})
                 if(typeof usernamePasswordForm == 'function'){
                   usernamePasswordForm()
-                  if(!getsmart($v, 'state.app.entity.alopu.$error', false)){
-                    $store.dispatch('login', {provider: 'alopu'})
+                  if(!getsmart($v, 'state.graph.entity.alopu.$error', false)){
+                    $store.dispatch('graph/login', {provider: 'alopu'})
                   }
                 }
               } else {
                 if(typeof usernamePasswordForm == 'function'){
                   usernamePasswordForm()
-                  if(!getsmart($v, 'state.app.$error', false)){
-                    $store.dispatch('login', {provider: 'alopu'})
+                  if(!getsmart($v, 'state.graph.$error', false)){
+                    $store.dispatch('graph/login', {provider: 'alopu'})
                   }
                 }
               }
             } else if (
-              getsmart($store, 'state.app.entity.loggedIn.'+
+              getsmart($store, 'state.graph.entity.loggedIn.'+
                 getsmart($native, 'window.navigator.userAgent', 'unknown'),
                 false
               )
             ) {
-              $store.dispatch('logout')
+              $store.dispatch('graph/logout')
             }
-            setsmart($store, 'state.app.showLoginOptions', true)
+            setsmart($store, 'state.graph.showLoginOptions', true)
           `
           )
           q-item.full-width.q-pa-no.q-mb-xs(
             v-show=`
-              gosmart($store, 'state.app.showLoginOptions', false)
+              gosmart($store, 'state.graph.showLoginOptions', false)
             `
             v-if=`
-              !getsmart($store, 'state.app.entity.loggedIn.'+
+              !getsmart($store, 'state.graph.entity.loggedIn.'+
                 getsmart($native, 'window.navigator.userAgent', 'unknown'),
                 false
               )
@@ -141,30 +141,30 @@
             q-item-section.full-width.p-pa-no.q-ma-no(
               )
               q-input.q-mb-sm.no-shadow.border-1.round-borders(
-                :value="gosmart($store, 'state.app.entity.alopu.username', undefined)"
-                @input="setsmart($store, 'state.app.entity.alopu.username', $event)"
+                :value="gosmart($store, 'state.graph.entity.alopu.username', undefined)"
+                @input="setsmart($store, 'state.graph.entity.alopu.username', $event)"
                 label="Email"
                 filled
                 type="email"
                 autocomplete="email"
                 bottom-slots
                 :error=`
-                  ( (getsmart($v, 'state.app.entity.alopu.username.$error', false) && !getsmart($v, 'state.app.entity.alopu.username.required', false)) ) ||
-                  ( (getsmart($v, 'state.app.entity.alopu.username.$error', false) && !getsmart($v, 'state.app.entity.alopu.username.email', false)) ) ||
-                  ( (getsmart($v, 'state.app.entity.alopu.username.$error', true) && getsmart($v, 'state.app.entity.alopu.username.$anyError', true)) )
+                  ( (getsmart($v, 'state.graph.entity.alopu.username.$error', false) && !getsmart($v, 'state.graph.entity.alopu.username.required', false)) ) ||
+                  ( (getsmart($v, 'state.graph.entity.alopu.username.$error', false) && !getsmart($v, 'state.graph.entity.alopu.username.email', false)) ) ||
+                  ( (getsmart($v, 'state.graph.entity.alopu.username.$error', true) && getsmart($v, 'state.graph.entity.alopu.username.$anyError', true)) )
                 `
               )
                 template(v-slot:error) {{
-                  | ( (getsmart($v, 'state.app.entity.alopu.username.$error', false) && !getsmart($v, 'state.app.entity.alopu.username.required', false)) ? 'This value is required' : '' ) ||
-                  | ( (getsmart($v, 'state.app.entity.alopu.username.$error', false) && !getsmart($v, 'state.app.entity.alopu.username.email', false)) ? 'This is not a valid email' : '' ) ||
-                  | ( (getsmart($v, 'state.app.entity.alopu.username.$error', true) && getsmart($v, 'state.app.entity.alopu.username.$anyError', true)) ? "There's something wrong with this value" : '' )
+                  | ( (getsmart($v, 'state.graph.entity.alopu.username.$error', false) && !getsmart($v, 'state.graph.entity.alopu.username.required', false)) ? 'This value is required' : '' ) ||
+                  | ( (getsmart($v, 'state.graph.entity.alopu.username.$error', false) && !getsmart($v, 'state.graph.entity.alopu.username.email', false)) ? 'This is not a valid email' : '' ) ||
+                  | ( (getsmart($v, 'state.graph.entity.alopu.username.$error', true) && getsmart($v, 'state.graph.entity.alopu.username.$anyError', true)) ? "There's something wrong with this value" : '' )
                   | }}
           q-item.full-width.q-pa-no.q-mb-xs(
             v-show=`
-              gosmart($store, 'state.app.showLoginOptions', false)
+              gosmart($store, 'state.graph.showLoginOptions', false)
             `
             v-if=`
-              !getsmart($store, 'state.app.entity.loggedIn.'+
+              !getsmart($store, 'state.graph.entity.loggedIn.'+
                 getsmart($native, 'window.navigator.userAgent', 'unknown'),
                 false
               )
@@ -173,22 +173,22 @@
             q-item-section.full-width.p-pa-no.q-ma-no(
               )
               q-input.q-mb-sm.no-shadow.border-1.round-borders(
-                :value="gosmart($store, 'state.app.entity.alopu.password', undefined)"
-                @input="setsmart($store, 'state.app.entity.alopu.password', $event)"
+                :value="gosmart($store, 'state.graph.entity.alopu.password', undefined)"
+                @input="setsmart($store, 'state.graph.entity.alopu.password', $event)"
                 label="Password"
                 filled
                 :type="gosmart(things, 'showPassword', false) ? 'text' : 'password'"
                 autocomplete="password"
                 bottom-slots
                 :error=`
-                  ( (getsmart($v, 'state.app.entity.alopu.password.$error', false) && !getsmart($v, 'state.app.entity.alopu.password.required', false)) ) ||
-                  ( (getsmart($v, 'state.app.entity.alopu.password.$error', false) && !getsmart($v, 'state.app.entity.alopu.password.email', false)) ) ||
-                  ( (getsmart($v, 'state.app.entity.alopu.password.$error', true) && getsmart($v, 'state.app.entity.alopu.password.$anyError', true)) )
+                  ( (getsmart($v, 'state.graph.entity.alopu.password.$error', false) && !getsmart($v, 'state.graph.entity.alopu.password.required', false)) ) ||
+                  ( (getsmart($v, 'state.graph.entity.alopu.password.$error', false) && !getsmart($v, 'state.graph.entity.alopu.password.email', false)) ) ||
+                  ( (getsmart($v, 'state.graph.entity.alopu.password.$error', true) && getsmart($v, 'state.graph.entity.alopu.password.$anyError', true)) )
                 `
               )
                 template(v-slot:error) {{
-                  | ( (getsmart($v, 'state.app.entity.alopu.password.$error', false) && !getsmart($v, 'state.app.entity.alopu.password.required', false)) ? 'This value is required' : '' ) ||
-                  | ( (getsmart($v, 'state.app.entity.alopu.password.$error', true) && getsmart($v, 'state.app.entity.alopu.password.$anyError', true)) ? "There's something wrong with this value" : '' )
+                  | ( (getsmart($v, 'state.graph.entity.alopu.password.$error', false) && !getsmart($v, 'state.graph.entity.alopu.password.required', false)) ? 'This value is required' : '' ) ||
+                  | ( (getsmart($v, 'state.graph.entity.alopu.password.$error', true) && getsmart($v, 'state.graph.entity.alopu.password.$anyError', true)) ? "There's something wrong with this value" : '' )
                   | }}
                 template(
                   v-slot:append
@@ -200,36 +200,36 @@
                   )
           q-item.full-width.q-pa-no.q-mb-xs(
             v-show=`
-              gosmart($store, 'state.app.showLoginOptions', false)
+              gosmart($store, 'state.graph.showLoginOptions', false)
             `
             v-if=`
-              !getsmart($store, 'state.app.entity.loggedIn.'+
+              !getsmart($store, 'state.graph.entity.loggedIn.'+
                 getsmart($native, 'window.navigator.userAgent', 'unknown'),
                 false
               ) &&
-              !getsmart($store, 'state.app.entity.registered.any', false)
+              !getsmart($store, 'state.graph.entity.registered.any', false)
             `
             )
             q-item-section.full-width.p-pa-no.q-ma-no(
               )
               q-input.q-mb-sm.no-shadow.border-1.round-borders(
-                :value="gosmart($store, 'state.app.passwordConfirmation', undefined)"
-                @input="setsmart($store, 'state.app.passwordConfirmation', $event)"
+                :value="gosmart($store, 'state.graph.passwordConfirmation', undefined)"
+                @input="setsmart($store, 'state.graph.passwordConfirmation', $event)"
                 label="Confirm password"
                 filled
                 :type="gosmart(things, 'showPasswordConfirm', false) ? 'text' : 'password'"
                 bottom-slots
                 autocomplete="password"
                 :error=`
-                  ( (getsmart($v, 'state.app.passwordConfirmation.$error', false) && !getsmart($v, 'state.app.passwordConfirmation.required', false)) ) ||
-                  ( (getsmart($v, 'state.app.passwordConfirmation.$error', false) && !getsmart($v, 'state.app.passwordConfirmation.same', false)) ) ||
-                  ( (getsmart($v, 'state.app.passwordConfirmation.$error', true) && getsmart($v, 'state.app.passwordConfirmation.$anyError', true)) )
+                  ( (getsmart($v, 'state.graph.passwordConfirmation.$error', false) && !getsmart($v, 'state.graph.passwordConfirmation.required', false)) ) ||
+                  ( (getsmart($v, 'state.graph.passwordConfirmation.$error', false) && !getsmart($v, 'state.graph.passwordConfirmation.same', false)) ) ||
+                  ( (getsmart($v, 'state.graph.passwordConfirmation.$error', true) && getsmart($v, 'state.graph.passwordConfirmation.$anyError', true)) )
                 `
               )
                 template(v-slot:error) {{
-                  | ( (getsmart($v, 'state.app.passwordConfirmation.$error', false) && !getsmart($v, 'state.app.passwordConfirmation.required', false)) ? 'This value is required' : '' ) ||
-                  | ( (getsmart($v, 'state.app.passwordConfirmation.$error', false) && !getsmart($v, 'state.app.passwordConfirmation.same', false)) ? 'Must be the same as your password' : '' ) ||
-                  | ( (getsmart($v, 'state.app.passwordConfirmation.$error', true) && getsmart($v, 'state.app.passwordConfirmation.$anyError', true)) ? "There's something wrong with this value" : '' )
+                  | ( (getsmart($v, 'state.graph.passwordConfirmation.$error', false) && !getsmart($v, 'state.graph.passwordConfirmation.required', false)) ? 'This value is required' : '' ) ||
+                  | ( (getsmart($v, 'state.graph.passwordConfirmation.$error', false) && !getsmart($v, 'state.graph.passwordConfirmation.same', false)) ? 'Must be the same as your password' : '' ) ||
+                  | ( (getsmart($v, 'state.graph.passwordConfirmation.$error', true) && getsmart($v, 'state.graph.passwordConfirmation.$anyError', true)) ? "There's something wrong with this value" : '' )
                   | }}
                 template(
                   v-slot:append
@@ -248,49 +248,49 @@
               color="primary"
               @click=`
                 if(
-                  getsmart($store, 'state.app.showLoginOptions', false)
+                  getsmart($store, 'state.graph.showLoginOptions', false)
                   &&
-                  !getsmart($store, 'state.app.entity.loggedIn.'+
+                  !getsmart($store, 'state.graph.entity.loggedIn.'+
                     getsmart($native, 'window.navigator.userAgent', 'unknown'),
                     false
                   )
                 ){
-                  let usernamePasswordForm = getsmart($v, 'state.app.$touch', ()=>{})
-                  if(getsmart($store, 'state.app.entity.registered.any', true)){
-                    usernamePasswordForm = getsmart($v, 'state.app.entity.alopu.$touch', ()=>{})
+                  let usernamePasswordForm = getsmart($v, 'state.graph.$touch', ()=>{})
+                  if(getsmart($store, 'state.graph.entity.registered.any', true)){
+                    usernamePasswordForm = getsmart($v, 'state.graph.entity.alopu.$touch', ()=>{})
                     if(typeof usernamePasswordForm == 'function'){
                       usernamePasswordForm()
-                      if(!getsmart($v, 'state.app.entity.alopu.$error', false)){
-                        $store.dispatch('login', {provider: 'alopu'})
+                      if(!getsmart($v, 'state.graph.entity.alopu.$error', false)){
+                        $store.dispatch('graph/login', {provider: 'alopu'})
                       }
                     }
                   } else {
                     if(typeof usernamePasswordForm == 'function'){
                       usernamePasswordForm()
-                      if(!getsmart($v, 'state.app.$error', false)){
-                        $store.dispatch('login', {provider: 'alopu'})
+                      if(!getsmart($v, 'state.graph.$error', false)){
+                        $store.dispatch('graph/login', {provider: 'alopu'})
                       }
                     }
                   }
                 } else if (
-                  getsmart($store, 'state.app.entity.loggedIn.'+
+                  getsmart($store, 'state.graph.entity.loggedIn.'+
                     getsmart($native, 'window.navigator.userAgent', 'unknown'),
                     false
                   )
                 ) {
-                  $store.dispatch('logout')
+                  $store.dispatch('graph/logout')
                 }
-                setsmart($store, 'state.app.showLoginOptions', true)
+                setsmart($store, 'state.graph.showLoginOptions', true)
               `
             ) {{
-              | getsmart($store, 'state.app.entity.loggedIn.'+
+              | getsmart($store, 'state.graph.entity.loggedIn.'+
               |   getsmart($native, 'window.navigator.userAgent', 'unknown'),
               |   false
               | ) ?
               |   'logout' :
-              |   !getsmart($store, 'state.app.showLoginOptions', false) ?
+              |   !getsmart($store, 'state.graph.showLoginOptions', false) ?
               |     'sign in or sign up' :
-              |     getsmart($store, 'state.app.entity.registered.any', false) ?
+              |     getsmart($store, 'state.graph.entity.registered.any', false) ?
               |       'login' :
               |       'register'
               | }}
@@ -303,9 +303,9 @@ export default {
   data () {
     return {
       // objects: null,
-      uuid: this._uid,
+      uid: this._uid,
       state: this.gosmart($store, 'state', {}),
-      password: this.gosmart($store, 'state.app.entity.alopu.password', undefined)
+      password: this.gosmart($store, 'state.graph.entity.alopu.password', undefined)
     }
   },
   validations(){
@@ -325,7 +325,7 @@ export default {
           },
           passwordConfirmation: {
             required,
-            same: () => this.gosmart(this.$store, 'state.app.entity.alopu.password', undefined) == this.gosmart(this.$store, 'state.app.passwordConfirmation', undefined)
+            same: () => this.gosmart(this.$store, 'state.graph.entity.alopu.password', undefined) == this.gosmart(this.$store, 'state.graph.passwordConfirmation', undefined)
           },
         }
       }

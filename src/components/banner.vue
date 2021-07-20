@@ -1,20 +1,20 @@
 <template lang='pug'>
-  .growlights-banner(
+  .growtime-banner(
     :class=`{
       size
     }`
   )
-    .growlights-banner-container
-      img.logo(src='statics/growlights.com.au.png')
+    .growtime-banner-container
+      img.logo(src='growtime.com.au.png')
 </template>
 
 <script>
 export default {
-  name: 'growlights-banner-comp',
+  name: 'growtime-banner-comp',
   data () {
     return {
       // objects: null,
-      uuid: this._uid
+      uid: this._uid
     }
   },
   sockets: {
@@ -66,7 +66,7 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="sass" scoped>
 @import 'src/styles/vars'
-.growlights-banner
+.growtime-banner
   width: 100%
   max-width: 100%
   overflow: hidden
@@ -75,7 +75,7 @@ export default {
   align-items: center
   justify-content: center
   padding: 30px 0px 0px 0px
-  .growlights-banner-container
+  .growtime-banner-container
     display: flex
     width: 100%
     max-width: 100%

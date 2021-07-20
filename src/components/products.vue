@@ -118,7 +118,7 @@ export default {
   name: 'products-comp',
   data () {
     return {
-      uuid: this._uid,
+      uid: this._uid,
     }
   },
   sockets: {
@@ -215,7 +215,7 @@ export default {
           if(!this.getsmart(this, 'things.keepProducts', false)){
             this.setsmart(this, 'things.products', [])
           }
-          this.gosmart(this, 'things.model', `growlights/${this.getsmart(this.$env, 'level', 'dev')}/products`)
+          this.gosmart(this, 'things.model', `growtime/${this.getsmart(this.$env, 'level', 'dev')}/products`)
           this.gosmart(this, 'things.options', {
             limit: this.gosmart(this, 'things.options.limit', 12)
           })
@@ -226,7 +226,7 @@ export default {
           })
           if(this.getsmart(this, 'things.query', false)){
             let resCached = this.getsmart(this.$store,
-              'state.app.caches.queries.' + this.stringify({
+              'state.graph.caches.queries.' + this.stringify({
                 query: this.getsmart(this, 'things.query', false),
                 options: this.getsmart(this, 'things.options', false),
                 model: this.getsmart(this, 'things.model', false),
@@ -237,7 +237,7 @@ export default {
               new Promise((resolve, reject)=>{
                 this.setThings({
                   options: resCached.data,
-                  list: this.getsmart(this.$store, 'state.app.products', []),
+                  list: this.getsmart(this.$store, 'state.graph.products', []),
                   keys: ['title'],
                   push: true,
                   async: true
@@ -284,7 +284,7 @@ export default {
                 }),
                 new Promise((resolve, reject)=>{
                   let cached = this.getsmart(this.$store,
-                    'state.app.caches.queries.' + this.stringify({
+                    'state.graph.caches.queries.' + this.stringify({
                       query: this.getsmart(this, 'things.query', false),
                       options: this.getsmart(this, 'things.options', false),
                       model: this.getsmart(this, 'things.model', false),
@@ -313,7 +313,7 @@ export default {
                 new Promise((resolve, reject)=>{
                   this.setThings({
                     options: res.data,
-                    list: this.getsmart(this.$store, 'state.app.products', []),
+                    list: this.getsmart(this.$store, 'state.graph.products', []),
                     keys: ['title'],
                     push: true
                   })
@@ -355,7 +355,7 @@ export default {
               new Promise(async ()=>{
                 await prom
                 this.setsmart(this.$store,
-                  'state.app.caches.queries.' + this.stringify({
+                  'state.graph.caches.queries.' + this.stringify({
                     query: this.getsmart(this, 'things.query', false),
                     options: this.getsmart(this, 'things.options', false),
                     model: this.getsmart(this, 'things.model', false),
@@ -396,21 +396,21 @@ export default {
     //   this.entity = this.$store.state.entity
     // },
   },
-  schema: {
-    options: {
-      limit: 12,
-      skip: 0,
-    },
-    query: {
-      $or: [
-        {
-          types: {
-            $in: ['product']
-          }
-        }
-      ]
-    }
-  },
+  // schema: {
+  //   options: {
+  //     limit: 12,
+  //     skip: 0,
+  //   },
+  //   query: {
+  //     $or: [
+  //       {
+  //         types: {
+  //           $in: ['product']
+  //         }
+  //       }
+  //     ]
+  //   }
+  // },
   props: {
   },
   route: {
@@ -440,7 +440,7 @@ export default {
     .products
       max-width: 100%
       margin-top: -7px
-      /deep/ .product-container
+      ::v-deep .product-container
         margin-top: 120px
         margin-left: 5px
         margin-right: 5px

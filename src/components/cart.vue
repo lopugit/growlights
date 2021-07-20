@@ -89,7 +89,7 @@
                         ) remove
                     .price-positioner.q-ml-auto
                       .price-container
-                        .price ${{ Math.ceil((getThing({option: {'name': 'growlights.com.au marked up price'}, list: product.prices, keys: ['name']}).values['AUD']*product.count)*100)/100 }}
+                        .price ${{ Math.ceil((getThing({option: {'name': 'growtime.com.au marked up price'}, list: product.prices, keys: ['name']}).values['AUD']*product.count)*100)/100 }}
                           .currency {{ false || 'AUD' }}
             q-separator
         .bottom-section.q-pl-xxsm.q-pr-xxxxsm
@@ -134,8 +134,8 @@ export default {
   name: 'cart-comp',
   data () {
     return {
-      uuid: this._uid,
-      cartD: this.cart || this.gosmart(this.$store, 'state.app.entity.alopu.carts.0', {})
+      uid: this._uid,
+      cartD: this.cart || this.gosmart(this.$store, 'state.graph.entity.alopu.carts.0', {})
     }
   },
   sockets: {
@@ -170,14 +170,14 @@ export default {
     banner: require('src/components/banner').default,
   },
   watch: {
-    '$store.state.app.entity.alopu.carts.0'(){
-      this.$set(this, 'cartD', this.cart || this.gosmart(this.$store, 'state.app.entity.alopu.carts.0', {}))
+    '$store.state.graph.entity.alopu.carts.0'(){
+      this.$set(this, 'cartD', this.cart || this.gosmart(this.$store, 'state.graph.entity.alopu.carts.0', {}))
     },
     'cart'(){
-      this.$set(this, 'cartD', this.cart || this.gosmart(this.$store, 'state.app.entity.alopu.carts.0', {}))
+      this.$set(this, 'cartD', this.cart || this.gosmart(this.$store, 'state.graph.entity.alopu.carts.0', {}))
     },
     'cartD'(){
-      this.$set(this, 'cartD', this.cart || this.gosmart(this.$store, 'state.app.entity.alopu.carts.0', {}))
+      this.$set(this, 'cartD', this.cart || this.gosmart(this.$store, 'state.graph.entity.alopu.carts.0', {}))
     },
   },
   route: {

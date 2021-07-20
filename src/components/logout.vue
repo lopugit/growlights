@@ -7,7 +7,7 @@
 	//-   .msg.thanks {{ feedbackMsg }}
 	.logout
 		.logout-sizer
-			.feedbackMsg {{ getsmart($store, 'state.app.entity.registered', false) ? 'Logged out' : "You aren't logged in :O" }}
+			.feedbackMsg {{ getsmart($store, 'state.graph.entity.registered', false) ? 'Logged out' : "You aren't logged in :O" }}
 </template>
 
 <script>
@@ -18,7 +18,7 @@ export default {
 			entity: this.$store.state.entity,
 			errMsg: "thanks for Logged out",
 			feedbackMsg: "thanks for Logged out",
-			uuid: this._uid
+			uid: this._uid
 		}
 	},
 	sockets: {
@@ -27,8 +27,8 @@ export default {
 		}
 	},
 	created () {
-		if(this.$store.state.app.entity.registered){
-			this.$store.dispatch('logout')
+		if(this.$store.state.graph.entity.registered){
+			this.$store.dispatch('graph/logout')
 		}
 		this.$router.push('/')
 		// if(this.count !== 0){

@@ -1,9 +1,10 @@
 module.exports = {
   apps : [{
-    name: 'growlights',
-		script: 'quasar',
+    name: 'growtime',
+		script: 'npx',
     // Options reference: https://pm2.io/doc/en/runtime/reference/ecosystem-file/
     args: [
+      'quasar',
       'dev',
       // '-m',
       // 'pwa',
@@ -15,7 +16,7 @@ module.exports = {
     env: {
       level: 'dev',
       apiSubdomain: 'api',
-      apiDomain: 'growlights',
+      apiDomain: 'growtime',
       apiTLD: 'src',
       NODE_ENV: 'development'
     },

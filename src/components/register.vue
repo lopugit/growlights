@@ -26,7 +26,7 @@ export default {
       },
       errMsg: null,
       feedbackMsg: null,
-      uuid: this._uid
+      uid: this._uid
     }
   },
   sockets: {

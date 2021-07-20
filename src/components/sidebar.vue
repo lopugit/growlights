@@ -6,32 +6,32 @@
       avatar
       @click=`
         $router.push('/profile')
-        $store.commit('thing', { path: 'leftSidebar', val: !$store.state.app.leftSidebar})
+        $store.commit('graph/thing', { path: 'leftSidebar', val: !$store.state.graph.leftSidebar})
       `
       )
       img.q-circle-img.q-max-height-60.q-max-width-60(
-        :src=`$store.getters.cover()`
+        :src=`$store.getters['graph/cover']()`
         )
     q-item-section(
     )
       q-item-label.text-elip.text-wrap(
-      ) {{ $store.getters.username() }}
+      ) {{ $store.getters['graph/username']() }}
       q-item-label(
         size=".5rem"
-        ).q-mt-xxxsm.text-grey.text-xsm {{ $store.getters.ego(0) }}
+        ).q-mt-xxxsm.text-grey.text-xsm {{ $store.getters['graph/ego'](0) }}
     q-item-section.q-ml-auto.w-auto(
       :side='true'
       )
       q-btn.w-auto(
         icon="close"
-        @click="setsmart($store, 'state.app.leftSidebar', !getsmart($store, 'state.app.leftSidebar', true))"
+        @click="setsmart($store, 'state.graph.leftSidebar', !getsmart($store, 'state.graph.leftSidebar', true))"
       ).shadow-0.q-pa-no
   // q-list.q-flex.q-flex-column.sidebar
   q-list.no-border.main-list.q-pl-no-important.q-pa-sm.q-pt-sm.q-pr-no.full-width.q-pb-no(
     )
     template(
-      v-if="getsmart($store, 'state.app.navigation.general', []) instanceof Array"
-      v-for="nav in getsmart($store, 'state.app.navigation.general', [])"
+      v-if="getsmart($store, 'state.graph.navigation.general', []) instanceof Array"
+      v-for="nav in getsmart($store, 'state.graph.navigation.general', [])"
     )
       q-separator
       router-link(
@@ -43,7 +43,7 @@
             side
           )
             img(
-              :src="`statics/${nav.icon}`"
+              :src="`${nav.icon}`"
             )
           q-item-section(
             label
@@ -61,7 +61,7 @@ export default {
   data () {
     return {
       // objects: null,
-      uuid: this._uid,
+      uid: this._uid,
     }
   },
   sockets: {

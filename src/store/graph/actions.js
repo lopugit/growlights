@@ -11,7 +11,6 @@ import CJSON from 'circular-json'
 import UAParser from 'ua-parser-js'
 import { Notify } from 'quasar'
 import Vue from 'vue'
-let env = process.env
 var notify = Notify
 var uap = new UAParser()
 var fs = initFirestore()
@@ -21,8 +20,7 @@ var s = smarts({
   }
 }).methods
 var $s = s
-var things = fs.collection(`${s.getsmart(env, 'level', 'dev')}/things/users`) // global things collection reference
-
+var things = fs.collection(`${s.getsmart(window.env, 'level', 'dev')}/things/users`) // global things collection reference
 export const checkUsernameAvailability = (store, username) =>{
   if(username){
     let url = s.getsmart(window, 'env.apiUrl', undefined)+'/usernamecheck'
@@ -134,7 +132,7 @@ export const login = async (store, args) => {
   // if the login button was pressed with no login options showing, toggle login options
   s.setsmart(store, 'state.showLoginOptions', true)
 
-  var things = fs.collection(`${s.getsmart(env, 'level', 'dev')}/things/users`)
+  var things = fs.collection(`${s.getsmart(window.env, 'level', 'dev')}/things/users`)
   args.clientId = store.state.clientId
   if(args['provider'] == 'alopu' || !args['provider']){
     var feedback = undefined
@@ -166,7 +164,7 @@ export const login = async (store, args) => {
       .catch(err=>{
         console.error('Something went wrong syncing the user with the database: ', err)
         args.feedback = {
-          message: `There was an error logging in with your Growlights.com.au account`,
+          message: `There was an error logging in with your Growtime.com.au account`,
           color: 'negative',
           timeout: 4000,
         }
@@ -191,16 +189,16 @@ export const login = async (store, args) => {
               ref.set(CJSON.parse(CJSON.stringify(args.entity)), {merge: true})
               .then(()=>{
                 args.feedback = {
-                  message: `Welcome ${args.entity.alopu.username}. You have successfully ${args.newEntity ? 'signed up with a' : 'logged in with your'} Growlights.com.au acccount`,
+                  message: `Welcome ${args.entity.alopu.username}. You have successfully ${args.newEntity ? 'signed up with a' : 'logged in with your'} Growtime.com.au acccount`,
                   color: 'positive',
                   timeout: 2000,
                 }
                 store.dispatch('switchUserSuccess', args)
               })
               .catch(err=>{
-                console.error('there was an error processing a login attempt via Growlights.com.au because of Firebase', err)
+                console.error('there was an error processing a login attempt via Growtime.com.au because of Firebase', err)
                 args.feedback = {
-                  message: `There was an error logging in with your Growlights.com.au account`,
+                  message: `There was an error logging in with your Growtime.com.au account`,
                   color: 'negative',
                   timeout: 4000,
                 }
@@ -211,16 +209,16 @@ export const login = async (store, args) => {
           .catch(err=>{
             console.error('Something went wrong authenticating the user with firebase: ', err)
             args.feedback = {
-              message: `There was an error logging in with your Growlights.com.au account`,
+              message: `There was an error logging in with your Growtime.com.au account`,
               color: 'negative',
               timeout: 4000,
             }
             store.dispatch('switchUserFailure', args)
           })
         } else {
-          console.error("there was an error processing a login attempt via Growlights.com.au because there's no firestore id assosciated with the entity, context @param args: ", args)
+          console.error("there was an error processing a login attempt via Growtime.com.au because there's no firestore id assosciated with the entity, context @param args: ", args)
           args.feedback = {
-            message: `There was an error logging in with your Growlights.com.au account`,
+            message: `There was an error logging in with your Growtime.com.au account`,
             color: 'negative',
             timeout: 4000,
           }
@@ -230,7 +228,7 @@ export const login = async (store, args) => {
         // catch all error
         console.error('Something went wrong syncing the user with the database: ', err)
         args.feedback = {
-          message: `There was an error logging in with your Growlights.com.au account`,
+          message: `There was an error logging in with your Growtime.com.au account`,
           color: 'negative',
           timeout: 4000,
         }
@@ -270,7 +268,7 @@ export const login = async (store, args) => {
       .catch(err=>{
         console.error('Something went wrong syncing the user with the database: ', err)
         args.feedback = {
-          message: `There was an error logging in with your Growlights.com.au account`,
+          message: `There was an error logging in with your Growtime.com.au account`,
           color: 'negative',
           timeout: 4000,
         }
@@ -293,16 +291,16 @@ export const login = async (store, args) => {
               ref.set(CJSON.parse(CJSON.stringify(args.entity)), {merge: true})
               .then(()=>{
                 args.feedback = {
-                  message: `Welcome ${args.entity.alopu.username}. You have successfully ${args.newEntity ? 'signed up with a' : 'logged in with your'} Growlights.com.au acccount`,
+                  message: `Welcome ${args.entity.alopu.username}. You have successfully ${args.newEntity ? 'signed up with a' : 'logged in with your'} Growtime.com.au acccount`,
                   color: 'positive',
                   timeout: 2000,
                 }
                 store.dispatch('switchUserSuccess', args)
               })
               .catch(err=>{
-                console.error('there was an error processing a login attempt via Growlights.com.au because of Firebase', err)
+                console.error('there was an error processing a login attempt via Growtime.com.au because of Firebase', err)
                 args.feedback = {
-                  message: `There was an error logging in with your Growlights.com.au account`,
+                  message: `There was an error logging in with your Growtime.com.au account`,
                   color: 'negative',
                   timeout: 4000,
                 }
@@ -313,16 +311,16 @@ export const login = async (store, args) => {
           .catch(err=>{
             console.error('Something went wrong authenticating the user with firebase: ', err)
             args.feedback = {
-              message: `There was an error logging in with your Growlights.com.au account`,
+              message: `There was an error logging in with your Growtime.com.au account`,
               color: 'negative',
               timeout: 4000,
             }
             store.dispatch('switchUserFailure', args)
           })
         } else {
-          console.error("there was an error processing a login attempt via Growlights.com.au because there's no firestore id assosciated with the entity, context @param args: ", args)
+          console.error("there was an error processing a login attempt via Growtime.com.au because there's no firestore id assosciated with the entity, context @param args: ", args)
           args.feedback = {
-            message: `There was an error logging in with your Growlights.com.au account`,
+            message: `There was an error logging in with your Growtime.com.au account`,
             color: 'negative',
             timeout: 4000,
           }
@@ -332,7 +330,7 @@ export const login = async (store, args) => {
         // catch all error
         console.error('Something went wrong syncing the user with the database: ', err)
         args.feedback = {
-          message: `There was an error logging in with your Growlights.com.au account`,
+          message: `There was an error logging in with your Growtime.com.au account`,
           color: 'negative',
           timeout: 4000,
         }
@@ -593,7 +591,7 @@ export const switchUserSuccess = (store, args) => {
     }
     args.type = 'login'
     if(!args.nofeedback){
-      store.commit('feedback', args)
+      store.commit('graph/feedback', args)
     }
     s.setsmart(store, 'state.showLoginDialog', false)
     s.setsmart(store, 'state.passwordConfirmation', '')
@@ -606,7 +604,7 @@ export const switchUserFailure = (store, args) => {
   // var entityDefault = CJSON.parse(CJSON.stringify(s.gosmart(store, 'state.entityDefault', {})))
   // store.dispatch('resetEntity')
   if(!args.nofeedback){
-    store.commit('feedback', args)
+    store.commit('graph/feedback', args)
   }
 }
 
@@ -641,7 +639,7 @@ export const logout = async (store, args) =>{
   //   })
   // }, 2200)
   // var entity
-  var things = fs.collection(`${s.getsmart(env, 'level', 'dev')}/things/users`)
+  var things = fs.collection(`${s.getsmart(window.env, 'level', 'dev')}/things/users`)
   var id
   if(entity){
     id = s.getsmart(entity, 'firestore.id', s.getsmart(entity, 'ids.id-firestore', undefined))
@@ -673,7 +671,7 @@ export const logout = async (store, args) =>{
 export const resetEntity = (store, args) => {
   // var entityDefault = CJSON.parse(CJSON.stringify(store.state.entityDefault))
   var entityDefault = CJSON.parse(CJSON.stringify(store.state.entityDefault))
-  store.commit('entity', {entity: entityDefault})
+  store.commit('graph/entity', {entity: entityDefault})
 }
 
 export const syncDevice = (store, device) => {
@@ -701,7 +699,7 @@ export const syncDevice = (store, device) => {
 // 			FL.schemas.subscribe(args.schema, function(err, schema){
 // 				if(!err){
 // 					if(schema){
-// 						store.commit('setSchema', schema)
+// 						store.commit('graph/setSchema', schema)
 // 					} else {
 // 						console.error(`no schema was supplied but there was no error`)
 // 					}
@@ -715,7 +713,7 @@ export const syncDevice = (store, device) => {
 
 export const manifestClientId = (store, uuid) => {
   if(!store.state.clientId){
-    store.commit('clientId', uuid)
+    store.commit('graph/clientId', uuid)
   }
 }
 
@@ -728,10 +726,17 @@ function initFirestore(){
   const settings = {
     // timestampsInSnapshots: true
   }
-  let env = process.env
 
   if(!smarts.getsmart(firebase, 'apps.length', 0)){
-    firebase.initializeApp(smarts.getsmart(env, 'firebaseConf', undefined))
+    firebase.initializeApp({
+      apiKey: "AIzaSyABsQrdpY9lNkyBW0me5xHmbCxSUPIjGgU",
+      authDomain: "lopudev-b405a.firebaseapp.com",
+      databaseURL: "https://lopudev-b405a.firebaseio.com",
+      projectId: "lopudev-b405a",
+      storageBucket: "lopudev-b405a.appspot.com",
+      messagingSenderId: "211744308643",
+      appId: "1:211744308643:web:dca54880cb46d04c"
+    })
   } else {
     // F = firebase.app()
   }
@@ -749,7 +754,7 @@ const axiosConf = {
 }
 
 /** template auth code */
-  // var things = fs.collection(`${s.getsmart(env, 'level', 'dev')}/things/users`)
+  // var things = fs.collection(`${s.getsmart(window.env, 'level', 'dev')}/things/users`)
   // var username = s.getsmart(store, 'state.entity.alopu.username', undefined)
   // things = things.where('username', "==", username)
   // things.get()

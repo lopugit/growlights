@@ -27,7 +27,7 @@
           ) {{ getsmart(things, 'product.title', undefined) }}
         q-item-label.product-price-container.text-right
           q-item-section.product-price-positioner(
-          ).text-primary ${{ Math.ceil(getsmart(getThing({option: {'name': 'growlights.com.au marked up price'}, list: getsmart(things, 'product.prices', undefined), keys: ['name']}), 'values.AUD', 0)*100)/100 }}
+          ).text-primary ${{ Math.ceil(getsmart(getThing({option: {'name': 'growtime.com.au marked up price'}, list: getsmart(things, 'product.prices', undefined), keys: ['name']}), 'values.AUD', 0)*100)/100 }}
             .currency {{ false || 'AUD' }}
         q-item-label(
           v-if="!getsmart(things, 'card', undefined)"
@@ -60,7 +60,7 @@ export default {
   data () {
     return {
       // objects: null,
-      uuid: this._uid,
+      uid: this._uid,
     }
   },
   sockets: {
@@ -103,7 +103,7 @@ export default {
                 option: {
                   title: this.getsmart(this.things, 'product.title', undefined)
                 },
-                list: this.gosmart($store, 'state.app.products', []),
+                list: this.gosmart($store, 'state.graph.products', []),
                 keys: ['title']
               })
             if(prod && prod.types && this.getsmart(this.things, 'product.title', undefined) == prod.title && !this.equal(this.getsmart(this.things, 'product', undefined), prod)){
@@ -113,7 +113,7 @@ export default {
             }
             this.setsmart(this.things, 'productLoading', false)
           })
-          this.gosmart(this, 'things.model', `growlights/${this.getsmart(this, '$env.level', 'dev')}/products`)
+          this.gosmart(this, 'things.model', `growtime/${this.getsmart(this, '$env.level', 'dev')}/products`)
           this.gosmart(this, 'things.options', {
             limit: 1
           })
@@ -147,7 +147,7 @@ export default {
                       option: {
                         title: this.getsmart(this.things, 'product.title', '')
                       },
-                      list: this.gosmart($store, 'state.app.products', []),
+                      list: this.gosmart($store, 'state.graph.products', []),
                       keys: ['title']
                     })
                     this.setsmart(this.things, 'productLoading', false)
@@ -167,20 +167,20 @@ export default {
     //   this.$socket.emit('getObjects', opts)
     // }
     addToCart(args){
-      this.setsmart(this.$store, 'state.app.entity.alopu.carts.0.lastUpdated', Date.now())
-      this.setsmart(this, '$store.state.app.cartSidebar', true)
+      this.setsmart(this.$store, 'state.graph.entity.alopu.carts.0.lastUpdated', Date.now())
+      this.setsmart(this, '$store.state.graph.cartSidebar', true)
       let product = this.getThing({
         option: {
           title: this.getsmart(this.things, 'product.title')
         },
-        list: this.gosmart(this, '$store.state.app.entity.alopu.carts.0.products', []),
+        list: this.gosmart(this, '$store.state.graph.entity.alopu.carts.0.products', []),
         keys: ['title']
       }) || this.getsmart(this.things, 'product', undefined)
       if(product){
         this.setsmart(product, 'count', this.gosmart(product, 'count', 0) + 1)
         this.setThing({
           option: product,
-          list: this.gosmart(this, '$store.state.app.entity.alopu.carts.0.products', []),
+          list: this.gosmart(this, '$store.state.graph.entity.alopu.carts.0.products', []),
           keys: ['title'],
           push: true
         })

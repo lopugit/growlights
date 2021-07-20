@@ -1,36 +1,41 @@
 {
-  "name": "growlights",
+  "name": "growtime",
   "version": "0.0.1",
   "description": "Any and All Grow Products in Australia",
-  "productName": "Grow Lights Australia",
+  "productName": "Grow Time Australia",
   "cordovaId": "org.cordova.quasar.app",
   "author": "lopugit <ireply@myleisure.com.au>",
   "private": true,
   "scripts": {
     "test": "echo \"No test specified\" && exit 0",
     "dev": "npm run start",
-    "start": "cross-env level=dev apiTLD=src domain=growlights pm2 start ecosystem.config.js ; pm2 logs growlights",
+    "devcli": "npx quasar dev",
+    "redevcli": "sudo rm -r node_modules package-lock.json ; npm i && npm run devcli",
+    "start": "cross-env level=dev apiTLD=src domain=growtime pm2 start ecosystem.config.js ; pm2 logs growtime",
     "prod": "cross-env level=prod apiSubdomain='beta.api' quasar build -m pwa",
     "start-papi": "cross-env level=prod quasar start",
     "start-bapi": "cross-env level=build quasar start",
-    "start-dapi": "cross-env level=dev apiTLD=src domain=growlights quasar start",
+    "start-dapi": "cross-env level=dev apiTLD=src domain=growtime quasar start",
     "build": "cross-env level=prod quasar build",
     "build-papi": "cross-env level=prod quasar build",
     "build-bapi": "cross-env level=build quasar build",
-    "build-dapi": "cross-env level=dev apiTLD=src domain=growlights quasar build",
+    "build-dapi": "cross-env level=dev apiTLD=src domain=growtime quasar build",
     "commit": "git add . ; git commit -m 'ready'",
     "push": "npm run commit ; git push origin HEAD",
     "pull": "git pull origin HEAD"
   },
   "dependencies": {
-    "@quasar/extras": "1.0.0",
-    "axios": "0.21.1",
+    "@quasar/extras": "^1.0.0",
+    "axios": "^0.21.1",
+    "core-js": "^3.6.5",
     "deepmerge": "3.2.0",
-    "vue-i18n": "7.3.3"
+    "quasar": "^1.0.0",
+    "vue-i18n": "^8.0.0"
   },
   "devDependencies": {
     "@firebase/firestore": "2.3.8",
-    "@quasar/app": "1.0.0-beta.19",
+    "@quasar/app": "^2.0.0",
+    "@quasar/cli": "1.2.1",
     "alopu-socket.io-parser": "3.1.2",
     "circular-json": "0.5.1",
     "cross-env": "5.2.0",
@@ -42,12 +47,10 @@
     "has-binary2": "1.0.3",
     "lodash": "4.17.11",
     "lopu3": "0.0.13",
-    "node-sass": "4.14.1",
     "pug": "2.0.3",
     "pug-loader": "2.3.0",
     "pug-plain-loader": "1.0.0",
-    "sass-loader": "6.0.7",
-    "smarts": "1.0.156",
+    "smarts": "1.0.234",
     "socket.io-client": "2.0.4",
     "strip-ansi": "3.0.1",
     "ua-parser-js": "0.7.17",
@@ -63,13 +66,12 @@
     "vue2-medium-editor": "1.1.4",
     "vuedraggable": "2.16.0",
     "vuelidate": "0.7.4",
-    "vuex": "3.0.1",
     "vuex-persistedstate": "2.5.4"
   },
   "engines": {
-    "node": ">= 8.9.0",
-    "npm": ">= 5.6.0",
-    "yarn": ">= 1.6.0"
+    "node": ">= 10.18.1",
+    "npm": ">= 6.13.4",
+    "yarn": ">= 1.21.1"
   },
   "browserslist": [
     "last 1 version, not dead, ie >= 11"
