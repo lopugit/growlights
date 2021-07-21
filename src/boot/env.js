@@ -1,5 +1,7 @@
 
+window.env = process.env.env
+console.log('env', window.env)
+
 export default ({ app, router, Vue }) => {
-	Vue.prototype.$env = process.env.env
-	window.env = process.env.env
+  Vue.prototype.$env = window.env
 }

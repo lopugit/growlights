@@ -136,8 +136,7 @@ q-layout(
             if(list instanceof Array && localCart){
               list.push(localCart)
             }
-            setsmart($store, 'state.graph.showCartCacheDialog', false)
-          `
+            setsmart($store, 'state.graph.showCartCacheDialog', false)`
         ) Use Old Cart
         // q-btn.full-width(
         //   color="primary"
@@ -233,8 +232,7 @@ export default {
 .q-nav-footer
   max-width: 100%
   margin: 5px
-  background-color $negative
-  // position: fixed !important
+  background-color: $negative
 .q-layout-page-container
   padding-bottom: 0px !important
 

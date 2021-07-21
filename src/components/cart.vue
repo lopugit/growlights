@@ -98,7 +98,7 @@
               q-item-section.uppercase Subtotal
               q-item-section(
                 side
-              ).bottom-value.cart-subtotal ${{ Math.ceil(getsmart($store, 'getters.cartSubtotal', ()=>{return 0})({cart: cartD})*100)/100 }}
+              ).bottom-value.cart-subtotal ${{ Math.ceil(getsmart($store, 'getters.graph/cartSubtotal', ()=>{return 0})({cart: cartD})*100)/100 }}
                 .currency {{ false || 'AUD' }}
             q-item.bottom-info.shipping.q-pl-xxxxsm.q-pr-xxxxsm
               q-item-section.uppercase Shipping
@@ -107,8 +107,9 @@
               ).bottom-value.cart-shipping {{ getsmart(cartD, 'shippingMethod.cost', 'Calculated at next step') }}
                 // .currency {{ false || 'AUD' }}
             .shipping-and-discount.message.q-pa-sm.q-pt-no.q-pb-smd.text-center Shipping and discount codes are added at checkout
-            q-btn.checkout-button.shadow-0.q-mr-no.q-ml-auto(
+            q-btn.checkout-button.q-mr-no.q-ml-auto(
               color="primary"
+              flat
               @click=`
                 $router.push(
                   gosmart(
@@ -124,7 +125,7 @@
               q-item-section.uppercase total
               q-item-section(
                 side
-              ).bottom-value.cart-total ${{ Math.ceil(getsmart($store, 'getters.cartTotal', ()=>{return 0})({cart: cartD})*100)/100 }}
+              ).bottom-value.cart-total ${{ Math.ceil(getsmart($store, 'getters.graph/cartTotal', ()=>{return 0})({cart: cartD})*100)/100 }}
                 .currency {{ false || 'AUD' }}
 
 </template>

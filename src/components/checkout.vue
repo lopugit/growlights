@@ -415,7 +415,7 @@
                     ) Ship to
                   q-item-section.q-pl-lg.address-parsed(
 
-                    ) {{ getsmart($store, 'getters.addressBeautified', ()=>{})({which: 'shipping'}) }}
+                    ) {{ getsmart($store, 'getters.graph/addressBeautified', ()=>{})({which: 'shipping'}) }}
                   q-item-section(
                     side
                     )
@@ -511,7 +511,7 @@
                     ) Ship to
                   q-item-section.q-pl-lg.address-parsed(
 
-                    ) {{ getsmart($store, 'getters.addressBeautified', ()=>{})({which: 'shipping'}) }}
+                    ) {{ getsmart($store, 'getters.graph/addressBeautified', ()=>{})({which: 'shipping'}) }}
                   q-item-section(
                     side
                     )
@@ -943,7 +943,7 @@
                   :name=`getsmart($store, 'state.graph.checkout.showCartSummary', false) ? 'expand_less' : 'expand_more'`
                   size="large"
                 )
-              .cart-price.flex-row.q-ml-auto.text-lg ${{ Math.ceil(getsmart($store, 'getters.cartTotal', ()=>{return 0})({cart: getsmart($store, 'state.graph.entity.alopu.carts.0', undefined)})*100)/100 }}
+              .cart-price.flex-row.q-ml-auto.text-lg ${{ Math.ceil(getsmart($store, 'getters.graph/cartTotal', ()=>{return 0})({cart: getsmart($store, 'state.graph.entity.alopu.carts.0', undefined)})*100)/100 }}
                 .currency.q-pl-xxxsm {{ false || 'AUD' }}
           q-separator.q-display-no-bp-min-sm
           q-slide-transition(

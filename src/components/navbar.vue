@@ -5,35 +5,40 @@
     )
     q-btn(
       icon="menu"
+      flat
       @click="setsmart($store, 'state.graph.leftSidebar', !getsmart($store, 'state.graph.leftSidebar', false))"
       size="1rem"
-      ).shadow-0.text-primary
+      ).text-primary
     div.q-ml-auto
     template(
       v-if="getsmart($store, 'state.graph.navigation.general', []) instanceof Array"
       v-for="nav in getsmart($store, 'state.graph.navigation.general', [])"
     )
-      q-btn.nav-button.shadow-0.q-mr-xsmd(
+      q-btn(
+        flat
         color="white"
         text-color="primary"
         @click="$router.push(nav.link)"
-      ) {{ nav.name }}
+      ).nav-button.q-mr-xsmd {{ nav.name }}
     div.q-mr-auto
     // q-btn(
     //   color="primary"
     //   @click="setsmart($store, 'state.graph.leftSidebar', true)"
     //   v-if="$store.state.graph.entity == $store.state.graph.entityDefault"
-    // ).shadow-0.q-mr-xsmd {{ !getsmart($store, 'state.graph.showLoginOptions', false) ? 'members' : gosmart($store, 'state.graph.entity.registered.any', false) ? 'register' : 'login' }}
+    // ).q-mr-xsmd {{ !getsmart($store, 'state.graph.showLoginOptions', false) ? 'members' : gosmart($store, 'state.graph.entity.registered.any', false) ? 'register' : 'login' }}
     q-btn(
       icon="shopping_basket"
+      flat
       @click="setsmart($store, 'state.graph.cartSidebar', !getsmart($store, 'state.graph.cartSidebar', false))"
-      size="1rem"
-      ).basket-button.shadow-0.text-primary
+      size="20px"
+      ).basket-button.text-primary
       q-chip(
+        dense
+        size="8px"
         v-if="gosmart($store, 'state.graph.entity.alopu.carts.0.products', [])"
         color="red"
         text-color="white"
-      ).q-circle.cart-chip.q-justify-center.q-align-center {{ gosmart($store, 'getters.cartCount', ()=>{})() }}
+      ) {{ gosmart($store, 'getters.graph/cartCount', ()=>{})() }}
 
 </template>
 

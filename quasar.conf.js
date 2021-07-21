@@ -6,13 +6,13 @@ var smarts = require('smarts')()
 module.exports = function (ctx) {
   var apiDomain = 'src'
   let env = {}
-  smarts.gosmart(env, 'level', smarts.getsmart(process, 'env.level', 'dev'))
-  smarts.gosmart(env, 'apiProtocol', smarts.getsmart(process, 'env.apiProtocol', smarts.getsmart(env, 'level', 'dev') == 'prod' ? 'https://' : 'http://'))
-  smarts.gosmart(env, 'apiSubdomain', smarts.getsmart(process, 'env.apiSubdomain', smarts.getsmart(env, 'level', 'dev') == 'prod' ? 'api.' : ''))
-  smarts.gosmart(env, 'apiDomain', smarts.getsmart(process, 'env.apiDomain', smarts.getsmart(env, 'level', 'dev') == 'prod' ? 'growtime.' : 'localhost'))
-  smarts.gosmart(env, 'apiTLD', smarts.getsmart(process, 'env.apiTLD', smarts.getsmart(env, 'level', 'dev') == 'prod' ? 'com.au' : ':9999'))
-  smarts.gosmart(env, 'apiUrl', `${env.apiProtocol}${env.apiSubdomain}${env.apiDomain}${env.apiTLD}`)
-  smarts.gosmart(env, 'version', '0.0.1')
+  smarts.setsmart(env, 'level', smarts.getsmart(process, 'env.level', 'dev'))
+  smarts.setsmart(env, 'apiProtocol', smarts.getsmart(env, 'level', 'dev') == 'prod' ? 'https://' : 'http://')
+  smarts.setsmart(env, 'apiSubdomain', smarts.getsmart(env, 'level', 'dev') == 'prod' ? 'api.' : '')
+  smarts.setsmart(env, 'apiDomain', smarts.getsmart(env, 'level', 'dev') == 'prod' ? 'growtime.' : 'localhost')
+  smarts.setsmart(env, 'apiTLD', smarts.getsmart(env, 'level', 'dev') == 'prod' ? 'com.au' : ':9999')
+  smarts.setsmart(env, 'apiUrl', `${env.apiProtocol}${env.apiSubdomain}${env.apiDomain}${env.apiTLD}`)
+  smarts.setsmart(env, 'version', '0.0.1')
   // if env level dev
   if(smarts.getsmart(env, 'level', 'dev') == 'dev'){
     // set facebook config

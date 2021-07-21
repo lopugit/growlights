@@ -22,8 +22,9 @@
 			)
 			q-btn.w-auto(
 				icon="close"
+        flat
 				@click="$store.commit('graph/thing', { path: 'cartSidebar', val: !$store.state.graph.cartSidebar})"
-			).shadow-0.q-pa-no
+			).q-pa-no
 	q-list.no-border.main-list.q-pa-sm.q-pt-xxxxsm.q-mt-auto.q-mb-sm.q-pr-xxxxsm.q-pl-no.full-width
 		cart(
 			:theme=`{

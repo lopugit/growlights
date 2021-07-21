@@ -475,10 +475,8 @@ body
 .text-primary
   color: $green !important
 .q-chip
-  margin-left: -16px !important
-  top: -0.6rem !important
-  padding: 0 10px !important
-  min-height: 25px !important
+  margin-left: -12px !important
+  top: -8px !important
 .q-verified-status
   text-align: center
   justify-content: center

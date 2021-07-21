@@ -23,9 +23,10 @@
       :side='true'
       )
       q-btn.w-auto(
+        flat
         icon="close"
         @click="setsmart($store, 'state.graph.leftSidebar', !getsmart($store, 'state.graph.leftSidebar', true))"
-      ).shadow-0.q-pa-no
+      ).q-pa-no
   // q-list.q-flex.q-flex-column.sidebar
   q-list.no-border.main-list.q-pl-no-important.q-pa-sm.q-pt-sm.q-pr-no.full-width.q-pb-no(
     )
